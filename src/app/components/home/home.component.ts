@@ -1,0 +1,48 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Product } from 'src/app/model/Product';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+})
+export class HomeComponent implements OnInit {
+  products: Product[] = [];
+  responsiveOptions: any;
+  constructor(private http: HttpClient) {
+    this.responsiveOptions = [
+      {
+        breakpoint: '1900px',
+        numVisible: 3,
+        numScroll: 3,
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2,
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1,
+      },
+    ];
+  }
+
+  ngOnInit() {
+    this.fetchProducts();
+  }
+
+  fetchProducts() {
+    this.http.get<any>('http://localhost:3000/products').subscribe(
+      (data) => {
+        this.products = data;
+        console.log(data);
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+      }
+    );
+  }
+}

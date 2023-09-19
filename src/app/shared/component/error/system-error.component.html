@@ -1,0 +1,15 @@
+<main>
+  <div class="container">
+    <app-header></app-header>
+    <div class="content">
+      <div class="content-main">
+        <div class="notification-box">
+          <h1 class="title note-err">{{errorResponse?.code != 200 ? errorResponse?.message?.params?.[0] : 'System Error'}}</h1>
+          <button type="button" class="btn btn-primary btn-sm" (click)="confirmError()">OK</button>
+        </div>
+      </div>
+
+    </div>
+    <app-footer></app-footer>
+  </div>
+</main>

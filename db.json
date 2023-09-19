@@ -1,0 +1,92 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "description": "This is the first product",
+      "price": 10.99,
+      "categories": [
+        {
+          "id": 1,
+          "name": "Category 1"
+        },
+        {
+          "id": 2,
+          "name": "Category 2"
+        }
+      ],
+      "brand": "Brand X",
+      "rating": 4.5,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvb4CKv_49R3P7W7DUQBH7l8RHegOznneQGQ&usqp=CAU",
+      "inStock": true
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "description": "This is the second product",
+      "price": 19.99,
+      "categories": [
+        {
+          "id": 2,
+          "name": "Category 2"
+        },
+        {
+          "id": 3,
+          "name": "Category 3"
+        }
+      ],
+      "brand": "Brand Y",
+      "rating": 3.8,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYw3gWsjNFp5mLNrMIUc5HWzevE53HbMQ5NA&usqp=CAU",
+      "inStock": false
+    },
+    {
+      "id": 3,
+      "name": "Product 3",
+      "description": "This is the third product",
+      "price": 5.99,
+      "categories": [
+        {
+          "id": 1,
+          "name": "Category 1"
+        }
+      ],
+      "brand": "Brand Z",
+      "rating": 4.2,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpt_-MUR-2kMwsfHdqxWb1IfCb9cw1_63ykA&usqp=CAU",
+      "inStock": true
+    },
+    {
+      "id": 4,
+      "name": "Product 3",
+      "description": "This is the third product",
+      "price": 5.99,
+      "categories": [
+        {
+          "id": 1,
+          "name": "Category 1"
+        }
+      ],
+      "brand": "Brand Z",
+      "rating": 4.2,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpt_-MUR-2kMwsfHdqxWb1IfCb9cw1_63ykA&usqp=CAU",
+      "inStock": true
+    },
+    {
+      "id": 5,
+      "name": "Product 3",
+      "description": "This is the third product",
+      "price": 5.99,
+      "categories": [
+        {
+          "id": 1,
+          "name": "Category 1"
+        }
+      ],
+      "brand": "Brand Z",
+      "rating": 4.2,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpt_-MUR-2kMwsfHdqxWb1IfCb9cw1_63ykA&usqp=CAU",
+      "inStock": true
+    }
+  ]
+}
