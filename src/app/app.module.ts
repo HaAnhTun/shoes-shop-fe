@@ -27,6 +27,11 @@ import { CarouselModule } from 'primeng/carousel';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
 import { ChartModule } from 'primeng/chart';
+import { LoginComponent } from './components/login/login.component';
+import { FormGroup, FormsModule } from '@angular/forms';
+import { TokenInterceptor } from './shared/auth/token.interceptor';
+import { RegisterComponent } from './components/register/register.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,9 +40,13 @@ import { ChartModule } from 'primeng/chart';
     ManageComponent,
     HeaderComponent,
     FooterComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     TagModule,
@@ -52,8 +61,8 @@ import { ChartModule } from 'primeng/chart';
     GalleriaModule,
     ChartModule,
   ],
-  providers: [DataViewLayoutOptions],
+  providers: [DataViewLayoutOptions, TokenInterceptor],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }
