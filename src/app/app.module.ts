@@ -32,6 +32,7 @@ import { FormGroup, FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './shared/auth/token.interceptor';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
+    ShoesCategoryComponent,
   ],
   imports: [
     BrowserModule,
