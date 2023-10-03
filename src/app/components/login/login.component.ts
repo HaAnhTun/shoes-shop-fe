@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AppConstants } from "../../app-constants";
 
 @Component({
@@ -24,15 +24,23 @@ export class LoginComponent {
     }
   };
 
-  login(form: NgForm) {
-    if (form.value.username && form.value.password) {
-      this.http.post(AppConstants.BASE_URL_API + "/login", JSON.stringify(form.value)).subscribe(
+  onLogin() {
+
+  }
+
+  login() {
+    var form = {
+      password: "admin"
+      , username: "admin"
+    }
+
+    if (form.username && form.password) {
+      this.http.post(AppConstants.BASE_URL_API + "/api/authenticate", JSON.stringify(form)).subscribe(
         {
           next: (body: any) => {
-            if (body && body?.accessToken && body?.tokenType) {
-              sessionStorage.setItem("access_token", body?.accessToken);
-              sessionStorage.setItem("token_type", body?.tokenType);
-              this.router.navigate(['user/list'])
+            if (body && body?.id_token) {
+              sessionStorage.setItem("access_token", body?.id_token);
+              this.router.navigate(['home']);
             } else {
               this.isValid = false;
             }
