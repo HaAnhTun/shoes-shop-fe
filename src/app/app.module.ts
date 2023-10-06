@@ -32,7 +32,7 @@ import { FormGroup, FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './shared/auth/token.interceptor';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { HomeDemoComponent } from './components/home-demo/home-demo.component';
+import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +44,7 @@ import { HomeDemoComponent } from './components/home-demo/home-demo.component';
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    HomeDemoComponent,
+    ShoesCategoryComponent,
   ],
   imports: [
     BrowserModule,
