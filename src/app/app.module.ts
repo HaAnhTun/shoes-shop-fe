@@ -32,7 +32,6 @@ import { FormGroup, FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './shared/auth/token.interceptor';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { CommmonTemplateComponent } from './components/commmon-template/commmon-template.component';
 import { SideNavComponent } from './components/common/side-nav/side-nav.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
@@ -48,7 +47,6 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    CommmonTemplateComponent,
     SideNavComponent,
     ShoesCategoryComponent,
   ],
