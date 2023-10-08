@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ErrorResponse } from 'src/app/model/ErrorrResponse';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorDataService {
-  public errorData: BehaviorSubject<ErrorResponse> = new BehaviorSubject<ErrorResponse>({
-      "code": 200,
-      "message": {
-          "code": "",
-          "params": [""]
-      }
+  public errorData: BehaviorSubject<any> = new BehaviorSubject<any>({
+    "code": 200,
+    "message": {
+      "code": "",
+      "params": [""]
+    }
   });
 
   constructor() { }
@@ -25,17 +23,17 @@ export class ErrorDataService {
     this.errorData.next(newContent);
   }
 
-    /**
-   * Cập nhật dữ liệu về mạc định
-   */
+  /**
+ * Cập nhật dữ liệu về mạc định
+ */
   public clearData(): void {
     this.errorData.next({
       "code": 200,
       "message": {
-          "code": "",
-          "params": [""]
+        "code": "",
+        "params": [""]
       }
-  })
+    })
 
   }
 }

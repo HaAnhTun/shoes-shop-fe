@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from 'src/app/model/Product';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,11 @@ import { Product } from 'src/app/model/Product';
 export class HomeComponent implements OnInit {
   products: Product[] = [];
   responsiveOptions: any;
-  constructor(private http: HttpClient) {
+  subscription!: Subscription;
+  constructor(private http: HttpClient, public layoutService: LayoutService) {
+    this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+      this.fetchProducts();
+    });
     this.responsiveOptions = [
       {
         breakpoint: '1900px',

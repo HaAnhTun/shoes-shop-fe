@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DateFormatter } from 'ngx-bootstrap/datepicker';
 import { BehaviorSubject } from 'rxjs';
-import { Employee } from 'src/app/model/Employee';
-import { DataSharing } from 'src/app/model/DataConfirm';
 
 /**
  * Service chia sẻ dữ liệu nhân viên giữa các component.
@@ -51,9 +48,9 @@ export class DataSharingService {
     this.shareableData.next(newContent);
   }
 
-   /**
-   * Reset data về mạc định
-   */
+  /**
+  * Reset data về mạc định
+  */
   public clearData(): void {
     this.shareableData.next({
       employee: {
