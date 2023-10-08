@@ -7,7 +7,6 @@ import { ManageComponent } from './components/manage/manage.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { HomeDemoComponent } from './components/home-demo/home-demo.component';
 import { CommmonTemplateComponent } from './components/commmon-template/commmon-template.component';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
