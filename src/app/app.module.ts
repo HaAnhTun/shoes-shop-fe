@@ -36,6 +36,8 @@ import { HomeDemoComponent } from './components/home-demo/home-demo.component';
 import { CommmonTemplateComponent } from './components/commmon-template/commmon-template.component';
 import { SideNavComponent } from './components/common/side-nav/side-nav.component';
 import { AppLayoutModule } from './layout/app.layout.module';
+import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +52,8 @@ import { AppLayoutModule } from './layout/app.layout.module';
     HomeDemoComponent,
     CommmonTemplateComponent,
     SideNavComponent,
+    ShoesCategoryComponent,
+
   ],
   imports: [
     AppLayoutModule,
