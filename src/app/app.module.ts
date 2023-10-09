@@ -2,11 +2,11 @@ import {
   NgModule,
   NO_ERRORS_SCHEMA,
   CUSTOM_ELEMENTS_SCHEMA,
-} from '@angular/core';
+} from "@angular/core";
 
-import { BrowserModule } from '@angular/platform-browser';
-import { AnimateModule } from 'primeng/animate';
-import { AppRoutingModule } from './app-routing.module';
+import { BrowserModule } from "@angular/platform-browser";
+import { AnimateModule } from "primeng/animate";
+import { AppRoutingModule } from "./app-routing.module";
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,6 +19,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { ManageComponent } from './components/manage/manage.component';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from "primeng/dialog";
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component'; // Import the HttpClientModule
@@ -65,6 +66,7 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     ImageModule,
     GalleriaModule,
     ChartModule,
+    DialogModule,
   ],
   providers: [DataViewLayoutOptions, TokenInterceptor],
   bootstrap: [AppComponent],

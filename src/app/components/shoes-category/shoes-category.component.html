@@ -1,335 +1,289 @@
 <div class="container-fuild">
-  <div class="row">
-    <div class="col-12">
-      <h1>Danh sách danh mục</h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <form action="">
-        <div class="form-group">
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <i class="fa fa-search" aria-hidden="true"></i>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-6">
+              <div class="flex align-items-center justify-content-between">
+                <h2>Danh sách danh mục</h2>
               </div>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              id="inlineFormInputGroup"
-              placeholder="Username"
-            />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-sm-4">
-              <a href="javascript:void(0);" class="btn btn-danger mb-2"
-                ><i class="mdi mdi-plus-circle mr-2"></i> Add Products</a
-              >
-            </div>
-            <div class="col-sm-8">
-              <div class="text-sm-right">
-                <button type="button" class="btn btn-success mb-2 mr-1">
-                  <i class="mdi mdi-settings"></i>
-                </button>
-                <button type="button" class="btn btn-light mb-2 mr-1">
-                  Import
-                </button>
-                <button type="button" class="btn btn-light mb-2">Export</button>
-              </div>
-            </div>
-            <!-- end col-->
-          </div>
+            <div class="col-6">
+              <div class="flex align-items-center flex-row-reverse">
+                <p-button label="Thêm mới" (click)="openNew()"></p-button>
 
-          <div class="table-responsive">
-            <div
-              id="products-datatable_wrapper"
-              class="dataTables_wrapper dt-bootstrap4 no-footer"
-            >
-              <div class="row">
-                <div class="col-sm-12 col-md-6">
-                  <div class="dataTables_length" id="products-datatable_length">
-                    <label
-                      >Display
-                      <select class="custom-select custom-select-sm ml-1 mr-1">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="-1">All</option>
-                      </select>
-                      products</label
-                    >
-                  </div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                  <div id="products-datatable_filter" class="dataTables_filter">
-                    <label
-                      >Search:<input
-                        type="search"
-                        class="form-control form-control-sm"
-                        placeholder=""
-                        aria-controls="products-datatable"
-                    /></label>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <table
-                    class="table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
-                    id="products-datatable"
-                    role="grid"
-                    aria-describedby="products-datatable_info"
-                    style="width: 1108px"
-                  >
-                    <thead class="thead-light">
-                      <tr role="row">
-                        <th
-                          class="all dt-checkboxes-cell dt-checkboxes-select-all sorting_disabled"
-                          style="width: 28.6px"
-                          rowspan="1"
-                          colspan="1"
-                          data-col="0"
-                          aria-label="
-                                  
-                                      
-                                      &amp;nbsp;
-                                  
-                              "
-                        >
-                          <div class="custom-control custom-checkbox">
+                <p-dialog
+                  header="Danh mục chi tiết"
+                  [(visible)]="shoesCategoryDialog"
+                  [modal]="true"
+                  styleClass="container-fuild"
+                  [draggable]="false"
+                  [resizable]="true"
+                >
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="form-group">
+                            <label for="categoryCode">Mã danh mục</label>
                             <input
-                              type="checkbox"
-                              class="custom-control-input dt-checkboxes"
-                            /><label class="custom-control-label">&nbsp;</label>
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="shoesCategory.code"
+                              id="categoryCode"
+                              aria-describedby="emailHelp"
+                              placeholder="Nhập mã danh mục"
+                            />
                           </div>
-                        </th>
-                        <th
-                          class="all sorting_asc"
-                          tabindex="0"
-                          aria-controls="products-datatable"
-                          rowspan="1"
-                          colspan="1"
-                          style="width: 276.8px"
-                          aria-sort="ascending"
-                          aria-label="Product: activate to sort column descending"
-                        >
-                          Product
-                        </th>
-                        <th
-                          class="sorting"
-                          tabindex="0"
-                          aria-controls="products-datatable"
-                          rowspan="1"
-                          colspan="1"
-                          style="width: 108.8px"
-                          aria-label="Category: activate to sort column ascending"
-                        >
-                          Category
-                        </th>
-                        <th
-                          class="sorting"
-                          tabindex="0"
-                          aria-controls="products-datatable"
-                          rowspan="1"
-                          colspan="1"
-                          style="width: 96.8px"
-                          aria-label="Added Date: activate to sort column ascending"
-                        >
-                          Added Date
-                        </th>
-                        <th
-                          class="sorting"
-                          tabindex="0"
-                          aria-controls="products-datatable"
-                          rowspan="1"
-                          colspan="1"
-                          style="width: 52.8px"
-                          aria-label="Price: activate to sort column ascending"
-                        >
-                          Price
-                        </th>
-                        <th
-                          class="sorting"
-                          tabindex="0"
-                          aria-controls="products-datatable"
-                          rowspan="1"
-                          colspan="1"
-                          style="width: 71.8px"
-                          aria-label="Quantity: activate to sort column ascending"
-                        >
-                          Quantity
-                        </th>
-                        <th
-                          class="sorting"
-                          tabindex="0"
-                          aria-controls="products-datatable"
-                          rowspan="1"
-                          colspan="1"
-                          style="width: 54.8px"
-                          aria-label="Status: activate to sort column ascending"
-                        >
-                          Status
-                        </th>
-                        <th
-                          style="width: 85.6px"
-                          class="sorting_disabled"
-                          rowspan="1"
-                          colspan="1"
-                          aria-label="Action"
-                        >
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr role="row" class="odd">
-                        <td class="dt-checkboxes-cell" tabindex="0">
-                          <div class="custom-control custom-checkbox">
+                        </div>
+                        <div class="col-6">
+                          <div class="form-group">
+                            <label for="categoryCode">Tên danh mục</label>
                             <input
-                              type="checkbox"
-                              class="custom-control-input dt-checkboxes"
-                            /><label class="custom-control-label">&nbsp;</label>
+                              type="text"
+                              class="form-control"
+                              [(ngModel)]="shoesCategory.name"
+                              id="categoryCode"
+                              aria-describedby="emailHelp"
+                              placeholder="Nhập mã tên danh mục"
+                            />
                           </div>
-                        </td>
-                        <td class="sorting_1">
-                          <img
-                            src="assets/images/products/product-6.jpg"
-                            alt="contact-img"
-                            title="contact-img"
-                            class="rounded mr-3"
-                            height="48"
-                          />
-                          <p class="m-0 d-inline-block align-middle font-16">
-                            <a
-                              href="apps-ecommerce-products-details.html"
-                              class="text-body"
-                              >Adirondack Chair</a
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-2">
+                              <div
+                                class="flex align-items-center justify-content-between"
+                              >
+                                <h4>Danh sách giá trị</h4>
+                              </div>
+                            </div>
+                            <div class="col-4">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span
+                                    class="input-group-text"
+                                    id="basic-addon1"
+                                    ><i class="dripicons-search"></i
+                                  ></span>
+                                </div>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Nhập tên hoặc mã giá trị danh mục"
+                                  aria-label="Username"
+                                  aria-describedby="basic-addon1"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div
+                                class="flex align-items-center flex-row-reverse"
+                              >
+                                <p-button
+                                  label="Thêm mới giá trị"
+                                  (click)="openNewCategoryValue()"
+                                ></p-button>
+                                <p-dialog
+                                  header="Thêm mới giá trị"
+                                  [(visible)]="shoesCategoryValueDialog"
+                                  [modal]="true"
+                                  styleClass="container-fuild"
+                                  [draggable]="false"
+                                  [resizable]="true"
+                                >
+                                  <form action="">
+                                    <div class="row">
+                                      <div class="col-6">
+                                        <div class="form-group">
+                                          <label for="categoryCode"
+                                            >Giá trị danh mục</label
+                                          >
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            [(ngModel)]="
+                                              shoesCategoryValue.value
+                                            "
+                                            name="value"
+                                            id="value"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Nhập mã danh mục"
+                                          />
+                                        </div>
+                                      </div>
+                                      <div class="col-6">
+                                        <div class="form-group">
+                                          <label for="categoryCode"
+                                            >Mô tả</label
+                                          >
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            id="description"
+                                            [(ngModel)]="
+                                              shoesCategoryValue.description
+                                            "
+                                            name="description"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Nhập mã tên danh mục"
+                                          />
+                                        </div>
+                                      </div>
+                                      <div class="col-12 flex flex-row-reverse">
+                                        <p-button
+                                          label="Lưu"
+                                          (click)="
+                                            addShoesCategoryValue(
+                                              shoesCategoryValue
+                                            )
+                                          "
+                                        ></p-button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </p-dialog>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <p-table
+                            [value]="shoesCategoryValues"
+                            [tableStyle]="{ 'min-width': '60rem' }"
+                            styleClass="p-datatable-gridlines  table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
+                            [paginator]="true"
+                            [rows]="5"
+                            [rowsPerPageOptions]="[5, 10, 15]"
+                            *ngIf="visible"
+                          >
+                            <ng-template pTemplate="header">
+                              <tr>
+                                <th>STT</th>
+                                <th>Giá trị</th>
+                                <th>Mô tả</th>
+                                <th>Người sửa</th>
+                                <th>Ngày sửa</th>
+                                <th></th>
+                              </tr>
+                            </ng-template>
+                            <ng-template
+                              pTemplate="body"
+                              let-shoesCategoryValue
+                              let-index="rowIndex"
                             >
-                            <br />
-                            <span class="text-warning mdi mdi-star"></span>
-                            <span class="text-warning mdi mdi-star"></span>
-                            <span class="text-warning mdi mdi-star"></span>
-                            <span class="text-warning mdi mdi-star"></span>
-                            <span class="text-warning mdi mdi-star"></span>
-                          </p>
-                        </td>
-                        <td>Aeron Chairs</td>
-                        <td>07/07/2018</td>
-                        <td>$65.94</td>
-
-                        <td>652</td>
-                        <td>
-                          <span class="badge badge-success">Active</span>
-                        </td>
-
-                        <td class="table-action">
-                          <a href="javascript:void(0);" class="action-icon">
-                            <i class="mdi mdi-eye"></i
-                          ></a>
-                          <a href="javascript:void(0);" class="action-icon">
-                            <i class="mdi mdi-square-edit-outline"></i
-                          ></a>
-                          <a href="javascript:void(0);" class="action-icon">
-                            <i class="mdi mdi-delete"></i
-                          ></a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12 col-md-5">
-                  <div
-                    class="dataTables_info"
-                    id="products-datatable_info"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    Showing products 1 to 5 of 12
+                              <tr>
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ shoesCategoryValue.value }}</td>
+                                <td>{{ shoesCategoryValue.description }}</td>
+                                <td>{{ shoesCategoryValue.lastModifiedBy }}</td>
+                                <td>
+                                  {{
+                                    shoesCategoryValue.lastModifiedDate
+                                      | date : "dd-MM-yyyy"
+                                  }}
+                                </td>
+                                <td class="table-action">
+                                  <a
+                                    type="button"
+                                    (click)="update(shoesCategoryValue.id)"
+                                    href="javascript:void(0);"
+                                    class="action-icon"
+                                  >
+                                    <i class="mdi mdi-square-edit-outline"></i
+                                  ></a>
+                                  <a
+                                    href="javascript:void(0);"
+                                    class="action-icon"
+                                  >
+                                    <i class="mdi mdi-delete"></i
+                                  ></a>
+                                </td>
+                              </tr>
+                            </ng-template>
+                            <!-- <ng-template pTemplate="summary">
+                            <div class="flex align-items-center justify-content-between">
+                              In total there are
+                              {{ shoesCategories ? shoesCategories.length : 0 }}
+                              shoesCategories
+                            </div>
+                          </ng-template> -->
+                          </p-table>
+                        </div>
+                        <div class="col-12 flex flex-row-reverse">
+                          <p-button
+                            label="Lưu"
+                            (click)="saveShoesCategory()"
+                          ></p-button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-sm-12 col-md-7">
-                  <div
-                    class="dataTables_paginate paging_simple_numbers"
-                    id="products-datatable_paginate"
-                  >
-                    <ul class="pagination pagination-rounded">
-                      <li
-                        class="paginate_button page-item previous disabled"
-                        id="products-datatable_previous"
-                      >
-                        <a
-                          href="#"
-                          aria-controls="products-datatable"
-                          data-dt-idx="0"
-                          tabindex="0"
-                          class="page-link"
-                          ><i class="mdi mdi-chevron-left"></i
-                        ></a>
-                      </li>
-                      <li class="paginate_button page-item active">
-                        <a
-                          href="#"
-                          aria-controls="products-datatable"
-                          data-dt-idx="1"
-                          tabindex="0"
-                          class="page-link"
-                          >1</a
-                        >
-                      </li>
-                      <li class="paginate_button page-item">
-                        <a
-                          href="#"
-                          aria-controls="products-datatable"
-                          data-dt-idx="2"
-                          tabindex="0"
-                          class="page-link"
-                          >2</a
-                        >
-                      </li>
-                      <li class="paginate_button page-item">
-                        <a
-                          href="#"
-                          aria-controls="products-datatable"
-                          data-dt-idx="3"
-                          tabindex="0"
-                          class="page-link"
-                          >3</a
-                        >
-                      </li>
-                      <li
-                        class="paginate_button page-item next"
-                        id="products-datatable_next"
-                      >
-                        <a
-                          href="#"
-                          aria-controls="products-datatable"
-                          data-dt-idx="4"
-                          tabindex="0"
-                          class="page-link"
-                          ><i class="mdi mdi-chevron-right"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                </p-dialog>
               </div>
             </div>
           </div>
         </div>
-        <!-- end card-body-->
+        <div class="col-12">
+          <p-table
+            [value]="shoesCategories"
+            [tableStyle]="{ 'min-width': '60rem' }"
+            styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
+            [paginator]="true"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>STT</th>
+                <th>Mã danh mục</th>
+                <th>Tên danh mục</th>
+                <th>Người sửa</th>
+                <th>Ngày sửa</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-shoesCategory
+              let-index="rowIndex"
+            >
+              <tr>
+                <td>{{ index + 1 }}</td>
+                <td>{{ shoesCategory.code }}</td>
+                <td>{{ shoesCategory.name }}</td>
+                <td>{{ shoesCategory.lastModifiedBy }}</td>
+                <td>
+                  {{ shoesCategory.lastModifiedDate | date : "dd-MM-yyyy" }}
+                </td>
+                <td class="table-action">
+                  <a
+                    type="button"
+                    (click)="update(shoesCategory.id)"
+                    href="javascript:void(0);"
+                    class="action-icon"
+                  >
+                    <i class="mdi mdi-square-edit-outline"></i
+                  ></a>
+                  <a href="javascript:void(0);" class="action-icon">
+                    <i class="mdi mdi-delete"></i
+                  ></a>
+                </td>
+              </tr>
+            </ng-template>
+            <!-- <ng-template pTemplate="summary">
+              <div class="flex align-items-center justify-content-between">
+                In total there are
+                {{ shoesCategories ? shoesCategories.length : 0 }}
+                shoesCategories
+              </div>
+            </ng-template> -->
+          </p-table>
+        </div>
       </div>
-      <!-- end card-->
     </div>
   </div>
 </div>
