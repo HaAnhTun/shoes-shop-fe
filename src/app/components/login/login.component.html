@@ -27,6 +27,7 @@
             class="input100"
             type="text"
             name="username"
+            [(ngModel)]="loginUser.login"
             placeholder="username"
             ngModel
           />
@@ -44,8 +45,9 @@
             class="input100"
             type="password"
             name="password"
-            placeholder="password"
-            ngModel
+            [(ngModel)]="loginUser.passwordHash" 
+            placeholder="password" 
+            ngModel>
           />
           <span class="focus-input100"></span>
           <span class="symbol-input100">
@@ -57,7 +59,7 @@
             type="button"
             class="login100-form-btn"
             (click)="login()"
-            routerLink="/home-demo"
+            routerLink="/home"
           >
             Đăng nhập
           </button>
