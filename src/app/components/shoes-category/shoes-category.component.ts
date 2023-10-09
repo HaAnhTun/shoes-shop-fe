@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ShoesCategory } from "src/app/model/ShoesCategory";
+import { ShoesCategoryValue } from "src/app/model/ShoesCategoryValue";
 import { ShoesCategoryService } from "../../service/shoes-category.service";
 import { MessageService } from "primeng/api";
 import { Table } from "primeng/table";
-import { PaginatorModule } from "primeng/paginator";
 interface PageEvent {
   first: number;
   rows: number;
@@ -19,15 +19,17 @@ interface PageEvent {
 })
 export class ShoesCategoryComponent implements OnInit {
   shoesCategoryDialog: boolean = false;
+  shoesCategoryValueDialog: boolean = false;
 
   deleteShoesCategoryDialog: boolean = false;
 
   deleteShoesCategoriesDialog: boolean = false;
 
   shoesCategories: ShoesCategory[] = [];
+  shoesCategoryValues: ShoesCategoryValue[] = [];
 
   shoesCategory: ShoesCategory = {};
-
+  shoesCategoryValue: ShoesCategoryValue = {};
   selectedShoesCategories: ShoesCategory[] = [];
 
   submitted: boolean = false;
@@ -58,6 +60,31 @@ export class ShoesCategoryComponent implements OnInit {
         console.error("Error:", error);
       }
     );
+  }
+  addShoesCategoryValue(categoryValue: ShoesCategoryValue) {
+    this.shoesCategoryValues.push(categoryValue);
+    this.cloesShoesCategoryValue();
+  }
+  cloesShoesCategoryValue() {
+    this.shoesCategoryValueDialog = false;
+  }
+  update(idCategory: Number) {
+    this.openNew();
+    this.shoesCategoryService.getShoesCategoryValue(idCategory).subscribe(
+      (response) => {
+        this.shoesCategoryValues = response;
+        console.log(this.shoesCategoryValues);
+      },
+      (error) => {
+        console.error("Error:", error);
+      }
+    );
+  }
+  visible: boolean = true;
+  updateVisibility(): void {
+    this.visible = false;
+    this.ngOnInit();
+    setTimeout(() => (this.visible = true), 0);
   }
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, "contains");
@@ -90,8 +117,14 @@ export class ShoesCategoryComponent implements OnInit {
   }
   openNew() {
     this.shoesCategory = {};
+    this.shoesCategoryValues = [];
     this.submitted = false;
     this.shoesCategoryDialog = true;
+  }
+  openNewCategoryValue() {
+    this.shoesCategoryValue = {};
+    this.submitted = false;
+    this.shoesCategoryValueDialog = true;
   }
   deleteSelectedShoesCategories() {
     this.deleteShoesCategoryDialog = true;
@@ -101,26 +134,31 @@ export class ShoesCategoryComponent implements OnInit {
     this.submitted = false;
   }
   saveShoesCategory() {
-    // this.submitted = true;
-    // if (this.shoesCategory.name?.trim()) {
-    //     if (this.shoesCategory.id) {
-    //         // @ts-ignore
-    //         this.shoesCategory.inventoryStatus = this.shoesCategory.inventoryStatus.value ? this.shoesCategory.inventoryStatus.value : this.shoesCategory.inventoryStatus;
-    //         this.shoesCategories[this.findIndexById(this.shoesCategory.id)] = this.shoesCategory;
-    //         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'shoesCategory Updated', life: 3000 });
-    //     } else {
-    //         this.shoesCategory.id = this.createId();
-    //         this.shoesCategory.code = this.createId();
-    //         this.shoesCategory.image = 'shoesCategory-placeholder.svg';
-    //         // @ts-ignore
-    //         this.shoesCategory.inventoryStatus = this.shoesCategory.inventoryStatus ? this.shoesCategory.inventoryStatus.value : 'INSTOCK';
-    //         this.shoesCategories.push(this.shoesCategory);
-    //         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'shoesCategory Created', life: 3000 });
-    //     }
-    //     this.shoesCategories = [...this.shoesCategories];
-    //     this.shoesCategoryDialog = false;
-    //     this.shoesCategory = {};
-    // }
+    this.submitted = true;
+    if (this.shoesCategory.name?.trim()) {
+      if (this.shoesCategory.id) {
+        // @ts-ignore
+      } else {
+        this.shoesCategory.shoesCategoryValueDTOList = this.shoesCategoryValues;
+        this.shoesCategoryService.save(this.shoesCategory).subscribe(
+          (response) => {
+            this.shoesCategory = response;
+            console.log(response);
+            this.updateVisibility();
+          },
+          (error) => {
+            console.error("Error:", error);
+          }
+        );
+        this.hideDialog();
+        this.messageService.add({
+          severity: "success",
+          summary: "Successful",
+          detail: "shoesCategory Created",
+          life: 3000,
+        });
+      }
+    }
   }
   confirmDelete() {
     this.deleteShoesCategoryDialog = false;
