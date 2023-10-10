@@ -40,7 +40,7 @@ export class ManageComponent implements OnInit {
     },
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchProducts();
@@ -86,9 +86,9 @@ export class ManageComponent implements OnInit {
     return chartData;
   }
 
-  openNew() {}
+  openNew() { }
 
-  deleteSelectedProducts() {}
-  editProduct(product: Product) {}
-  deleteProduct(product: Product) {}
+  deleteSelectedProducts() { }
+  editProduct(product: Product) { }
+  deleteProduct(product: Product) { }
 }
