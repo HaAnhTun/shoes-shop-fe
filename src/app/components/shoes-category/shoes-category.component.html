@@ -204,13 +204,6 @@
                                 </td>
                               </tr>
                             </ng-template>
-                            <!-- <ng-template pTemplate="summary">
-                            <div class="flex align-items-center justify-content-between">
-                              In total there are
-                              {{ shoesCategories ? shoesCategories.length : 0 }}
-                              shoesCategories
-                            </div>
-                          </ng-template> -->
                           </p-table>
                         </div>
                         <div class="col-12 flex flex-row-reverse">
@@ -268,7 +261,12 @@
                   >
                     <i class="mdi mdi-square-edit-outline"></i
                   ></a>
-                  <a href="javascript:void(0);" class="action-icon">
+                  <a
+                    type="button"
+                    href="javascript:void(0);"
+                    class="action-icon"
+                    (click)="delete(shoesCategory.id)"
+                  >
                     <i class="mdi mdi-delete"></i
                   ></a>
                 </td>

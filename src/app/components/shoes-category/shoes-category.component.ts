@@ -70,10 +70,12 @@ export class ShoesCategoryComponent implements OnInit {
   }
   update(idCategory: Number) {
     this.openNew();
-    this.shoesCategoryService.getShoesCategoryValue(idCategory).subscribe(
+
+    this.shoesCategoryService.getShoesCategoryDetails(idCategory).subscribe(
       (response) => {
-        this.shoesCategoryValues = response;
-        console.log(this.shoesCategoryValues);
+        this.shoesCategory = response;
+        this.shoesCategoryValues = response.shoesCategoryValueDTOList;
+        console.log(response);
       },
       (error) => {
         console.error("Error:", error);
@@ -89,8 +91,12 @@ export class ShoesCategoryComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, "contains");
   }
-  deleteSelectedShoesCateories() {
+  delete(id: Number) {
     this.deleteShoesCategoriesDialog = true;
+    console.log("ngon");
+    this.shoesCategoryService.delete(id).subscribe((res) => {
+      this.updateVisibility();
+    });
   }
 
   editShoesCategory(shoesCategory: ShoesCategory) {
@@ -126,8 +132,9 @@ export class ShoesCategoryComponent implements OnInit {
     this.submitted = false;
     this.shoesCategoryValueDialog = true;
   }
-  deleteSelectedShoesCategories() {
+  deleteSelectedShoesCategories(id: Number) {
     this.deleteShoesCategoryDialog = true;
+    this.shoesCategoryService.delete(id);
   }
   hideDialog() {
     this.shoesCategoryDialog = false;
@@ -138,6 +145,24 @@ export class ShoesCategoryComponent implements OnInit {
     if (this.shoesCategory.name?.trim()) {
       if (this.shoesCategory.id) {
         // @ts-ignore
+        this.shoesCategory.shoesCategoryValueDTOList = this.shoesCategoryValues;
+        this.shoesCategoryService.update(this.shoesCategory).subscribe(
+          (response) => {
+            this.shoesCategory = response;
+            console.log(response);
+            this.updateVisibility();
+          },
+          (error) => {
+            console.error("Error:", error);
+          }
+        );
+        this.hideDialog();
+        this.messageService.add({
+          severity: "success",
+          summary: "Successful",
+          detail: "shoesCategory Created",
+          life: 3000,
+        });
       } else {
         this.shoesCategory.shoesCategoryValueDTOList = this.shoesCategoryValues;
         this.shoesCategoryService.save(this.shoesCategory).subscribe(
