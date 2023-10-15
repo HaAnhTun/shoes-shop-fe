@@ -2,7 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ShoesCategory } from "src/app/model/ShoesCategory";
 import { ShoesCategoryValue } from "src/app/model/ShoesCategoryValue";
 import { ShoesCategoryService } from "../../service/shoes-category.service";
-import { MessageService } from "primeng/api";
+import {
+  ConfirmationService,
+  MessageService,
+  ConfirmEventType,
+} from "primeng/api";
 import { Table } from "primeng/table";
 interface PageEvent {
   first: number;
@@ -15,7 +19,7 @@ interface PageEvent {
   selector: "app-shoes-category",
   templateUrl: "./shoes-category.component.html",
   styleUrls: ["./shoes-category.component.css"],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
 })
 export class ShoesCategoryComponent implements OnInit {
   shoesCategoryDialog: boolean = false;
@@ -24,7 +28,8 @@ export class ShoesCategoryComponent implements OnInit {
   deleteShoesCategoryDialog: boolean = false;
 
   deleteShoesCategoriesDialog: boolean = false;
-
+  updateShoesCategoryDialog: boolean = false;
+  saveShoesCategoryDialog: boolean = false;
   shoesCategories: ShoesCategory[] = [];
   shoesCategoryValues: ShoesCategoryValue[] = [];
 
@@ -49,7 +54,8 @@ export class ShoesCategoryComponent implements OnInit {
   }
   constructor(
     private shoesCategoryService: ShoesCategoryService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
   ngOnInit(): void {
     this.shoesCategoryService.getShoesCategories().subscribe(
@@ -61,6 +67,7 @@ export class ShoesCategoryComponent implements OnInit {
       }
     );
   }
+
   addShoesCategoryValue(categoryValue: ShoesCategoryValue) {
     this.shoesCategoryValues.push(categoryValue);
     this.cloesShoesCategoryValue();
@@ -197,5 +204,37 @@ export class ShoesCategoryComponent implements OnInit {
       life: 3000,
     });
     this.shoesCategory = {};
+  }
+  confirm() {
+    this.confirmationService.confirm({
+      message: "Chắc chắn xóa danh mục này?",
+      header: "Xóa danh mục",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Confirmed",
+          detail: "You have accepted",
+        });
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: "error",
+              summary: "Rejected",
+              detail: "You have rejected",
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: "warn",
+              summary: "Cancelled",
+              detail: "You have cancelled",
+            });
+            break;
+        }
+      },
+    });
   }
 }

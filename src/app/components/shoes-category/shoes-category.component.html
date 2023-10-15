@@ -265,7 +265,7 @@
                     type="button"
                     href="javascript:void(0);"
                     class="action-icon"
-                    (click)="delete(shoesCategory.id)"
+                    (click)="confirm()"
                   >
                     <i class="mdi mdi-delete"></i
                   ></a>
@@ -280,6 +280,10 @@
               </div>
             </ng-template> -->
           </p-table>
+          <div class="dialog">
+            <p-toast></p-toast>
+            <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+          </div>
         </div>
       </div>
     </div>
