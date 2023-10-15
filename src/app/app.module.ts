@@ -35,7 +35,8 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { AppLayoutModule } from "./layout/app.layout.module";
 import { ShoesCategoryComponent } from "./components/shoes-category/shoes-category.component";
-
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { ToastModule } from "primeng/toast";
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +68,8 @@ import { ShoesCategoryComponent } from "./components/shoes-category/shoes-catego
     GalleriaModule,
     ChartModule,
     DialogModule,
+    ConfirmDialogModule,
+    ToastModule,
   ],
   providers: [DataViewLayoutOptions, TokenInterceptor],
   bootstrap: [AppComponent],
