@@ -35,6 +35,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
+import { BrandComponent } from './components/brand/brand.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     RegisterComponent,
     ForgotPasswordComponent,
     ShoesCategoryComponent,
+    BrandComponent,
   ],
   imports: [
     AppLayoutModule,
