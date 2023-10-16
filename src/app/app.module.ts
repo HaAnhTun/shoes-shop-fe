@@ -36,7 +36,8 @@ import { CommmonTemplateComponent } from './components/commmon-template/commmon-
 import { SideNavComponent } from './components/common/side-nav/side-nav.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { AccountComponent } from './components/account/account.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +52,7 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     CommmonTemplateComponent,
     SideNavComponent,
     ShoesCategoryComponent,
+    AccountComponent,
   ],
   imports: [
     AppLayoutModule,
@@ -69,6 +71,7 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     ImageModule,
     GalleriaModule,
     ChartModule,
+    ReactiveFormsModule,
   ],
   providers: [DataViewLayoutOptions, TokenInterceptor],
   bootstrap: [AppComponent],

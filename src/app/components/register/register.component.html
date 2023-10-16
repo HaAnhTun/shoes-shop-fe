@@ -1,67 +1,46 @@
 <body>
-    <div class="container-login100">
+    <div class="container-register">
         <div class="box">
-            <div class="group">
-                <div class="overlap">
-                    <div class="div">
-                        <div class="frame">
-                            <div class="overlap-group-wrapper">
-                                <div class="overlap-group" (click)="registion()">
-                                    <div class="text-wrapper">Đăng ký</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group-wrapper">
-                            <div class="overlap-group-wrapper">
-                                <div class="overlap-group-2">
-                                    <p class="google">
-                                        <span class="span">Đăng nhập với google</span>
-                                    </p>
-                                    <img class="flat-color-icons"
-                                        src="../../../assets/images/flat-color-icons_google.jpg" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="view" routerLink="/login">
-                            <div class="text-wrapper-2">Đăng Nhập</div>
-
-                        </div>
-                        <div class="view-2">
-                            <div class="text-wrapper-3">Đăng Ký</div>
-                            <img class="line-2" src="img/line-3.svg" />
-                        </div>
-                    </div>
-                    <div class="div-wrapper">
-                        <div class="group-2">
-                            <div class="overlap-group-3">
-                                <div class="text-wrapper-6">Họ tên</div>
-                                <input class="input100" type="text" name="username" placeholder="Tên của bạn" ngModel>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="frame-4">
-                        <div class="text-wrapper-5">Gmail</div>
-                        <input class="input100" type="text" name="username" placeholder="Địa chỉ email của bạn" ngModel>
-                    </div>
-                    <div class="frame-3">
-                        <div class="text-wrapper-5">Tên tài khoản</div>
-                        <input class="input100" type="text" name="username" placeholder="Username" ngModel>
-                    </div>
-                    <div class="frame-2">
-                        <div class="text-wrapper-5">Mật khẩu</div>
-                        <input class="input100" type="password" name="username" placeholder="Mật khẩu" ngModel>
-                    </div>
-
-                    <div class="overlap-wrapper">
-                        <div class="text-wrapper-4">Nhập lại mật khẩu</div>
-                        <input class="input100" type="password" name="username" placeholder="Nhập lại mật khẩu" ngModel>
-                    </div>
-
-
+            <div class="view-lg">
+                <div class="text-login" routerLink="/login">Đăng nhập</div>
+            </div>
+            <div class="view-rs">
+                <div class="text-register">Đăng ký</div>
+            </div>
+            <form class="group" [formGroup]="registionForm" (ngSubmit)="registion()">
+                <div class="group-input">
+                    <div class="title">Họ</div>
+                    <input class="input100" type="text" name="lastName" formControlName="lastName">
                 </div>
+                <div class="group-input">
+                    <div class="title">Tên</div>
+                    <input class="input100" type="text" name="firstName" formControlName="firstName">
+                </div>
+                <div class="group-input">
+                    <div class="title">Gmail</div>
+                    <input class="input100" type="text" name="gmail" formControlName="email">
+                </div>
+                <div class="group-input">
+                    <div class="title">Tài khoản</div>
+                    <input class="input100" type="text" name="username" formControlName="login">
+                </div>
+                <div class="group-input">
+                    <div class="title">Mật khẩu</div>
+                    <input class="input100" type="password" name="password" formControlName="passwordHash">
+                </div>
+                <div class="group-input">
+                    <div class="title">Nhập lại mật khẩu</div>
+                    <input class="input100" type="password" name="confirmPassword" formControlName="confirmPassword">
+                </div>
+                <button class="button-register">
+                    <div class="button-rs-text" type="submit">Đăng ký</div>
+                </button>
+            </form>
+            
+            <div class="button-gg">
+                <img class="flat-color-icons" src="../../../assets/images/flat-color-icons_google.jpg" />
+                <div class="gg-text">Đăng nhập với google</div>
             </div>
         </div>
     </div>
-
 </body>
