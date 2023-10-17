@@ -70,11 +70,9 @@ import { ToastModule } from "primeng/toast";
     GalleriaModule,
     ChartModule,
     DialogModule,
-    ConfirmDialogModule,
-    ToastModule,
   ],
   providers: [DataViewLayoutOptions, TokenInterceptor],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }
