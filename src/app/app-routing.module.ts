@@ -9,7 +9,6 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { ShoesCategoryComponent } from "./components/shoes-category/shoes-category.component";
-import { ProductComponent } from "./components/product/product.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -19,13 +18,11 @@ const routes: Routes = [
       { path: "home", component: HomeComponent }, //các component con (http://localhost:4200/admin/home)
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
-      { path: "product", component: ProductComponent },
       { path: "shoes-category", component: ShoesCategoryComponent },
     ],
   },
   //test link
   { path: "home", component: HomeComponent },
-  { path: "product", component: ProductComponent },
   { path: "shop", component: ShopComponent },
   { path: "manage", component: ManageComponent },
   { path: "register", component: RegisterComponent },
@@ -38,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
