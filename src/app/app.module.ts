@@ -7,18 +7,17 @@ import {
 import { BrowserModule } from "@angular/platform-browser";
 import { AnimateModule } from "primeng/animate";
 import { AppRoutingModule } from "./app-routing.module";
-
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DataViewModule } from 'primeng/dataview';
-import { DataViewLayoutOptions } from 'primeng/dataview';
-import { TagModule } from 'primeng/tag';
-import { ButtonModule } from 'primeng/button';
-import { RatingModule } from 'primeng/rating';
-import { HomeComponent } from './components/home/home.component';
-import { ShopComponent } from './components/shop/shop.component';
-import { ManageComponent } from './components/manage/manage.component';
-import { TableModule } from 'primeng/table';
+import { AppComponent } from "./app.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { DataViewModule } from "primeng/dataview";
+import { DataViewLayoutOptions } from "primeng/dataview";
+import { TagModule } from "primeng/tag";
+import { ButtonModule } from "primeng/button";
+import { RatingModule } from "primeng/rating";
+import { HomeComponent } from "./components/home/home.component";
+import { ShopComponent } from "./components/shop/shop.component";
+import { ManageComponent } from "./components/manage/manage.component";
+import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
@@ -36,6 +35,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
 import { BrandComponent } from './components/brand/brand.component';
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { ToastModule } from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -69,9 +70,11 @@ import { BrandComponent } from './components/brand/brand.component';
     GalleriaModule,
     ChartModule,
     DialogModule,
+    ConfirmDialogModule,
+    ToastModule,
   ],
   providers: [DataViewLayoutOptions, TokenInterceptor],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
