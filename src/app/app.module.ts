@@ -23,7 +23,7 @@ import { DialogModule } from "primeng/dialog";
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component'; // Import the HttpClientModule
-import { MenubarModule } from 'primeng/menubar';
+import { Menubar, MenubarModule } from 'primeng/menubar';
 import { CarouselModule } from 'primeng/carousel';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
@@ -35,6 +35,17 @@ import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
+import { ProductComponent } from './components/product/product.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { MessagesModule } from 'primeng/messages';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmationService, MessageService } from "primeng/api";
+import { FileUploadModule } from 'primeng/fileupload';
+import { ToolbarModule } from 'primeng/toolbar';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -48,6 +59,7 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     RegisterComponent,
     ForgotPasswordComponent,
     ShoesCategoryComponent,
+    ProductComponent,
   ],
   imports: [
     AppLayoutModule,
@@ -56,6 +68,7 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     BrowserAnimationsModule,
     AppRoutingModule,
     TagModule,
+    DropdownModule,
     RatingModule,
     DataViewModule,
     TableModule,
@@ -67,8 +80,16 @@ import { ShoesCategoryComponent } from './components/shoes-category/shoes-catego
     GalleriaModule,
     ChartModule,
     DialogModule,
+    MessagesModule,
+    ConfirmPopupModule,
+    AutoCompleteModule,
+    FileUploadModule,
+    ToolbarModule,
+    InputTextModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
-  providers: [DataViewLayoutOptions, TokenInterceptor],
+  providers: [DataViewLayoutOptions, TokenInterceptor, MessageService, ConfirmationService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
