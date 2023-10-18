@@ -36,7 +36,7 @@ export class ShoesCategoryComponent implements OnInit {
   shoesCategory: ShoesCategory = {};
   shoesCategoryValue: ShoesCategoryValue = {};
   selectedShoesCategories: ShoesCategory[] = [];
-
+  searchText: String = "";
   submitted: boolean = false;
 
   cols: any[] = [];
@@ -58,7 +58,7 @@ export class ShoesCategoryComponent implements OnInit {
     private confirmationService: ConfirmationService
   ) {}
   ngOnInit(): void {
-    this.shoesCategoryService.getShoesCategories().subscribe(
+    this.shoesCategoryService.search(this.searchText).subscribe(
       (response) => {
         this.shoesCategories = response.content;
       },
@@ -69,7 +69,13 @@ export class ShoesCategoryComponent implements OnInit {
   }
 
   addShoesCategoryValue(categoryValue: ShoesCategoryValue) {
-    this.shoesCategoryValues.push(categoryValue);
+    if (categoryValue.id) {
+      let index = this.shoesCategoryValues.indexOf(categoryValue);
+      this.shoesCategoryValues[index] = categoryValue;
+    } else {
+      categoryValue.status = 1;
+      this.shoesCategoryValues.push(categoryValue);
+    }
     this.cloesShoesCategoryValue();
   }
   cloesShoesCategoryValue() {
@@ -100,33 +106,15 @@ export class ShoesCategoryComponent implements OnInit {
   }
   delete(id: Number) {
     this.deleteShoesCategoriesDialog = true;
-    console.log("ngon");
     this.shoesCategoryService.delete(id).subscribe((res) => {
       this.updateVisibility();
+      this.messageService.add({
+        severity: "success",
+        summary: "Successful",
+        detail: "Shoes Categories Deleted",
+        life: 3000,
+      });
     });
-  }
-
-  editShoesCategory(shoesCategory: ShoesCategory) {
-    this.shoesCategory = { ...shoesCategory };
-    this.shoesCategoryDialog = true;
-  }
-
-  deleteShoesCategory(shoesCategory: ShoesCategory) {
-    this.deleteShoesCategoryDialog = true;
-    this.shoesCategory = { ...shoesCategory };
-  }
-  confirmDeleteSelected() {
-    this.deleteShoesCategoryDialog = false;
-    this.shoesCategories = this.shoesCategories.filter(
-      (val) => !this.shoesCategories.includes(val)
-    );
-    this.messageService.add({
-      severity: "success",
-      summary: "Successful",
-      detail: "Shoes Categories Deleted",
-      life: 3000,
-    });
-    this.selectedShoesCategories = [];
   }
   openNew() {
     this.shoesCategory = {};
@@ -136,12 +124,7 @@ export class ShoesCategoryComponent implements OnInit {
   }
   openNewCategoryValue() {
     this.shoesCategoryValue = {};
-    this.submitted = false;
     this.shoesCategoryValueDialog = true;
-  }
-  deleteSelectedShoesCategories(id: Number) {
-    this.deleteShoesCategoryDialog = true;
-    this.shoesCategoryService.delete(id);
   }
   hideDialog() {
     this.shoesCategoryDialog = false;
@@ -192,30 +175,17 @@ export class ShoesCategoryComponent implements OnInit {
       }
     }
   }
-  confirmDelete() {
-    this.deleteShoesCategoryDialog = false;
-    this.shoesCategories = this.shoesCategories.filter(
-      (val) => val.id !== this.shoesCategory.id
-    );
-    this.messageService.add({
-      severity: "success",
-      summary: "Successful",
-      detail: "Product Deleted",
-      life: 3000,
-    });
-    this.shoesCategory = {};
+  updateShoesCategoryValue(index: number) {
+    this.shoesCategoryValue = this.shoesCategoryValues[index];
+    this.shoesCategoryValueDialog = true;
   }
-  confirm() {
+  confirmDelete(id: Number) {
     this.confirmationService.confirm({
       message: "Chắc chắn xóa danh mục này?",
       header: "Xóa danh mục",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.messageService.add({
-          severity: "info",
-          summary: "Confirmed",
-          detail: "You have accepted",
-        });
+        this.delete(id);
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
@@ -236,5 +206,58 @@ export class ShoesCategoryComponent implements OnInit {
         }
       },
     });
+  }
+  confirmUpdateShoesCategory() {
+    this.confirmationService.confirm({
+      message: "Bạn muốn lưu thông tin danh mục?",
+      header: "Lưu danh mục",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.saveShoesCategory();
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: "error",
+              summary: "Rejected",
+              detail: "You have rejected",
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: "warn",
+              summary: "Cancelled",
+              detail: "You have cancelled",
+            });
+            break;
+        }
+      },
+    });
+  }
+  confirmDeleteShoesCategoryValue(id: number) {
+    this.confirmationService.confirm({
+      message: "Chắc chắn xóa giá trị danh mục này?",
+      header: "Xóa danh mục",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.deleteShoesCategoryValue(id);
+      },
+      reject: (type: ConfirmEventType) => {},
+    });
+  }
+  deleteShoesCategoryValue(index: number) {
+    this.shoesCategoryValues[index].status = -1;
+  }
+  searchShoesCategory() {
+    this.shoesCategoryService.search(this.searchText).subscribe(
+      (response) => {
+        this.shoesCategories = response.content;
+        console.log(response);
+      },
+      (error) => {
+        console.error("Error:", error);
+      }
+    );
   }
 }

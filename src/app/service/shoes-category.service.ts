@@ -27,6 +27,18 @@ export class ShoesCategoryService {
       }
     );
   }
+  search(searchText: String) {
+    let search = {
+      searchText: searchText,
+    };
+    return this.http.post<any>(
+      this.baseUrl + "shoes-categories/search",
+      search,
+      {
+        withCredentials: true,
+      }
+    );
+  }
   save(shoesCategory: ShoesCategory) {
     return this.http.post<any>(
       this.baseUrl + "shoes-categories",
