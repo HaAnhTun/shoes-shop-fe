@@ -7,7 +7,6 @@ import {
 import { BrowserModule } from "@angular/platform-browser";
 import { AnimateModule } from "primeng/animate";
 import { AppRoutingModule } from "./app-routing.module";
-
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DataViewModule } from "primeng/dataview";
@@ -45,6 +44,10 @@ import { TriStateCheckboxModule } from "primeng/tristatecheckbox";
 import { OrderListModule } from "primeng/orderlist";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { TreeSelectModule } from "primeng/treeselect";
+import { BrandComponent } from './components/brand/brand.component';
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { ToastModule } from "primeng/toast";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +61,7 @@ import { TreeSelectModule } from "primeng/treeselect";
     ForgotPasswordComponent,
     ShoesCategoryComponent,
     OderComponent,
+    BrandComponent,
   ],
   imports: [
     AppLayoutModule,

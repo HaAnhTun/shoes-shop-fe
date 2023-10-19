@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from "./components/forgot-password/forgot-pas
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { ShoesCategoryComponent } from "./components/shoes-category/shoes-category.component";
 import { OderComponent } from "./components/oder/oder.component";
+import { BrandComponent } from "./components/brand/brand.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: "home", component: HomeComponent }, //các component con (http://localhost:4200/admin/home)
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
+      { path: "brand", component: BrandComponent },
       { path: "shoes-category", component: ShoesCategoryComponent },
       { path: "oder", component: OderComponent },
     ],
@@ -30,6 +32,7 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "shoes-categories", component: ShoesCategoryComponent },
+  { path: "brand", component: BrandComponent },
   { path: "**", component: LoginComponent },
 ];
 
