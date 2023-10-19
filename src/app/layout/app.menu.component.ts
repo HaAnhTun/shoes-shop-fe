@@ -42,9 +42,9 @@ export class AppMenuComponent implements OnInit {
         label: "Hóa đơn",
         items: [
           {
-            label: "Form Layout",
-            icon: "pi pi-fw pi-id-card",
-            routerLink: ["/uikit/formlayout"],
+            label: "Quản lý hóa đơn",
+            icon: "pi pi-fw pi-shopping-bag",
+            routerLink: ["/admin/oder"],
           },
           {
             label: "Input",
