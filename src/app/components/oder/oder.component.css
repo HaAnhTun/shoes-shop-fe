@@ -1,0 +1,15 @@
+.text-primaryy {
+  /* color: rgb(42, 151, 248); */
+  background: #2a97f8;
+  color: black;
+}
+::ng-deep .p-orderlist .p-orderlist-controls {
+  display: none;
+}
+::ng-deep .p-orderlist .p-orderlist-header {
+  display: none;
+}
+::ng-deep .p-treeselect-label-container {
+  height: 37px;
+}
+/* npm install --save @angular/material @angular/cdk */

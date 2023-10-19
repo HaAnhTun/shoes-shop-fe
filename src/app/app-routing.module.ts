@@ -9,6 +9,7 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { ShoesCategoryComponent } from "./components/shoes-category/shoes-category.component";
+import { OderComponent } from "./components/oder/oder.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
       { path: "shoes-category", component: ShoesCategoryComponent },
+      { path: "oder", component: OderComponent },
     ],
   },
   //test link
