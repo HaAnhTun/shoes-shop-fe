@@ -1,6 +1,7 @@
-
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { AppConstants } from 'src/app/app-constants';
 import { Product } from 'src/app/model/Product';
 import { ProductService } from 'src/app/product.service';
 interface expandedRows {
@@ -27,7 +28,7 @@ export class ProductComponent {
 
   statuses!: any[];
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient) { }
 
   ngOnInit() {
     this.productService.getProducts().subscribe(data => this.products = data);
@@ -71,9 +72,15 @@ export class ProductComponent {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter((val) => val.id !== product.id);
-        this.product = {};
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+
+        this.http.delete(AppConstants.BASE_URL_API + '/api/shoes/' + product.id).subscribe(response => {
+          console.log(response); this.products = this.products.filter((val) => val.id !== product.id);
+          this.product = {};
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        }, err => {
+          this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Delete Error', life: 3000 });
+        })
+
       }
     });
   }
@@ -88,13 +95,27 @@ export class ProductComponent {
 
     if (this.product.name?.trim()) {
       if (this.product.id) {
+        this.product.createdBy = null
+        this.product.createdDate = null
+        this.product.lastModifiedBy = null
+        this.product.lastModifiedDate = null
+        this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes/' + this.product.id, this.product).subscribe(response => {
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+        },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
+          });
         this.products[this.findIndexById(this.product.id)] = this.product;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
       } else {
-        this.product.code = this.createId();
-        this.product.image = 'product-placeholder.svg';
-        this.products.push(this.product);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+        this.product.code = this.createCode();
+        this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes/', this.product).subscribe(response => {
+          this.products.push(this.product);
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+        },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
+          });
+
       }
 
       this.products = [...this.products];
@@ -115,13 +136,15 @@ export class ProductComponent {
     return index;
   }
 
-  createId(): string {
-    let id = '';
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
+  createCode(): string {
+    var code = 'SH';
+    let number = this.products.length.toString()
+
+    for (var i = 2; i < 8 - number.length; i++) {
+      code += '0'
     }
-    return id;
+    code += number
+    return code;
   }
 
   getSeverity(status: number) {
@@ -146,5 +169,5 @@ export class ProductComponent {
     }
     return 'New';
   }
-}
 
+}
