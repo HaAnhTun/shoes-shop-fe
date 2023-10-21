@@ -4,12 +4,32 @@
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-6">
+            <div class="col-10">
               <div class="flex align-items-center justify-content-between">
-                <h2>Danh sách danh mục</h2>
+                <div class="row">
+                  <div class="col-7"><h3>Danh sách danh mục</h3></div>
+                  <div class="col-5">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"
+                          ><i class="dripicons-search"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        [(ngModel)]="searchText"
+                        (change)="searchShoesCategory()"
+                        class="form-control"
+                        placeholder="Nhập tên hoặc mã giá trị danh mục"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-2">
               <div class="flex align-items-center flex-row-reverse">
                 <p-button label="Thêm mới" (click)="openNew()"></p-button>
 
@@ -175,7 +195,7 @@
                               let-shoesCategoryValue
                               let-index="rowIndex"
                             >
-                              <tr>
+                              <tr *ngIf="shoesCategoryValue.status === 1">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ shoesCategoryValue.value }}</td>
                                 <td>{{ shoesCategoryValue.description }}</td>
@@ -189,13 +209,17 @@
                                 <td class="table-action">
                                   <a
                                     type="button"
-                                    (click)="update(shoesCategoryValue.id)"
+                                    (click)="updateShoesCategoryValue(index)"
                                     href="javascript:void(0);"
                                     class="action-icon"
                                   >
                                     <i class="mdi mdi-square-edit-outline"></i
                                   ></a>
                                   <a
+                                    type="button"
+                                    (click)="
+                                      confirmDeleteShoesCategoryValue(index)
+                                    "
                                     href="javascript:void(0);"
                                     class="action-icon"
                                   >
@@ -204,19 +228,12 @@
                                 </td>
                               </tr>
                             </ng-template>
-                            <!-- <ng-template pTemplate="summary">
-                            <div class="flex align-items-center justify-content-between">
-                              In total there are
-                              {{ shoesCategories ? shoesCategories.length : 0 }}
-                              shoesCategories
-                            </div>
-                          </ng-template> -->
                           </p-table>
                         </div>
                         <div class="col-12 flex flex-row-reverse">
                           <p-button
                             label="Lưu"
-                            (click)="saveShoesCategory()"
+                            (click)="confirmUpdateShoesCategory()"
                           ></p-button>
                         </div>
                       </div>
@@ -268,20 +285,22 @@
                   >
                     <i class="mdi mdi-square-edit-outline"></i
                   ></a>
-                  <a href="javascript:void(0);" class="action-icon">
+                  <a
+                    type="button"
+                    href="javascript:void(0);"
+                    class="action-icon"
+                    (click)="confirmDelete(shoesCategory.id)"
+                  >
                     <i class="mdi mdi-delete"></i
                   ></a>
                 </td>
               </tr>
             </ng-template>
-            <!-- <ng-template pTemplate="summary">
-              <div class="flex align-items-center justify-content-between">
-                In total there are
-                {{ shoesCategories ? shoesCategories.length : 0 }}
-                shoesCategories
-              </div>
-            </ng-template> -->
           </p-table>
+          <div class="dialog">
+            <p-toast></p-toast>
+            <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+          </div>
         </div>
       </div>
     </div>
