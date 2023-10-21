@@ -50,7 +50,7 @@ export class ShoesCategoryComponent implements OnInit {
   constructor(
     private shoesCategoryService: ShoesCategoryService,
     private messageService: MessageService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.shoesCategoryService.getShoesCategories().subscribe(
       (response) => {

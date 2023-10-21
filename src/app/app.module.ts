@@ -47,6 +47,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { BrandComponent } from "./components/brand/brand.component";
+import { OderComponent } from "./components/oder/oder.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +62,8 @@ import { ToastModule } from 'primeng/toast';
     ForgotPasswordComponent,
     ShoesCategoryComponent,
     ProductComponent,
+    BrandComponent,
+    OderComponent,
   ],
   imports: [
     AppLayoutModule,

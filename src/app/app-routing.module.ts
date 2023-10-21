@@ -10,6 +10,8 @@ import { ForgotPasswordComponent } from "./components/forgot-password/forgot-pas
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { ShoesCategoryComponent } from "./components/shoes-category/shoes-category.component";
 import { ProductComponent } from "./components/product/product.component";
+import { BrandComponent } from "./components/brand/brand.component";
+import { OderComponent } from "./components/oder/oder.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -20,7 +22,11 @@ const routes: Routes = [
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
       { path: "product", component: ProductComponent },
-      { path: "shoes-category", component: ShoesCategoryComponent },
+      {
+        path: "shoes-category", component: ShoesCategoryComponent
+      },
+      { path: "brand", component: BrandComponent },
+      { path: "oder", component: OderComponent },
     ],
   },
   //test link

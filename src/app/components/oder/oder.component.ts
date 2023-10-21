@@ -17,7 +17,7 @@ export class OderComponent implements OnInit {
   checkString: String = "";
   products: Product[] = [];
   chartData: any[] | undefined;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   ngOnInit() {
     this.fetchProducts();
     this.check = true;
