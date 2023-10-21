@@ -9,7 +9,7 @@ import { LayoutService } from "./service/app.layout.service";
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) {}
+  constructor(public layoutService: LayoutService) { }
 
   ngOnInit() {
     this.model = [
@@ -42,9 +42,9 @@ export class AppMenuComponent implements OnInit {
         label: "Hóa đơn",
         items: [
           {
-            label: "Quản lý hóa đơn",
-            icon: "pi pi-fw pi-shopping-bag",
-            routerLink: ["/admin/oder"],
+            label: "Form Layout",
+            icon: "pi pi-fw pi-id-card",
+            routerLink: ["/uikit/formlayout"],
           },
           {
             label: "Input",
@@ -82,9 +82,9 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-user",
             items: [
               {
-                label: "Login",
-                icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/auth/login"],
+                label: "Sản phẩm",
+                icon: "pi pi-fw pi-table",
+                routerLink: ["/admin/product"],
               },
               {
                 label: "Error",
@@ -124,9 +124,9 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-user",
             items: [
               {
-                label: "Brand",
+                label: "Login",
                 icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/admin/brand"],
+                routerLink: ["/auth/login"],
               },
               {
                 label: "Error",
