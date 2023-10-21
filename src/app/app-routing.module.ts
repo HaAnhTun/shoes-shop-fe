@@ -9,8 +9,7 @@ import { RegisterComponent } from "./components/register/register.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { ShoesCategoryComponent } from "./components/shoes-category/shoes-category.component";
-import { OderComponent } from "./components/oder/oder.component";
-import { BrandComponent } from "./components/brand/brand.component";
+import { ProductComponent } from "./components/product/product.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -20,19 +19,18 @@ const routes: Routes = [
       { path: "home", component: HomeComponent }, //các component con (http://localhost:4200/admin/home)
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
-      { path: "brand", component: BrandComponent },
+      { path: "product", component: ProductComponent },
       { path: "shoes-category", component: ShoesCategoryComponent },
-      { path: "oder", component: OderComponent },
     ],
   },
   //test link
   { path: "home", component: HomeComponent },
+  { path: "product", component: ProductComponent },
   { path: "shop", component: ShopComponent },
   { path: "manage", component: ManageComponent },
   { path: "register", component: RegisterComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "shoes-categories", component: ShoesCategoryComponent },
-  { path: "brand", component: BrandComponent },
   { path: "**", component: LoginComponent },
 ];
 
@@ -40,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
