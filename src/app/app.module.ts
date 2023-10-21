@@ -36,7 +36,6 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AccountComponent } from './components/account/account.component';
 import { ProductComponent } from './components/product/product.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MessagesModule } from 'primeng/messages';
@@ -60,7 +59,6 @@ import { ToastModule } from 'primeng/toast';
     RegisterComponent,
     ForgotPasswordComponent,
     ShoesCategoryComponent,
-    AccountComponent,
     ProductComponent,
   ],
   imports: [

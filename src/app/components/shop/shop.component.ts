@@ -11,7 +11,7 @@ export class ShopComponent implements OnInit {
   products: Product[] = [];
   layout: 'list' | 'grid' = 'list';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.fetchProducts();
