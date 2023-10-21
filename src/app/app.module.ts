@@ -35,6 +35,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { ShoesCategoryComponent } from './components/shoes-category/shoes-category.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AccountComponent } from './components/account/account.component';
 import { ProductComponent } from './components/product/product.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MessagesModule } from 'primeng/messages';
@@ -46,7 +48,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +60,7 @@ import { ToastModule } from 'primeng/toast';
     RegisterComponent,
     ForgotPasswordComponent,
     ShoesCategoryComponent,
+    AccountComponent,
     ProductComponent,
   ],
   imports: [
@@ -79,6 +81,7 @@ import { ToastModule } from 'primeng/toast';
     ImageModule,
     GalleriaModule,
     ChartModule,
+    ReactiveFormsModule,
     DialogModule,
     MessagesModule,
     ConfirmPopupModule,

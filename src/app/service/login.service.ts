@@ -9,8 +9,7 @@ import { Observable } from 'rxjs';
 export class LoginService {
   private baseUrl:string = 'http://localhost:8088/api/authenticate';
   constructor(private httpClient: HttpClient) { }
-    login(login: Login):Observable<object>{
-      console.log(login)
-      return this.httpClient.post(this.baseUrl, login);
-    }
+  login(login: Login):Observable<object>{
+    return this.httpClient.post(this.baseUrl, login);
+  }
 }
