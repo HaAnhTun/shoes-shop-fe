@@ -49,6 +49,8 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ToastModule } from "primeng/toast";
 import { BrandComponent } from "./components/brand/brand.component";
 import { OderComponent } from "./components/oder/oder.component";
+import { ShoesDetailComponent } from './components/shoes-detail/shoes-detail.component';
+import { ShoesDetailAddComponent } from './components/shoes-detail-add/shoes-detail-add.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +66,8 @@ import { OderComponent } from "./components/oder/oder.component";
     ProductComponent,
     BrandComponent,
     OderComponent,
+    ShoesDetailComponent,
+    ShoesDetailAddComponent,
   ],
   imports: [
     AppLayoutModule,

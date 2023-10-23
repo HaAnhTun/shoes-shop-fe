@@ -85,12 +85,12 @@ export class AppMenuComponent implements OnInit {
               {
                 label: "Sản phẩm",
                 icon: "pi pi-fw pi-table",
-                routerLink: ["/admin/product"],
+                routerLink: ["/admin/shoes"],
               },
               {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
+                label: "Chi Tiết Sản Phẩm",
+                icon: "pi pi-fw pi-inbox",
+                routerLink: ["/admin/shoes-detail"],
               },
               {
                 label: "Access Denied",

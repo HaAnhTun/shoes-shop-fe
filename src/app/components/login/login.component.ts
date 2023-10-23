@@ -12,7 +12,7 @@ import { LoginService } from "src/app/service/login.service";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent {
-  loginUser:Login = new Login();
+  loginUser: Login = new Login();
 
   constructor(
     private router: Router,
@@ -29,7 +29,7 @@ export class LoginComponent {
     }
   }
 
-  onLogin() {}
+  onLogin() { }
 
   login() {
     this.loginservice.login(this.loginUser).subscribe(
@@ -37,7 +37,7 @@ export class LoginComponent {
         next: (body: any) => {
           if (body && body?.id_token) {
             sessionStorage.setItem("access_token", body?.id_token);
-            this.router.navigate(['home']);
+            this.router.navigate(['/admin']);
           } else {
             this.isValid = false;
           }
