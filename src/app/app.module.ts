@@ -54,10 +54,10 @@ import { BrandComponent } from "./components/brand/brand.component";
 import { DropdownModule } from "primeng/dropdown";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ToastModule } from "primeng/toast";
-import { BrandComponent } from "./components/brand/brand.component";
 import { OderComponent } from "./components/oder/oder.component";
-import { ShoesDetailComponent } from './components/shoes-detail/shoes-detail.component';
-import { ShoesDetailAddComponent } from './components/shoes-detail-add/shoes-detail-add.component';
+import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.component";
+import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
+import { TabViewModule } from "primeng/tabview";
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,6 +104,13 @@ import { ShoesDetailAddComponent } from './components/shoes-detail-add/shoes-det
     InputTextModule,
     ConfirmDialogModule,
     ToastModule,
+    CheckboxModule,
+    RadioButtonModule,
+    TriStateCheckboxModule,
+    OrderListModule,
+    InputTextareaModule,
+    TreeSelectModule,
+    TabViewModule,
   ],
   providers: [
     DataViewLayoutOptions,
