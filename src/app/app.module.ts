@@ -44,7 +44,7 @@ import { TriStateCheckboxModule } from "primeng/tristatecheckbox";
 import { OrderListModule } from "primeng/orderlist";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { TreeSelectModule } from "primeng/treeselect";
-import { BrandComponent } from './components/brand/brand.component';
+import { BrandComponent } from "./components/brand/brand.component";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ToastModule } from "primeng/toast";
 
