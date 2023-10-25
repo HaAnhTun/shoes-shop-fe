@@ -44,18 +44,12 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToolbarModule } from "primeng/toolbar";
 import { InputTextModule } from "primeng/inputtext";
-<<<<<<< HEAD
 import { CheckboxModule } from "primeng/checkbox";
 import { RadioButtonModule } from "primeng/radiobutton";
 import { TriStateCheckboxModule } from "primeng/tristatecheckbox";
 import { OrderListModule } from "primeng/orderlist";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { TreeSelectModule } from "primeng/treeselect";
-=======
-import { DropdownModule } from "primeng/dropdown";
-import { ConfirmDialogModule } from "primeng/confirmdialog";
-import { ToastModule } from "primeng/toast";
->>>>>>> 592f593 (fix conflict)
 import { BrandComponent } from "./components/brand/brand.component";
 import { DropdownModule } from "primeng/dropdown";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
@@ -110,7 +104,6 @@ import { TabViewModule } from "primeng/tabview";
     InputTextModule,
     ConfirmDialogModule,
     ToastModule,
-<<<<<<< HEAD
     CheckboxModule,
     RadioButtonModule,
     TriStateCheckboxModule,
@@ -118,8 +111,6 @@ import { TabViewModule } from "primeng/tabview";
     InputTextareaModule,
     TreeSelectModule,
     TabViewModule,
-=======
->>>>>>> 592f593 (fix conflict)
   ],
   providers: [
     DataViewLayoutOptions,
