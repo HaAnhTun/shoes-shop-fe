@@ -1,0 +1,318 @@
+<h2>QUẢN LÝ HÓA ĐƠN</h2>
+<p-tabView>
+  <p-tabPanel header="Tạo mới">
+    <span (click)="creatOder()"><p-button label="Tạo mới hóa đơn" styleClass="p-button-outlined"></p-button></span>
+    <ng-container *ngIf="this.checkOder === true">
+      <ul class="nav nav-tabs" role="tablist" style="margin-top: 10px">
+        <li *ngFor="let oder of this.listOder" class="nav-item" role="presentation" style="width: 10%; cursor: pointer">
+          <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1" style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 50px;
+            " (click)="clickIndexOder(oder)" [class]="checkIndexOder === oder ? 'text-primaryy' : ''">
+            Hóa đơn {{ oder }}
+          </a>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngFor="let index of this.listOder">
+      <ng-container *ngIf="checkIndexOder === index">
+        <span style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1vw;
+            font-weight: 700;
+            font-size: larger;
+          ">Hóa đơn {{ index }}</span>
+        <div class="row">
+          <div class="col-6">
+            <div class="card">
+              <span style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: 700;
+                  font-size: larger;
+                ">Thông tin khách hàng</span>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="categoryCode">MÃ HĐ:</label>
+                  <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
+                    placeholder="mã hóa đơn" />
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="categoryCode">Khách hàng:</label>
+                      <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
+                        placeholder="Khách hàng" />
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="categoryCode">SĐT:</label>
+                      <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
+                        placeholder="SĐT" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="categoryCode">Địa chỉ:</label>
+                      <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
+                        placeholder="Tỉnh/thành phố" style="height: 37px" />
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
+                        placeholder="Quận/huyện" />
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
+                        placeholder="Xã/phường" />
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="categoryCode">Địa chỉ chi tiết:</label>
+                      <textarea rows="5" cols="28" pInputTextarea [(ngModel)]="value"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <label for="categoryCode">Khuyến mãi:</label>
+                    <div class="p-inputgroup">
+                      <input type="text" pInputText style="width: 75%; height: 37px" />
+                      <span class="p-inputgroup-addon" style="height: 37px">%</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <label for="categoryCode">Tổng tiền sản phẩm:</label>
+                    <div class="p-inputgroup">
+                      <input type="text" pInputText style="width: 75%; height: 37px" />
+                      <span class="p-inputgroup-addon" style="height: 37px">VNĐ</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="categoryCode">Phương thức mua hàng:</label>
+                      <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full" [(ngModel)]="selectedNodes"
+                        [options]="nodes" placeholder="Select Item"></p-treeSelect>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="categoryCode">Phương thức thanh toán:</label>
+                      <p-treeSelect class="md:w-20rem w-full" containerStyleClass="w-full" [(ngModel)]="selectedNodes"
+                        [options]="nodes" placeholder="Select Item"></p-treeSelect>
+                    </div>
+                  </div>
+                </div>
+                <p-triStateCheckbox [(ngModel)]="value1" inputId="tricheckbox"></p-triStateCheckbox>
+                <span style="margin-left: 5px">Chờ thanh toán</span>
+              </div>
+              <span style="text-align: right" (click)="creatOder()"><p-button label="Tạo hóa đơn"
+                  styleClass="p-button-outlined"></p-button></span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card">
+              <span style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: 700;
+                  font-size: larger;
+                ">Giỏ hàng</span>
+              <div class="card-body" style="height: 200px">
+                <p-orderList [value]="products" [listStyle]="{ 'max-height': '13rem', 'min-height': '13rem' }"
+                  header="Products" filterBy="name" filterPlaceholder="Filter by name">
+                  <ng-template let-product pTemplate="item">
+                    <div class="flex flex-wrap p-2 align-items-center gap-3">
+                      <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{
+                          product.image
+                        }}" [alt]="product.name" class="w-4rem shadow-2 flex-shrink-0 border-round" />
+                      <div class="flex-1 flex flex-column gap-2">
+                        <span class="font-bold">{{ product.name }}</span>
+                        <div class="flex align-items-center gap-2">
+                          <i class="pi pi-tag text-sm"></i>
+                          <span>{{ product.category }}</span>
+                        </div>
+                      </div>
+                      <span class="font-bold text-900">{{
+                        "$" + product.price
+                        }}</span>
+                    </div>
+                  </ng-template>
+                </p-orderList>
+              </div>
+            </div>
+            <p-table [value]="products" [tableStyle]="{ 'min-width': '30rem', 'margin-top': '60px' }">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>#</th>
+                  <th>Sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Thành tiền</th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product>
+                <tr>
+                  <td>{{ product.index }}</td>
+                  <td>{{ product.name }}</td>
+                  <td>
+                    <i class="pi pi-minus" style="font-size: 1rem; margin-right: 10px"></i>
+                    22
+                    <i class="pi pi-plus" style="font-size: 1rem; margin-left: 10px"></i>
+                  </td>
+                  <td>{{ product.quantity }}</td>
+                  <td>{{ product.quantity }}</td>
+                  <td><i class="pi pi-trash" style="font-size: 1rem"></i></td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </p-tabPanel>
+  <p-tabPanel header="Danh sách hóa đơn">
+    <ul class="nav nav-tabs" role="tablist">
+      <li *ngFor="let item of this.listMenuItems" class="nav-item" role="presentation"
+        style="width: 16.66%; cursor: pointer">
+        <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1" style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+          " (click)="clickListOder(item)" [class]="checkString === item ? 'text-primaryy' : ''">
+          {{ item }}
+          <span style="margin-bottom: 15px">
+            <p-badge [value]="22"></p-badge>
+          </span>
+        </a>
+      </li>
+    </ul>
+    <ng-container *ngIf="this.check === true">
+      <p-table #dt [value]="products" [rows]="5" [paginator]="true" [globalFilterFields]="[
+          'name',
+          'country.name',
+          'representative.name',
+          'status'
+        ]" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 4rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
+            <th>Khách hàng</th>
+            <th pSortableColumn="price">Số điện thoại</th>
+            <th pSortableColumn="category" style="min-width: 10rem">
+              Nhân Viên
+            </th>
+            <th pSortableColumn="rating">Tổng tiền</th>
+            <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
+              Ngày mua
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="product"></p-tableCheckbox>
+            </td>
+            <td>{{ product.name }}</td>
+            <td>
+              <img [src]="product.image" [alt]="product.name" width="50" class="shadow-4" />
+            </td>
+            <td>{{ product.price | currency : "USD" }}</td>
+            <td>{{ product.category }}</td>
+            <td>
+              <p-rating [ngModel]="product.rating" [readonly]="false" [cancel]="false"></p-rating>
+            </td>
+            <td>
+              <p-tag [value]="product.inStock ? 'InStock' : 'OutStock'"
+                [severity]="product.inStock ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                (click)="editProduct(product)"></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div style="text-align: right">
+            <p-button label="Hủy" styleClass="p-button-outlined"></p-button>
+            <span style="margin-left: 10px">
+              <p-button label="Xác nhận" styleClass="p-button-outlined"></p-button>
+            </span>
+          </div>
+        </ng-template>
+      </p-table>
+    </ng-container>
+    <ng-container *ngIf="this.checkOne === true">
+      <p-table #dt [value]="products" [rows]="5" [paginator]="true" [globalFilterFields]="[
+          'name',
+          'country.name',
+          'representative.name',
+          'status'
+        ]" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
+            <th>Khách hàng</th>
+            <th pSortableColumn="price">Số điện thoại</th>
+            <th pSortableColumn="category" style="min-width: 10rem">
+              Nhân Viên
+            </th>
+            <th pSortableColumn="rating">Tổng tiền</th>
+            <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
+              Ngày mua
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>
+              <img [src]="product.image" [alt]="product.name" width="50" class="shadow-4" />
+            </td>
+            <td>{{ product.price | currency : "USD" }}</td>
+            <td>{{ product.category }}</td>
+            <td>
+              <p-rating [ngModel]="product.rating" [readonly]="false" [cancel]="false"></p-rating>
+            </td>
+            <td>
+              <p-tag [value]="product.inStock ? 'InStock' : 'OutStock'"
+                [severity]="product.inStock ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                (click)="editProduct(product)"></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div style="text-align: right">
+            <p-button label="Hủy" styleClass="p-button-outlined"></p-button>
+            <span style="margin-left: 10px">
+              <p-button label="Xác nhận" styleClass="p-button-outlined"></p-button>
+            </span>
+          </div>
+        </ng-template>
+      </p-table>
+    </ng-container>
+  </p-tabPanel>
+</p-tabView>
