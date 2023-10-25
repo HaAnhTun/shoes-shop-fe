@@ -58,6 +58,7 @@ import { OderComponent } from "./components/oder/oder.component";
 import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.component";
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { TabViewModule } from "primeng/tabview";
+import { DiscountComponent } from "./components/discount/discount.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +76,7 @@ import { TabViewModule } from "primeng/tabview";
     OderComponent,
     ShoesDetailComponent,
     ShoesDetailAddComponent,
+    DiscountComponent,
   ],
   imports: [
     AppLayoutModule,
