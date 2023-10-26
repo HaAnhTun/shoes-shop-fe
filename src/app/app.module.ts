@@ -59,6 +59,8 @@ import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.com
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
+import { InputNumberModule } from "primeng/inputnumber";
+import { InputSwitchModule } from "primeng/inputswitch";
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,6 +115,8 @@ import { DiscountComponent } from "./components/discount/discount.component";
     InputTextareaModule,
     TreeSelectModule,
     TabViewModule,
+    InputNumberModule,
+    InputSwitchModule
   ],
   providers: [
     DataViewLayoutOptions,
@@ -123,4 +127,4 @@ import { DiscountComponent } from "./components/discount/discount.component";
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }
