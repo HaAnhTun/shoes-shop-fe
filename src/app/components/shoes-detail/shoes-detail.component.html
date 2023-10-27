@@ -13,12 +13,13 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="products" [rows]="10" [paginator]="true" [globalFilterFields]="['shoes.name', 'code']"
-        [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+    <p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
+        [globalFilterFields]="['shoes.name', 'code']" [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Manage Products</h5>
+                <h5 class="m-0">Chi Tiết Sản Phẩm</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -35,9 +36,9 @@
                 <th pSortableColumn="shoes.name" style="min-width:15rem">Tên Sản Phẩm <p-sortIcon
                         field="shoes.name"></p-sortIcon>
                 </th>
-                <th pSortableColumn="id" style="min-width:10rem">Thuế <p-sortIcon field="id"></p-sortIcon>
-                <th pSortableColumn="price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
-                        field="price"></p-sortIcon>
+                <th pSortableColumn="tax" style="min-width:10rem">Thuế <p-sortIcon field="tax"></p-sortIcon>
+                <th pSortableColumn="import_price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
+                        field="import_price"></p-sortIcon>
                 <th pSortableColumn="price" style="min-width:10rem">Giá Bán(VNĐ) <p-sortIcon field="price"></p-sortIcon>
                 <th pSortableColumn="quantity" style="min-width:10rem">Số Lượng(đôi) <p-sortIcon
                         field="quantity"></p-sortIcon>
@@ -53,8 +54,8 @@
                 </td>
                 <td>{{ product.code }}</td>
                 <td>{{ product.shoes.name }}</td>
-                <td>{{ product.id }}</td>
-                <td>{{ product.price }}</td>
+                <td>{{ product.tax }}</td>
+                <td>{{ product.import_price }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.quantity }}</td>
                 <td>
