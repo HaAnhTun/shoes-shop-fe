@@ -59,10 +59,15 @@ import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.com
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputSwitchModule } from "primeng/inputswitch";
+<<<<<<< HEAD
 import { ColorComponent } from './components/color/color.component';
 import { SizeComponent } from './components/size/size.component';
+=======
+import { UserComponent } from "./components/user/user.component";
+>>>>>>> 574ef1a48294651bd07a64a9be994a09ed097df9
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,8 +86,13 @@ import { SizeComponent } from './components/size/size.component';
     ShoesDetailComponent,
     ShoesDetailAddComponent,
     DiscountComponent,
+<<<<<<< HEAD
     ColorComponent,
     SizeComponent,
+=======
+    DiscountAddComponent,
+    UserComponent,
+>>>>>>> 574ef1a48294651bd07a64a9be994a09ed097df9
   ],
   imports: [
     AppLayoutModule,
@@ -120,7 +130,7 @@ import { SizeComponent } from './components/size/size.component';
     TreeSelectModule,
     TabViewModule,
     InputNumberModule,
-    InputSwitchModule
+    InputSwitchModule,
   ],
   providers: [
     DataViewLayoutOptions,
@@ -131,4 +141,4 @@ import { SizeComponent } from './components/size/size.component';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
