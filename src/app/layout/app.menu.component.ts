@@ -148,11 +148,11 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Màu sắc",
-            icon: "pi pi-fw pi-briefcase",
+            icon: "pi pi-fw pi-circle-fill",
             items: [
               {
                 label: "Màu sắc",
-                icon: "pi pi-fw pi-briefcase",
+                icon: "pi pi-fw pi-circle-fill",
                 routerLink: ["/admin/color"],
               },
               {
@@ -169,11 +169,11 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Size",
-            icon: "pi pi-fw pi-briefcase",
+            icon: "pi pi-fw pi-sitemap",
             items: [
               {
                 label: "Size",
-                icon: "pi pi-fw pi-briefcase",
+                icon: "pi pi-fw pi-sitemap",
                 routerLink: ["/admin/size"],
               },
               {
