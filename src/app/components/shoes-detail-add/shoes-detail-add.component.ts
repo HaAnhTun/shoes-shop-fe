@@ -3,7 +3,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { log } from 'console';
+import { log, warn } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppConstants } from 'src/app/app-constants';
 interface AutoCompleteCompleteEvent {
@@ -41,6 +41,10 @@ interface ShoesDetail {
 
 }
 
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 
 @Component({
   selector: 'app-shoes-detail-add',
@@ -51,6 +55,7 @@ interface ShoesDetail {
 export class ShoesDetailAddComponent implements OnInit {
   countries: any[] | undefined;
   shoeVariants: ShoesDetail[];
+  shoesVariantsList: any[];
   selectedCountry: any;
 
 
@@ -89,9 +94,19 @@ export class ShoesDetailAddComponent implements OnInit {
   shoes_detail: ShoesDetail
   displayTable: boolean = false;
 
-  // Configure AWS SDK with your credentials
+  uploadedFiles: any[] = [];
 
-  // Create an S3 instance
+
+
+  onUpload(event: UploadEvent) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
+      console.log(this.uploadedFiles);
+
+    }
+
+    this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
+  }
 
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router, private fb: FormBuilder) {
@@ -111,10 +126,7 @@ export class ShoesDetailAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes").subscribe((response) => { this.shoes = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/brands").subscribe((response) => { this.brands = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/sizes").subscribe((response) => { this.sizes = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/colors").subscribe((response) => { this.colors = response });
+    this.fetchData();
     this.statuses = [
       { label: 'INSTOCK', value: 1 },
       { label: 'LOWSTOCK', value: 2 },
@@ -127,11 +139,31 @@ export class ShoesDetailAddComponent implements OnInit {
 
   }
 
+  saveVariants() {
+    this.shoeVariants.forEach(variant => {
+      let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
+      if (isCodeFound) {
+        this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
+      } else {
+        this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes-details/', variant).subscribe(response => {
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Variants [' + variant.code + '] Created', life: 3000 });
+        },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants [' + variant.code + ']  Create Error', life: 3000 });
+          });
+      }
+    })
+    this.shoeVariants = [];
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
+  }
 
-
-  // Function to list objects in a specific folder
-
-
+  fetchData() {
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes").subscribe((response) => { this.shoes = response });
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/brands").subscribe((response) => { this.brands = response });
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/sizes").subscribe((response) => { this.sizes = response });
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/colors").subscribe((response) => { this.colors = response });
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
+  }
 
   /**
   * Kiểm tra xem FormControl đã bị lỗi và đã được tương tác (click) hay chưa.
@@ -192,8 +224,8 @@ export class ShoesDetailAddComponent implements OnInit {
   }
 
   generateShoeVariants(selectedColors: any[], selectedSizes: any[]): ShoesDetail[] {
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
     const variants: ShoesDetail[] = [];
-
     for (const color of selectedColors) {
       for (const size of selectedSizes) {
         const shoes = this.formGroup?.get('shoes')?.value
@@ -207,11 +239,17 @@ export class ShoesDetailAddComponent implements OnInit {
           import_price: this.formGroup?.get('import_price')?.value,
           price: this.formGroup?.get('price')?.value,
           tax: this.formGroup?.get('tax')?.value,
-          code: shoes.code + color.code + size.code,
+          code: shoes.code + brand.code + color.code + size.code,
           color: { id: color.id, name: color.name },
           size: { id: size.id, name: size.name },
         };
-        variants.push(variant);
+        let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
+        if (isCodeFound) {
+          this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
+        } else {
+          variants.push(variant);
+          this.messageService.add({ severity: 'success', summary: 'Generate', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Generated', life: 3000 });
+        }
       }
     }
 

@@ -64,6 +64,8 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { InputSwitchModule } from "primeng/inputswitch";
 import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
+import { UserComponent } from "./components/user/user.component";
+import { BadgeModule } from "primeng/badge";
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,6 +87,7 @@ import { SizeComponent } from "./components/size/size.component";
     DiscountAddComponent,
     ColorComponent,
     SizeComponent,
+    UserComponent,
   ],
   imports: [
     AppLayoutModule,
@@ -123,6 +126,7 @@ import { SizeComponent } from "./components/size/size.component";
     TabViewModule,
     InputNumberModule,
     InputSwitchModule,
+    BadgeModule,
   ],
   providers: [
     DataViewLayoutOptions,
