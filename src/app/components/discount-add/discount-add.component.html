@@ -1,0 +1,237 @@
+<div class="container-fuild">
+  <div class="card">
+    <div class="card-body">
+      <form action="" [formGroup]="formDiscount">
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-10">
+                <div class="flex align-items-center justify-content-between">
+                  <h3>Thêm mới khuyến mãi</h3>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="flex align-items-center flex-row-reverse">
+                  <p-button
+                    label="Thêm mới"
+                    (click)="saveFormDiscount()"
+                  ></p-button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="categoryCode">Mã khuyến mãi</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="discountCode"
+                    aria-describedby="emailHelp"
+                    placeholder="Nhập mã khuyến mãi"
+                    formControlName="code"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="categoryCode">Tên khuyến mãi</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="discountName"
+                    aria-describedby="emailHelp"
+                    placeholder="Nhập tên khuyến mãi"
+                    formControlName="name"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect2"
+                    >Hình thức khuyến mãi</label
+                  >
+                  <select
+                    class="form-control"
+                    id="exampleFormControlSelect2"
+                    formControlName="discountMethod"
+                  >
+                    <option value="-1">--Chọn hình thức--</option>
+                    <option
+                      *ngFor="let discountMethod of discountMethods"
+                      value="{{ discountMethod.id }}"
+                    >
+                      {{ discountMethod.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="categoryCode">Số phần trăm giảm</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="discountName"
+                    aria-describedby="emailHelp"
+                    placeholder="Nhập số phần trăm giảm"
+                    formControlName="discountAmount"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="categoryCode">Ngày hiệu lực</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="discountName"
+                    aria-describedby="emailHelp"
+                    formControlName="startDate"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="categoryCode">Ngày hết hiệu lực</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="discountName"
+                    aria-describedby="emailHelp"
+                    formControlName="endDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <h4>Giày</h4>
+              </div>
+              <div class="col-2">
+                <div class="flex align-items-center flex-row-reverse">
+                  <p-button
+                    label="Thêm giày"
+                    (click)="openShoesDetailsDialog()"
+                  ></p-button>
+                </div>
+                <p-dialog
+                  header="Thêm mới giá trị"
+                  [(visible)]="shoesDetailsDialog"
+                  [modal]="true"
+                  styleClass="container-fuild"
+                  [draggable]="false"
+                  [resizable]="true"
+                >
+                  <div class="row">
+                    <div class="col-12">
+                      <p-table
+                        [value]="shoesDetails"
+                        [tableStyle]="{ 'min-width': '60rem' }"
+                        styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
+                        [paginator]="true"
+                        [rows]="10"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [(selection)]="selectedShoes"
+                      >
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th style="width: 4rem">
+                              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th>Mã giày</th>
+                            <th>Tên giày</th>
+                          </tr>
+                        </ng-template>
+                        <ng-template
+                          pTemplate="body"
+                          let-shoes
+                          let-index="rowIndex"
+                        >
+                          <tr>
+                            <td>
+                              <p-tableCheckbox
+                                [value]="shoes"
+                              ></p-tableCheckbox>
+                            </td>
+                            <td>{{ shoes.code }}</td>
+                            <td>{{ shoes.name }}</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div class="col-12">
+                      <p-button label="Lưu" (click)="pushShoes()"></p-button>
+                    </div>
+                  </div>
+                </p-dialog>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <p-table
+                  [value]="
+                    formDiscount.controls.discountShoesDetailsDTOS.controls
+                  "
+                  [tableStyle]="{ 'min-width': '60rem' }"
+                  styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
+                  formArrayName="discountShoesDetailsDTOS"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>STT</th>
+                      <th>Mã giày</th>
+                      <th>Tên giày</th>
+                      <th>Nhãn hiệu</th>
+                      <th>Số phần trăm giảm</th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-shoes let-index="rowIndex">
+                    <tr [formGroupName]="index">
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ shoes.value.code }}</td>
+                      <td>{{ shoes.value.name }}</td>
+                      <td>{{ shoes.value.brand }}</td>
+                      <td>
+                        <input
+                          formControlName="discountAmount"
+                          class="form-control"
+                        />
+                      </td>
+                      <td class="table-action">
+                        <a
+                          type="button"
+                          href="javascript:void(0);"
+                          class="action-icon"
+                        >
+                          <i class="mdi mdi-square-edit-outline"></i
+                        ></a>
+                        <a
+                          type="button"
+                          href="javascript:void(0);"
+                          class="action-icon"
+                        >
+                          <i class="mdi mdi-delete"></i
+                        ></a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <br />
+                <br />
+                <pre>{{ formDiscount.value | json }}</pre>
+              </div>
+            </div>
+            <div class="dialog">
+              <p-toast></p-toast>
+              <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
