@@ -10,7 +10,7 @@ import { LayoutService } from "./service/app.layout.service";
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) { }
+  constructor(public layoutService: LayoutService) {}
 
   ngOnInit() {
     this.model = [
@@ -37,6 +37,11 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-home",
             routerLink: ["/admin/shop"],
           }, //này là shop check component trong app-routing.ts path 'admin'
+          {
+            label: "test cho ae ( category)",
+            icon: "pi pi-fw pi-home",
+            routerLink: ["/admin/discount"],
+          },
         ],
       },
       {
@@ -46,7 +51,6 @@ export class AppMenuComponent implements OnInit {
             label: "Quản lý hóa đơn",
             icon: "pi pi-fw pi-shopping-bag",
             routerLink: ["/admin/oder"],
-
           },
           {
             label: "Input",
@@ -129,6 +133,48 @@ export class AppMenuComponent implements OnInit {
                 label: "Nhãn hiệu",
                 icon: "pi pi-fw pi-briefcase",
                 routerLink: ["/admin/brand"],
+              },
+              {
+                label: "Error",
+                icon: "pi pi-fw pi-times-circle",
+                routerLink: ["/auth/error"],
+              },
+              {
+                label: "Access Denied",
+                icon: "pi pi-fw pi-lock",
+                routerLink: ["/auth/access"],
+              },
+            ],
+          },
+          {
+            label: "Màu sắc",
+            icon: "pi pi-fw pi-circle-fill",
+            items: [
+              {
+                label: "Màu sắc",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/color"],
+              },
+              {
+                label: "Error",
+                icon: "pi pi-fw pi-times-circle",
+                routerLink: ["/auth/error"],
+              },
+              {
+                label: "Access Denied",
+                icon: "pi pi-fw pi-lock",
+                routerLink: ["/auth/access"],
+              },
+            ],
+          },
+          {
+            label: "Size",
+            icon: "pi pi-fw pi-sitemap",
+            items: [
+              {
+                label: "Size",
+                icon: "pi pi-fw pi-sitemap",
+                routerLink: ["/admin/size"],
               },
               {
                 label: "Error",

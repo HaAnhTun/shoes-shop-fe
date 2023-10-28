@@ -59,9 +59,11 @@ import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.com
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputSwitchModule } from "primeng/inputswitch";
-
+import { ColorComponent } from "./components/color/color.component";
+import { SizeComponent } from "./components/size/size.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,6 +82,9 @@ import { InputSwitchModule } from "primeng/inputswitch";
     ShoesDetailComponent,
     ShoesDetailAddComponent,
     DiscountComponent,
+    DiscountAddComponent,
+    ColorComponent,
+    SizeComponent,
   ],
   imports: [
     AppLayoutModule,
@@ -117,7 +122,7 @@ import { InputSwitchModule } from "primeng/inputswitch";
     TreeSelectModule,
     TabViewModule,
     InputNumberModule,
-    InputSwitchModule
+    InputSwitchModule,
   ],
   providers: [
     DataViewLayoutOptions,
@@ -128,4 +133,4 @@ import { InputSwitchModule } from "primeng/inputswitch";
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
