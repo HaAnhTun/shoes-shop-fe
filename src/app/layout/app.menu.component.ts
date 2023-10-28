@@ -5,6 +5,7 @@ import { LayoutService } from "./service/app.layout.service";
 @Component({
   selector: "app-menu",
   templateUrl: "./app.menu.component.html",
+  styleUrls: ["./app.menu.component.css"]
 })
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
@@ -80,7 +81,7 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: "Sản phẩm",
-            icon: "pi pi-fw pi-user",
+            icon: "pi pi-fw pi-table",
             items: [
               {
                 label: "Sản phẩm",
@@ -101,7 +102,7 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Phân loại sản phẩm",
-            icon: "pi pi-fw pi-user",
+            icon: "pi pi-fw pi-tag",
             items: [
               {
                 label: "Login",
@@ -122,12 +123,12 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Nhãn hiệu",
-            icon: "pi pi-fw pi-user",
+            icon: "pi pi-fw pi-briefcase",
             items: [
               {
-                label: "Login",
-                icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/auth/login"],
+                label: "Nhãn hiệu",
+                icon: "pi pi-fw pi-briefcase",
+                routerLink: ["/admin/brand"],
               },
               {
                 label: "Error",
@@ -148,7 +149,7 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: "Khách Hàng",
-            icon: "pi pi-fw pi-prime",
+            icon: "pi pi-fw pi-users",
             routerLink: ["/utilities/icons"],
           },
         ],
@@ -179,7 +180,7 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: "Documentation",
-            icon: "pi pi-fw pi-question",
+            icon: "pi pi-fw pi-book",
             routerLink: ["/documentation"],
           },
         ],

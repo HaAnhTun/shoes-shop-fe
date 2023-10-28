@@ -6,18 +6,14 @@
       [item]="item"
       [index]="i"
       [root]="true"
+      class="menu-item"
     ></li>
     <li *ngIf="item.separator" class="menu-separator"></li>
   </ng-container>
-  <li>
-    <!--này gán link sản phẩm khách hàng-->
+  <li class="menu-logo">
     <a href="https://www.primefaces.org/primeblocks-ng/#/">
       <img
-        src="assets/layout/images/{{
-          layoutService.config.colorScheme === 'light'
-            ? 'banner-primeblocks'
-            : 'banner-primeblocks-dark'
-        }}.png"
+        src="assets/layout/images/{{ layoutService.config.colorScheme === 'light' ? 'banner-primeblocks' : 'banner-primeblocks-dark' }}.png"
         alt="Prime Blocks"
         class="w-full mt-1"
       />
