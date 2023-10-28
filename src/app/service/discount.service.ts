@@ -22,4 +22,9 @@ export class DiscountService {
       withCredentials: true,
     });
   }
+  public deleteDiscount(id: number) {
+    return this.http.delete<any>(this.baseUrl + "discounts/" + id, {
+      withCredentials: true,
+    });
+  }
 }

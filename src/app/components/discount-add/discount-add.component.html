@@ -12,10 +12,7 @@
               </div>
               <div class="col-2">
                 <div class="flex align-items-center flex-row-reverse">
-                  <p-button
-                    label="Thêm mới"
-                    (click)="saveFormDiscount()"
-                  ></p-button>
+                  <p-button label="Lưu" (click)="saveFormDiscount()"></p-button>
                 </div>
               </div>
             </div>
@@ -26,13 +23,26 @@
                 <div class="form-group">
                   <label for="categoryCode">Mã khuyến mãi</label>
                   <input
+                    [readonly]="idDiscount"
                     type="text"
                     class="form-control"
                     id="discountCode"
                     aria-describedby="emailHelp"
                     placeholder="Nhập mã khuyến mãi"
                     formControlName="code"
+                    [class.ng-invalid]="
+                      isFormControlInvalidAndTouched('discountCode')
+                    "
                   />
+                  <small
+                    class="p-error"
+                    *ngIf="
+                      formDiscount.get('discountCode')?.hasError('required') &&
+                      isFormControlInvalidAndTouched('shoes')
+                    "
+                  >
+                    Mã khuyến mãi không được để trống.
+                  </small>
                 </div>
               </div>
               <div class="col-4">
@@ -68,9 +78,15 @@
                   </select>
                 </div>
               </div>
-              <div class="col-4">
+              <div
+                class="col-4"
+                *ngIf="
+                  formDiscount.controls['discountMethod'].value == '1' ||
+                  formDiscount.controls['discountMethod'].value == '2'
+                "
+              >
                 <div class="form-group">
-                  <label for="categoryCode">Số phần trăm giảm</label>
+                  <label for="categoryCode">Giảm giá</label>
                   <input
                     type="text"
                     class="form-control"
@@ -185,17 +201,34 @@
                       <th>Mã giày</th>
                       <th>Tên giày</th>
                       <th>Nhãn hiệu</th>
-                      <th>Số phần trăm giảm</th>
+                      <th
+                        *ngIf="
+                          formDiscount.controls['discountMethod'].value ===
+                            '3' ||
+                          formDiscount.controls['discountMethod'].value === '4'
+                        "
+                      >
+                        Số phần trăm giảm
+                      </th>
                       <th></th>
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="body" let-shoes let-index="rowIndex">
-                    <tr [formGroupName]="index">
+                    <tr
+                      [formGroupName]="index"
+                      *ngIf="shoes.value.status === 1"
+                    >
                       <td>{{ index + 1 }}</td>
                       <td>{{ shoes.value.code }}</td>
                       <td>{{ shoes.value.name }}</td>
                       <td>{{ shoes.value.brand }}</td>
-                      <td>
+                      <td
+                        *ngIf="
+                          formDiscount.controls['discountMethod'].value ===
+                            '3' ||
+                          formDiscount.controls['discountMethod'].value === '4'
+                        "
+                      >
                         <input
                           formControlName="discountAmount"
                           class="form-control"
@@ -206,13 +239,7 @@
                           type="button"
                           href="javascript:void(0);"
                           class="action-icon"
-                        >
-                          <i class="mdi mdi-square-edit-outline"></i
-                        ></a>
-                        <a
-                          type="button"
-                          href="javascript:void(0);"
-                          class="action-icon"
+                          (click)="deleteShoesDetails(index)"
                         >
                           <i class="mdi mdi-delete"></i
                         ></a>
