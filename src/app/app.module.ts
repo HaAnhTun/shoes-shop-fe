@@ -61,6 +61,8 @@ import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputSwitchModule } from "primeng/inputswitch";
+import { ColorComponent } from './components/color/color.component';
+import { SizeComponent } from './components/size/size.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,6 +81,8 @@ import { InputSwitchModule } from "primeng/inputswitch";
     ShoesDetailComponent,
     ShoesDetailAddComponent,
     DiscountComponent,
+    ColorComponent,
+    SizeComponent,
   ],
   imports: [
     AppLayoutModule,
