@@ -73,6 +73,7 @@
         </div>
         <div class="field">
             <label for="status">Status</label>
+
             <p-dropdown appendTo="body" [(ngModel)]="product.status" inputId="status" [virtualScroll]="true"
                 [options]="statuses">
                 <ng-template pTemplate="selectedItem">
