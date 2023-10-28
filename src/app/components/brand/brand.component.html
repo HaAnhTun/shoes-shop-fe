@@ -71,14 +71,7 @@
     <div class="card flex justify-content-center">
         <p-button (click)="showDialog()" icon="pi pi-external-link" label="Add Brand"></p-button>
         <p-dialog header="Add Brand" [modal]="true" [(visible)]="displayAddDialog" [style]="{width: '30vw'}" [maximizable]="true">
-            <div class="p-inputgroup">
-                <span class="p-inputgroup-addon">
-                    <i class="pi pi-code"></i>
-                </span>
-                <input [style]="{width: '20vw'}" placeholder="Code" id="code" pInputText type="text" [(ngModel)]="newBrand.code" name="code" required maxlength="50" (blur)="validateField('code')" />
-            </div>
             <div *ngIf="codeError" class="p-error">Code is required and must be less than 50 characters.</div>
-            
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon">
                     <i class="pi pi-book"></i>

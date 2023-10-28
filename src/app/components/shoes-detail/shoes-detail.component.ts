@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppConstants } from 'src/app/app-constants';
 import { Product } from 'src/app/model/Product';
@@ -9,11 +10,11 @@ interface expandedRows {
 }
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-shoes-detail',
+  templateUrl: './shoes-detail.component.html',
+  styleUrls: ['./shoes-detail.component.css']
 })
-export class ProductComponent {
+export class ShoesDetailComponent {
   expandedRows: expandedRows = {};
 
   productDialog: boolean = false;
@@ -22,29 +23,26 @@ export class ProductComponent {
 
   product!: any;
 
-  selectedProducts!: Product[] | null;
+  selectedProducts!: any[] | null;
 
   submitted: boolean = false;
 
   statuses!: any[];
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient) { }
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router) { }
 
   ngOnInit() {
-    this.productService.getProducts().subscribe(data => this.products = data);
-    console.log(this.products);
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.products = response });
     this.statuses = [
       { label: 'INSTOCK', value: 1 },
       { label: 'LOWSTOCK', value: 2 },
       { label: 'OUTOFSTOCK', value: 3 },
-      { label: 'NEW', value: "" }
+      { label: 'Unknown', value: "" }
     ];
   }
 
   openNew() {
-    this.product = {};
-    this.submitted = false;
-    this.productDialog = true;
+    this.route.navigate(["admin/shoes-detail-add"])
   }
 
   deleteSelectedProducts() {
@@ -73,7 +71,7 @@ export class ProductComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
 
-        this.http.delete(AppConstants.BASE_URL_API + '/api/shoes/' + product.id).subscribe(response => {
+        this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + product.id).subscribe(response => {
           console.log(response); this.products = this.products.filter((val) => val.id !== product.id);
           this.product = {};
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
@@ -99,7 +97,7 @@ export class ProductComponent {
         this.product.createdDate = null
         this.product.lastModifiedBy = null
         this.product.lastModifiedDate = null
-        this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes/' + this.product.id, this.product).subscribe(response => {
+        this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes-details/' + this.product.id, this.product).subscribe(response => {
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
         },
           error => {
@@ -108,13 +106,14 @@ export class ProductComponent {
         this.products[this.findIndexById(this.product.id)] = this.product;
       } else {
         this.product.code = this.createCode();
-        this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes/', this.product).subscribe(response => {
-          this.products.push(response);
+        this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes-details/', this.product).subscribe(response => {
+          this.products.push(this.product);
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
         },
           error => {
             this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
           });
+
       }
 
       this.products = [...this.products];

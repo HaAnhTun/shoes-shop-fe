@@ -5,11 +5,12 @@ import { LayoutService } from "./service/app.layout.service";
 @Component({
   selector: "app-menu",
   templateUrl: "./app.menu.component.html",
+  styleUrls: ["./app.menu.component.css"]
 })
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) { }
+  constructor(public layoutService: LayoutService) {}
 
   ngOnInit() {
     this.model = [
@@ -36,6 +37,11 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-home",
             routerLink: ["/admin/shop"],
           }, //này là shop check component trong app-routing.ts path 'admin'
+          {
+            label: "test cho ae ( category)",
+            icon: "pi pi-fw pi-home",
+            routerLink: ["/admin/discount"],
+          },
         ],
       },
       {
@@ -45,7 +51,6 @@ export class AppMenuComponent implements OnInit {
             label: "Quản lý hóa đơn",
             icon: "pi pi-fw pi-shopping-bag",
             routerLink: ["/admin/oder"],
-
           },
           {
             label: "Input",
@@ -80,17 +85,17 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: "Sản phẩm",
-            icon: "pi pi-fw pi-user",
+            icon: "pi pi-fw pi-table",
             items: [
               {
                 label: "Sản phẩm",
                 icon: "pi pi-fw pi-table",
-                routerLink: ["/admin/product"],
+                routerLink: ["/admin/shoes"],
               },
               {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
+                label: "Chi Tiết Sản Phẩm",
+                icon: "pi pi-fw pi-inbox",
+                routerLink: ["/admin/shoes-detail"],
               },
               {
                 label: "Access Denied",
@@ -101,7 +106,7 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Phân loại sản phẩm",
-            icon: "pi pi-fw pi-user",
+            icon: "pi pi-fw pi-tag",
             items: [
               {
                 label: "Login",
@@ -122,12 +127,12 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Nhãn hiệu",
-            icon: "pi pi-fw pi-user",
+            icon: "pi pi-fw pi-briefcase",
             items: [
               {
-                label: "Login",
-                icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/auth/login"],
+                label: "Nhãn hiệu",
+                icon: "pi pi-fw pi-briefcase",
+                routerLink: ["/admin/brand"],
               },
               {
                 label: "Error",
@@ -148,7 +153,7 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: "Khách Hàng",
-            icon: "pi pi-fw pi-prime",
+            icon: "pi pi-fw pi-users",
             routerLink: ["/utilities/icons"],
           },
         ],
@@ -179,7 +184,7 @@ export class AppMenuComponent implements OnInit {
         items: [
           {
             label: "Documentation",
-            icon: "pi pi-fw pi-question",
+            icon: "pi pi-fw pi-book",
             routerLink: ["/documentation"],
           },
         ],

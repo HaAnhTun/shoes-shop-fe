@@ -12,6 +12,10 @@ import { ShoesCategoryComponent } from "./components/shoes-category/shoes-catego
 import { ProductComponent } from "./components/product/product.component";
 import { BrandComponent } from "./components/brand/brand.component";
 import { OderComponent } from "./components/oder/oder.component";
+import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.component";
+import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
+import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
 import { UserComponent } from './components/user/user.component';
 const routes: Routes = [
   {
@@ -22,12 +26,18 @@ const routes: Routes = [
       { path: "home", component: HomeComponent }, //các component con (http://localhost:4200/admin/home)
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
-      { path: "product", component: ProductComponent },
+      { path: "shoes", component: ProductComponent },
       {
-        path: "shoes-category", component: ShoesCategoryComponent
+        path: "shoes-category",
+        component: ShoesCategoryComponent,
       },
       { path: "brand", component: BrandComponent },
+      { path: "discount", component: DiscountComponent },
+      { path: "discount-add", component: DiscountAddComponent },
+      { path: "discount-details/:id", component: DiscountAddComponent },
       { path: "oder", component: OderComponent },
+      { path: "shoes-detail", component: ShoesDetailComponent },
+      { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: 'users', component: UserComponent },
     ],
   },
@@ -47,4 +57,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

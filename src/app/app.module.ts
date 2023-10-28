@@ -44,11 +44,24 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToolbarModule } from "primeng/toolbar";
 import { InputTextModule } from "primeng/inputtext";
+import { CheckboxModule } from "primeng/checkbox";
+import { RadioButtonModule } from "primeng/radiobutton";
+import { TriStateCheckboxModule } from "primeng/tristatecheckbox";
+import { OrderListModule } from "primeng/orderlist";
+import { InputTextareaModule } from "primeng/inputtextarea";
+import { TreeSelectModule } from "primeng/treeselect";
+import { BrandComponent } from "./components/brand/brand.component";
 import { DropdownModule } from "primeng/dropdown";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ToastModule } from "primeng/toast";
-import { BrandComponent } from "./components/brand/brand.component";
 import { OderComponent } from "./components/oder/oder.component";
+import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.component";
+import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
+import { TabViewModule } from "primeng/tabview";
+import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
+import { InputNumberModule } from "primeng/inputnumber";
+import { InputSwitchModule } from "primeng/inputswitch";
 import { UserComponent } from "./components/user/user.component";
 @NgModule({
   declarations: [
@@ -65,6 +78,10 @@ import { UserComponent } from "./components/user/user.component";
     ProductComponent,
     BrandComponent,
     OderComponent,
+    ShoesDetailComponent,
+    ShoesDetailAddComponent,
+    DiscountComponent,
+    DiscountAddComponent,
     UserComponent,
   ],
   imports: [
@@ -95,6 +112,15 @@ import { UserComponent } from "./components/user/user.component";
     InputTextModule,
     ConfirmDialogModule,
     ToastModule,
+    CheckboxModule,
+    RadioButtonModule,
+    TriStateCheckboxModule,
+    OrderListModule,
+    InputTextareaModule,
+    TreeSelectModule,
+    TabViewModule,
+    InputNumberModule,
+    InputSwitchModule,
   ],
   providers: [
     DataViewLayoutOptions,
