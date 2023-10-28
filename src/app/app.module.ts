@@ -59,6 +59,7 @@ import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.com
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +78,7 @@ import { DiscountComponent } from "./components/discount/discount.component";
     ShoesDetailComponent,
     ShoesDetailAddComponent,
     DiscountComponent,
+    DiscountAddComponent,
   ],
   imports: [
     AppLayoutModule,
