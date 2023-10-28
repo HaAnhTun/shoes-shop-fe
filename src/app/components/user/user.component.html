@@ -1,0 +1,153 @@
+<body>
+    <div class="box">
+        <p-toast></p-toast>
+        <div class="add-user">
+            <div type="button" (click)="openUserDal()" class="add-button">
+                <i class="pi pi-plus"></i> 
+                <div class="add-text">New User</div>
+            </div>
+            <p-dialog
+                header="Chi tiết người dùng"
+                [(visible)]="userDialog"
+                [modal]="true"
+                styleClass="container-fuild"
+                [draggable]="false"
+                [resizable]="true"
+            >
+            
+                <form [formGroup]="userForm" (submit)="addUser()">
+                    <div class="group-input">
+                        <div class="title">Họ</div>
+                        <input class="input100" type="text" name="lastName" formControlName="lastName">
+                        <!-- <small class="p-error">Username is not available.</small> -->
+                    </div>
+                    <div class="group-input">
+                        <div class="title">Tên</div>
+                        <input class="input100" type="text" name="firstName" formControlName="firstName">
+                    </div>
+                    <div class="group-input">
+                        <div class="title">Gmail</div>
+                        <input class="input100" type="text" name="gmail" formControlName="email">
+                    </div>
+                    <div class="group-input">
+                        <div class="title">Tài khoản</div>
+                        <input class="input100" type="text" name="username" formControlName="login">
+                    </div>
+                    <div class="group-input" *ngIf="showPassword">
+                        <div class="title">Mật khẩu</div>
+                        <input class="input100" type="password" name="password" formControlName="passwordHash">
+                    </div>
+                    <div class="group-input">
+                        <div class="title">Role</div>
+                        <p-dropdown appendTo="body" (onChange)="addAuthority($event.value)" 
+                        [options]="role" optionLabel="label" optionValue="value"
+                        ></p-dropdown>
+                    </div>
+                    <div class="button">
+                        <button class="btnAdd" type="submit">Lưu</button>
+                    </div>
+                </form>
+            </p-dialog>
+        </div>
+        <div class="card">
+            <p-table 
+              [value]="user" 
+              dataKey="login" 
+              [rows]="5" 
+              [paginator]="true" 
+              [tableStyle]="{ 'min-width': '60rem' }"
+              [rowsPerPageOptions]="[5, 10, 25, 50]"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 5rem"></th>
+                        <th pSortableColumn="firstName"><div class="th">name<p-sortIcon field="firstName"></p-sortIcon></div></th>
+                        <th>Image</th>
+                        <th pSortableColumn="email"><div class="th">Email<p-sortIcon field="email"></p-sortIcon></div></th>
+                        <th pSortableColumn="login"><div class="th">Username<p-sortIcon field="login"></p-sortIcon></div></th>
+                        <th pSortableColumn="createdBy"><div class="th">CreatedBy <p-sortIcon field="createdBy"></p-sortIcon></div></th>
+                        <th pSortableColumn="createdDate"><div class="th">CreatedDate <p-sortIcon field="createdDate"></p-sortIcon></div></th>
+                        <th pSortableColumn="activeted"><div class="th">Status <p-sortIcon field="activeted"></p-sortIcon></div></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template 
+                pTemplate="body" 
+                let-user 
+                let-expanded="expanded"
+                >
+                    <tr>
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="user" 
+                            class="p-button-text p-button-rounded p-button-plain" 
+                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                            (click)="!expanded && getOrder(user)"
+                            ></button>
+                        </td>
+                        <td>{{ user.firstName }}</td>
+                        <td><img width="50" class="shadow-4" src="../../../assets/images/users/avatar-1.jpg"/></td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.login }}</td>
+                        <td>{{ user.createdBy }}</td>
+                        <td>{{ user.createdDate | date : 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <p-tag [value]="getStatus(user.activated)" [severity]="getSererity(user.activated)"></p-tag>
+                        </td>
+                        <td>
+                            <div class="button-container">
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                                *ngIf="user.status !== false"(click)="editUser(user)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                (click)="deleteUser(user)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-user>
+                    <tr>
+                        <td colspan="7">
+                            <div class="p-3">
+                                <p-table
+                                  [value]="orderData[user.id]"
+                                  dataKey="id"
+                                  [rows]="5" 
+                                  [paginator]="true" 
+                                  [tableStyle]="{ 'min-width': '60rem' }"
+                                >
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th pSortableColumn="code"><div class="th">Ma <p-sortIcon field="code"></p-sortIcon></div></th>
+                                            <th pSortableColumn="receivedBy"><div class="th">Người nhận<p-sortIcon field="receivedBy"></p-sortIcon></div></th>
+                                            <th pSortableColumn="createdDate"><div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div></th>
+                                            <th pSortableColumn="receivedDate"><div class="th">Ngày nhận<p-sortIcon field="date"></p-sortIcon></div></th>
+                                            <th pSortableColumn="totalPrice"><div class="th">Tổng giá <p-sortIcon field="totalPrice"></p-sortIcon></div></th>
+                                            <th pSortableColumn="status"><div class="th">Trạng thái <p-sortIcon field="status"></p-sortIcon></div></th>
+                                            <th style="width: 4rem"></th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-order>
+                                        <tr>
+                                            <td>{{ order.code }}</td>
+                                            <td>{{ order.receivedBy }}</td>
+                                            <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
+                                            <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
+                                            <td>{{ order.totalPrice | currency:'VND' }}</td>
+                                            <td>{{ order.status }}</td>
+                                            <td><p-button type="button" icon="pi pi-plus"></p-button></td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <td colspan="6">There are no order for this product yet.</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+    </div>
+</body>

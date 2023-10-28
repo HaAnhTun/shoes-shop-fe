@@ -146,6 +146,48 @@ export class AppMenuComponent implements OnInit {
               },
             ],
           },
+          {
+            label: "Màu sắc",
+            icon: "pi pi-fw pi-circle-fill",
+            items: [
+              {
+                label: "Màu sắc",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/color"],
+              },
+              {
+                label: "Error",
+                icon: "pi pi-fw pi-times-circle",
+                routerLink: ["/auth/error"],
+              },
+              {
+                label: "Access Denied",
+                icon: "pi pi-fw pi-lock",
+                routerLink: ["/auth/access"],
+              },
+            ],
+          },
+          {
+            label: "Size",
+            icon: "pi pi-fw pi-sitemap",
+            items: [
+              {
+                label: "Size",
+                icon: "pi pi-fw pi-sitemap",
+                routerLink: ["/admin/size"],
+              },
+              {
+                label: "Error",
+                icon: "pi pi-fw pi-times-circle",
+                routerLink: ["/auth/error"],
+              },
+              {
+                label: "Access Denied",
+                icon: "pi pi-fw pi-lock",
+                routerLink: ["/auth/access"],
+              },
+            ],
+          },
         ],
       },
       {

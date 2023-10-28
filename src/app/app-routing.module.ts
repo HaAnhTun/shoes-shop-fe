@@ -16,6 +16,8 @@ import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.com
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { DiscountComponent } from "./components/discount/discount.component";
 import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
+import { ColorComponent } from "./components/color/color.component";
+import { SizeComponent } from "./components/size/size.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -34,6 +36,8 @@ const routes: Routes = [
       { path: "discount", component: DiscountComponent },
       { path: "discount-add", component: DiscountAddComponent },
       { path: "discount-details/:id", component: DiscountAddComponent },
+      { path: "color", component: ColorComponent },
+      { path: "size", component: SizeComponent },
       { path: "oder", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
