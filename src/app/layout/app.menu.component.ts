@@ -52,11 +52,7 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-shopping-bag",
             routerLink: ["/admin/oder"],
           },
-          {
-            label: "Input",
-            icon: "pi pi-fw pi-check-square",
-            routerLink: ["/uikit/input"],
-          },
+
         ],
       },
       {
