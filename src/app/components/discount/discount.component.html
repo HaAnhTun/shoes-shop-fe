@@ -46,6 +46,7 @@
             [paginator]="true"
             [rows]="10"
             [rowsPerPageOptions]="[10, 25, 50]"
+            *ngIf="visible"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -86,6 +87,7 @@
                     type="button"
                     href="javascript:void(0);"
                     class="action-icon"
+                    (click)="deleteDiscount(discount.id)"
                   >
                     <i class="mdi mdi-delete"></i
                   ></a>

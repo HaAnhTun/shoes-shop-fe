@@ -14,6 +14,8 @@ import { BrandComponent } from "./components/brand/brand.component";
 import { OderComponent } from "./components/oder/oder.component";
 import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.component";
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
+import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
 import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
 const routes: Routes = [
@@ -27,9 +29,13 @@ const routes: Routes = [
       { path: "manage", component: ManageComponent },
       { path: "shoes", component: ProductComponent },
       {
-        path: "shoes-category", component: ShoesCategoryComponent
+        path: "shoes-category",
+        component: ShoesCategoryComponent,
       },
       { path: "brand", component: BrandComponent },
+      { path: "discount", component: DiscountComponent },
+      { path: "discount-add", component: DiscountAddComponent },
+      { path: "discount-details/:id", component: DiscountAddComponent },
       { path: "color", component: ColorComponent },
       { path: "size", component: SizeComponent },
       { path: "oder", component: OderComponent },
@@ -52,4 +58,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
