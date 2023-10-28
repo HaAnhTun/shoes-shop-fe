@@ -157,6 +157,18 @@
                     </small>
                 </div>
             </li>
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-2 md:w-2 font-medium">Ảnh</div>
+                <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                    (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="10000000">
+                    <ng-template pTemplate="content" *ngIf="uploadedFiles.length !=0 ">
+                        <ul>
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </li>
+
             <div class="card flex justify-content-center">
                 <button (click)="showTable()" pButton pRipple label="Generate Variants" class="p-button-success">
                 </button>
@@ -222,7 +234,8 @@
                         <p-tableCheckbox [value]="product"></p-tableCheckbox>
                     </td>
                     <td>{{ product.code }}</td>
-                    <td>{{ product.shoes.name }} [{{product.color.name}} - {{product.size.name}}]</td>
+                    <td>{{ product.shoes.name +' '+ product.shoes.name }} [{{product.color.name}} -
+                        {{product.size.name}}]</td>
                     <td>{{ product.tax | currency : 'VND' }}</td>
                     <td>{{ product.import_price | currency : 'VND' }}</td>
                     <td>{{ product.price | currency : 'VND' }}</td>
@@ -239,8 +252,12 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary">
-                <div class="flex align-items-center justify-content-between">In total there are {{ shoevariants ?
-                    shoevariants.length : 0 }} products.</div>
+                <div class="flex align-items-center justify-content-between">In total there are {{ shoeVariants ?
+                    shoeVariants.length : 0 }} products variants.</div><br>
+                <div class="card flex justify-content-center">
+                    <button (click)="saveVariants()" pButton pRipple label="Save Variants" class="p-button-success">
+                    </button>
+                </div>
             </ng-template>
         </p-table>
         <p-dialog [(visible)]="productDialog" [style]="{ width: '600px' }" header="Product Details" [modal]="true"
