@@ -12,6 +12,7 @@ import { ShoesCategoryComponent } from "./components/shoes-category/shoes-catego
 import { ProductComponent } from "./components/product/product.component";
 import { BrandComponent } from "./components/brand/brand.component";
 import { OderComponent } from "./components/oder/oder.component";
+import { UserComponent } from './components/user/user.component';
 const routes: Routes = [
   {
     path: "admin",
@@ -27,6 +28,7 @@ const routes: Routes = [
       },
       { path: "brand", component: BrandComponent },
       { path: "oder", component: OderComponent },
+      { path: 'users', component: UserComponent },
     ],
   },
   //test link
@@ -38,6 +40,7 @@ const routes: Routes = [
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "shoes-categories", component: ShoesCategoryComponent },
   { path: "**", component: LoginComponent },
+  { path: 'users', component: UserComponent },
 ];
 
 @NgModule({
