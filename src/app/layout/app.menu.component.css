@@ -1,0 +1,38 @@
+/* Định dạng của menu chính */
+.layout-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Định dạng của mục menu */
+  .menu-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .menu-item:hover {
+    background-color: #dcdcdc;
+  }
+  
+  /* Định dạng của menu separator */
+  .menu-separator {
+    border-top: 1px solid #ddd;
+    margin: 5px 0;
+    padding: 0;
+  }
+  
+  /* Định dạng của logo */
+  .menu-logo {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .menu-logo img {
+    max-width: 100%;
+  }
+  

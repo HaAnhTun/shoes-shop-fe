@@ -13,7 +13,7 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt [value]="products" [rows]="10" [paginator]="true"
+    <p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
         [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
         [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
@@ -73,8 +73,9 @@
         </div>
         <div class="field">
             <label for="status">Status</label>
+
             <p-dropdown appendTo="body" [(ngModel)]="product.status" inputId="status" [virtualScroll]="true"
-                [virtualScrollItemSize]="38" [options]="statuses">
+                [options]="statuses">
                 <ng-template pTemplate="selectedItem">
                     <p-tag [value]="getStatus(product.status)" [severity]="getSeverity(product.status)"></p-tag>
                 </ng-template>

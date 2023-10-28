@@ -109,13 +109,12 @@ export class ProductComponent {
       } else {
         this.product.code = this.createCode();
         this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes/', this.product).subscribe(response => {
-          this.products.push(this.product);
+          this.products.push(response);
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
         },
           error => {
             this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
           });
-
       }
 
       this.products = [...this.products];
