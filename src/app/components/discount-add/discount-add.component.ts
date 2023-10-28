@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {
   ConfirmEventType,
   ConfirmationService,
@@ -31,7 +31,8 @@ export class DiscountAddComponent implements OnInit {
     private discountService: DiscountService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
   idDiscount: number | null;
   shoesDetailsDialog: boolean = false;
@@ -166,6 +167,7 @@ export class DiscountAddComponent implements OnInit {
               summary: "Success",
               detail: "Thêm mới thành công!",
             });
+            this.router.navigate(["/admin/discount"]);
           },
           (error) => {
             this.messageService.add({
