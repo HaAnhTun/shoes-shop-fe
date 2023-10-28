@@ -59,6 +59,13 @@ import { ShoesDetailComponent } from "./components/shoes-detail/shoes-detail.com
 import { ShoesDetailAddComponent } from "./components/shoes-detail-add/shoes-detail-add.component";
 import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
+import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
+import { InputNumberModule } from "primeng/inputnumber";
+import { InputSwitchModule } from "primeng/inputswitch";
+import { ColorComponent } from "./components/color/color.component";
+import { SizeComponent } from "./components/size/size.component";
+import { UserComponent } from "./components/user/user.component";
+import { BadgeModule } from "primeng/badge";
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +84,10 @@ import { DiscountComponent } from "./components/discount/discount.component";
     ShoesDetailComponent,
     ShoesDetailAddComponent,
     DiscountComponent,
+    DiscountAddComponent,
+    ColorComponent,
+    SizeComponent,
+    UserComponent
   ],
   imports: [
     AppLayoutModule,
@@ -113,6 +124,9 @@ import { DiscountComponent } from "./components/discount/discount.component";
     InputTextareaModule,
     TreeSelectModule,
     TabViewModule,
+    InputNumberModule,
+    InputSwitchModule,
+    BadgeModule,
   ],
   providers: [
     DataViewLayoutOptions,
