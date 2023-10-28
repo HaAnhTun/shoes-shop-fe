@@ -18,6 +18,7 @@ import { DiscountComponent } from "./components/discount/discount.component";
 import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
 import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
+import { UserComponent } from "./components/user/user.component";
 const routes: Routes = [
   {
     path: "admin",
@@ -41,6 +42,7 @@ const routes: Routes = [
       { path: "oder", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
+      { path: "users", component: UserComponent}
     ],
   },
   //test link
@@ -52,6 +54,7 @@ const routes: Routes = [
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "shoes-categories", component: ShoesCategoryComponent },
   { path: "**", component: LoginComponent },
+  { path: "users", component: UserComponent}
 ];
 
 @NgModule({
