@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { log } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppConstants } from 'src/app/app-constants';
+import awsconfig from 'src/configAWS';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -36,14 +39,17 @@ interface ShoesDetail {
     id: number;
     name: string;
   };
+
 }
+
+
 @Component({
   selector: 'app-shoes-detail-add',
   templateUrl: './shoes-detail-add.component.html',
   styleUrls: ['./shoes-detail-add.component.css'],
 
 })
-export class ShoesDetailAddComponent {
+export class ShoesDetailAddComponent implements OnInit {
   countries: any[] | undefined;
   shoeVariants: ShoesDetail[];
   selectedCountry: any;
@@ -69,7 +75,7 @@ export class ShoesDetailAddComponent {
   filteredSizes: any[];
   filteredColors: any[];
 
-  product!: any;
+  product: any;
 
   selectedProducts!: any[] | null;
 
@@ -84,7 +90,26 @@ export class ShoesDetailAddComponent {
   shoes_detail: ShoesDetail
   displayTable: boolean = false;
 
-  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router,) { }
+  // Configure AWS SDK with your credentials
+
+  // Create an S3 instance
+
+
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router, private fb: FormBuilder) {
+    this.formGroup = this.fb.group({
+      shoes: [null, Validators.required],
+      checked: [false, Validators.required],
+      brand: [null, Validators.required],
+      description: [null, Validators.required],
+      import_price: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
+      quantity: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
+      price: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
+      tax: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
+      color: [null, Validators.required],
+      size: [null, Validators.required],
+    });
+
+  }
 
   ngOnInit() {
     this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes").subscribe((response) => { this.shoes = response });
@@ -95,18 +120,42 @@ export class ShoesDetailAddComponent {
       { label: 'INSTOCK', value: 1 },
       { label: 'LOWSTOCK', value: 2 },
       { label: 'OUTOFSTOCK', value: 3 },
-      { label: 'Unknown', value: "" }
+      { label: 'not available', value: 0 }
+
     ];
-    this.formGroup = new FormGroup({
-      shoes: new FormControl<object | null>(null),
-      checked: new FormControl<boolean>(false),
-      brand: new FormControl<object | null>(null),
-      description: new FormControl<object | null>(null),
-      import_price: new FormControl<object | null>(null),
-      price: new FormControl<object | null>(null),
-      tax: new FormControl<object | null>(null),
-      color: new FormControl<object | null>(null),
-      size: new FormControl<object | null>(null),
+
+
+
+  }
+
+
+
+  // Function to list objects in a specific folder
+
+
+
+  /**
+  * Kiểm tra xem FormControl đã bị lỗi và đã được tương tác (click) hay chưa.
+  * @param controlName Tên của FormControl cần kiểm tra
+  * @returns True nếu FormControl có lỗi và đã được tương tác, ngược lại trả về false hoặc undefined
+  */
+  isFormControlInvalidAndTouched(controlName: string): boolean | undefined {
+    // Lấy FormControl từ FormGroup bằng cách sử dụng tên của FormControl
+    const control = this.formGroup.get(controlName);
+    // Kiểm tra xem FormControl có tồn tại, có lỗi và đã được tương tác hay không
+    return control?.invalid && (control?.touched || control?.dirty);
+  }
+
+  /**
+   * Đánh dấu tất cả các FormControl trong FormGroup và các nhóm FormGroup con như đã tương tác (touched).
+   * @param formGroup Đối tượng FormGroup cần đánh dấu các FormControl đã tương tác
+   */
+  markAllFormControlsAsTouched(formGroup: any) {
+    // Duyệt qua tất cả các tên của các FormControl trong FormGroup
+    Object.keys(formGroup.controls).forEach((controlName) => {
+      // Lấy ra FormControl tương ứng từ FormGroup
+      const control = formGroup.get(controlName);
+      control.markAsTouched({ onlySelf: true });
     });
   }
 
@@ -152,14 +201,14 @@ export class ShoesDetailAddComponent {
         const brand = this.formGroup?.get('brand')?.value
         const variant: ShoesDetail = {
           shoes: { id: shoes.id, name: shoes.name },
-          status: this.formGroup?.get('checked')?.value == true ? 1 : 0,
-          quantity: 10,
+          status: this.formGroup?.get('checked')?.value == false ? 0 : 1,
+          quantity: this.formGroup?.get('quantity')?.value,
           brand: { id: brand.id, name: brand.name },
           description: this.formGroup?.get('description')?.value,
           import_price: this.formGroup?.get('import_price')?.value,
           price: this.formGroup?.get('price')?.value,
           tax: this.formGroup?.get('tax')?.value,
-          code: this.generateUniqueCode(),
+          code: shoes.code + color.code + size.code,
           color: { id: color.id, name: color.name },
           size: { id: size.id, name: size.name },
         };
@@ -171,19 +220,17 @@ export class ShoesDetailAddComponent {
   }
 
 
-  generateUniqueCode() {
-
-    return 'SD002';
-  }
 
   showTable() {
     if (this.formGroup.valid) {
       const selectedColors = this.formGroup?.get('color')?.value
       const selectedSizes = this.formGroup?.get('size')?.value
       this.shoeVariants = this.generateShoeVariants(selectedColors, selectedSizes);
+      console.log(this.shoeVariants);
       this.displayTable = true;
     } else {
-      this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
+      this.markAllFormControlsAsTouched(this.formGroup)
+      this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants Create Validate Error', life: 3000 });
     }
   }
 
@@ -226,7 +273,7 @@ export class ShoesDetailAddComponent {
   }
 
   editProduct(product: ShoesDetail) {
-    this.product = { ...product };
+    this.product = product;
     this.productDialog = true;
   }
 
@@ -250,21 +297,20 @@ export class ShoesDetailAddComponent {
 
   saveProduct() {
     this.submitted = true;
-    if (this.product.name?.trim()) {
-      if (this.product) {
-        this.shoeVariants[this.findIndexById(this.product)] = this.product;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-      }
-      this.shoeVariants = [...this.shoeVariants];
-      this.productDialog = false;
-      this.product = {};
+    if (this.product) {
+      this.shoeVariants[this.findIndexById(this.product)] = this.product;
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
     }
+    this.shoeVariants = [...this.shoeVariants];
+    this.productDialog = false;
+    this.product = {};
+
   }
 
   findIndexById(product: ShoesDetail): number {
     let index = -1;
     for (let i = 0; i < this.shoeVariants.length; i++) {
-      if (this.shoeVariants[i] === product) {
+      if (this.shoeVariants[i].code === product.code) {
         index = i;
         break;
       }
@@ -272,7 +318,7 @@ export class ShoesDetailAddComponent {
     return index;
   }
 
-  getSeverity(status: number) {
+  getSeverity(status: any) {
     switch (status) {
       case 1:
         return 'success';
@@ -280,11 +326,16 @@ export class ShoesDetailAddComponent {
         return 'warning';
       case 3:
         return 'danger';
+      case 0:
+        return 'danger';
     }
-    return 'warning';
+    return 'danger';
   }
+
   getStatus(status: number) {
     switch (status) {
+      case 0:
+        return "Not showing"
       case 1:
         return 'INSTOCK';
       case 2:
@@ -292,7 +343,7 @@ export class ShoesDetailAddComponent {
       case 3:
         return 'OUTOFSTOCK';
     }
-    return 'New';
+    return 'not available';
   }
 
 }

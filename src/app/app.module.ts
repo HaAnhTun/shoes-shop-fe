@@ -61,6 +61,7 @@ import { TabViewModule } from "primeng/tabview";
 import { DiscountComponent } from "./components/discount/discount.component";
 import { InputNumberModule } from "primeng/inputnumber";
 import { InputSwitchModule } from "primeng/inputswitch";
+
 @NgModule({
   declarations: [
     AppComponent,
