@@ -36,6 +36,11 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-home",
             routerLink: ["/admin/shop"],
           }, //này là shop check component trong app-routing.ts path 'admin'
+          {
+            label: "Tài khoản",
+            icon: "pi pi-fw pi-home",
+            routerLink: ["/admin/users"],
+          }
         ],
       },
       {
