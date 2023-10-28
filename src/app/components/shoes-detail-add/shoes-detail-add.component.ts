@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { log } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppConstants } from 'src/app/app-constants';
-import awsconfig from 'src/configAWS';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
