@@ -13,7 +13,7 @@ import { MessageService } from "primeng/api";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent {
-  loginUser:Login = new Login();
+  loginUser: Login = new Login();
 
   constructor(
     private router: Router,
@@ -31,7 +31,7 @@ export class LoginComponent {
     }
   }
 
-  onLogin() {}
+  onLogin() { }
 
   login() {
     this.loginservice.login(this.loginUser).subscribe(

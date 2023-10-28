@@ -37,7 +37,6 @@ export class BrandComponent implements OnInit {
   visible: boolean = false;
   newBrand: BrandSave = { code: '', name: '', description: '' };
 
-
   constructor(private brandService: BrandService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -106,14 +105,25 @@ export class BrandComponent implements OnInit {
 
   showDialog() {
     this.displayAddDialog = true; // Hiển thị modal form thêm mới
+    // Kiểm tra xem danh sách brand có phần tử không
+    if (this.brand.length > 0) {
+      // Tìm độ dài của danh sách và tạo mã code mới
+      const newCode = 'BR' + (this.brand.length + 1).toString().padStart(3, '0');
+      // Đặt giá trị mã code mới vào newBrand.code
+      this.newBrand.code = newCode;
+    } else {
+      // Nếu danh sách brand rỗng, sử dụng giá trị mặc định
+      this.newBrand.code = 'BR001';
+    }
   }
+  
 
   onSaveNewBrand() {
     // Kiểm tra lỗi trước khi lưu
     this.validateField('code');
     this.validateField('name');
     this.validateField('description');
-    
+
     if (this.codeError || this.nameError || this.descriptionError) {
       // Hiển thị thông báo lỗi nếu có lỗi
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please correct the errors before saving.' });
@@ -123,7 +133,7 @@ export class BrandComponent implements OnInit {
         (response: BrandData) => {
           // Xử lý khi lưu thành công
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Brand is added.' });
-  
+
           // Sau khi lưu thành công, bạn có thể thêm brand mới vào danh sách hiển thị hoặc làm điều gì đó tương tự.
           // Ví dụ: this.brand.push(response);
           this.loadBrandData();
@@ -136,8 +146,6 @@ export class BrandComponent implements OnInit {
       );
     }
   }
-  
-  
 
   hideDialog() {
     this.displayAddDialog = false;

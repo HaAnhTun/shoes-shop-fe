@@ -14,12 +14,12 @@
     </p-toolbar>
 
     <p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
-        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-        [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        [globalFilterFields]="['shoes.name', 'code']" [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Manage Products</h5>
+                <h5 class="m-0">Chi Tiết Sản Phẩm</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -33,10 +33,18 @@
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
                 <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
-                <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="status" style="min-width:10rem">Status <p-sortIcon field="status"></p-sortIcon>
+                <th pSortableColumn="shoes.name" style="min-width:15rem">Tên Sản Phẩm <p-sortIcon
+                        field="shoes.name"></p-sortIcon>
                 </th>
-                <th></th>
+                <th pSortableColumn="tax" style="min-width:10rem">Thuế <p-sortIcon field="tax"></p-sortIcon>
+                <th pSortableColumn="import_price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
+                        field="import_price"></p-sortIcon>
+                <th pSortableColumn="price" style="min-width:10rem">Giá Bán(VNĐ) <p-sortIcon field="price"></p-sortIcon>
+                <th pSortableColumn="quantity" style="min-width:10rem">Số Lượng(đôi) <p-sortIcon
+                        field="quantity"></p-sortIcon>
+                <th pSortableColumn="status" style="min-width:10rem">Trạng Thái <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th>Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
@@ -45,7 +53,11 @@
                     <p-tableCheckbox [value]="product"></p-tableCheckbox>
                 </td>
                 <td>{{ product.code }}</td>
-                <td>{{ product.name }}</td>
+                <td>{{ product.shoes.name }}</td>
+                <td>{{ product.tax }}</td>
+                <td>{{ product.import_price }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
                 <td>
                     <p-tag [value]="getStatus(product.status)" [severity]="getSeverity(product.status)"></p-tag>
                 </td>
@@ -73,9 +85,8 @@
         </div>
         <div class="field">
             <label for="status">Status</label>
-
             <p-dropdown appendTo="body" [(ngModel)]="product.status" inputId="status" [virtualScroll]="true"
-                [options]="statuses">
+                [virtualScrollItemSize]="38" [options]="statuses">
                 <ng-template pTemplate="selectedItem">
                     <p-tag [value]="getStatus(product.status)" [severity]="getSeverity(product.status)"></p-tag>
                 </ng-template>
