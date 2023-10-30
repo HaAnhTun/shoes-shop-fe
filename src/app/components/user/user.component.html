@@ -39,15 +39,23 @@
                     </div>
                     <div class="group-input">
                         <div class="title">Role</div>
-                        <p-dropdown appendTo="body" (onChange)="addAuthority($event.value)" 
-                        [options]="role" optionLabel="label" optionValue="value"
-                        ></p-dropdown>
+                        <span class="p-float-label">
+                            <p-autoComplete showClear="true" showEmptyMessage="true" required="true"
+                                class="p-fluid" id="float-input-color" forceSelection="true"
+                                [dropdown]="true" [multiple]="true"
+                                (completeMethod)="filterList($event)" [suggestions]="list"
+                                field="label" formControlName="authorities"></p-autoComplete>
+                            <label for="float-input-color">Roles</label>
+                        </span>
                     </div>
                     <div class="button">
                         <button class="btnAdd" type="submit">Lưu</button>
                     </div>
                 </form>
             </p-dialog>
+        </div>
+        <div class="search">
+
         </div>
         <div class="card">
             <p-table 
@@ -58,6 +66,16 @@
               [tableStyle]="{ 'min-width': '60rem' }"
               [rowsPerPageOptions]="[5, 10, 25, 50]"
             >
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-between">
+                        <h5 class="m-0">Manage Users</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Nhập tên người dùng..." />
+                        </span>
+                    </div>
+                </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 5rem"></th>
@@ -67,13 +85,12 @@
                         <th pSortableColumn="login"><div class="th">Username<p-sortIcon field="login"></p-sortIcon></div></th>
                         <th pSortableColumn="createdBy"><div class="th">CreatedBy <p-sortIcon field="createdBy"></p-sortIcon></div></th>
                         <th pSortableColumn="createdDate"><div class="th">CreatedDate <p-sortIcon field="createdDate"></p-sortIcon></div></th>
-                        <th pSortableColumn="activeted"><div class="th">Status <p-sortIcon field="activeted"></p-sortIcon></div></th>
                         <th></th>
                     </tr>
                 </ng-template>
                 <ng-template 
                 pTemplate="body" 
-                let-user 
+                let-user
                 let-expanded="expanded"
                 >
                     <tr>
@@ -90,9 +107,6 @@
                         <td>{{ user.login }}</td>
                         <td>{{ user.createdBy }}</td>
                         <td>{{ user.createdDate | date : 'dd/MM/yyyy'}}</td>
-                        <td>
-                            <p-tag [value]="getStatus(user.activated)" [severity]="getSererity(user.activated)"></p-tag>
-                        </td>
                         <td>
                             <div class="button-container">
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
