@@ -131,7 +131,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Khách Hàng",
             icon: "pi pi-fw pi-users",
-            routerLink: ["/utilities/icons"],
+            routerLink: ["/admin/users"],
           },
         ],
       },

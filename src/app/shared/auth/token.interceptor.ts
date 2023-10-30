@@ -33,8 +33,6 @@ export class AuthInterceptorService implements HttpInterceptor {
         request = this.addToken(request, token);
       }
     }
-
-    request = this.addContentType(request, "application/json");
     return next.handle(request).pipe(
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
@@ -51,13 +49,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     );
   }
 
-  private addContentType(request: HttpRequest<any>, contentType: string) {
-    return request.clone({
-      setHeaders: {
-        "Content-Type": contentType,
-      },
-    });
-  }
 
   private addToken(request: HttpRequest<any>, token: string) {
     return request.clone({
