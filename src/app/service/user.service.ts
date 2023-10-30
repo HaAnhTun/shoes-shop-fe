@@ -10,7 +10,7 @@ export class UserService {
   constructor(private http : HttpClient) { }
 
   getAllUser(){
-    return this.http.get<any>(this.baseUrl + "/users", {
+    return this.http.get<any>(this.baseUrl + "/users/activatedTrue", {
       withCredentials: true,
     });
   }

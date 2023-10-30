@@ -87,7 +87,7 @@ import { BadgeModule } from "primeng/badge";
     DiscountAddComponent,
     ColorComponent,
     SizeComponent,
-    UserComponent
+    UserComponent,
   ],
   imports: [
     AppLayoutModule,
