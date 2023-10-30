@@ -5,16 +5,23 @@ import { Order } from 'src/app/model/Order';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/service/user.service';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
+
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
+
+
 export class UserComponent {
   userForm: FormGroup;
   user: any;
   orderData: { [userId: number]: Order[] } = {};
-  role: SelectItem[]
+  role: any[]
   status: any[]
   showPassword: boolean = true;
 
@@ -38,13 +45,12 @@ export class UserComponent {
       login: '',
       passwordHash: '',
       email: '',
-      authorities: this.formBuilder.array([])
+      authorities: ''
     })
   }
 
   ngOnInit() {
       this.getAllUser();
-      window.onbeforeunload = this.reloadPageOnDialogClose;
   }
 
   getAllUser(){
@@ -56,6 +62,16 @@ export class UserComponent {
         this.getOrder(this.user as User);
       }
     });
+  }
+
+  getRoleUser():string[]{
+    let listString : string[] = []
+    const listAny = this.userForm.get('authorities')?.value
+    console.log(listAny)
+    listAny.forEach((element: { label: string, value: string; }) => {
+      listString.push(element.value)
+    });
+    return listString;
   }
 
   addUser() {
@@ -71,9 +87,19 @@ export class UserComponent {
       });
       return;
     }
+
     if (!newUser.id) {
       // Thêm người dùng mới
-      this.userService.save(newUser).subscribe(
+      const authUser = {
+          "login": this.userForm.get('login')?.value,
+          "passwordHash": this.userForm.get('passwordHash')?.value,
+          "firstName": this.userForm.get('firstName')?.value,
+          "lastName": this.userForm.get('lastName')?.value,
+          "email": this.userForm.get('email')?.value,
+          "imageUrl": this.userForm.get('imageUrl')?.value,
+          "authorities": this.getRoleUser()
+      }
+      this.userService.save(authUser).subscribe(
         (response) => {
           console.log('Người dùng đã được thêm:', response);
           this.messageService.add({
@@ -160,7 +186,7 @@ export class UserComponent {
       login: user.login,
       passwordHash: user.passwordHash,
       email: user.email,
-      authorities: [user.authorities]
+      authorities: user.authorities
     });
   }
   
@@ -173,41 +199,32 @@ export class UserComponent {
     )
   }
 
-  addAuthority(value: string) {
-    const authoritiesArray = this.userForm.get('authorities') as FormArray;
-    console.log(authoritiesArray)
-    authoritiesArray.push(new FormControl(value)); // Thêm giá trị từ dropdown vào FormArray
-  }
-
   getRole(authorities : string){
     return authorities === "User" ? "ROLE_USER" : "ROLE_ADMIN";
-  }
-
-  getStatus(status : boolean){
-    if(status == true){
-      return "ACCEPTED";
-    }else {
-      return "DELETED";
-    }
-  }
-
-  getSererity(status : boolean){
-    return status == true ? "infor" : "danger";
   }
 
   openUserDal(){
     this.userForm.reset();
     this.userDialog = true;
+    this.showPassword = true
   }
 
    closeUserDialog() {
-    const authoritiesArray = this.userForm.get('authorities') as FormArray;
-    authoritiesArray.clear();
     this.userDialog = false;
   }
 
-  reloadPageOnDialogClose(): void {
-    // Điều này sẽ reload trang khi tắt dialog
-    location.reload();
+  list: any[]
+
+  filterList(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.role.length; i++) {
+      let products = this.role[i];
+      if (products.label?.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(products);
+      }
+    }
+    this.list = filtered
   }
+    
 }
