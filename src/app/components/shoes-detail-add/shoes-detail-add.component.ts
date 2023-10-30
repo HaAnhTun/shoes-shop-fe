@@ -264,7 +264,7 @@ export class ShoesDetailAddComponent implements OnInit {
           code: shoes.code + brand.code + color.code + size.code,
           color: { id: color.id, name: color.name },
           size: { id: size.id, name: size.name },
-          images: this.uploadedFiles
+          images: this.formGroup?.get('images')?.value
         };
         console.log(variant);
 
