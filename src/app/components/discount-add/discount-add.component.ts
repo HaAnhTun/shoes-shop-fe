@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {
   ConfirmEventType,
   ConfirmationService,
@@ -31,7 +31,8 @@ export class DiscountAddComponent implements OnInit {
     private discountService: DiscountService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
   idDiscount: number | null;
   shoesDetailsDialog: boolean = false;
@@ -56,7 +57,7 @@ export class DiscountAddComponent implements OnInit {
   };
   discountMethods: Object[];
   formDiscount = this.fb.group({
-    id: ["", Validators.required],
+    id: [""],
     code: ["", Validators.required],
     name: ["", Validators.required],
     discountMethod: ["", Validators.required],
@@ -73,7 +74,7 @@ export class DiscountAddComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.idDiscount = Number(params.get("id"));
     });
-    if (this.idDiscount != null) {
+    if (this.idDiscount != null && this.idDiscount != 0) {
       this.discountService.getDiscount(this.idDiscount).subscribe((res) => {
         this.formDiscount.get("id")?.setValue(res.id);
         this.formDiscount.get("code")?.setValue(res.code);
@@ -109,6 +110,9 @@ export class DiscountAddComponent implements OnInit {
   }
   get discountShoesDetailsDTOS() {
     return this.formDiscount.get("discountShoesDetailsDTOS") as FormArray;
+  }
+  get code() {
+    return this.formDiscount.get("code");
   }
   initDetails(data: DiscountShoesDetails) {
     return this.fb.group({
@@ -159,22 +163,27 @@ export class DiscountAddComponent implements OnInit {
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.discountService.saveDiscount(this.formDiscount.value).subscribe(
-          (res) => {
-            this.messageService.add({
-              severity: "success",
-              summary: "Success",
-              detail: "Thêm mới thành công!",
-            });
-          },
-          (error) => {
-            this.messageService.add({
-              severity: "error",
-              summary: "Rejected",
-              detail: error.title,
-            });
-          }
-        );
+        this.formDiscount.markAllAsTouched();
+        if (!this.formDiscount.invalid) {
+          this.discountService.saveDiscount(this.formDiscount.value).subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "Success",
+                detail: "Thêm mới thành công!",
+              });
+              this.router.navigate(["/admin/discount"]);
+            },
+            (error) => {
+              console.log(error);
+              this.messageService.add({
+                severity: "error",
+                summary: "Rejected",
+                detail: error.error.fieldErrors[0].message,
+              });
+            }
+          );
+        }
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {

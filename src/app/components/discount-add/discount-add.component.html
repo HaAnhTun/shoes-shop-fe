@@ -30,15 +30,14 @@
                     aria-describedby="emailHelp"
                     placeholder="Nhập mã khuyến mãi"
                     formControlName="code"
-                    [class.ng-invalid]="
-                      isFormControlInvalidAndTouched('discountCode')
-                    "
+                    [class.ng-invalid]="isFormControlInvalidAndTouched('code')"
+                    required
                   />
                   <small
                     class="p-error"
                     *ngIf="
-                      formDiscount.get('discountCode')?.hasError('required') &&
-                      isFormControlInvalidAndTouched('shoes')
+                      formDiscount.get('code')?.hasError('required') &&
+                      isFormControlInvalidAndTouched('code')
                     "
                   >
                     Mã khuyến mãi không được để trống.
@@ -55,7 +54,17 @@
                     aria-describedby="emailHelp"
                     placeholder="Nhập tên khuyến mãi"
                     formControlName="name"
+                    required
                   />
+                  <small
+                    class="p-error"
+                    *ngIf="
+                      formDiscount.get('name')?.hasError('required') &&
+                      isFormControlInvalidAndTouched('name')
+                    "
+                  >
+                    Tên khuyến mãi không được để trống.
+                  </small>
                 </div>
               </div>
               <div class="col-4">
@@ -76,6 +85,17 @@
                       {{ discountMethod.name }}
                     </option>
                   </select>
+                  <small
+                    class="p-error"
+                    *ngIf="
+                      formDiscount
+                        .get('discountMethod')
+                        ?.hasError('required') &&
+                      isFormControlInvalidAndTouched('discountMethod')
+                    "
+                  >
+                    Hình thức khuyến mãi không được để trống.
+                  </small>
                 </div>
               </div>
               <div
@@ -95,6 +115,17 @@
                     placeholder="Nhập số phần trăm giảm"
                     formControlName="discountAmount"
                   />
+                  <small
+                    class="p-error"
+                    *ngIf="
+                      formDiscount
+                        .get('discountAmount')
+                        ?.hasError('required') &&
+                      isFormControlInvalidAndTouched('discountAmount')
+                    "
+                  >
+                    Giảm giá không được để trống.
+                  </small>
                 </div>
               </div>
               <div class="col-4">
@@ -106,7 +137,17 @@
                     id="discountName"
                     aria-describedby="emailHelp"
                     formControlName="startDate"
+                    required=""
                   />
+                  <small
+                    class="p-error"
+                    *ngIf="
+                      formDiscount.get('startDate')?.hasError('required') &&
+                      isFormControlInvalidAndTouched('startDate')
+                    "
+                  >
+                    Ngày hiệu lực không được để trống.
+                  </small>
                 </div>
               </div>
               <div class="col-4">
@@ -118,7 +159,17 @@
                     id="discountName"
                     aria-describedby="emailHelp"
                     formControlName="endDate"
+                    required=""
                   />
+                  <small
+                    class="p-error"
+                    *ngIf="
+                      formDiscount.get('endDate')?.hasError('required') &&
+                      isFormControlInvalidAndTouched('endDate')
+                    "
+                  >
+                    Ngày hết hiệu lực không được để trống.
+                  </small>
                 </div>
               </div>
             </div>
