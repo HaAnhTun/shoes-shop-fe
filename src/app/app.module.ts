@@ -66,6 +66,13 @@ import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
 import { UserComponent } from "./components/user/user.component";
 import { BadgeModule } from "primeng/badge";
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CommonModule } from "@angular/common";
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { StyleClassModule } from 'primeng/styleclass';
+import { MenuModule } from 'primeng/menu';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,6 +95,8 @@ import { BadgeModule } from "primeng/badge";
     ColorComponent,
     SizeComponent,
     UserComponent,
+    DashboardComponent,
+    
   ],
   imports: [
     AppLayoutModule,
@@ -127,6 +136,11 @@ import { BadgeModule } from "primeng/badge";
     InputNumberModule,
     InputSwitchModule,
     BadgeModule,
+    CommonModule,
+    PanelMenuModule,
+    MenuModule,
+    StyleClassModule
+    
   ],
   providers: [
     DataViewLayoutOptions,
