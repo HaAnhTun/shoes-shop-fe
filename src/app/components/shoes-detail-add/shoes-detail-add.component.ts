@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { log, warn } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { FileRemoveEvent, FileUpload } from 'primeng/fileupload';
 import { AppConstants } from 'src/app/app-constants';
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -51,7 +52,6 @@ interface UploadEvent {
   selector: 'app-shoes-detail-add',
   templateUrl: './shoes-detail-add.component.html',
   styleUrls: ['./shoes-detail-add.component.css'],
-
 })
 export class ShoesDetailAddComponent implements OnInit {
   countries: any[] | undefined;
@@ -96,33 +96,9 @@ export class ShoesDetailAddComponent implements OnInit {
   displayTable: boolean = false;
 
   uploadedFiles: any[] = [];
+  uploadMoodelFiles: any[] = [];
 
 
-  onUpload(event: UploadEvent) {
-    for (let file of event.files) {
-      const objectTest = new FormData();
-      objectTest.append('file', file);
-      const httpOptions = {
-        headers: new HttpHeaders()
-      };
-      this.http.post<any>("http://localhost:8088/api/shoes-categories/upload", objectTest, httpOptions).subscribe(response => {
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: response.name, life: 3000 });
-      },
-        error => {
-          this.messageService.add({ severity: 'error', summary: 'ERROR', detail: error, life: 3000 });
-        });
-    }
-    this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
-  }
-
-
-  selection(event: UploadEvent) {
-    console.log('aa');
-    for (let i = 0; i < event.files.length; i++) {
-      this.uploadedFiles.push(event.files[i]);
-      console.log('Selected File at Index ' + i + ':', event.files[i]);
-    }
-  }
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router, private fb: FormBuilder) {
     this.formGroup = this.fb.group({
@@ -147,35 +123,6 @@ export class ShoesDetailAddComponent implements OnInit {
       { label: 'OUTOFSTOCK', value: 3 },
       { label: 'not available', value: 0 }
     ];
-  }
-
-  saveVariants() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to create ?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-
-      accept: () => {
-        const httpOptions = {
-          headers: new HttpHeaders({})
-        };
-        this.shoeVariants.forEach(variant => {
-          let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
-          if (isCodeFound) {
-            this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
-          } else {
-            this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes-details/', variant, httpOptions).subscribe(response => {
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Variants [' + variant.code + '] Created', life: 3000 });
-            },
-              error => {
-                this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants [' + variant.code + ']  Create Error', life: 3000 });
-              });
-          }
-        })
-        this.shoeVariants = [];
-        this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
-      }
-    });
   }
 
   fetchData() {
@@ -212,6 +159,202 @@ export class ShoesDetailAddComponent implements OnInit {
     });
   }
 
+  clearSelectedFiles() {
+    this.uploadedFiles = []
+  }
+
+  clearSelectedFilesChild() {
+    this.product.images = []
+  }
+
+  removeSelectedImage(event: FileRemoveEvent) {
+    const fileToRemove = event.file; // Assuming you want to remove the first file in the event
+    const index = this.uploadedFiles.findIndex((uploadedFile) => uploadedFile.name === fileToRemove.name);
+    if (index !== -1) {
+      this.uploadedFiles.splice(index, 1);
+      console.log(this.uploadedFiles);
+    }
+  }
+  selection(event: UploadEvent) {
+    for (let i = 0; i < event.files.length; i++) {
+      this.uploadedFiles.push(event.files[i]);
+    }
+  }
+
+  removeSelectedImageChild(event: FileRemoveEvent, produceImages: File[]) {
+    const fileToRemove = event.file; // Assuming you want to remove the first file in the event
+    const index = produceImages.findIndex((uploadedFile) => uploadedFile.name === fileToRemove.name);
+    if (index !== -1) {
+      this.shoeVariants[0].images.splice(index, 1);
+    }
+    console.log(this.uploadedFiles);
+
+    console.log(this.shoeVariants)
+  }
+
+  selectionChild(event: UploadEvent, produceImages: File[]) {
+    for (let i = 0; i < event.files.length; i++) {
+      produceImages.push(event.files[i]);
+    }
+  }
+
+
+  saveVariants() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to create ?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const httpOptions = {
+          headers: new HttpHeaders({ 'enctype': 'multipart/form-data' })
+        };
+        this.shoeVariants.forEach(variant => {
+          let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
+          if (isCodeFound) {
+            this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
+          } else {
+            const objectTest = new FormData();
+            const { images, ...variantWithoutImages } = variant;
+            console.log(variantWithoutImages);
+            let jsonBlob = new Blob([JSON.stringify(variant)], { type: 'application/json' })
+            objectTest.append('shoesDetailsDTO', jsonBlob, 'shoesDetailsDTO.json');
+            console.log(JSON.stringify(variantWithoutImages));
+            variant.images.forEach((image) => {
+              objectTest.append('images', image);
+            });
+
+            console.log(JSON.stringify(objectTest));
+            console.log(objectTest);
+
+            this.http.post<any>('http://localhost:8088/api/shoes-details-image', objectTest, httpOptions).subscribe(response => {
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Variants [' + variant.code + '] Created', life: 3000 });
+            },
+              error => {
+                this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants [' + variant.code + ']  Create Error', life: 3000 });
+              });
+          }
+        })
+        this.shoeVariants = [];
+        this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
+      }
+    });
+  }
+
+
+
+  generateShoeVariants(selectedColors: any[], selectedSizes: any[]): ShoesDetail[] {
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
+    const variants: ShoesDetail[] = [];
+    for (const color of selectedColors) {
+      for (const size of selectedSizes) {
+        const shoes = this.formGroup?.get('shoes')?.value
+        const brand = this.formGroup?.get('brand')?.value
+        const variant: ShoesDetail = {
+          shoes: { id: shoes.id, name: shoes.name },
+          status: this.formGroup?.get('checked')?.value == false ? 0 : 1,
+          quantity: this.formGroup?.get('quantity')?.value,
+          brand: { id: brand.id, name: brand.name },
+          description: this.formGroup?.get('description')?.value,
+          import_price: this.formGroup?.get('import_price')?.value,
+          price: this.formGroup?.get('price')?.value,
+          tax: this.formGroup?.get('tax')?.value,
+          code: shoes.code + brand.code + color.code + size.code,
+          color: { id: color.id, name: color.name },
+          size: { id: size.id, name: size.name },
+          images: [...this.uploadedFiles]
+        };
+        let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
+        if (isCodeFound) {
+          this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
+        } else {
+          variants.push(variant);
+          this.messageService.add({ severity: 'success', summary: 'Generate', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Generated', life: 3000 });
+        }
+      }
+    }
+
+    return variants;
+  }
+
+
+  editProduct(product: ShoesDetail) {
+    this.product = {}
+    this.product = product;
+    this.productDialog = true;
+  }
+
+  backToList() {
+    this.route.navigate(["admin/shoes-detail"])
+  }
+
+
+  showTable() {
+    if (this.formGroup.valid) {
+      const selectedColors = this.formGroup?.get('color')?.value
+      const selectedSizes = this.formGroup?.get('size')?.value
+      this.shoeVariants = this.generateShoeVariants(selectedColors, selectedSizes);
+      console.log(this.shoeVariants);
+      this.displayTable = true;
+    } else {
+      this.markAllFormControlsAsTouched(this.formGroup)
+      this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants Create Validate Error', life: 3000 });
+    }
+  }
+
+  deleteSelectedProducts() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected products?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.shoeVariants = this.shoeVariants.filter((val) => !this.selectedProducts?.includes(val));
+        this.selectedProducts = null;
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+      }
+    });
+  }
+
+
+  deleteProduct(product: ShoesDetail) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + product.shoes.name + '[' + product.color.name + ' - ' + product.size.name + ']' + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.shoeVariants = this.shoeVariants.filter((val) => val !== product);
+        this.product = {};
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+      }
+    });
+  }
+
+  getSeverity(status: any) {
+    switch (status) {
+      case 1:
+        return 'success';
+      case 2:
+        return 'warning';
+      case 3:
+        return 'danger';
+      case 0:
+        return 'danger';
+    }
+    return 'danger';
+  }
+
+  getStatus(status: number) {
+    switch (status) {
+      case 0:
+        return "Not showing"
+      case 1:
+        return 'INSTOCK';
+      case 2:
+        return 'LOWSTOCK';
+      case 3:
+        return 'OUTOFSTOCK';
+    }
+    return 'not available';
+  }
 
   filterList(event: AutoCompleteCompleteEvent, list: any[], filteredList: string) {
     let filtered: any[] = [];
@@ -243,169 +386,6 @@ export class ShoesDetailAddComponent implements OnInit {
         break;
       }
     }
-  }
-
-  generateShoeVariants(selectedColors: any[], selectedSizes: any[]): ShoesDetail[] {
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
-    const variants: ShoesDetail[] = [];
-    for (const color of selectedColors) {
-      for (const size of selectedSizes) {
-        const shoes = this.formGroup?.get('shoes')?.value
-        const brand = this.formGroup?.get('brand')?.value
-        const variant: ShoesDetail = {
-          shoes: { id: shoes.id, name: shoes.name },
-          status: this.formGroup?.get('checked')?.value == false ? 0 : 1,
-          quantity: this.formGroup?.get('quantity')?.value,
-          brand: { id: brand.id, name: brand.name },
-          description: this.formGroup?.get('description')?.value,
-          import_price: this.formGroup?.get('import_price')?.value,
-          price: this.formGroup?.get('price')?.value,
-          tax: this.formGroup?.get('tax')?.value,
-          code: shoes.code + brand.code + color.code + size.code,
-          color: { id: color.id, name: color.name },
-          size: { id: size.id, name: size.name },
-          images: this.formGroup?.get('images')?.value
-        };
-        console.log(variant);
-
-        let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
-        if (isCodeFound) {
-          this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
-        } else {
-          variants.push(variant);
-          this.messageService.add({ severity: 'success', summary: 'Generate', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Generated', life: 3000 });
-        }
-      }
-    }
-
-    return variants;
-  }
-
-
-
-  showTable() {
-    if (this.formGroup.valid) {
-      const selectedColors = this.formGroup?.get('color')?.value
-      const selectedSizes = this.formGroup?.get('size')?.value
-      this.shoeVariants = this.generateShoeVariants(selectedColors, selectedSizes);
-      console.log(this.shoeVariants);
-      this.displayTable = true;
-    } else {
-      this.markAllFormControlsAsTouched(this.formGroup)
-      this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants Create Validate Error', life: 3000 });
-    }
-  }
-
-
-
-  showMixedData() {
-    const selectedColors = this.formGroup?.get('color')?.value
-    const selectedSizes = this.formGroup?.get('size')?.value
-    const shoeVariants: ShoesDetail[] = this.generateShoeVariants(selectedColors, selectedSizes);
-    console.log(shoeVariants);
-  }
-
-  alertForm() {
-    alert(JSON.stringify(this.formGroup.value));
-    const selectedColors = this.formGroup?.get('color')?.value
-    const selectedSizes = this.formGroup?.get('size')?.value
-    const shoes = this.formGroup?.get('shoes')?.value
-    console.log(shoes.id);
-    console.log(selectedColors);
-    console.log(selectedSizes);
-  }
-
-
-  openNew() {
-    this.route.navigate(["admin/shoes-detail-add"])
-  }
-
-
-  deleteSelectedProducts() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.shoeVariants = this.shoeVariants.filter((val) => !this.selectedProducts?.includes(val));
-        this.selectedProducts = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-      }
-    });
-  }
-
-  editProduct(product: ShoesDetail) {
-    this.product = product;
-    this.productDialog = true;
-  }
-
-  deleteProduct(product: ShoesDetail) {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + product.shoes.name + '[' + product.color.name + ' - ' + product.size.name + ']' + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.shoeVariants = this.shoeVariants.filter((val) => val !== product);
-        this.product = {};
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-      }
-    });
-  }
-
-  hideDialog() {
-    this.productDialog = false;
-    this.submitted = false;
-  }
-
-  saveProduct() {
-    this.submitted = true;
-    if (this.product) {
-      this.shoeVariants[this.findIndexById(this.product)] = this.product;
-      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-    }
-    this.shoeVariants = [...this.shoeVariants];
-    this.productDialog = false;
-    this.product = {};
-
-  }
-
-  findIndexById(product: ShoesDetail): number {
-    let index = -1;
-    for (let i = 0; i < this.shoeVariants.length; i++) {
-      if (this.shoeVariants[i].code === product.code) {
-        index = i;
-        break;
-      }
-    }
-    return index;
-  }
-
-  getSeverity(status: any) {
-    switch (status) {
-      case 1:
-        return 'success';
-      case 2:
-        return 'warning';
-      case 3:
-        return 'danger';
-      case 0:
-        return 'danger';
-    }
-    return 'danger';
-  }
-
-  getStatus(status: number) {
-    switch (status) {
-      case 0:
-        return "Not showing"
-      case 1:
-        return 'INSTOCK';
-      case 2:
-        return 'LOWSTOCK';
-      case 3:
-        return 'OUTOFSTOCK';
-    }
-    return 'not available';
   }
 
 }
