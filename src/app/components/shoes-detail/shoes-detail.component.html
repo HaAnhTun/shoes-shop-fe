@@ -15,7 +15,7 @@
 
     <p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
         [globalFilterFields]="['shoes.name', 'code']" [tableStyle]="{ 'min-width': '75rem' }"
-        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id" [filter]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
@@ -59,7 +59,7 @@
                 <td>{{ product.price }}</td>
                 <td>{{ product.quantity }}</td>
                 <td>
-                    <p-tag [value]="getStatus(product.status)" [severity]="getSeverity(product.status)"></p-tag>
+                    <p-tag [value]="getStatus(product.quantity)" [severity]="getSeverity(product.quantity)"></p-tag>
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
