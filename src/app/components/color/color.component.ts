@@ -14,6 +14,21 @@ export class ColorComponent implements OnInit {
   codeError: boolean = false;
   nameError: boolean = false;
   descriptionError: boolean = false;
+  searchText: string = '';
+  filteredColors: ColorData[] = [];
+
+  onSearchInputChange() {
+    this.filterColors();
+  }
+  
+  filterColors() {
+    this.filteredColors = this.Color.filter((b) => {
+      return (
+        b.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        b.name.toLowerCase().includes(this.searchText.toLowerCase()) 
+      );
+    });
+  }
   validateField(field: string) {
     switch (field) {
       case 'code':

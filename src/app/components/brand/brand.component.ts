@@ -14,6 +14,8 @@ export class BrandComponent implements OnInit {
   codeError: boolean = false;
   nameError: boolean = false;
   descriptionError: boolean = false;
+  searchText: string = '';
+  filteredBrands: BrandData[] = [];
   validateField(field: string) {
     switch (field) {
       case 'code':
@@ -51,6 +53,20 @@ export class BrandComponent implements OnInit {
     ];
   }
 
+  onSearchInputChange() {
+    this.filterBrands();
+  }
+  
+  filterBrands() {
+    this.filteredBrands = this.brand.filter((b) => {
+      return (
+        b.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        b.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        b.description.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    });
+  }
+  
   onRowEditInit(brand: BrandData) {
     this.clonedBrands[brand.id as number] = { ...brand };
   }
