@@ -32,15 +32,9 @@ const routes: Routes = [
       { path: "shoes", component: ProductComponent },
       {
         path: "shoes-category",
-       
         component: ShoesCategoryComponent,
       },
       { path: "brand", component: BrandComponent },
-      { path: "discount", component: DiscountComponent },
-      { path: "discount-add", component: DiscountAddComponent },
-      { path: "discount-details/:id", component: DiscountAddComponent },
-      { path: "color", component: ColorComponent },
-      { path: "size", component: SizeComponent },
       { path: "discount", component: DiscountComponent },
       { path: "discount-add", component: DiscountAddComponent },
       { path: "discount-details/:id", component: DiscountAddComponent },

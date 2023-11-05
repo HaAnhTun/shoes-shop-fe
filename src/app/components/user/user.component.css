@@ -50,58 +50,6 @@ body{
 }
 .th{
     display: flex;
-}body{
-    background-color: #fff;
-    font-family: "HelveticaNeue-Bold", Helvetica;
-}
-.add-user{
-    position: relative;
-    height: 40px;
-}
-.add-user .add-button{
-    border: 1px solid;
-    border-radius: 4px;
-    width: 100px;
-    height: 40px;
-    position: absolute;
-    right: 30px;
-}
-.add-user .pi-plus{
-    position: absolute;
-    left: 5px;
-    top: 11px;
-}
-.add-user .add-text{
-    position: absolute;
-    left: 25px;
-    top: 11px;
-}
-.group-input{
-    margin: 0px 15px 15px 15px;
-}
-.input100{
-    width: 300px;
-    height: 40px;
-    border-radius: 8px;
-    padding: 0 4px 0 15px;
-}
-.button{
-    margin-top: 25px;
-    position: relative;
-    padding-left: 15px;
-}
-.btnAdd{
-    border: 1px solid;
-    border-radius: 4px;
-    width: 80px;
-    height: 30px;
-    text-align: center;
-}
-.button-container {
-    display: flex;
-}
-.th{
-    display: flex;
 }
 .p-autocomplete {
     max-width: 80px; /* Đặt giá trị max-width bạn muốn */
