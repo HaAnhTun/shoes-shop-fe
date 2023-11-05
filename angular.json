@@ -14,7 +14,6 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [],
-            "allowedCommonJsDependencies": [],
             "outputPath": "dist/my-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -23,7 +22,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
 
-              "src/cus-css.scss",
+              "src/cus-css.scss"
 
             ],
             "scripts": ["node_modules/chart.js/dist/chart.js"]

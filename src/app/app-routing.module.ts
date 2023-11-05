@@ -19,11 +19,6 @@ import { DiscountAddComponent } from "./components/discount-add/discount-add.com
 import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
 import { UserComponent } from "./components/user/user.component";
-import { DiscountComponent } from "./components/discount/discount.component";
-import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
-import { ColorComponent } from "./components/color/color.component";
-import { SizeComponent } from "./components/size/size.component";
-import { UserComponent } from "./components/user/user.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 const routes: Routes = [
   { ///ADMIN LINKS
@@ -38,7 +33,7 @@ const routes: Routes = [
       {
         path: "shoes-category",
        
-        component: ShoesCategoryComponent,,
+        component: ShoesCategoryComponent,
       },
       { path: "brand", component: BrandComponent },
       { path: "discount", component: DiscountComponent },
@@ -55,7 +50,6 @@ const routes: Routes = [
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: "users", component: UserComponent}
-      { path: "users", component: UserComponent}
     ],
   },
   /////CLIENT-LINKs
@@ -68,12 +62,10 @@ const routes: Routes = [
   { path: "shoes-categories", component: ShoesCategoryComponent },
   { path: "**", component: LoginComponent },
   { path: "users", component: UserComponent}
-  { path: "users", component: UserComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
 export class AppRoutingModule {}

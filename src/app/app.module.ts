@@ -66,13 +66,6 @@ import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
 import { UserComponent } from "./components/user/user.component";
 import { BadgeModule } from "primeng/badge";
-import { DiscountAddComponent } from "./components/discount-add/discount-add.component";
-import { InputNumberModule } from "primeng/inputnumber";
-import { InputSwitchModule } from "primeng/inputswitch";
-import { ColorComponent } from "./components/color/color.component";
-import { SizeComponent } from "./components/size/size.component";
-import { UserComponent } from "./components/user/user.component";
-import { BadgeModule } from "primeng/badge";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CommonModule } from "@angular/common";
 import { PanelMenuModule } from 'primeng/panelmenu';
@@ -98,10 +91,6 @@ import { MenuModule } from 'primeng/menu';
     ShoesDetailComponent,
     ShoesDetailAddComponent,
     DiscountComponent,
-    DiscountAddComponent,
-    ColorComponent,
-    SizeComponent,
-    UserComponent
     DiscountAddComponent,
     ColorComponent,
     SizeComponent,
