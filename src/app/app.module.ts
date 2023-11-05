@@ -96,7 +96,7 @@ import { MenuModule } from 'primeng/menu';
     SizeComponent,
     UserComponent,
     DashboardComponent,
-    
+
   ],
   imports: [
     AppLayoutModule,
@@ -139,8 +139,9 @@ import { MenuModule } from 'primeng/menu';
     CommonModule,
     PanelMenuModule,
     MenuModule,
-    StyleClassModule
-    
+    StyleClassModule,
+
+
   ],
   providers: [
     DataViewLayoutOptions,
@@ -151,4 +152,4 @@ import { MenuModule } from 'primeng/menu';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

@@ -215,17 +215,11 @@ export class ShoesDetailAddComponent implements OnInit {
           } else {
             const objectTest = new FormData();
             const { images, ...variantWithoutImages } = variant;
-            console.log(variantWithoutImages);
             let jsonBlob = new Blob([JSON.stringify(variant)], { type: 'application/json' })
             objectTest.append('shoesDetailsDTO', jsonBlob, 'shoesDetailsDTO.json');
-            console.log(JSON.stringify(variantWithoutImages));
             variant.images.forEach((image) => {
               objectTest.append('images', image);
             });
-
-            console.log(JSON.stringify(objectTest));
-            console.log(objectTest);
-
             this.http.post<any>('http://localhost:8088/api/shoes-details-image', objectTest, httpOptions).subscribe(response => {
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Variants [' + variant.code + '] Created', life: 3000 });
             },
@@ -272,6 +266,7 @@ export class ShoesDetailAddComponent implements OnInit {
         }
       }
     }
+    console.log(variants);
 
     return variants;
   }
@@ -292,7 +287,7 @@ export class ShoesDetailAddComponent implements OnInit {
     if (this.formGroup.valid) {
       const selectedColors = this.formGroup?.get('color')?.value
       const selectedSizes = this.formGroup?.get('size')?.value
-      this.shoeVariants = this.generateShoeVariants(selectedColors, selectedSizes);
+      this.shoeVariants = [...this.generateShoeVariants(selectedColors, selectedSizes)];
       console.log(this.shoeVariants);
       this.displayTable = true;
     } else {
@@ -345,15 +340,11 @@ export class ShoesDetailAddComponent implements OnInit {
   getStatus(status: number) {
     switch (status) {
       case 0:
-        return "Not showing"
+        return "Không hiển thị"
       case 1:
-        return 'INSTOCK';
-      case 2:
-        return 'LOWSTOCK';
-      case 3:
-        return 'OUTOFSTOCK';
+        return 'Hiển thị';
     }
-    return 'not available';
+    return 'Không hiển thị';
   }
 
   filterList(event: AutoCompleteCompleteEvent, list: any[], filteredList: string) {
