@@ -10,7 +10,7 @@ import { LayoutService } from "./service/app.layout.service";
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) {}
+  constructor(public layoutService: LayoutService) { }
 
   ngOnInit() {
     this.model = [
@@ -57,32 +57,7 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-shopping-bag",
             routerLink: ["/admin/oder"],
           },
-          {
-            label: "Input",
-            icon: "pi pi-fw pi-check-square",
-            routerLink: ["/uikit/input"],
-          },
-          {
-            label: "Auth",
-            icon: "pi pi-fw pi-user",
-            items: [
-              {
-                label: "Login",
-                icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/auth/login"],
-              },
-              {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
-              },
-              {
-                label: "Access Denied",
-                icon: "pi pi-fw pi-lock",
-                routerLink: ["/auth/access"],
-              },
-            ],
-          },
+
         ],
       },
       {
@@ -102,11 +77,6 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-inbox",
                 routerLink: ["/admin/shoes-detail"],
               },
-              {
-                label: "Access Denied",
-                icon: "pi pi-fw pi-lock",
-                routerLink: ["/auth/access"],
-              },
             ],
           },
           {
@@ -114,19 +84,9 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-tag",
             items: [
               {
-                label: "Login",
+                label: "Categories (testing)",
                 icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/auth/login"],
-              },
-              {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
-              },
-              {
-                label: "Access Denied",
-                icon: "pi pi-fw pi-lock",
-                routerLink: ["/auth/access"],
+                routerLink: ["/admin/shoes-category"],
               },
             ],
           },
@@ -139,16 +99,6 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-briefcase",
                 routerLink: ["/admin/brand"],
               },
-              {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
-              },
-              {
-                label: "Access Denied",
-                icon: "pi pi-fw pi-lock",
-                routerLink: ["/auth/access"],
-              },
             ],
           },
           {
@@ -159,17 +109,7 @@ export class AppMenuComponent implements OnInit {
                 label: "Màu sắc",
                 icon: "pi pi-fw pi-circle-fill",
                 routerLink: ["/admin/color"],
-              },
-              {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
-              },
-              {
-                label: "Access Denied",
-                icon: "pi pi-fw pi-lock",
-                routerLink: ["/auth/access"],
-              },
+              }
             ],
           },
           {
@@ -181,16 +121,6 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-sitemap",
                 routerLink: ["/admin/size"],
               },
-              {
-                label: "Error",
-                icon: "pi pi-fw pi-times-circle",
-                routerLink: ["/auth/error"],
-              },
-              {
-                label: "Access Denied",
-                icon: "pi pi-fw pi-lock",
-                routerLink: ["/auth/access"],
-              },
             ],
           },
         ],
@@ -201,7 +131,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Khách Hàng",
             icon: "pi pi-fw pi-users",
-            routerLink: ["/utilities/icons"],
+            routerLink: ["/admin/users"],
           },
         ],
       },
@@ -212,17 +142,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Chương trình giảm giá",
             icon: "pi pi-fw pi-globe",
-            routerLink: ["/landing"],
-          },
-          {
-            label: "Quản lý voucher",
-            icon: "pi pi-fw pi-ticket",
-            routerLink: ["/notfound"],
-          },
-          {
-            label: "Empty",
-            icon: "pi pi-fw pi-circle-off",
-            routerLink: ["/pages/empty"],
+            routerLink: ["/admin/discount"],
           },
         ],
       },

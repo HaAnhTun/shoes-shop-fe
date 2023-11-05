@@ -1,22 +1,11 @@
 <ul class="layout-menu">
   <ng-container *ngFor="let item of model; let i = index">
-    <li
-      app-menuitem
-      *ngIf="!item.separator"
-      [item]="item"
-      [index]="i"
-      [root]="true"
-      class="menu-item"
-    ></li>
+    <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true" class="menu-item"></li>
     <li *ngIf="item.separator" class="menu-separator"></li>
   </ng-container>
   <li class="menu-logo">
     <a href="https://www.primefaces.org/primeblocks-ng/#/">
-      <img
-        src="assets/layout/images/{{ layoutService.config.colorScheme === 'light' ? 'banner-primeblocks' : 'banner-primeblocks-dark' }}.png"
-        alt="Prime Blocks"
-        class="w-full mt-1"
-      />
+      <img src="assets/images/sp.png" alt="Prime Blocks" class="w-full mt-1" />
     </a>
   </li>
 </ul>
