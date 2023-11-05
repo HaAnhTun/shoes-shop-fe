@@ -70,7 +70,6 @@ export class ShoesDetailComponent {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-
         this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + product.id).subscribe(response => {
           console.log(response); this.products = this.products.filter((val) => val.id !== product.id);
           this.product = {};
