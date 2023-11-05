@@ -10,7 +10,8 @@
     </p-dialog>
     
     <p-toast></p-toast>
-    <p-table [value]="Size" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+    <input pInputText type="text" placeholder="Search Sizes" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
+    <p-table [value]="filteredSizes.length ? filteredSizes : Size" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
         <ng-template pTemplate="header">
             <tr>
                 <th>ID</th>
