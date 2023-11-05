@@ -19,8 +19,8 @@ export class LoginComponent {
     private router: Router,
     public http: HttpClient,
     private loginservice: LoginService,
-    private messageService : MessageService
-  ) { }
+    private messageService: MessageService
+  ) {}
 
   isValid = true;
 
@@ -31,30 +31,28 @@ export class LoginComponent {
     }
   }
 
-  onLogin() { }
+  onLogin() {}
 
   login() {
-    this.loginservice.login(this.loginUser).subscribe(
-      {
-        next: (body: any) => {
-          if (body && body?.id_token) {
-            sessionStorage.setItem("access_token", body?.id_token);
-            this.router.navigate(['admin/users']);
-          } else {
-            this.isValid = false;
-          }
-        },
-        error: (error) => {
-          console.error(error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Login Error',
-            life: 3000
-          });
+    this.loginservice.login(this.loginUser).subscribe({
+      next: (body: any) => {
+        if (body && body?.id_token) {
+          sessionStorage.setItem("access_token", body?.id_token);
+          this.router.navigate(["admin/users"]);
+        } else {
+          this.isValid = false;
         }
-      }
-    )
+      },
+      error: (error) => {
+        console.error(error);
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Login Error",
+          life: 3000,
+        });
+      },
+    });
   }
   clickOauth2(): void {
     location.replace(
