@@ -20,6 +20,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <h5 class="m-0">Chi Tiết Sản Phẩm</h5>
+                <h5 class="m-0">Chi Tiết Sản Phẩm</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -36,6 +37,9 @@
                 <th pSortableColumn="shoes.name" style="min-width:15rem">Tên Sản Phẩm <p-sortIcon
                         field="shoes.name"></p-sortIcon>
                 </th>
+                <th pSortableColumn="tax" style="min-width:10rem">Thuế <p-sortIcon field="tax"></p-sortIcon>
+                <th pSortableColumn="import_price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
+                        field="import_price"></p-sortIcon>
                 <th pSortableColumn="tax" style="min-width:10rem">Thuế <p-sortIcon field="tax"></p-sortIcon>
                 <th pSortableColumn="import_price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
                         field="import_price"></p-sortIcon>
@@ -56,10 +60,12 @@
                 <td>{{ product.shoes.name }}</td>
                 <td>{{ product.tax }}</td>
                 <td>{{ product.import_price }}</td>
+                <td>{{ product.tax }}</td>
+                <td>{{ product.import_price }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.quantity }}</td>
                 <td>
-                    <p-tag [value]="getStatus(product.status)" [severity]="getSeverity(product.status)"></p-tag>
+                    <p-tag [value]="getStatus(product.quantity)" [severity]="getSeverity(product.quantity)"></p-tag>
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"

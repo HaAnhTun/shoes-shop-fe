@@ -19,8 +19,8 @@ export class LoginComponent {
     private router: Router,
     public http: HttpClient,
     private loginservice: LoginService,
-    private messageService : MessageService
-  ) { }
+    private messageService : MessageService,
+  ) {}
 
   isValid = true;
 
@@ -31,7 +31,7 @@ export class LoginComponent {
     }
   }
 
-  onLogin() { }
+  onLogin() {}
 
   login() {
     this.loginservice.login(this.loginUser).subscribe(
