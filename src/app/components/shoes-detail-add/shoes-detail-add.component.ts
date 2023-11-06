@@ -1,12 +1,17 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { log, warn } from 'console';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { FileRemoveEvent, FileUpload } from 'primeng/fileupload';
-import { AppConstants } from 'src/app/app-constants';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { log, warn } from "console";
+import { ConfirmationService, MessageService } from "primeng/api";
+import { FileRemoveEvent, FileUpload } from "primeng/fileupload";
+import { AppConstants } from "src/app/app-constants";
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -15,7 +20,8 @@ interface AutoCompleteCompleteEvent {
 interface expandedRows {
   [key: string]: boolean;
 }
-interface ShoesDetail {
+export interface ShoesDetail {
+  id?: number;
   code: string;
   price: number;
   import_price: number;
@@ -40,7 +46,6 @@ interface ShoesDetail {
     id: number;
     name: string;
   };
-
 }
 
 interface UploadEvent {
@@ -49,9 +54,9 @@ interface UploadEvent {
 }
 
 @Component({
-  selector: 'app-shoes-detail-add',
-  templateUrl: './shoes-detail-add.component.html',
-  styleUrls: ['./shoes-detail-add.component.css'],
+  selector: "app-shoes-detail-add",
+  templateUrl: "./shoes-detail-add.component.html",
+  styleUrls: ["./shoes-detail-add.component.css"],
 })
 export class ShoesDetailAddComponent implements OnInit {
   countries: any[] | undefined;
@@ -59,12 +64,11 @@ export class ShoesDetailAddComponent implements OnInit {
   shoesVariantsList: any[];
   selectedCountry: any;
 
-
   expandedRows: expandedRows = {};
 
   productDialog: boolean = false;
 
-  shoes: any[];  //products mean shoes 
+  shoes: any[]; //products mean shoes
 
   brands: any[];
 
@@ -92,24 +96,40 @@ export class ShoesDetailAddComponent implements OnInit {
 
   checked: boolean = false;
 
-  shoes_detail: ShoesDetail
+  shoes_detail: ShoesDetail;
   displayTable: boolean = false;
 
   uploadedFiles: any[] = [];
   uploadMoodelFiles: any[] = [];
 
-
-
-  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router, private fb: FormBuilder) {
+  constructor(
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private http: HttpClient,
+    private route: Router,
+    private fb: FormBuilder
+  ) {
     this.formGroup = this.fb.group({
       shoes: [null, Validators.required],
       checked: [false, Validators.required],
       brand: [null, Validators.required],
       description: [null, Validators.required],
-      import_price: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
-      quantity: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
-      price: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
-      tax: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]],
+      import_price: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(999999999)],
+      ],
+      quantity: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(999999999)],
+      ],
+      price: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(999999999)],
+      ],
+      tax: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(999999999)],
+      ],
       color: [null, Validators.required],
       size: [null, Validators.required],
     });
@@ -118,26 +138,46 @@ export class ShoesDetailAddComponent implements OnInit {
   ngOnInit() {
     this.fetchData();
     this.statuses = [
-      { label: 'INSTOCK', value: 1 },
-      { label: 'LOWSTOCK', value: 2 },
-      { label: 'OUTOFSTOCK', value: 3 },
-      { label: 'not available', value: 0 }
+      { label: "INSTOCK", value: 1 },
+      { label: "LOWSTOCK", value: 2 },
+      { label: "OUTOFSTOCK", value: 3 },
+      { label: "not available", value: 0 },
     ];
   }
 
   fetchData() {
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes").subscribe((response) => { this.shoes = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/brands").subscribe((response) => { this.brands = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/sizes").subscribe((response) => { this.sizes = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/colors").subscribe((response) => { this.colors = response });
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/shoes")
+      .subscribe((response) => {
+        this.shoes = response;
+      });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/brands")
+      .subscribe((response) => {
+        this.brands = response;
+      });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/sizes")
+      .subscribe((response) => {
+        this.sizes = response;
+      });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/colors")
+      .subscribe((response) => {
+        this.colors = response;
+      });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details")
+      .subscribe((response) => {
+        this.shoesVariantsList = response;
+      });
   }
 
   /**
-  * Kiểm tra xem FormControl đã bị lỗi và đã được tương tác (click) hay chưa.
-  * @param controlName Tên của FormControl cần kiểm tra
-  * @returns True nếu FormControl có lỗi và đã được tương tác, ngược lại trả về false hoặc undefined
-  */
+   * Kiểm tra xem FormControl đã bị lỗi và đã được tương tác (click) hay chưa.
+   * @param controlName Tên của FormControl cần kiểm tra
+   * @returns True nếu FormControl có lỗi và đã được tương tác, ngược lại trả về false hoặc undefined
+   */
   isFormControlInvalidAndTouched(controlName: string): boolean | undefined {
     // Lấy FormControl từ FormGroup bằng cách sử dụng tên của FormControl
     const control = this.formGroup.get(controlName);
@@ -155,21 +195,22 @@ export class ShoesDetailAddComponent implements OnInit {
       // Lấy ra FormControl tương ứng từ FormGroup
       const control = formGroup.get(controlName);
       control.markAsTouched({ onlySelf: true });
-
     });
   }
 
   clearSelectedFiles() {
-    this.uploadedFiles = []
+    this.uploadedFiles = [];
   }
 
   clearSelectedFilesChild() {
-    this.product.images = []
+    this.product.images = [];
   }
 
   removeSelectedImage(event: FileRemoveEvent) {
     const fileToRemove = event.file; // Assuming you want to remove the first file in the event
-    const index = this.uploadedFiles.findIndex((uploadedFile) => uploadedFile.name === fileToRemove.name);
+    const index = this.uploadedFiles.findIndex(
+      (uploadedFile) => uploadedFile.name === fileToRemove.name
+    );
     if (index !== -1) {
       this.uploadedFiles.splice(index, 1);
       console.log(this.uploadedFiles);
@@ -183,13 +224,15 @@ export class ShoesDetailAddComponent implements OnInit {
 
   removeSelectedImageChild(event: FileRemoveEvent, produceImages: File[]) {
     const fileToRemove = event.file; // Assuming you want to remove the first file in the event
-    const index = produceImages.findIndex((uploadedFile) => uploadedFile.name === fileToRemove.name);
+    const index = produceImages.findIndex(
+      (uploadedFile) => uploadedFile.name === fileToRemove.name
+    );
     if (index !== -1) {
       this.shoeVariants[0].images.splice(index, 1);
     }
     console.log(this.uploadedFiles);
 
-    console.log(this.shoeVariants)
+    console.log(this.shoeVariants);
   }
 
   selectionChild(event: UploadEvent, produceImages: File[]) {
@@ -198,77 +241,158 @@ export class ShoesDetailAddComponent implements OnInit {
     }
   }
 
-
   saveVariants() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to create ?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message: "Are you sure you want to create ?",
+      header: "Confirm",
+      icon: "pi pi-exclamation-triangle",
       accept: () => {
         const httpOptions = {
-          headers: new HttpHeaders({ 'enctype': 'multipart/form-data' })
+          headers: new HttpHeaders({ enctype: "multipart/form-data" }),
         };
-        this.shoeVariants.forEach(variant => {
-          let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
+        this.shoeVariants.forEach((variant) => {
+          let isCodeFound = this.shoesVariantsList.some(
+            (v) => v.code == variant.code
+          );
           if (isCodeFound) {
-            this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
+            this.messageService.add({
+              severity: "warning",
+              summary: "Exist",
+              detail:
+                "Variants " +
+                variant.shoes.name +
+                "-" +
+                variant.brand.name +
+                "[" +
+                variant.color.name +
+                "-" +
+                variant.size.name +
+                "]" +
+                " Existed",
+              life: 3000,
+            });
           } else {
             const objectTest = new FormData();
             const { images, ...variantWithoutImages } = variant;
             console.log(variantWithoutImages);
-            let jsonBlob = new Blob([JSON.stringify(variant)], { type: 'application/json' })
-            objectTest.append('shoesDetailsDTO', jsonBlob, 'shoesDetailsDTO.json');
+            let jsonBlob = new Blob([JSON.stringify(variant)], {
+              type: "application/json",
+            });
+            objectTest.append(
+              "shoesDetailsDTO",
+              jsonBlob,
+              "shoesDetailsDTO.json"
+            );
             console.log(JSON.stringify(variantWithoutImages));
             variant.images.forEach((image) => {
-              objectTest.append('images', image);
+              objectTest.append("images", image);
             });
 
             console.log(JSON.stringify(objectTest));
             console.log(objectTest);
 
-            this.http.post<any>('http://localhost:8088/api/shoes-details-image', objectTest, httpOptions).subscribe(response => {
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Variants [' + variant.code + '] Created', life: 3000 });
-            },
-              error => {
-                this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants [' + variant.code + ']  Create Error', life: 3000 });
-              });
+            this.http
+              .post<any>(
+                "http://localhost:8088/api/shoes-details-image",
+                objectTest,
+                httpOptions
+              )
+              .subscribe(
+                (response) => {
+                  this.messageService.add({
+                    severity: "success",
+                    summary: "Successful",
+                    detail: "Variants [" + variant.code + "] Created",
+                    life: 3000,
+                  });
+                },
+                (error) => {
+                  this.messageService.add({
+                    severity: "error",
+                    summary: "ERROR",
+                    detail: "Variants [" + variant.code + "]  Create Error",
+                    life: 3000,
+                  });
+                }
+              );
           }
-        })
+        });
         this.shoeVariants = [];
-        this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
-      }
+        this.http
+          .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details")
+          .subscribe((response) => {
+            this.shoesVariantsList = response;
+          });
+      },
     });
   }
 
-
-
-  generateShoeVariants(selectedColors: any[], selectedSizes: any[]): ShoesDetail[] {
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.shoesVariantsList = response });
+  generateShoeVariants(
+    selectedColors: any[],
+    selectedSizes: any[]
+  ): ShoesDetail[] {
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details")
+      .subscribe((response) => {
+        this.shoesVariantsList = response;
+      });
     const variants: ShoesDetail[] = [];
     for (const color of selectedColors) {
       for (const size of selectedSizes) {
-        const shoes = this.formGroup?.get('shoes')?.value
-        const brand = this.formGroup?.get('brand')?.value
+        const shoes = this.formGroup?.get("shoes")?.value;
+        const brand = this.formGroup?.get("brand")?.value;
         const variant: ShoesDetail = {
           shoes: { id: shoes.id, name: shoes.name },
-          status: this.formGroup?.get('checked')?.value == false ? 0 : 1,
-          quantity: this.formGroup?.get('quantity')?.value,
+          status: this.formGroup?.get("checked")?.value == false ? 0 : 1,
+          quantity: this.formGroup?.get("quantity")?.value,
           brand: { id: brand.id, name: brand.name },
-          description: this.formGroup?.get('description')?.value,
-          import_price: this.formGroup?.get('import_price')?.value,
-          price: this.formGroup?.get('price')?.value,
-          tax: this.formGroup?.get('tax')?.value,
+          description: this.formGroup?.get("description")?.value,
+          import_price: this.formGroup?.get("import_price")?.value,
+          price: this.formGroup?.get("price")?.value,
+          tax: this.formGroup?.get("tax")?.value,
           code: shoes.code + brand.code + color.code + size.code,
           color: { id: color.id, name: color.name },
           size: { id: size.id, name: size.name },
-          images: [...this.uploadedFiles]
+          images: [...this.uploadedFiles],
         };
-        let isCodeFound = this.shoesVariantsList.some(v => v.code == variant.code);
+        let isCodeFound = this.shoesVariantsList.some(
+          (v) => v.code == variant.code
+        );
         if (isCodeFound) {
-          this.messageService.add({ severity: 'warning', summary: 'Exist', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Existed', life: 3000 });
+          this.messageService.add({
+            severity: "warning",
+            summary: "Exist",
+            detail:
+              "Variants " +
+              variant.shoes.name +
+              "-" +
+              variant.brand.name +
+              "[" +
+              variant.color.name +
+              "-" +
+              variant.size.name +
+              "]" +
+              " Existed",
+            life: 3000,
+          });
         } else {
           variants.push(variant);
-          this.messageService.add({ severity: 'success', summary: 'Generate', detail: 'Variants ' + variant.shoes.name + '-' + variant.brand.name + '[' + variant.color.name + '-' + variant.size.name + ']' + ' Generated', life: 3000 });
+          this.messageService.add({
+            severity: "success",
+            summary: "Generate",
+            detail:
+              "Variants " +
+              variant.shoes.name +
+              "-" +
+              variant.brand.name +
+              "[" +
+              variant.color.name +
+              "-" +
+              variant.size.name +
+              "]" +
+              " Generated",
+            life: 3000,
+          });
         }
       }
     }
@@ -276,87 +400,116 @@ export class ShoesDetailAddComponent implements OnInit {
     return variants;
   }
 
-
   editProduct(product: ShoesDetail) {
-    this.product = {}
+    this.product = {};
     this.product = product;
     this.productDialog = true;
   }
 
   backToList() {
-    this.route.navigate(["admin/shoes-detail"])
+    this.route.navigate(["admin/shoes-detail"]);
   }
-
 
   showTable() {
     if (this.formGroup.valid) {
-      const selectedColors = this.formGroup?.get('color')?.value
-      const selectedSizes = this.formGroup?.get('size')?.value
-      this.shoeVariants = this.generateShoeVariants(selectedColors, selectedSizes);
+      const selectedColors = this.formGroup?.get("color")?.value;
+      const selectedSizes = this.formGroup?.get("size")?.value;
+      this.shoeVariants = this.generateShoeVariants(
+        selectedColors,
+        selectedSizes
+      );
       console.log(this.shoeVariants);
       this.displayTable = true;
     } else {
-      this.markAllFormControlsAsTouched(this.formGroup)
-      this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Variants Create Validate Error', life: 3000 });
+      this.markAllFormControlsAsTouched(this.formGroup);
+      this.messageService.add({
+        severity: "error",
+        summary: "ERROR",
+        detail: "Variants Create Validate Error",
+        life: 3000,
+      });
     }
   }
 
   deleteSelectedProducts() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message: "Are you sure you want to delete the selected products?",
+      header: "Confirm",
+      icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.shoeVariants = this.shoeVariants.filter((val) => !this.selectedProducts?.includes(val));
+        this.shoeVariants = this.shoeVariants.filter(
+          (val) => !this.selectedProducts?.includes(val)
+        );
         this.selectedProducts = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-      }
+        this.messageService.add({
+          severity: "success",
+          summary: "Successful",
+          detail: "Products Deleted",
+          life: 3000,
+        });
+      },
     });
   }
 
-
   deleteProduct(product: ShoesDetail) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + product.shoes.name + '[' + product.color.name + ' - ' + product.size.name + ']' + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
+      message:
+        "Are you sure you want to delete " +
+        product.shoes.name +
+        "[" +
+        product.color.name +
+        " - " +
+        product.size.name +
+        "]" +
+        "?",
+      header: "Confirm",
+      icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.shoeVariants = this.shoeVariants.filter((val) => val !== product);
         this.product = {};
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-      }
+        this.messageService.add({
+          severity: "success",
+          summary: "Successful",
+          detail: "Product Deleted",
+          life: 3000,
+        });
+      },
     });
   }
 
   getSeverity(status: any) {
     switch (status) {
       case 1:
-        return 'success';
+        return "success";
       case 2:
-        return 'warning';
+        return "warning";
       case 3:
-        return 'danger';
+        return "danger";
       case 0:
-        return 'danger';
+        return "danger";
     }
-    return 'danger';
+    return "danger";
   }
 
   getStatus(status: number) {
     switch (status) {
       case 0:
-        return "Not showing"
+        return "Not showing";
       case 1:
-        return 'INSTOCK';
+        return "INSTOCK";
       case 2:
-        return 'LOWSTOCK';
+        return "LOWSTOCK";
       case 3:
-        return 'OUTOFSTOCK';
+        return "OUTOFSTOCK";
     }
-    return 'not available';
+    return "not available";
   }
 
-  filterList(event: AutoCompleteCompleteEvent, list: any[], filteredList: string) {
+  filterList(
+    event: AutoCompleteCompleteEvent,
+    list: any[],
+    filteredList: string
+  ) {
     let filtered: any[] = [];
     let query = event.query;
     for (let i = 0; i < list.length; i++) {
@@ -366,19 +519,19 @@ export class ShoesDetailAddComponent implements OnInit {
       }
     }
     switch (filteredList) {
-      case 'shoes': {
+      case "shoes": {
         this.filteredShoes = filtered;
         break;
       }
-      case 'brands': {
+      case "brands": {
         this.filteredBrands = filtered;
         break;
       }
-      case 'sizes': {
+      case "sizes": {
         this.filteredSizes = filtered;
         break;
       }
-      case 'colors': {
+      case "colors": {
         this.filteredColors = filtered;
         break;
       }
@@ -387,5 +540,4 @@ export class ShoesDetailAddComponent implements OnInit {
       }
     }
   }
-
 }
