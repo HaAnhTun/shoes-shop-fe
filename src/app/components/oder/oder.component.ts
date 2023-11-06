@@ -90,7 +90,7 @@ export class OderComponent implements OnInit {
       }),
       paymentMethod: [""],
       paymentStatus: [""],
-      totalPrice: [{ value: "", disabled: true }],
+      totalPrice: [""],
       status: [""],
       orderDetailsDTOList: this.fb.array<FormArray>([]),
     });
@@ -261,13 +261,15 @@ export class OderComponent implements OnInit {
           this.orderDetails.shoesDetails = p1;
           if (
             !this.orderDetailsDTOList.value.find(
-              (o: { shoesDetails: { id: any } }) => o.shoesDetails.id === p1.id
+              (o: { shoesDetails: { id: any }; status: any }) =>
+                o.shoesDetails.id === p1.id && o.status !== -1
             )
           ) {
             this.orderDetailsDTOList.push(this.initDetails(this.orderDetails));
           }
         }
     }
+    this.updateTotalPrice();
     this.closeShoesDetailsDialog();
   }
   openShoesDetailsDialog() {
@@ -281,7 +283,13 @@ export class OderComponent implements OnInit {
       header: "Lưu hóa đơn",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.orderService.saveOrder(data.value);
+        this.orderService.saveOrder(data.value).subscribe((res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Thêm mới thành công",
+            life: 3000,
+          });
+        });
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
@@ -362,6 +370,9 @@ export class OderComponent implements OnInit {
     console.log(arr, "s");
     console.log(this.selectedShoes, "selected");
   }
+  deleteShoesDetails(index: number) {
+    this.orderDetailsDTOList.at(index).get("status")?.setValue(-1);
+  }
   generateShoeVariants(): ShoesDetail[] {
     this.http
       .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details")
@@ -431,6 +442,15 @@ export class OderComponent implements OnInit {
     }
 
     return variants;
+  }
+  updateTotalPrice() {
+    let data = this.formOrder.at(this.checkIndexOder - 1);
+    let orderDetailList = this.orderDetailsDTOList.value;
+    let totalPrice = 0;
+    for (let od of orderDetailList) {
+      totalPrice += od.price * od.quantity;
+    }
+    data.get("totalPrice")?.setValue(totalPrice);
   }
   // this.hideShoesDetailsDialog();
   // calculateCategoryCounts(orders: Order[]): any {

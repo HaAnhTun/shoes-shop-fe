@@ -162,14 +162,17 @@
                       </div>
                     </div>
                     <div class="col-6">
-                      <label for="categoryCode">Tổng tiền sản phẩm:</label>
+                      <label for="">Tổng tiền sản phẩm:</label>
                       <div class="p-inputgroup">
-                        <input
-                          type="text"
-                          pInputText
-                          style="width: 75%; height: 37px"
+                        <p-inputNumber
                           formControlName="totalPrice"
-                        />
+                          mode="currency"
+                          id="p-float"
+                          inputId="currency-vn"
+                          currency="VND"
+                          locale="vi-VN"
+                          disable
+                        ></p-inputNumber>
                         <span class="p-inputgroup-addon" style="height: 37px"
                           >VNĐ</span
                         >
@@ -289,18 +292,22 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-order let-index="rowIndex">
-                  <tr [formGroupName]="index">
+                  <tr [formGroupName]="index" *ngIf="order.value.status !== -1">
                     <td>{{ index + 1 }}</td>
                     <td>
                       {{ order.value.shoesDetails.name }}
                     </td>
                     <td>
-                      <input
-                        type="number"
-                        min="1"
+                      <p-inputNumber
+                        mode="decimal"
+                        [showButtons]="true"
+                        inputId="minmax-buttons"
+                        [min]="1"
+                        [max]="100"
                         placeholder="Nhập số lượng"
                         formControlName="quantity"
-                      />
+                        (change)="updateTotalPrice()"
+                      ></p-inputNumber>
                     </td>
                     <td>{{ order.value.price | currency : "VND" }}</td>
                     <td>
@@ -309,7 +316,11 @@
                           | currency : "VND"
                       }}
                     </td>
-                    <td><i class="pi pi-trash" style="font-size: 1rem"></i></td>
+                    <td>
+                      <p-button (click)="deleteShoesDetails(index)"
+                        ><i class="pi pi-trash" style="font-size: 1rem"></i
+                      ></p-button>
+                    </td>
                   </tr>
                 </ng-template>
               </p-table>
