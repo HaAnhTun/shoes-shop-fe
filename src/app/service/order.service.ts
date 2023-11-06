@@ -6,7 +6,7 @@ import { OrderSearchReq } from "../model/OrderSearchReq";
 })
 export class OrderService {
   constructor(private http: HttpClient) {}
-  baseUrl: String = "http://localhost:8088/api/orders";
+  baseUrl: string = "http://localhost:8088/api/orders";
   public getOrders(orderSearchReq: OrderSearchReq) {
     return this.http.post<any>(this.baseUrl + "/search", orderSearchReq, {
       withCredentials: true,
@@ -14,6 +14,11 @@ export class OrderService {
   }
   public getOrderQuantity() {
     return this.http.get<any>(this.baseUrl + "/quantity", {
+      withCredentials: true,
+    });
+  }
+  public saveOrder(data: any) {
+    return this.http.post<any>(this.baseUrl, data, {
       withCredentials: true,
     });
   }

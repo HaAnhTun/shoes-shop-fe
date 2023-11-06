@@ -66,12 +66,12 @@ import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
 import { UserComponent } from "./components/user/user.component";
 import { BadgeModule } from "primeng/badge";
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { CommonModule } from "@angular/common";
-import { PanelMenuModule } from 'primeng/panelmenu';
-import { StyleClassModule } from 'primeng/styleclass';
-import { MenuModule } from 'primeng/menu';
-
+import { PanelMenuModule } from "primeng/panelmenu";
+import { StyleClassModule } from "primeng/styleclass";
+import { MenuModule } from "primeng/menu";
+import { MultiSelectModule } from "primeng/multiselect";
 
 @NgModule({
   declarations: [
@@ -96,7 +96,6 @@ import { MenuModule } from 'primeng/menu';
     SizeComponent,
     UserComponent,
     DashboardComponent,
-    
   ],
   imports: [
     AppLayoutModule,
@@ -139,8 +138,8 @@ import { MenuModule } from 'primeng/menu';
     CommonModule,
     PanelMenuModule,
     MenuModule,
-    StyleClassModule
-    
+    StyleClassModule,
+    MultiSelectModule,
   ],
   providers: [
     DataViewLayoutOptions,
