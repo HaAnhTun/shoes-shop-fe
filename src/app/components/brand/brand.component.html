@@ -8,9 +8,9 @@
             <button type="button" pButton icon="pi pi-times" (click)="onDeleteBrand(false)" label="No"></button>
         </p-footer>
     </p-dialog>
-    
     <p-toast></p-toast>
-    <p-table [value]="brand" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+    <input pInputText type="text" placeholder="Search Brands" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
+    <p-table [value]="filteredBrands.length ? filteredBrands : brand" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
         <ng-template pTemplate="header">
             <tr>
                 <th>ID</th>
@@ -95,5 +95,3 @@
         </p-dialog>
     </div>
 </div>
-
-

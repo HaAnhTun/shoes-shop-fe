@@ -89,7 +89,7 @@ body{
   background-color: #f7f1ff;
   width: 273px;
   height: 40px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   position: relative;
   border-radius: 7px;
 }
@@ -124,6 +124,12 @@ body{
   position: absolute;
   cursor: pointer;
   border-radius: 7px;
+  color: #ffffff;
+}
+
+.box .button-register:hover{
+  background-color: #ffffff;
+  color: #985ace;
 }
 
 .box .button-rs-text{
@@ -132,7 +138,6 @@ body{
   left: 84px;
   font-family: "HelveticaNeue-Bold", Helvetica;
   font-weight: 700;
-  color: #ffffff;
   font-size: 12px;
   text-align: center;
   position: absolute;
@@ -171,4 +176,8 @@ body{
   position: absolute;
   letter-spacing: 0;
   line-height: normal;
+}
+
+small{
+  color: red;
 }
