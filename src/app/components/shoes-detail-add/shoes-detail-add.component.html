@@ -25,11 +25,10 @@
                                 [class.ng-invalid]="isFormControlInvalidAndTouched('shoes')"
                                 [class.ng-dirty]="isFormControlInvalidAndTouched('shoes')" [style]="{'width':'100%'}"
                                 [inputStyle]="{'width':'100%'}" field="name"></p-autoComplete>
-                            <label for="float-input">Sản Phẩm</label>
                         </span>
                         <small class="p-error"
                             *ngIf="formGroup.get('shoes')?.hasError('required') && isFormControlInvalidAndTouched('shoes')">
-                            Shoes is required.
+                            Hãy chọn giày.
                         </small>
                     </div>
                 </li>
@@ -44,11 +43,10 @@
                                 [class.ng-dirty]="isFormControlInvalidAndTouched('brand')"
                                 [suggestions]="filteredBrands" [style]="{'width':'100%'}"
                                 [inputStyle]="{'width':'100%'}" field="name"></p-autoComplete>
-                            <label for="float-input-brand">Brand</label>
                         </span>
                         <small class="p-error"
                             *ngIf="formGroup.get('brand')?.hasError('required') && isFormControlInvalidAndTouched('brand')">
-                            Brand is required.
+                            Hãy chọn nhãn hiệu.
                         </small>
                     </div>
                 </li>
@@ -59,10 +57,11 @@
                             <p-inputNumber id="p-float" formControlName="import_price" inputId="currency-vn"
                                 mode="currency" currency="VND" styleClass="w-full" ocale="vi-VN" max="999999999"
                                 [class.ng-invalid]="isFormControlInvalidAndTouched('import_price')"
-                                [class.ng-dirty]="isFormControlInvalidAndTouched('import_price')"> </p-inputNumber>
-                            <small class="p-error"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('import_price')">
+                            </p-inputNumber>
+                            <small class="p-error mx-2"
                                 *ngIf="formGroup.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('import_price')">
-                                Import price is required.
+                                      Hãy nhập giá thu.
                             </small>
                         </span>
                     </div>
@@ -72,10 +71,11 @@
                             <p-inputNumber id="p-float" formControlName="price" inputId="currency-vn" mode="currency"
                                 currency="VND" styleClass="w-full" locale="vi-VN" max="999999999"
                                 [class.ng-invalid]="isFormControlInvalidAndTouched('price')"
-                                [class.ng-dirty]="isFormControlInvalidAndTouched('price')">> </p-inputNumber>
-                            <small class="p-error"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('price')">>
+                            </p-inputNumber>
+                            <small class="p-error mx-2"
                                 *ngIf="formGroup.get('price')?.hasError('required') && isFormControlInvalidAndTouched('price')">
-                                Price is required.
+                                Hãy nhập giá bán.
                             </small>
                         </span>
                     </div>
@@ -85,10 +85,11 @@
                             <p-inputNumber id="p-float" formControlName="tax" inputId="currency-vn" mode="currency"
                                 currency="VND" locale="vi-VN" max="999999999"
                                 [class.ng-invalid]="isFormControlInvalidAndTouched('tax')"
-                                [class.ng-dirty]="isFormControlInvalidAndTouched('tax')">> </p-inputNumber>
-                            <small class="p-error"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('tax')">>
+                            </p-inputNumber>
+                            <small class="p-error mx-2"
                                 *ngIf="formGroup.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('tax')">
-                                Tax is required.
+                                Hãy nhập thuế.
                             </small>
                         </span>
                     </div>
@@ -102,7 +103,7 @@
                             </p-inputNumber>
                             <small class="p-error"
                                 *ngIf="formGroup.get('quantity')?.hasError('required') && isFormControlInvalidAndTouched('quantity')">
-                                quantity is required.
+                                hãy nhập số lượng.
                             </small>
                         </span>
                     </div>
@@ -115,11 +116,10 @@
                                 rows="1" cols="130" maxlength="255" pInputTextarea
                                 [class.ng-invalid]="isFormControlInvalidAndTouched('description')"
                                 [class.ng-dirty]="isFormControlInvalidAndTouched('description')"></textarea>
-                            <label for="float-input-summary">Description</label>
                         </span>
                         <small class="p-error"
                             *ngIf="formGroup.get('description')?.hasError('required') && isFormControlInvalidAndTouched('description')">
-                            description is required.
+                            Hãy nhập mô tả.
                         </small>
                     </div>
                 </li>
@@ -145,7 +145,7 @@
                         </span>
                         <small class="p-error"
                             *ngIf="formGroup.get('size')?.hasError('required') && isFormControlInvalidAndTouched('size')">
-                            size is required.
+                            Hãy chọn size.
                         </small>
                     </div>
 
@@ -167,7 +167,7 @@
                         </span>
                         <small class="p-error"
                             *ngIf="formGroup.get('color')?.hasError('required') && isFormControlInvalidAndTouched('color')">
-                            color is required.
+                            Hãy chọn màu.
                         </small>
                     </div>
                 </li>

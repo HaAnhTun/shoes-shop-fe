@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppConstants } from 'src/app/app-constants';
-import { ProductService } from 'src/app/product.service';
 interface expandedRows {
   [key: string]: boolean;
 }
@@ -90,20 +89,20 @@ export class ShoesDetailComponent {
 
   deleteSelectedProducts() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
+      message: 'Bạn có chắc xóa các sản phẩm được chọn?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        this.selectedProducts?.every(e => {this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + e.id)} )
         this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
         this.selectedProducts = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Xóa các sản phẩm thành công', life: 3000 });
       }
     });
   }
 
   ouput() {
     console.log(this.productForm.value);
-
   }
 
   editProduct(productData: Product) {
@@ -118,7 +117,6 @@ export class ShoesDetailComponent {
       description: productData.description,
       status: productData.status,
     });
-    console.log(productData);
     this.productDialog = true;
   }
 
@@ -129,7 +127,6 @@ export class ShoesDetailComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + product.id).subscribe(response => {
-          this.products = this.products.filter((val) => val.id !== product.id);
           this.product = {};
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Xóa sản phẩm thành công', life: 3000 });
         }, err => {
@@ -147,7 +144,6 @@ export class ShoesDetailComponent {
 
   saveProduct() {
     this.submitted = true;
-
     if (this.product.name?.trim()) {
       if (this.product.id) {
         this.product.createdBy = null
@@ -155,20 +151,20 @@ export class ShoesDetailComponent {
         this.product.lastModifiedBy = null
         this.product.lastModifiedDate = null
         this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes-details/' + this.product.id, this.product).subscribe(response => {
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã cập nhật', life: 3000 });
         },
           error => {
-            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
+            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Lỗi cập nhật', life: 3000 });
           });
         this.products[this.findIndexById(this.product.id)] = this.product;
       } else {
         this.product.code = this.createCode();
         this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes-details/', this.product).subscribe(response => {
           this.products.push(this.product);
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã tạo', life: 3000 });
         },
           error => {
-            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Product Create Error', life: 3000 });
+            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Tạo thất bại', life: 3000 });
           });
 
       }

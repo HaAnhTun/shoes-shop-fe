@@ -20,6 +20,7 @@ import { ColorComponent } from "./components/color/color.component";
 import { SizeComponent } from "./components/size/size.component";
 import { UserComponent } from "./components/user/user.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { LandingComponent } from "./components/landing/landing.component";
 const routes: Routes = [
   { ///ADMIN LINKS
     path: "admin",
@@ -43,7 +44,7 @@ const routes: Routes = [
       { path: "oder", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
-      { path: "users", component: UserComponent}
+      { path: "users", component: UserComponent},
     ],
   },
   /////CLIENT-LINKs
@@ -54,8 +55,10 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "shoes-categories", component: ShoesCategoryComponent },
+  { path: "landing", component: LandingComponent},
+  { path: "users", component: UserComponent},
+  //không được viết path bên dưới thằng **
   { path: "**", component: LoginComponent },
-  { path: "users", component: UserComponent}
 ];
 
 @NgModule({

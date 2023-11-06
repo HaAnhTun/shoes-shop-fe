@@ -71,6 +71,7 @@ import { CommonModule } from "@angular/common";
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { StyleClassModule } from 'primeng/styleclass';
 import { MenuModule } from 'primeng/menu';
+import { LandingComponent } from './components/landing/landing.component';
 
 
 @NgModule({
@@ -96,6 +97,7 @@ import { MenuModule } from 'primeng/menu';
     SizeComponent,
     UserComponent,
     DashboardComponent,
+    LandingComponent,
 
   ],
   imports: [
