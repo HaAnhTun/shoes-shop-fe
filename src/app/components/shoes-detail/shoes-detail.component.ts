@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { AppConstants } from 'src/app/app-constants';
+
 interface expandedRows {
   [key: string]: boolean;
 }
@@ -61,7 +63,7 @@ export class ShoesDetailComponent {
   statuses!: any[];
 
   productForm: FormGroup;
-
+  @ViewChild(Table) dt: Table;
   constructor(private formBuilder: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router) {
     this.productForm = this.formBuilder.group({
       id: [null, Validators.required],
@@ -93,7 +95,7 @@ export class ShoesDetailComponent {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.selectedProducts?.every(e => {this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + e.id)} )
+        this.selectedProducts?.every(e => { this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + e.id) })
         this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
         this.selectedProducts = null;
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Xóa các sản phẩm thành công', life: 3000 });
@@ -127,6 +129,13 @@ export class ShoesDetailComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.http.delete(AppConstants.BASE_URL_API + '/api/shoes-details/' + product.id).subscribe(response => {
+          this.products.forEach(producty => {
+            if (producty.id === product.id) {
+              producty.status = 0;
+              this.dt.filter(1, 'status', 'contains');
+
+            }
+          });
           this.product = {};
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Xóa sản phẩm thành công', life: 3000 });
         }, err => {
@@ -143,35 +152,46 @@ export class ShoesDetailComponent {
   }
 
   saveProduct() {
-    this.submitted = true;
-    if (this.product.name?.trim()) {
-      if (this.product.id) {
-        this.product.createdBy = null
-        this.product.createdDate = null
-        this.product.lastModifiedBy = null
-        this.product.lastModifiedDate = null
-        this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes-details/' + this.product.id, this.product).subscribe(response => {
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã cập nhật', life: 3000 });
-        },
-          error => {
-            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Lỗi cập nhật', life: 3000 });
-          });
-        this.products[this.findIndexById(this.product.id)] = this.product;
-      } else {
-        this.product.code = this.createCode();
-        this.http.post<any>(AppConstants.BASE_URL_API + '/api/shoes-details/', this.product).subscribe(response => {
-          this.products.push(this.product);
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã tạo', life: 3000 });
-        },
-          error => {
-            this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Tạo thất bại', life: 3000 });
-          });
-
-      }
-
-      this.products = [...this.products];
-      this.productDialog = false;
-      this.product = {};
+    if (this.productForm.valid) {
+      this.confirmationService.confirm({
+        message: 'Bạn có muốn update sản phẩm này ?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.submitted = true;
+          this.product.id = this.productForm.get('id')?.value;
+          this.product.code = this.productForm.get('code')?.value;
+          this.product.price = this.productForm.get('price')?.value;
+          this.product.import_price = this.productForm.get('import_price')?.value;
+          this.product.tax = this.productForm.get('tax')?.value;
+          this.product.quantity = this.productForm.get('quantity')?.value;
+          this.product.description = this.productForm.get('description')?.value;
+          this.product.status = this.productForm.get('status')?.value;
+          console.log(this.product);
+          this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes-details/' + this.product.id, this.product).subscribe(response => {
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã cập nhật', life: 3000 });
+            this.products.forEach(producty => {
+              if (producty.id === response.id) {
+                const sts = producty.status;
+                producty.tax = response.tax;
+                producty.description = response.description;
+                producty.quantity = response.quantity;
+                producty.import_price = response.import_price;
+                producty.price = response.price;
+                producty.status = response.status;
+                if (producty.status != sts)
+                  this.dt.filter(1, 'status', 'contains');
+              }
+            })
+          },
+            error => {
+              this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Lỗi cập nhật', life: 3000 });
+            });
+          console.log(this.product);
+          this.productDialog = false;
+          this.product = {};
+        }
+      });
     }
   }
 
@@ -183,7 +203,6 @@ export class ShoesDetailComponent {
         break;
       }
     }
-
     return index;
   }
 
@@ -232,10 +251,10 @@ export class ShoesDetailComponent {
   }
 
   /**
-* Kiểm tra xem FormControl đã bị lỗi và đã được tương tác (click) hay chưa.
-* @param controlName Tên của FormControl cần kiểm tra
-* @returns True nếu FormControl có lỗi và đã được tương tác, ngược lại trả về false hoặc undefined
-*/
+  * Kiểm tra xem FormControl đã bị lỗi và đã được tương tác (click) hay chưa.
+  * @param controlName Tên của FormControl cần kiểm tra
+  * @returns True nếu FormControl có lỗi và đã được tương tác, ngược lại trả về false hoặc undefined
+  */
   isFormControlInvalidAndTouched(controlName: string): boolean | undefined {
     // Lấy FormControl từ FormGroup bằng cách sử dụng tên của FormControl
     const control = this.productForm.get(controlName);

@@ -16,12 +16,12 @@
     <p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
         [globalFilterFields]="['shoes.name', 'code']" [tableStyle]="{ 'min-width': '75rem' }"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="id" [filter]="true"
-        currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm" [showCurrentPageReport]="true">
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                     <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
-                        placeholder="Tất cả sản phẩm" [showClear]="true">
+                        placeholder="Tất cả" [showClear]="true">
                         <ng-template let-option pTemplate="item">
                             <p-tag [value]="option.label" [severity]="getSeverityProduct(option.value)"></p-tag>
                         </ng-template>
@@ -37,7 +37,9 @@
                         placeholder="Nhập tên sản phẩm..." />
                 </span>
             </div>
+
         </ng-template>
+
 
         <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -94,8 +96,8 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">Tổng cộng {{ products ?
-                products.length : 0 }} sản phẩm.</div>
+            <div class="flex align-items-center justify-content-between">In total there are {{ products ?
+                products.length : 0 }} products.</div>
         </ng-template>
     </p-table>
 </div>
@@ -110,7 +112,8 @@
                         inputId="currency-vn" mode="currency" currency="VND" styleClass="w-full" ocale="vi-VN"
                         max="999999999" [class.ng-invalid]="isFormControlInvalidAndTouched('import_price')"
                         [class.ng-dirty]="isFormControlInvalidAndTouched('import_price')"> </p-inputNumber>
-                    <small class="p-error" *ngIf="  productForm.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('import_price')">
+                    <small class="p-error" *ngIf="  productForm
+.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('import_price')">
                         Hãy nhập giá thu.
                     </small>
                 </div>
@@ -119,7 +122,8 @@
                         mode="currency" currency="VND" styleClass="w-full" locale="vi-VN" max="999999999"
                         [class.ng-invalid]="isFormControlInvalidAndTouched('price')"
                         [class.ng-dirty]="isFormControlInvalidAndTouched('price')">> </p-inputNumber>
-                    <small class="p-error" *ngIf="  productForm.get('price')?.hasError('required') && isFormControlInvalidAndTouched('price')">
+                    <small class="p-error" *ngIf="  productForm
+.get('price')?.hasError('required') && isFormControlInvalidAndTouched('price')">
                         Hãy nhập giá bán.
                     </small>
                 </div>
@@ -128,7 +132,8 @@
                         mode="currency" currency="VND" locale="vi-VN" max="999999999"
                         [class.ng-invalid]="isFormControlInvalidAndTouched('tax')"
                         [class.ng-dirty]="isFormControlInvalidAndTouched('tax')">> </p-inputNumber>
-                    <small class="p-error" *ngIf="  productForm.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('tax')">
+                    <small class="p-error" *ngIf="  productForm
+.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('tax')">
                         Hãy nhập thuế.
                     </small>
                 </div>
@@ -172,7 +177,7 @@
                     <input pInputText disabled id="name2" [value]="product.createdBy" type="text" />
                 </div>
                 <div class="field col">
-                    <label htmlFor="email2">Ngày tạo</label>
+                    <label htmlFor="email2">ngày tạo</label>
                     <input pInputText disabled id="email2" [value]="product.createdDate" type="text" />
                 </div>
             </div>
@@ -184,7 +189,7 @@
             </span>
             <small class="p-error"
                 *ngIf="productForm.get('description')?.hasError('required') && isFormControlInvalidAndTouched('description')">
-                Hãy nhập mô tả.
+                description is required.
             </small>
         </form>
     </ng-template>
@@ -196,4 +201,7 @@
 
 
 </p-dialog>
+
+
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-messages></p-messages>
