@@ -1,0 +1,79 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+  crossorigin="anonymous"
+/>
+<div class="layout-topbar">
+  <div
+    style="
+      font-weight: 800;
+      font-size: x-large;
+      width: 21vw;
+      text-align: center;
+      text-shadow: 2px 2px 10px #75a9b4;
+      color: #049d16;
+    "
+  >
+    SHOESSPORT
+    <img
+      src="../../assets/images/sp.png"
+      alt="logo"
+      style="width: 80px; height: 60px"
+    />
+  </div>
+  <!-- logo -->
+  <nav
+    style="margin-left: 6vw"
+    class="navbar navbar-expand-lg bg-body-tertiary"
+  >
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              [routerLink]="'/client/home'"
+              >Trang chủ</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Cửa hàng</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Giới thiệu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Liên hệ</a>
+          </li>
+        </ul>
+        <!-- <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
+      </div>
+    </div>
+  </nav>
+  <div #topbarmenu class="layout-topbar-menu">
+    <div class="hinh-tron" [routerLink]="'/client/cart'">
+      <button class="p-link layout-topbar-button">
+        <i class="pi pi-shopping-cart"></i>
+        <span>giỏi hàng</span>
+      </button>
+    </div>
+    <p-badge [value]="22" severity="success"></p-badge>
+    <button
+      style="margin-left: 2vw; margin-right: 2vw"
+      class="p-link layout-topbar-button"
+    >
+      <i class="pi pi-user"></i>
+      <span>trang cá nhân</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.hinh-tron {
+  border-radius: 50%;
+  background: #cfdbe9;
+  width: 50px;
+}
+
+::ng-deep .layout-topbar .layout-topbar-button {
+  width: 1.2vw;
+}
+
+::ng-deep .p-element {
+  margin-left: -1vw;
+  height: 0;
+}
+
+.layout-topbar {
+  border: 5px solid white;
+  border-radius: 1.5vw;
+}
+
+.nav-link {
+  margin-right: 5vw;
+  font-size: larger;
+  font-weight: 600;
+}
