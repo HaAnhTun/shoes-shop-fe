@@ -330,7 +330,7 @@
       </ng-container>
     </ng-container>
   </p-tabPanel>
-  <p-tabPanel header="Danh sách hóa đơn">
+  <p-tabPanel header="Danh sách hóa đơn" #dshd>
     <ul class="nav nav-tabs" role="tablist">
       <li
         *ngFor="let item of this.listMenuItems"
@@ -404,7 +404,7 @@
             </td>
             <td>{{ order.code }}</td>
             <td>
-              {{ order.customer }}
+              {{ order.customer ? order.customer : order.receivedBy }}
             </td>
             <td>{{ order.phone }}</td>
             <td>{{ order.lastModifiedBy }}</td>

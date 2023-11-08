@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Order } from "src/app/model/Order";
 import { OrderService } from "src/app/service/order.service";
@@ -16,6 +16,7 @@ import { OrderDetals } from "src/app/model/OrderDetails";
 import { ProductService } from "src/app/product.service";
 import { SizeData } from "src/app/model/Size";
 import { AppConstants } from "src/app/app-constants";
+import { TabPanel } from "primeng/tabview";
 @Component({
   selector: "app-oder",
   templateUrl: "./oder.component.html",
@@ -24,6 +25,7 @@ import { AppConstants } from "src/app/app-constants";
 export class OderComponent implements OnInit {
   listMenuItems: any[] = [];
   listOder: any[] = [];
+  @ViewChild("dshd") panel: TabPanel;
   listPayment: any[] = [];
   selectedOrderss: any[] = [];
   indexOder: number = 0;
@@ -290,6 +292,7 @@ export class OderComponent implements OnInit {
             summary: "Thêm mới thành công",
             life: 3000,
           });
+          this.updateTable();
         });
       },
       reject: (type: ConfirmEventType) => {
@@ -530,6 +533,7 @@ export class OderComponent implements OnInit {
     this.fetchQuantityOrder();
     this.fetchOrders();
     this.updateVisibility();
+    this.panel.cd.reattach();
   }
   // this.hideShoesDetailsDialog();
   // calculateCategoryCounts(orders: Order[]): any {
