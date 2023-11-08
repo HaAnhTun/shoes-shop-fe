@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Order } from "src/app/model/Order";
 import { OrderService } from "src/app/service/order.service";
@@ -16,6 +16,7 @@ import { OrderDetals } from "src/app/model/OrderDetails";
 import { ProductService } from "src/app/product.service";
 import { SizeData } from "src/app/model/Size";
 import { AppConstants } from "src/app/app-constants";
+import { TabPanel } from "primeng/tabview";
 @Component({
   selector: "app-oder",
   templateUrl: "./oder.component.html",
@@ -24,7 +25,9 @@ import { AppConstants } from "src/app/app-constants";
 export class OderComponent implements OnInit {
   listMenuItems: any[] = [];
   listOder: any[] = [];
+  @ViewChild("dshd") panel: TabPanel;
   listPayment: any[] = [];
+  selectedOrderss: any[] = [];
   indexOder: number = 0;
   check: boolean = false;
   checkOne: boolean = false;
@@ -289,6 +292,7 @@ export class OderComponent implements OnInit {
             summary: "Thêm mới thành công",
             life: 3000,
           });
+          this.updateTable();
         });
       },
       reject: (type: ConfirmEventType) => {
@@ -451,6 +455,85 @@ export class OderComponent implements OnInit {
       totalPrice += od.price * od.quantity;
     }
     data.get("totalPrice")?.setValue(totalPrice);
+  }
+
+  verifyOrder() {
+    if (this.selectedOrderss) {
+      this.confirmationService.confirm({
+        message: "Bạn muốn xác nhận hóa đơn?",
+        header: "Lưu hóa đơn",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.orderService
+            .verifyOrder(this.selectedOrderss.map((s) => s.id))
+            .subscribe((res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "Xác nhận thành công!",
+              });
+              this.updateTable();
+            });
+        },
+        reject: (type: ConfirmEventType) => {
+          switch (type) {
+            case ConfirmEventType.REJECT:
+              this.messageService.add({
+                severity: "error",
+                summary: "Rejected",
+                detail: "You have rejected",
+              });
+              break;
+            case ConfirmEventType.CANCEL:
+              this.messageService.add({
+                severity: "warn",
+                summary: "Cancelled",
+                detail: "You have cancelled",
+              });
+              break;
+          }
+        },
+      });
+    }
+  }
+  updateStatus(id: number) {
+    this.confirmationService.confirm({
+      message: "Bạn muốn cập nhật trạng thái hóa đơn?",
+      header: "Lưu hóa đơn",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.orderService.updateStatus(id).subscribe((res) => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Cập nhật thành công!",
+          });
+          this.updateTable();
+        });
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: "error",
+              summary: "Rejected",
+              detail: "You have rejected",
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: "warn",
+              summary: "Cancelled",
+              detail: "You have cancelled",
+            });
+            break;
+        }
+      },
+    });
+  }
+  updateTable() {
+    this.fetchQuantityOrder();
+    this.fetchOrders();
+    this.updateVisibility();
+    this.panel.cd.reattach();
   }
   // this.hideShoesDetailsDialog();
   // calculateCategoryCounts(orders: Order[]): any {
