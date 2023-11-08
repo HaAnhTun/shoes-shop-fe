@@ -172,7 +172,6 @@ export class ShoesDetailAddComponent implements OnInit {
     const index = this.uploadedFiles.findIndex((uploadedFile) => uploadedFile.name === fileToRemove.name);
     if (index !== -1) {
       this.uploadedFiles.splice(index, 1);
-      console.log(this.uploadedFiles);
     }
   }
   selection(event: UploadEvent) {
@@ -185,11 +184,8 @@ export class ShoesDetailAddComponent implements OnInit {
     const fileToRemove = event.file; // Assuming you want to remove the first file in the event
     const index = produceImages.findIndex((uploadedFile) => uploadedFile.name === fileToRemove.name);
     if (index !== -1) {
-      this.shoeVariants[0].images.splice(index, 1);
+      produceImages.splice(index, 1);
     }
-    console.log(this.uploadedFiles);
-
-    console.log(this.shoeVariants)
   }
 
   selectionChild(event: UploadEvent, produceImages: File[]) {
