@@ -373,7 +373,7 @@
           'status'
         ]"
         [tableStyle]="{ 'min-width': '75rem' }"
-        [(selection)]="selectedProducts"
+        [(selection)]="selectedOrderss"
         [rowHover]="true"
         dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -420,7 +420,7 @@
                 pRipple
                 icon="pi pi-pencil"
                 class="p-button-rounded p-button-success mr-2"
-                (click)="editProduct(order)"
+                (click)="updateStatus(order.id)"
               ></button>
             </td>
           </tr>
@@ -432,6 +432,7 @@
               <p-button
                 label="Xác nhận"
                 styleClass="p-button-outlined"
+                (click)="verifyOrder()"
               ></p-button>
             </span>
           </div>
