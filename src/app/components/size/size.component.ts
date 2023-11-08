@@ -14,6 +14,21 @@ export class SizeComponent implements OnInit {
   codeError: boolean = false;
   nameError: boolean = false;
   descriptionError: boolean = false;
+  searchText: string = '';
+  filteredSizes: SizeData[] = [];
+
+  onSearchInputChange() {
+    this.filterSizes();
+  }
+  
+  filterSizes() {
+    this.filteredSizes = this.Size.filter((b) => {
+      return (
+        b.code.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        b.name.toLowerCase().includes(this.searchText.toLowerCase()) 
+      );
+    });
+  }
   validateField(field: string) {
     switch (field) {
       case 'code':

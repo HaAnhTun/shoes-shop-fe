@@ -21,8 +21,12 @@ import { SizeComponent } from "./components/size/size.component";
 import { UserComponent } from "./components/user/user.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { LandingComponent } from "./components/landing/landing.component";
+import { LayoutComponent } from "./layout/client/layout/layout.component";
+import { ClientHomeComponent } from "./components/client/home/client.home.component";
+import { CartComponent } from "./components/client/cart/cart.component";
 const routes: Routes = [
-  { ///ADMIN LINKS
+  {
+    ///ADMIN LINKS
     path: "admin",
     component: AppLayoutComponent, //trang layout mạc định  (http://localhost:4200/admin)
     children: [
@@ -45,6 +49,15 @@ const routes: Routes = [
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: "users", component: UserComponent},
+    ],
+  },
+  {
+    path: "client",
+    component: LayoutComponent,
+    children: [
+      { path: "", component: ClientHomeComponent },
+      { path: "home", component: ClientHomeComponent },
+      { path: "cart", component: CartComponent },
     ],
   },
   /////CLIENT-LINKs

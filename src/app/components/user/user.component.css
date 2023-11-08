@@ -26,6 +26,7 @@ body{
 }
 .group-input{
     margin: 0px 15px 15px 15px;
+    width: 300px;
 }
 .input100{
     width: 300px;
@@ -51,6 +52,9 @@ body{
 .th{
     display: flex;
 }
-.p-autocomplete {
-    max-width: 80px; /* Đặt giá trị max-width bạn muốn */
+.p-autocomplete-multiple-container{
+    flex-wrap: nowrap
+}
+small{
+    color: red;
 }
