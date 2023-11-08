@@ -8,285 +8,148 @@
         </div>
       </ng-template>
 
-      <ng-template pTemplate="right">
-        <p-button
-          label="List Variants
-            "
-          [link]="true"
-          [plain]="true"
-          severity="secondary "
-          routerLink="/admin/shoes-detail"
-        >
-        </p-button>
-      </ng-template>
-    </p-toolbar>
-    <div class="text-500 mb-5">Thông tin cơ bản</div>
-    <form [formGroup]="formGroup">
-      <ul class="list-none p-0 m-0">
-        <li
-          class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-        >
-          <div class="text-500 w-2 md:w-2 font-medium">Tên giày</div>
-          <div class="text-800 w-full md:w-8 md:flex-order-0 flex-order-1">
-            <span class="p-float-label">
-              <p-autoComplete
-                showClear="true"
-                showEmptyMessage="true"
-                unique="true"
-                id="float-input"
-                forceSelection=" true"
-                formControlName="shoes"
-                [dropdown]="true"
-                (completeMethod)="filterList($event, shoes, 'shoes')"
-                [suggestions]="filteredShoes"
-                [class.ng-invalid]="isFormControlInvalidAndTouched('shoes')"
-                [class.ng-dirty]="isFormControlInvalidAndTouched('shoes')"
-                [style]="{ width: '100%' }"
-                [inputStyle]="{ width: '100%' }"
-                field="name"
-              ></p-autoComplete>
-              <label for="float-input">Sản Phẩm</label>
-            </span>
-            <small
-              class="p-error"
-              *ngIf="
-                formGroup.get('shoes')?.hasError('required') &&
-                isFormControlInvalidAndTouched('shoes')
-              "
-            >
-              Shoes is required.
-            </small>
-          </div>
-        </li>
-        <li
-          class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-        >
-          <div class="text-500 w-2 md:w-2 font-medium">Thương hiệu</div>
-          <div class="text-800 w-full md:w-8 md:flex-order-0 flex-order-1">
-            <span class="p-float-label">
-              <p-autoComplete
-                showClear="true"
-                showEmptyMessage="true"
-                unique="true"
-                autoHighlight="true"
-                required="true"
-                id="float-input-brand"
-                forceSelection="true"
-                formControlName="brand"
-                [dropdown]="true"
-                (completeMethod)="filterList($event, brands, 'brands')"
-                [class.ng-invalid]="isFormControlInvalidAndTouched('brand')"
-                [class.ng-dirty]="isFormControlInvalidAndTouched('brand')"
-                [suggestions]="filteredBrands"
-                [style]="{ width: '100%' }"
-                [inputStyle]="{ width: '100%' }"
-                field="name"
-              ></p-autoComplete>
-              <label for="float-input-brand">Brand</label>
-            </span>
-            <small
-              class="p-error"
-              *ngIf="
-                formGroup.get('brand')?.hasError('required') &&
-                isFormControlInvalidAndTouched('brand')
-              "
-            >
-              Brand is required.
-            </small>
-          </div>
-        </li>
-        <li
-          class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-        >
-          <div class="text-500 w-2 md:w-2 font-medium">Giá Nhập Default</div>
-          <div class="text-800 w-1 md:w-15rem md:flex-order-0 flex-order-1">
-            <span class="p-float">
-              <p-inputNumber
-                id="p-float"
-                formControlName="import_price"
-                inputId="currency-vn"
-                mode="currency"
-                currency="VND"
-                styleClass="w-full"
-                ocale="vi-VN"
-                max="999999999"
-                [class.ng-invalid]="
-                  isFormControlInvalidAndTouched('import_price')
-                "
-                [class.ng-dirty]="
-                  isFormControlInvalidAndTouched('import_price')
-                "
-              >
-              </p-inputNumber>
-              <small
-                class="p-error"
-                *ngIf="
-                  formGroup.get('import_price')?.hasError('required') &&
-                  isFormControlInvalidAndTouched('import_price')
-                "
-              >
-                Import price is required.
-              </small>
-            </span>
-          </div>
-          <div class="text-500 w-1 md:w-5rem font-medium">Giá Bán Default</div>
-          <div class="text-800 w-full md:w-15rem md:flex-order-0 flex-order-1">
-            <span class="p-float">
-              <p-inputNumber
-                id="p-float"
-                formControlName="price"
-                inputId="currency-vn"
-                mode="currency"
-                currency="VND"
-                styleClass="w-full"
-                locale="vi-VN"
-                max="999999999"
-                [class.ng-invalid]="isFormControlInvalidAndTouched('price')"
-                [class.ng-dirty]="isFormControlInvalidAndTouched('price')"
-                >>
-              </p-inputNumber>
-              <small
-                class="p-error"
-                *ngIf="
-                  formGroup.get('price')?.hasError('required') &&
-                  isFormControlInvalidAndTouched('price')
-                "
-              >
-                Price is required.
-              </small>
-            </span>
-          </div>
-          <div class="text-500 w-1 md:w-3rem font-medium">Thuế</div>
-          <div class="text-800 w-full md:w-15rem md:flex-order-0 flex-order-1">
-            <span class="p-float">
-              <p-inputNumber
-                id="p-float"
-                formControlName="tax"
-                inputId="currency-vn"
-                mode="currency"
-                currency="VND"
-                locale="vi-VN"
-                max="999999999"
-                [class.ng-invalid]="isFormControlInvalidAndTouched('tax')"
-                [class.ng-dirty]="isFormControlInvalidAndTouched('tax')"
-                >>
-              </p-inputNumber>
-              <small
-                class="p-error"
-                *ngIf="
-                  formGroup.get('import_price')?.hasError('required') &&
-                  isFormControlInvalidAndTouched('tax')
-                "
-              >
-                Tax is required.
-              </small>
-            </span>
-          </div>
-          <div class="text-500 w-1 md:w-5rem font-medium">Số lượng</div>
-          <div class="text-800 w-full md:w-10rem md:flex-order-0 flex-order-1">
-            <span class="p-float">
-              <p-inputNumber
-                id="p-float"
-                formControlName="quantity"
-                [class.ng-invalid]="isFormControlInvalidAndTouched('quantity')"
-                [class.ng-dirty]="isFormControlInvalidAndTouched('quantity')"
-                inputId="currency-vn"
-                max="999999"
-              >
-              </p-inputNumber>
-              <small
-                class="p-error"
-                *ngIf="
-                  formGroup.get('quantity')?.hasError('required') &&
-                  isFormControlInvalidAndTouched('quantity')
-                "
-              >
-                quantity is required.
-              </small>
-            </span>
-          </div>
-        </li>
-        <li
-          class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
-        >
-          <div class="text-500 w-6 md:w-2 font-medium">Mô tả</div>
-          <div
-            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3"
-          >
-            <span class="p-float-label">
-              <textarea
-                id="float-input-summary"
-                formControlName="description"
-                [autoResize]="true"
-                rows="1"
-                cols="130"
-                maxlength="255"
-                pInputTextarea
-                [class.ng-invalid]="
-                  isFormControlInvalidAndTouched('description')
-                "
-                [class.ng-dirty]="isFormControlInvalidAndTouched('description')"
-              ></textarea>
-              <label for="float-input-summary">Description</label>
-            </span>
-            <small
-              class="p-error"
-              *ngIf="
-                formGroup.get('description')?.hasError('required') &&
-                isFormControlInvalidAndTouched('description')
-              "
-            >
-              description is required.
-            </small>
-          </div>
-        </li>
-        <li
-          class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-        >
-          <div class="text-500 w-6 md:w-2 font-medium">Hiển thị</div>
-          <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-            <p-inputSwitch formControlName="checked"></p-inputSwitch>
-          </div>
-        </li>
-        <li
-          class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-        >
-          <div class="text-500 w-2 md:w-2 font-medium">Size</div>
-          <div class="text-800 w-full md:w-8 md:flex-order-0 flex-order-1">
-            <span class="p-float-label">
-              <p-autoComplete
-                showClear="true"
-                showEmptyMessage="true"
-                unique="true"
-                required="true"
-                class="p-fluid"
-                id="float-input-size"
-                [class.ng-invalid]="isFormControlInvalidAndTouched('size')"
-                [class.ng-dirty]="isFormControlInvalidAndTouched('size')"
-                formControlName="size"
-                [dropdown]="true"
-                [multiple]="true"
-                forceSelection="true"
-                (completeMethod)="filterList($event, sizes, 'sizes')"
-                [suggestions]="filteredSizes"
-                hea
-                [style]="{ width: '100%' }"
-                [inputStyle]="{ width: '100%' }"
-                field="name"
-              ></p-autoComplete>
-              <label for="float-input-size">Sizes</label>
-            </span>
-            <small
-              class="p-error"
-              *ngIf="
-                formGroup.get('size')?.hasError('required') &&
-                isFormControlInvalidAndTouched('size')
-              "
-            >
-              size is required.
-            </small>
-          </div>
-        </li>
+            <ng-template pTemplate="right">
+                <p-button label="List Variants
+            " [link]="true" [plain]="true" severity="secondary " routerLink='/admin/shoes-detail'>
+                </p-button>
+            </ng-template>
+        </p-toolbar>
+        <div class="text-500 mb-5">Thông tin cơ bản</div>
+        <form [formGroup]="formGroup">
+            <ul class="list-none p-0 m-0">
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-2 md:w-2 font-medium">Tên giày</div>
+                    <div class="text-800 w-full md:w-8 md:flex-order-0 flex-order-1">
+                        <span class="p-float-label">
+                            <p-autoComplete showClear="true" showEmptyMessage="true" unique="true" id="float-input"
+                                forceSelection=" true" formControlName="shoes" [dropdown]="true"
+                                (completeMethod)="filterList($event,shoes,'shoes')" [suggestions]="filteredShoes"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('shoes')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('shoes')" [style]="{'width':'100%'}"
+                                [inputStyle]="{'width':'100%'}" field="name"></p-autoComplete>
+                        </span>
+                        <small class="p-error"
+                            *ngIf="formGroup.get('shoes')?.hasError('required') && isFormControlInvalidAndTouched('shoes')">
+                            Hãy chọn giày.
+                        </small>
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-2 md:w-2 font-medium">Thương hiệu</div>
+                    <div class="text-800 w-full md:w-8 md:flex-order-0 flex-order-1">
+                        <span class="p-float-label">
+                            <p-autoComplete showClear="true" showEmptyMessage="true" unique="true" autoHighlight="true"
+                                required="true" id="float-input-brand" forceSelection="true" formControlName="brand"
+                                [dropdown]="true" (completeMethod)="filterList($event,brands,'brands')"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('brand')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('brand')"
+                                [suggestions]="filteredBrands" [style]="{'width':'100%'}"
+                                [inputStyle]="{'width':'100%'}" field="name"></p-autoComplete>
+                        </span>
+                        <small class="p-error"
+                            *ngIf="formGroup.get('brand')?.hasError('required') && isFormControlInvalidAndTouched('brand')">
+                            Hãy chọn nhãn hiệu.
+                        </small>
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-2 md:w-2 font-medium">Giá Nhập Default</div>
+                    <div class="text-800 w-1 md:w-15rem md:flex-order-0 flex-order-1">
+                        <span class="p-float">
+                            <p-inputNumber id="p-float" formControlName="import_price" inputId="currency-vn"
+                                mode="currency" currency="VND" styleClass="w-full" ocale="vi-VN" max="999999999"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('import_price')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('import_price')">
+                            </p-inputNumber>
+                            <small class="p-error mx-2"
+                                *ngIf="formGroup.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('import_price')">
+                                      Hãy nhập giá thu.
+                            </small>
+                        </span>
+                    </div>
+                    <div class="text-500 w-1 md:w-5rem font-medium">Giá Bán Default</div>
+                    <div class="text-800 w-full md:w-15rem md:flex-order-0 flex-order-1">
+                        <span class="p-float">
+                            <p-inputNumber id="p-float" formControlName="price" inputId="currency-vn" mode="currency"
+                                currency="VND" styleClass="w-full" locale="vi-VN" max="999999999"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('price')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('price')">>
+                            </p-inputNumber>
+                            <small class="p-error mx-2"
+                                *ngIf="formGroup.get('price')?.hasError('required') && isFormControlInvalidAndTouched('price')">
+                                Hãy nhập giá bán.
+                            </small>
+                        </span>
+                    </div>
+                    <div class="text-500 w-1 md:w-3rem font-medium">Thuế</div>
+                    <div class="text-800 w-full md:w-15rem md:flex-order-0 flex-order-1">
+                        <span class="p-float">
+                            <p-inputNumber id="p-float" formControlName="tax" inputId="currency-vn" mode="currency"
+                                currency="VND" locale="vi-VN" max="999999999"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('tax')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('tax')">>
+                            </p-inputNumber>
+                            <small class="p-error mx-2"
+                                *ngIf="formGroup.get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('tax')">
+                                Hãy nhập thuế.
+                            </small>
+                        </span>
+                    </div>
+                    <div class="text-500 w-1 md:w-5rem font-medium">Số lượng</div>
+                    <div class="text-800 w-full md:w-10rem md:flex-order-0 flex-order-1">
+                        <span class="p-float">
+                            <p-inputNumber id="p-float" formControlName="quantity"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('quantity')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('quantity')" inputId="currency-vn"
+                                max="999999">
+                            </p-inputNumber>
+                            <small class="p-error"
+                                *ngIf="formGroup.get('quantity')?.hasError('required') && isFormControlInvalidAndTouched('quantity')">
+                                hãy nhập số lượng.
+                            </small>
+                        </span>
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-2 font-medium">Mô tả</div>
+                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+                        <span class="p-float-label">
+                            <textarea id="float-input-summary" formControlName="description" [autoResize]="true"
+                                rows="1" cols="130" maxlength="255" pInputTextarea
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('description')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('description')"></textarea>
+                        </span>
+                        <small class="p-error"
+                            *ngIf="formGroup.get('description')?.hasError('required') && isFormControlInvalidAndTouched('description')">
+                            Hãy nhập mô tả.
+                        </small>
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-6 md:w-2 font-medium">Hiển thị</div>
+                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                        <p-inputSwitch formControlName="checked"></p-inputSwitch>
+                    </div>
+                </li>
+                <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                    <div class="text-500 w-2 md:w-2 font-medium">Size</div>
+                    <div class="text-800 w-full md:w-8 md:flex-order-0 flex-order-1">
+                        <span class="p-float-label">
+                            <p-autoComplete showClear="true" showEmptyMessage="true" unique="true" required="true"
+                                class="p-fluid" id="float-input-size"
+                                [class.ng-invalid]="isFormControlInvalidAndTouched('size')"
+                                [class.ng-dirty]="isFormControlInvalidAndTouched('size')" formControlName="size"
+                                [dropdown]="true" [multiple]="true" forceSelection="true"
+                                (completeMethod)="filterList($event,sizes,'sizes')" [suggestions]="filteredSizes" hea
+                                [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                field="name"></p-autoComplete>
+                            <label for="float-input-size">Sizes</label>
+                        </span>
+                        <small class="p-error"
+                            *ngIf="formGroup.get('size')?.hasError('required') && isFormControlInvalidAndTouched('size')">
+                            Hãy chọn size.
+                        </small>
+                    </div>
 
         <li
           class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
