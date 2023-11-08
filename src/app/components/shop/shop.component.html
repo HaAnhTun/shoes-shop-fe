@@ -1,7 +1,5 @@
-<main>
-    <app-header> </app-header>
-    <div>
-        <p-dataView #dv [value]="products" [paginator]="true" lazy="true" [rowsPerPageOptions]="[5, 10, 15]" currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm" [showCurrentPageReport]="true" [layout]="layout">
+
+        <p-dataView #dv [value]="products" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]" currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm" [showCurrentPageReport]="true" [layout]="layout">
             <ng-template pTemplate="header">
                 <div class="flex justify-content-end">
                     <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
@@ -61,10 +59,6 @@
                                 [disabled]="!product.inStock"></button>
                         </div>
                     </div>
-
                 </div>
             </ng-template>
         </p-dataView>
-    </div>
-    <app-footer></app-footer>
-</main>

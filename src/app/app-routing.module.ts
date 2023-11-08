@@ -58,6 +58,7 @@ const routes: Routes = [
       { path: "", component: ClientHomeComponent },
       { path: "home", component: ClientHomeComponent },
       { path: "cart", component: CartComponent },
+      { path: "shop", component: ShopComponent },
     ],
   },
   /////CLIENT-LINKs
