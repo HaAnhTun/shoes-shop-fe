@@ -1,0 +1,87 @@
+<!-- app.component.html -->
+<div class="p-grid">
+    <div class="p-col-12 p-md-4">
+        <div class="address-section">
+            <h5>ĐỊA CHỈ GIAO HÀNG</h5>
+            <div>
+                <label for="address">Địa chỉ</label>
+                <input type="text" pInputText placeholder="Nhập địa chỉ">
+            </div>
+            <div>
+                <label for="name">Họ và tên</label>
+                <input type="text" pInputText placeholder="Nhập họ và tên">
+            </div>
+        </div>
+    </div>
+
+    
+        <!-- Phần trong app.component.html cho phương thức giao hàng -->
+        <div class="p-col-12 p-md-4">
+            <div class="shipping-method-section">
+                <h5>PHƯƠNG THỨC GIAO HÀNG</h5>
+                <div class="p-field-radiobutton">
+                    <p-radioButton name="shipping" value="free" [(ngModel)]="selectedShipping"
+                        inputId="freeShipping"></p-radioButton>
+                    <label for="freeShipping">Miễn phí giao hàng - 0đ</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton name="shipping" value="fast" [(ngModel)]="selectedShipping"
+                        inputId="fastShipping"></p-radioButton>
+                    <label for="fastShipping">Ship siêu tốc - 25.000đ</label>
+                </div>
+            </div>
+
+            <!-- app.component.html -->
+            <div class="payment-method-section">
+
+                <div class="payment-method">
+                    <h5>PHƯƠNG THỨC THANH TOÁN</h5>
+                    <div class="p-field-radiobutton">
+                        <p-radioButton name="payment" value="vnpay" [(ngModel)]="paymentMethod"
+                            inputId="vnpay"></p-radioButton>
+                        <label for="vnpay">Thanh toán trực tuyến với VNPAY</label>
+                    </div>
+                    <div class="p-field-radiobutton">
+                        <p-radioButton name="payment" value="cod" [(ngModel)]="paymentMethod"
+                            inputId="cod"></p-radioButton>
+                        <label for="cod">Thanh toán khi nhận hàng</label>
+                    </div>
+                    <div class="p-field-radiobutton">
+                        <p-radioButton name="payment" value="bank" [(ngModel)]="paymentMethod"
+                            inputId="bank"></p-radioButton>
+                        <label for="bank">Chuyển khoản ngân hàng</label>
+                    </div>
+                    <div class="p-field-radiobutton">
+                        <p-radioButton name="payment" value="store" [(ngModel)]="paymentMethod"
+                            inputId="store"></p-radioButton>
+                        <label for="store">Tiền mặt tại cửa hàng</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="p-col-12 p-md-4">
+            <div class="order-summary">
+
+                <div class="product-info">
+                    <h5>Thông tin sản phẩm</h5>
+                    <div class="product-item">
+                        <img src="path_to_your_image" alt="Sản phẩm" />
+                        <div class="product-details">
+                            <div class="product-name">Giày Adidas Adizero Takumi Sen 9 Nam - Trắng Xanh</div>
+                            <div class="product-code">Mã sản phẩm: MSA581</div>
+                            <div class="product-size">Chọn size: 40</div>
+                            <div class="product-quantity">
+                                <label for="quantity">Số lượng:</label>
+                                <input id="quantity" type="number" value="1">
+                            </div>
+                            <div class="product-price">3.490.000đ</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <button type="button" pButton label="XÁC NHẬN" class="p-button-success"></button>
+       
+    </div>
