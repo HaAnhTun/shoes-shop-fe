@@ -25,8 +25,7 @@ import { LayoutComponent } from "./layout/client/layout/layout.component";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
 import { CartComponent } from "./components/client/cart/cart.component";
 const routes: Routes = [
-  {
-    ///ADMIN LINKS
+  {///ADMIN LINKS
     path: "admin",
     component: AppLayoutComponent, //trang layout mạc định  (http://localhost:4200/admin)
     children: [

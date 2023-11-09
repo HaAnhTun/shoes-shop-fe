@@ -1,5 +1,16 @@
-
-        <p-dataView #dv [value]="products" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]" currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm" [showCurrentPageReport]="true" [layout]="layout">
+<div class="grid">
+    <!-- Sidebar for product filters -->
+    <div class="col-3 card">
+        <!--filter options and controls -->
+        <div class="surface-card">
+            <h3>Filter Options</h3>
+        </div>
+    </div>
+    <!--Data-->
+    <div class="col-9">
+        <p-dataView [paginator]="true" [rowsPerPageOptions]="[12, 24, 36]" #DV [value]="products" 
+            currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm"
+            [showCurrentPageReport]="true" [layout]="layout">
             <ng-template pTemplate="header">
                 <div class="flex justify-content-end">
                     <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
@@ -49,7 +60,8 @@
                         </div>
 
                         <div class="flex flex-column align-items-center gap-3 py-5">
-                            <img class=" shadow-2 border-round w-20rem h-20rem" [src]=product.image [alt]="product.name" />
+                            <img class=" shadow-2 border-round w-20rem h-20rem" [src]=product.image
+                                [alt]="product.name" />
                             <div class="text-2xl font-bold">{{ product.name }}</div>
                             <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                         </div>
@@ -62,3 +74,5 @@
                 </div>
             </ng-template>
         </p-dataView>
+    </div>
+</div>

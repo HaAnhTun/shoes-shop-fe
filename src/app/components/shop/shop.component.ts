@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { DataView } from 'primeng/dataview';
 import { Product } from 'src/app/model/Product';
 
 @Component({
@@ -7,14 +8,25 @@ import { Product } from 'src/app/model/Product';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css'],
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
-  layout: 'list' | 'grid' = 'list';
+  layout: 'list' | 'grid' = 'grid';
+  @ViewChild('DV') dataView: DataView
+  constructor(private http: HttpClient) {
 
-  constructor(private http: HttpClient) { }
+   }
+
+
+
+ ngAfterViewInit(): void {
+  let paging = { first: 0, rows: 12};
+  this.dataView.paginate(paging);
+ }
 
   ngOnInit() {
     this.fetchProducts();
+    
+    
   }
 
   fetchProducts() {
