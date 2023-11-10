@@ -75,6 +75,7 @@ import { ClientHomeComponent } from "./components/client/home/client.home.compon
 import { CartComponent } from './components/client/cart/cart.component';
 import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from './components/landing/landing.component';
+import { SelectButtonModule } from "primeng/selectbutton";
 
 
 @NgModule({
@@ -148,6 +149,7 @@ import { LandingComponent } from './components/landing/landing.component';
     MenuModule,
     StyleClassModule,
     MultiSelectModule,
+    SelectButtonModule
   ],
   providers: [
     DataViewLayoutOptions,

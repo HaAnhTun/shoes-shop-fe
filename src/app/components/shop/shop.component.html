@@ -2,18 +2,43 @@
     <!-- Sidebar for product filters -->
     <div class="col-3 card">
         <!--filter options and controls -->
+        <div class="card flex justify-content-center">
+            <p-selectButton (onOptionClick)="calle()" [options]="paymentOptions" [(ngModel)]="value" [multiple]="true"
+                optionLabel="name" optionValue="value"></p-selectButton>
+        </div>
         <div class="surface-card">
             <h3>Filter Options</h3>
+            <table>
+                <tr *ngFor="let size of shoeSizes">
+                    <td>
+                        <label>
+                            <input type="checkbox" [(ngModel)]="selectedSizes" [value]="size" />
+                            {{ size }}
+                        </label>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <!--Data-->
     <div class="col-9">
-        <p-dataView [paginator]="true" [rowsPerPageOptions]="[12, 24, 36]" #DV [value]="products" 
+        <p-dataView [paginator]="true" [rowsPerPageOptions]="[12, 24, 36]" #dv [value]="products"
+            [sortField]="sortField" [sortOrder]="sortOrder" filterBy="name"
             currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm"
             [showCurrentPageReport]="true" [layout]="layout">
             <ng-template pTemplate="header">
-                <div class="flex justify-content-end">
+                <div class="flex flex-column md:flex-row md:justify-content-between">
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sắp xếp theo"
+                        (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+                    <span class="p-input-icon-left mb-2 md:mb-0">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dv.filter($event.target.value, 'contains')"
+                            placeholder="Nhập tên sản phẩm..." />
+                    </span>
                     <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
+                </div>
+                <div class="flex justify-content-end">
+
                 </div>
             </ng-template>
             <ng-template let-product pTemplate="listItem">
