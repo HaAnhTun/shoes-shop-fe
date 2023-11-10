@@ -70,7 +70,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  value!: number;
+  value!: any;
 
   paymentOptions: any[] = [
     { name: 'Option 1', value: 1 },
@@ -83,9 +83,26 @@ export class ShopComponent implements OnInit, AfterViewInit {
     { name: 'Option 2', value: 221 },
     { name: 'Option 3', value: 31 }
   ];
+  rangeValues: number[] = [100000, 100000000
+  ];
+  brandOptions: any[] = [
+    { label: 'Nike', value: 'nike' },
+    { label: 'Adidas', value: 'adidas' },
+    { label: 'Puma', value: 'puma' },
+    { label: 'Reebok', value: 'reebok' },
+  ];
+
+  selectedBrand: string = 'nike'; 
 
   calle() {
     console.log(this.value);
 
+  }
+  calle2() {
+    console.log(this.selectedBrand);
+
+  }
+  loge(){
+    console.log(this.rangeValues);
   }
 }

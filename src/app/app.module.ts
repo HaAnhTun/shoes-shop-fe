@@ -76,7 +76,7 @@ import { CartComponent } from './components/client/cart/cart.component';
 import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from './components/landing/landing.component';
 import { SelectButtonModule } from "primeng/selectbutton";
-
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -149,6 +149,7 @@ import { SelectButtonModule } from "primeng/selectbutton";
     MenuModule,
     StyleClassModule,
     MultiSelectModule,
+    SliderModule,
     SelectButtonModule
   ],
   providers: [
