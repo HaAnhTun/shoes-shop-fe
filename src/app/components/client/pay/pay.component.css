@@ -106,3 +106,50 @@ body {
   .confirm-button:hover {
     background-color: #0056b3;
   }
+
+  .section.order-summary {
+    margin: 20px 0;
+    overflow-x: auto; /* Đảm bảo bảng có thể cuộn nếu chiều rộng màn hình nhỏ */
+  }
+  
+  .section.order-summary h2 {
+    margin-bottom: 1em;
+  }
+  
+  .section.order-summary table {
+    width: 100%;
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các đường viền */
+    text-align: left; /* Căn chỉnh văn bản sang trái */
+  }
+  
+  .section.order-summary th,
+  .section.order-summary td {
+    padding: 8px; /* Thêm padding cho các ô */
+    border-bottom: 1px solid #ddd; /* Đường viền dưới mỗi hàng */
+  }
+  
+  .section.order-summary th {
+    background-color: #f4f4f4; /* Màu nền cho tiêu đề bảng */
+    color: #333; /* Màu chữ cho tiêu đề */
+    font-weight: bold; /* Định dạng chữ đậm */
+  }
+  
+  .section.order-summary img {
+    width: 100px; /* Hoặc một kích thước cụ thể nếu bạn muốn */
+    height: auto; /* Duy trì tỷ lệ của hình ảnh */
+  }
+  
+  .section.order-summary td {
+    vertical-align: middle; /* Căn chỉnh nội dung giữa ô theo chiều dọc */
+  }
+  
+  /* Thêm định dạng cho các cột cụ thể nếu cần */
+  .section.order-summary td:nth-child(1) { /* Ví dụ, cột hình ảnh */
+    width: 110px; /* Đặt chiều rộng cố định cho cột hình ảnh */
+  }
+  
+  .section.order-summary td:nth-child(5), /* Cột giá */
+  .section.order-summary td:nth-child(6) { /* Cột tổng */
+    text-align: right; /* Căn phải giá và tổng */
+  }
+  
