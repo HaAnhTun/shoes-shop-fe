@@ -1,87 +1,100 @@
-<!-- app.component.html -->
-<div class="p-grid">
-    <div class="p-col-12 p-md-4">
-        <div class="address-section">
-            <h5>ĐỊA CHỈ GIAO HÀNG</h5>
-            <div>
-                <label for="address">Địa chỉ</label>
-                <input type="text" pInputText placeholder="Nhập địa chỉ">
-            </div>
-            <div>
-                <label for="name">Họ và tên</label>
-                <input type="text" pInputText placeholder="Nhập họ và tên">
-            </div>
-        </div>
-    </div>
 
-    
-        <!-- Phần trong app.component.html cho phương thức giao hàng -->
-        <div class="p-col-12 p-md-4">
-            <div class="shipping-method-section">
-                <h5>PHƯƠNG THỨC GIAO HÀNG</h5>
-                <div class="p-field-radiobutton">
-                    <p-radioButton name="shipping" value="free" [(ngModel)]="selectedShipping"
-                        inputId="freeShipping"></p-radioButton>
-                    <label for="freeShipping">Miễn phí giao hàng - 0đ</label>
-                </div>
-                <div class="p-field-radiobutton">
-                    <p-radioButton name="shipping" value="fast" [(ngModel)]="selectedShipping"
-                        inputId="fastShipping"></p-radioButton>
-                    <label for="fastShipping">Ship siêu tốc - 25.000đ</label>
-                </div>
-            </div>
-
-            <!-- app.component.html -->
-            <div class="payment-method-section">
-
-                <div class="payment-method">
-                    <h5>PHƯƠNG THỨC THANH TOÁN</h5>
-                    <div class="p-field-radiobutton">
-                        <p-radioButton name="payment" value="vnpay" [(ngModel)]="paymentMethod"
-                            inputId="vnpay"></p-radioButton>
-                        <label for="vnpay">Thanh toán trực tuyến với VNPAY</label>
-                    </div>
-                    <div class="p-field-radiobutton">
-                        <p-radioButton name="payment" value="cod" [(ngModel)]="paymentMethod"
-                            inputId="cod"></p-radioButton>
-                        <label for="cod">Thanh toán khi nhận hàng</label>
-                    </div>
-                    <div class="p-field-radiobutton">
-                        <p-radioButton name="payment" value="bank" [(ngModel)]="paymentMethod"
-                            inputId="bank"></p-radioButton>
-                        <label for="bank">Chuyển khoản ngân hàng</label>
-                    </div>
-                    <div class="p-field-radiobutton">
-                        <p-radioButton name="payment" value="store" [(ngModel)]="paymentMethod"
-                            inputId="store"></p-radioButton>
-                        <label for="store">Tiền mặt tại cửa hàng</label>
-                    </div>
-                </div>
-
-            </div>
+<body>
+    <div class="container">
+        <!-- Tùy Chọn Thanh Toán -->
+        <div class="section payment-options">
+            <h2>Tùy Chọn Thanh Toán</h2>
+            <form>
+                <label><input type="radio" name="payment-option" value="login"> Đăng nhập</label><br>
+                <label><input type="radio" name="payment-option" value="register"> Đăng ký</label><br>
+                <label><input type="radio" name="payment-option" value="guest" checked> Thanh toán</label>
+            </form>
         </div>
 
-        <div class="p-col-12 p-md-4">
-            <div class="order-summary">
-
-                <div class="product-info">
-                    <h5>Thông tin sản phẩm</h5>
-                    <div class="product-item">
-                        <img src="path_to_your_image" alt="Sản phẩm" />
-                        <div class="product-details">
-                            <div class="product-name">Giày Adidas Adizero Takumi Sen 9 Nam - Trắng Xanh</div>
-                            <div class="product-code">Mã sản phẩm: MSA581</div>
-                            <div class="product-size">Chọn size: 40</div>
-                            <div class="product-quantity">
-                                <label for="quantity">Số lượng:</label>
-                                <input id="quantity" type="number" value="1">
-                            </div>
-                            <div class="product-price">3.490.000đ</div>
-                        </div>
-                    </div>
+        <!-- Thông Tin Giao Hàng -->
+        <div class="section delivery-info">
+            <h2>Thông Tin Giao Hàng</h2>
+            <form class="delivery-form">
+                <div class="form-group">
+                    <label for="fullName">Họ và tên:</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên của bạn">
                 </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Điện thoại:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại">
+                </div>
+                <div class="form-group">
+                    <label for="emailAddress">Email (nếu có):</label>
+                    <input type="email" id="emailAddress" name="emailAddress" placeholder="Nhập email">
+                </div>
+                <div class="form-group">
+                    <label for="homeAddress">Địa chỉ:</label>
+                    <textarea id="homeAddress" name="homeAddress" rows="4"
+                        placeholder="Nhập địa chỉ giao hàng"></textarea>
+                </div>
+            </form>
+        </div>
 
-            </div>
-            <button type="button" pButton label="XÁC NHẬN" class="p-button-success"></button>
-       
+
+        <!-- Phương Thức Giao Hàng -->
+        <div class="section shipping-method">
+            <h2>Phương Thức Giao Hàng</h2>
+            <label>
+              <input type="radio" [value]="0" [(ngModel)]="shippingCost" (change)="updateShippingCost(0)">
+              Miễn phí giao hàng
+            </label><br>
+            <label>
+              <input type="radio" [value]="25000" [(ngModel)]="shippingCost" (change)="updateShippingCost(25000)">
+              Ship siêu tốc - 25.000đ
+            </label>
+          </div>
+          
+          
+        <!-- Thông Tin Sản Phẩm -->
+        <div class="section order-summary">
+            <h2>Thông Tin Sản Phẩm</h2>
+            <table>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng</th>
+                </tr>
+                <tr>
+                    <td><img src="path_to_image.jpg" alt="Sản phẩm"></td>
+                    <td>Giày Puma Shuffle Perforated Nam - Trắng</td>
+                    <td>MSP284</td>
+                    <td>1</td>
+                    <td>1.790.000đ</td>
+                    <td>{{ totalPrice | currency:'VND' }}</td>
+                </tr>
+                <!-- Lặp lại hàng cho mỗi sản phẩm -->
+            </table>
+        </div>
+
+        <!-- Phương Thức Thanh Toán -->
+        <div class="section payment-method">
+            <h2>Phương Thức Thanh Toán</h2>
+            <form class="payment-form">
+                <label><input type="radio" name="payment-method" value="vnpay"> Thanh toán trực tuyến với
+                    VNPay</label><br>
+                <label><input type="radio" name="payment-method" value="cod"> Thanh toán khi nhận hàng</label><br>
+                <label><input type="radio" name="payment-method" value="bank"> Chuyển khoản ngân hàng</label><br>
+                <label><input type="radio" name="payment-method" value="store"> Tiền mặt tại cửa hàng</label>
+            </form>
+            <button type="button" class="confirm-button">Xác Nhận</button>
+        </div>
     </div>
+    <script>
+        function updateTotalPrice(additionalCost) {
+          var basePrice = 1790000; // Giả sử đây là giá cơ bản của sản phẩm
+          var newTotalPrice = basePrice + additionalCost; // Cộng thêm phí ship nếu có
+      
+          // Cập nhật giá mới vào các phần tử HTML có id 'product-total' và 'total-price'
+          document.getElementById('product-total').textContent = newTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+          document.getElementById('total-price').textContent = newTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+      </script>
+      </body>

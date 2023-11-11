@@ -1,110 +1,108 @@
-/* Đặt phông chữ chung và màu nền cho trang */
 body {
     font-family: 'Arial', sans-serif;
-    background: #f4f4f4;
+    background-color: #f4f4f4;
     margin: 0;
-    padding: 0;
-}
-
-/* Định dạng chung cho các tiêu đề */
-h5 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Định dạng các phần chính */
-.p-col-12.p-md-4 {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: #fff;
-    margin-bottom: 30px;
     padding: 20px;
-}
-
-/* Định dạng cho các label và input */
-label {
+  }
+  
+  .container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .section h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .delivery-form .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .delivery-form label {
     display: block;
     margin-bottom: 5px;
-    color: #666;
-}
-
-input[type="text"],
-input[type="number"],
-p-button[label="XÁC NHẬN"] {
+    font-weight: bold;
+  }
+  
+  .delivery-form input[type="text"],
+  .delivery-form input[type="tel"],
+  .delivery-form input[type="email"],
+  .delivery-form textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Định dạng cho phần thông tin sản phẩm */
-.product-info {
-    margin-bottom: 20px;
-}
-
-.product-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.product-item img {
-    width: 80px;
-    height: auto;
-    margin-right: 15px;
-}
-
-.product-details {
-    flex-grow: 1;
-}
-
-.product-name,
-.product-code,
-.product-size,
-.product-price {
-    margin: 0;
-    color: #333;
-}
-
-.product-quantity {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.product-quantity label {
-    margin-right: 10px;
-}
-
-/* Định dạng cho button */
-.p-button-success {
-    background: #f60;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    cursor: pointer;
+    padding: 8px;
+    border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
-}
-
-.p-button-success:hover {
-    background: #e55;
-}
-
-/* Đặc biệt chỉnh lại cho radio button labels để chúng không bị tràn */
-.p-field-radiobutton label {
-    display: inline-block;
-    margin-right: 20px;
+  }
+  
+  .delivery-form input[type="text"]:focus,
+  .delivery-form input[type="tel"]:focus,
+  .delivery-form input[type="email"]:focus,
+  .delivery-form textarea:focus {
+    border-color: #aaa;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  }
+  
+  .delivery-form textarea {
+    resize: vertical;
+  }
+  
+  
+  .confirm-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-}
-
-/* Thêm responsive design */
-@media (max-width: 768px) {
-    .p-col-12.p-md-4 {
-        width: 100%;
-        padding: 10px;
-    }
-}
+    font-size: 16px;
+    float: right;
+  }
+  
+  .confirm-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .payment-form {
+    margin-bottom: 20px; /* Tạo khoảng cách giữa form và nút */
+  }
+  
+  .payment-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .payment-form input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .confirm-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    float: right; /* Nếu muốn nút ở bên phải */
+    clear: both; /* Đảm bảo nút không bị các phần tử khác chèn lên */
+  }
+  
+  .confirm-button:hover {
+    background-color: #0056b3;
+  }
