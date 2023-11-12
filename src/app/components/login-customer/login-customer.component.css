@@ -1,0 +1,95 @@
+.body{
+    background-color: #f3f3ec;
+}
+.container {
+    font-family: SemiBold;
+}
+.title-login{
+    font-weight: bold;
+    font-size: 32px;
+    font-family: SemiBold;
+}
+.input{
+    width: 475px;
+    height: 48px;
+    margin-top: 15px;
+}
+.username, .password{
+    width: 475px;
+    height: 48px;
+    border-radius: 9px;
+    padding: 0 10px;
+}
+.save{
+    width: 475px;
+    margin-top: 15px;
+    display: flex;
+    position: relative;
+}
+.forgotPassword{
+    position: absolute;
+    right: 0px;
+}
+.button{
+    margin-top: 15px;
+    position: relative;
+    width: 475px;
+    height: 48px;
+}
+.button-login{
+    width: 100%;
+    height: 48px;
+    position: absolute;
+    left: 0px;
+    border: 1px solid black;
+    border-radius: 16px;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+.text-login{
+    position: absolute;
+    left: 7%;
+    top: 21%;
+}
+.col-lg-6{
+    background-color: white;
+    border-radius: 16px;
+}
+.box{
+    width: 100%;
+    height: 400px;
+}
+.title-label{
+    font-family: SemiBold;
+    font-size: 36px;
+}
+.button-join{
+    background-color: black;
+    border-radius: 16px;
+    position: relative;
+    height: 48px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    border: 1px solid black;
+}
+.text-join{
+    font-weight: bold;
+    position: absolute;
+    left: 5%;
+    top: 22%;
+}
+.button-login:hover, .button-join:hover{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+.icon {
+    position: absolute;
+    right: 5%;
+    top: 25%;
+}
+.icon-1{
+    position: absolute;
+    right: 5%;
+    top: 25%;
+}

@@ -76,6 +76,9 @@ import { CartComponent } from "./components/client/cart/cart.component";
 import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from "./components/landing/landing.component";
 import { OrderDetailsComponent } from "./components/order-details/order-details.component";
+import { PayComponent } from "./components/client/pay/pay.component";
+import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
+import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 
 @NgModule({
   declarations: [
@@ -104,6 +107,9 @@ import { OrderDetailsComponent } from "./components/order-details/order-details.
     ClientHomeComponent,
     CartComponent,
     OrderDetailsComponent,
+    PayComponent,
+    LoginCustomerComponent,
+    RegisterCustomerComponent,
   ],
   imports: [
     AppLayoutModule,

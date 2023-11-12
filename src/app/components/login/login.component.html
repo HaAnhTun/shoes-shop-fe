@@ -10,7 +10,7 @@
 
         <ng-template class="login100-form-title" #noMsg>
           <span class="login100-form-title">
-            Login
+            Đăng nhập
             <br /><br />
           </span>
         </ng-template>
@@ -19,8 +19,8 @@
           <span class="login100-form-title err"> Sai thông tin đăng nhập </span>
         </ng-template>
 
-        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-          <input class="input100" type="text" name="username" [(ngModel)]="loginUser.login" placeholder="username"
+        <div class="wrap-input100 validate-input">
+          <input class="input100" type="text" name="username" [(ngModel)]="loginUser.login" placeholder="tài khoản"
             ngModel />
           <span class="focus-input100"></span>
           <span class="symbol-input100">
@@ -36,7 +36,7 @@
             type="password"
             name="password"
             [(ngModel)]="loginUser.passwordHash" 
-            placeholder="password" 
+            placeholder="mật khẩu" 
             ngModel>
           <span class="focus-input100"></span>
           <span class="symbol-input100">

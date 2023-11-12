@@ -25,6 +25,9 @@ import { LayoutComponent } from "./layout/client/layout/layout.component";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
 import { CartComponent } from "./components/client/cart/cart.component";
 import { OrderDetailsComponent } from "./components/order-details/order-details.component";
+import { PayComponent } from "./components/client/pay/pay.component";
+import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
+import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -60,6 +63,9 @@ const routes: Routes = [
       { path: "", component: ClientHomeComponent },
       { path: "home", component: ClientHomeComponent },
       { path: "cart", component: CartComponent },
+      { path: "pay", component: PayComponent },
+      { path: "login-customer", component: LoginCustomerComponent },
+      { path: "register-customer", component: RegisterCustomerComponent },
     ],
   },
   /////CLIENT-LINKs
