@@ -32,4 +32,14 @@ export class OrderService {
       withCredentials: true,
     });
   }
+  public getOrder(data: number) {
+    return this.http.get<any>(this.baseUrl + "/" + data, {
+      withCredentials: true,
+    });
+  }
+  public cancelOrder(data: number) {
+    return this.http.get<any>(this.baseUrl + "/cancel/" + data, {
+      withCredentials: true,
+    });
+  }
 }

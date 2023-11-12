@@ -15,4 +15,13 @@ export class AddressService {
   public getWards(code: number) {
     return this.http.get<any>(this.baseAddress + "/d/" + code + "?depth=2");
   }
+  public getProvine(code: number) {
+    return this.http.get<any>(this.baseAddress + "/p/" + code);
+  }
+  public getDistrict1(code: number) {
+    return this.http.get<any>(this.baseAddress + "/d/" + code);
+  }
+  public getWard(code: number) {
+    return this.http.get<any>(this.baseAddress + "/w/" + code);
+  }
 }
