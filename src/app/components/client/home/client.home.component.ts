@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { LayoutService } from "src/app/layout/service/app.layout.service";
+import { LoginService } from "src/app/service/login.service";
 
 @Component({
   selector: "app-client.home",
@@ -6,5 +8,22 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./client.home.component.css"],
 })
 export class ClientHomeComponent implements OnInit {
-  ngOnInit(): void {}
+  constructor(
+    public layoutService: LayoutService,
+    private loginService: LoginService
+  ) {}
+  ngOnInit(): void {
+    if (
+      sessionStorage.getItem("access_token") == null &&
+      sessionStorage.getItem("oathu2") != null
+    ) {
+      this.loginService.ouath2().subscribe({
+        next: (body: any) => {
+          if (body && body?.id_token) {
+            sessionStorage.setItem("access_token", body?.id_token);
+          }
+        },
+      });
+    }
+  }
 }
