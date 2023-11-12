@@ -72,10 +72,10 @@ import { PanelMenuModule } from "primeng/panelmenu";
 import { StyleClassModule } from "primeng/styleclass";
 import { MenuModule } from "primeng/menu";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
-import { CartComponent } from './components/client/cart/cart.component';
+import { CartComponent } from "./components/client/cart/cart.component";
 import { MultiSelectModule } from "primeng/multiselect";
-import { LandingComponent } from './components/landing/landing.component';
-
+import { LandingComponent } from "./components/landing/landing.component";
+import { OrderDetailsComponent } from "./components/order-details/order-details.component";
 
 @NgModule({
   declarations: [
@@ -101,9 +101,9 @@ import { LandingComponent } from './components/landing/landing.component';
     UserComponent,
     DashboardComponent,
     LandingComponent,
-
     ClientHomeComponent,
     CartComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     AppLayoutModule,
@@ -158,4 +158,4 @@ import { LandingComponent } from './components/landing/landing.component';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}

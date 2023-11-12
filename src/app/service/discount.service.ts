@@ -27,4 +27,9 @@ export class DiscountService {
       withCredentials: true,
     });
   }
+  public search(data: string) {
+    return this.http.post<any>(this.baseUrl + "discounts/search", data, {
+      withCredentials: true,
+    });
+  }
 }
