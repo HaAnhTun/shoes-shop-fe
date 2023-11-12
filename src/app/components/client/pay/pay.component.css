@@ -1,0 +1,155 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .section h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .delivery-form .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .delivery-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .delivery-form input[type="text"],
+  .delivery-form input[type="tel"],
+  .delivery-form input[type="email"],
+  .delivery-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .delivery-form input[type="text"]:focus,
+  .delivery-form input[type="tel"]:focus,
+  .delivery-form input[type="email"]:focus,
+  .delivery-form textarea:focus {
+    border-color: #aaa;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  }
+  
+  .delivery-form textarea {
+    resize: vertical;
+  }
+  
+  
+  .confirm-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    float: right;
+  }
+  
+  .confirm-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .payment-form {
+    margin-bottom: 20px; /* Tạo khoảng cách giữa form và nút */
+  }
+  
+  .payment-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .payment-form input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .confirm-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    float: right; /* Nếu muốn nút ở bên phải */
+    clear: both; /* Đảm bảo nút không bị các phần tử khác chèn lên */
+  }
+  
+  .confirm-button:hover {
+    background-color: #0056b3;
+  }
+
+  .section.order-summary {
+    margin: 20px 0;
+    overflow-x: auto; /* Đảm bảo bảng có thể cuộn nếu chiều rộng màn hình nhỏ */
+  }
+  
+  .section.order-summary h2 {
+    margin-bottom: 1em;
+  }
+  
+  .section.order-summary table {
+    width: 100%;
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các đường viền */
+    text-align: left; /* Căn chỉnh văn bản sang trái */
+  }
+  
+  .section.order-summary th,
+  .section.order-summary td {
+    padding: 8px; /* Thêm padding cho các ô */
+    border-bottom: 1px solid #ddd; /* Đường viền dưới mỗi hàng */
+  }
+  
+  .section.order-summary th {
+    background-color: #f4f4f4; /* Màu nền cho tiêu đề bảng */
+    color: #333; /* Màu chữ cho tiêu đề */
+    font-weight: bold; /* Định dạng chữ đậm */
+  }
+  
+  .section.order-summary img {
+    width: 100px; /* Hoặc một kích thước cụ thể nếu bạn muốn */
+    height: auto; /* Duy trì tỷ lệ của hình ảnh */
+  }
+  
+  .section.order-summary td {
+    vertical-align: middle; /* Căn chỉnh nội dung giữa ô theo chiều dọc */
+  }
+  
+  /* Thêm định dạng cho các cột cụ thể nếu cần */
+  .section.order-summary td:nth-child(1) { /* Ví dụ, cột hình ảnh */
+    width: 110px; /* Đặt chiều rộng cố định cho cột hình ảnh */
+  }
+  
+  .section.order-summary td:nth-child(5), /* Cột giá */
+  .section.order-summary td:nth-child(6) { /* Cột tổng */
+    text-align: right; /* Căn phải giá và tổng */
+  }
+  

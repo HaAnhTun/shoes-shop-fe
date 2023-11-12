@@ -75,8 +75,9 @@ import { ClientHomeComponent } from "./components/client/home/client.home.compon
 import { CartComponent } from './components/client/cart/cart.component';
 import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from './components/landing/landing.component';
-import { LoginCustomerComponent } from './components/login-customer/login-customer.component';
-import { RegisterCustomerComponent } from './components/register-customer/register-customer.component';
+import { PayComponent } from "./components/client/pay/pay.component";
+import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
+import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 
 
 @NgModule({
@@ -103,9 +104,9 @@ import { RegisterCustomerComponent } from './components/register-customer/regist
     UserComponent,
     DashboardComponent,
     LandingComponent,
-
     ClientHomeComponent,
     CartComponent,
+    PayComponent,
     LoginCustomerComponent,
     RegisterCustomerComponent,
   ],

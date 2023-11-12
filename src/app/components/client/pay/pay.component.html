@@ -1,0 +1,100 @@
+
+<body>
+    <div class="container">
+        <!-- Tùy Chọn Thanh Toán -->
+        <div class="section payment-options">
+            <h2>Tùy Chọn Thanh Toán</h2>
+            <form>
+                <label><input type="radio" name="payment-option" value="login"> Đăng nhập</label><br>
+                <label><input type="radio" name="payment-option" value="register"> Đăng ký</label><br>
+                <label><input type="radio" name="payment-option" value="guest" checked> Thanh toán</label>
+            </form>
+        </div>
+
+        <!-- Thông Tin Giao Hàng -->
+        <div class="section delivery-info">
+            <h2>Thông Tin Giao Hàng</h2>
+            <form class="delivery-form">
+                <div class="form-group">
+                    <label for="fullName">Họ và tên:</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên của bạn">
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Điện thoại:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại">
+                </div>
+                <div class="form-group">
+                    <label for="emailAddress">Email (nếu có):</label>
+                    <input type="email" id="emailAddress" name="emailAddress" placeholder="Nhập email">
+                </div>
+                <div class="form-group">
+                    <label for="homeAddress">Địa chỉ:</label>
+                    <textarea id="homeAddress" name="homeAddress" rows="4"
+                        placeholder="Nhập địa chỉ giao hàng"></textarea>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Phương Thức Giao Hàng -->
+        <div class="section shipping-method">
+            <h2>Phương Thức Giao Hàng</h2>
+            <label>
+              <input type="radio" [value]="0" [(ngModel)]="shippingCost" (change)="updateShippingCost(0)">
+              Miễn phí giao hàng
+            </label><br>
+            <label>
+              <input type="radio" [value]="25000" [(ngModel)]="shippingCost" (change)="updateShippingCost(25000)">
+              Ship siêu tốc - 25.000đ
+            </label>
+          </div>
+          
+          
+        <!-- Thông Tin Sản Phẩm -->
+        <div class="section order-summary">
+            <h2>Thông Tin Sản Phẩm</h2>
+            <table>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng</th>
+                </tr>
+                <tr>
+                    <td><img src="path_to_image.jpg" alt="Sản phẩm"></td>
+                    <td>Giày Puma Shuffle Perforated Nam - Trắng</td>
+                    <td>MSP284</td>
+                    <td>1</td>
+                    <td>1.790.000đ</td>
+                    <td>{{ totalPrice | currency:'VND' }}</td>
+                </tr>
+                <!-- Lặp lại hàng cho mỗi sản phẩm -->
+            </table>
+        </div>
+
+        <!-- Phương Thức Thanh Toán -->
+        <div class="section payment-method">
+            <h2>Phương Thức Thanh Toán</h2>
+            <form class="payment-form">
+                <label><input type="radio" name="payment-method" value="vnpay"> Thanh toán trực tuyến với
+                    VNPay</label><br>
+                <label><input type="radio" name="payment-method" value="cod"> Thanh toán khi nhận hàng</label><br>
+                <label><input type="radio" name="payment-method" value="bank"> Chuyển khoản ngân hàng</label><br>
+                <label><input type="radio" name="payment-method" value="store"> Tiền mặt tại cửa hàng</label>
+            </form>
+            <button type="button" class="confirm-button">Xác Nhận</button>
+        </div>
+    </div>
+    <script>
+        function updateTotalPrice(additionalCost) {
+          var basePrice = 1790000; // Giả sử đây là giá cơ bản của sản phẩm
+          var newTotalPrice = basePrice + additionalCost; // Cộng thêm phí ship nếu có
+      
+          // Cập nhật giá mới vào các phần tử HTML có id 'product-total' và 'total-price'
+          document.getElementById('product-total').textContent = newTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+          document.getElementById('total-price').textContent = newTotalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+      </script>
+      </body>
