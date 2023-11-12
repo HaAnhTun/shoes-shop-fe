@@ -152,51 +152,51 @@
                                 <p-table [value]="orderData[user.id]" dataKey="id" [rows]="5" [paginator]="true"
                                     [tableStyle]="{ 'min-width': '60rem' }">
                                     <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="code">
-                            <div class="th">Ma <p-sortIcon field="code"></p-sortIcon></div>
-                        </th>
-                        <th pSortableColumn="receivedBy">
-                            <div class="th">Người nhận<p-sortIcon field="receivedBy"></p-sortIcon></div>
-                        </th>
-                        <th pSortableColumn="createdDate">
-                            <div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div>
-                        </th>
-                        <th pSortableColumn="receivedDate">
-                            <div class="th">Ngày nhận<p-sortIcon field="date"></p-sortIcon></div>
-                        </th>
-                        <th pSortableColumn="totalPrice">
-                            <div class="th">Tổng giá <p-sortIcon field="totalPrice"></p-sortIcon></div>
-                        </th>
-                        <th pSortableColumn="status">
-                            <div class="th">Trạng thái <p-sortIcon field="status"></p-sortIcon></div>
-                        </th>
-                        <th style="width: 4rem"></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-order>
-                    <tr>
-                        <td>{{ order.code }}</td>
-                        <td>{{ order.receivedBy }}</td>
-                        <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
-                        <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
-                        <td>{{ order.totalPrice | currency:'VND' }}</td>
-                        <td>{{ order.status }}</td>
-                        <td><p-button type="button" icon="pi pi-plus"></p-button></td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="6">There are no order for this product yet.</td>
+                                        <tr>
+                                            <th pSortableColumn="code">
+                                                <div class="th">Ma <p-sortIcon field="code"></p-sortIcon></div>
+                                            </th>
+                                            <th pSortableColumn="receivedBy">
+                                                <div class="th">Người nhận<p-sortIcon field="receivedBy"></p-sortIcon></div>
+                                            </th>
+                                            <th pSortableColumn="createdDate">
+                                                <div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div>
+                                            </th>
+                                            <th pSortableColumn="receivedDate">
+                                                <div class="th">Ngày nhận<p-sortIcon field="date"></p-sortIcon></div>
+                                            </th>
+                                            <th pSortableColumn="totalPrice">
+                                                <div class="th">Tổng giá <p-sortIcon field="totalPrice"></p-sortIcon></div>
+                                            </th>
+                                            <th pSortableColumn="status">
+                                                <div class="th">Trạng thái <p-sortIcon field="status"></p-sortIcon></div>
+                                            </th>
+                                            <th style="width: 4rem"></th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-order>
+                                        <tr>
+                                            <td>{{ order.code }}</td>
+                                            <td>{{ order.receivedBy }}</td>
+                                            <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
+                                            <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
+                                            <td>{{ order.totalPrice | currency:'VND' }}</td>
+                                            <td>{{ order.status }}</td>
+                                            <td><p-button type="button" icon="pi pi-plus"></p-button></td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <td colspan="6">Không có hóa đơn nào.</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
-        </td>
-        </tr>
-        </ng-template>
-        </p-table>
-    </div>
-    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+        <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
     </div>
 </body>

@@ -1,17 +1,17 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { MessageService } from "primeng/api";
-import { Observable, catchError, map, of, switchMap, timer } from "rxjs";
-import { User } from "src/app/model/User";
-import { RegisterService } from "src/app/service/register.service";
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { Observable, of, map, catchError } from 'rxjs';
+import { RegisterService } from 'src/app/service/register.service';
+
 @Component({
-  selector: "app-register",
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.css"],
+  selector: 'app-register-customer',
+  templateUrl: './register-customer.component.html',
+  styleUrls: ['./register-customer.component.css']
 })
-export class RegisterComponent{
+export class RegisterCustomerComponent{
 
   registionForm: FormGroup
 
