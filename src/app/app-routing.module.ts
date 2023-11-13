@@ -29,8 +29,7 @@ import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 const routes: Routes = [
-  {
-    ///ADMIN LINKS
+  {///ADMIN LINKS
     path: "admin",
     component: AppLayoutComponent, //trang layout mạc định  (http://localhost:4200/admin)
     children: [
@@ -66,6 +65,7 @@ const routes: Routes = [
       { path: "pay", component: PayComponent },
       { path: "login-customer", component: LoginCustomerComponent },
       { path: "register-customer", component: RegisterCustomerComponent },
+      { path: "shop", component: ShopComponent },
     ],
   },
   /////CLIENT-LINKs

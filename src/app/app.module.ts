@@ -78,7 +78,8 @@ import { LandingComponent } from "./components/landing/landing.component";
 import { OrderDetailsComponent } from "./components/order-details/order-details.component";
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
-import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
+import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";import { SelectButtonModule } from "primeng/selectbutton";
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,8 @@ import { RegisterCustomerComponent } from "./components/register-customer/regist
     MenuModule,
     StyleClassModule,
     MultiSelectModule,
+    SliderModule,
+    SelectButtonModule
   ],
   providers: [
     DataViewLayoutOptions,
