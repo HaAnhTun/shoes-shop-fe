@@ -43,15 +43,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.fetchProducts();
-    if (sessionStorage.getItem("access_token") == null) {
-      this.loginService.ouath2().subscribe({
-        next: (body: any) => {
-          if (body && body?.id_token) {
-            sessionStorage.setItem("access_token", body?.id_token);
-          }
-        },
-      });
-    }
   }
 
   fetchProducts() {
