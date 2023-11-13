@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
+import { SelectButton } from 'primeng/selectbutton';
+import { AppConstants } from 'src/app/app-constants';
 import { Product } from 'src/app/model/Product';
 
 @Component({
@@ -11,25 +13,28 @@ import { Product } from 'src/app/model/Product';
 })
 export class ShopComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
+  valuee: any;
   layout: 'list' | 'grid' = 'grid';
   @ViewChild('dv') dataView: DataView
+  @ViewChild('tablos') testSB: SelectButton
   sortOptions: SelectItem[];
-
+  brandOptions: any[] = [];
+  selectedBrand: any;
   sortOrder: number;
   items = [
     { id: 1, name: 'Item 1' },
     { id: 2, name: 'Item 2' },
     // Add more items as needed
   ];
-  shoeSizes = [
-    'US 5', 'US 6', 'US 7', 'US 8', 'US 9', 'US 10',
-    // Add more sizes as needed
-  ];
-
+  shoeSizes: any[];
+  selectedSizes!: any
+  paymentOptions: any[] = [];
+  rangeValues: number[] = [100000, 100000000];
   selectedItems: any[] = [];
   sortField: string;
-  constructor(private http: HttpClient) {
-
+  brands: any[] = [];
+  constructor(private http: HttpClient, private primeNGConfig: PrimeNGConfig) {
+    this.primeNGConfig.ripple = true;
   }
   onSortChange(event: any) {
     let value = event.value;
@@ -46,6 +51,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     let paging = { first: 0, rows: 12 };
     this.dataView.paginate(paging);
+
   }
 
   ngOnInit() {
@@ -57,6 +63,20 @@ export class ShopComponent implements OnInit, AfterViewInit {
       { label: 'Tên từ Z -> A', value: 'name' }
     ];
 
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/sizes")
+      .subscribe((response) => {
+        this.shoeSizes = response;
+        this.shoeSizes.forEach((brand) => this.paymentOptions.push({ name: brand.name, value: brand.id }));
+        this.selectedSizes = null
+      });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/brands")
+      .subscribe((response) => {
+        this.brands = response;
+        this.brands.forEach((brand) => this.brandOptions.push({ label: brand.name, value: brand.id }));
+        this.selectedBrand = null
+      });
   }
 
   fetchProducts() {
@@ -69,40 +89,24 @@ export class ShopComponent implements OnInit, AfterViewInit {
         console.error('Error fetching products:', error);
       }
     );
+
+
   }
-  value!: any;
 
-  paymentOptions: any[] = [
-    { name: 'Option 1', value: 1 },
-    { name: 'Option 2', value: 2 },
-    { name: 'Option 3', value: 3 },
-    { name: 'Option 1', value: 11 },
-    { name: 'Option 2', value: 22 },
-    { name: 'Option 3', value: 32 },
-    { name: 'Option 1', value: 33 },
-    { name: 'Option 2', value: 221 },
-    { name: 'Option 3', value: 31 }
-  ];
-  rangeValues: number[] = [100000, 100000000
-  ];
-  brandOptions: any[] = [
-    { label: 'Nike', value: 'nike' },
-    { label: 'Adidas', value: 'adidas' },
-    { label: 'Puma', value: 'puma' },
-    { label: 'Reebok', value: 'reebok' },
-  ];
 
-  selectedBrand: string = 'nike'; 
+
+
 
   calle() {
-    console.log(this.value);
-
+    console.log(this.shoeSizes);
+    console.log(this.selectedSizes);
+    console.log(this.selectedBrand);
   }
   calle2() {
     console.log(this.selectedBrand);
 
   }
-  loge(){
+  loge() {
     console.log(this.rangeValues);
   }
 }

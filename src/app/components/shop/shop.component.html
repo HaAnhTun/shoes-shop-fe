@@ -5,22 +5,29 @@
         <div class="surface-card">
             <h3>Filter Options</h3>
             <div class="card flex justify-content-center">
-                <p-selectButton [options]="brandOptions" [(ngModel)]="selectedBrand" optionLabel="label" optionValue="value">        <ng-template let-brand pTemplate="item">
-                    <div class="custom-option">
-                        <span>{{brand.label}}</span>
-                    </div>
-                </ng-template></p-selectButton>
+                <p-selectButton [options]="brandOptions" [(ngModel)]="selectedBrand" optionLabel="label"
+                    (onOptionClick)="calle()" optionValue="value">
+                    <ng-template let-brand pTemplate="item">
+                        <div class="custom-option">
+                            <span>{{brand.label}}</span>
+                        </div>
+                    </ng-template>
+                </p-selectButton>
             </div>
-            
+
+
             <div class="card flex justify-content-center">
-                <p-selectButton (onOptionClick)="calle()" [options]="paymentOptions" [(ngModel)]="value" [multiple]="true"
-                    optionLabel="name" optionValue="value"></p-selectButton>
+                <p-selectButton (onOptionClick)="calle()" [(options)]="paymentOptions" [(ngModel)]="selectedSizes"
+                    [multiple]="true" optionLabel="name" optionValue="value" #tablos>
+                </p-selectButton>
             </div>
             <div class="card flex justify-content-center">
-                <label for="blockspace" class="font-bold block mb-2">Giá từ {{rangeValues[0] | currency: 'VND'}} đến {{rangeValues[1]  | currency: 'VND'}}</label>
-                <p-slider [(ngModel)]="rangeValues" (onChange)="loge()" [step]="100000" [range]="true" [max]="100000000" [min]="0"></p-slider>
+                <label for="blockspace" class="font-bold block mb-2">Giá từ {{rangeValues[0] | currency: 'VND'}} đến
+                    {{rangeValues[1] | currency: 'VND'}}</label>
+                <p-slider [(ngModel)]="rangeValues" (onChange)="loge()" [step]="100000" [range]="true" [max]="100000000"
+                    [min]="0"></p-slider>
             </div>
-            
+
         </div>
     </div>
     <!--Data-->
