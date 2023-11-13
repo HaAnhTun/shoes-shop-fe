@@ -1,5 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { PrimeNGConfig, SelectItem } from 'primeng/api';
+import { DataView } from 'primeng/dataview';
+import { SelectButton } from 'primeng/selectbutton';
+import { AppConstants } from 'src/app/app-constants';
 import { Product } from 'src/app/model/Product';
 
 @Component({
@@ -7,14 +11,72 @@ import { Product } from 'src/app/model/Product';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css'],
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
-  layout: 'list' | 'grid' = 'list';
+  valuee: any;
+  layout: 'list' | 'grid' = 'grid';
+  @ViewChild('dv') dataView: DataView
+  @ViewChild('tablos') testSB: SelectButton
+  sortOptions: SelectItem[];
+  brandOptions: any[] = [];
+  selectedBrand: any;
+  sortOrder: number;
+  items = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    // Add more items as needed
+  ];
+  shoeSizes: any[];
+  selectedSizes!: any
+  paymentOptions: any[] = [];
+  rangeValues: number[] = [100000, 100000000];
+  selectedItems: any[] = [];
+  sortField: string;
+  brands: any[] = [];
+  constructor(private http: HttpClient, private primeNGConfig: PrimeNGConfig) {
+    this.primeNGConfig.ripple = true;
+  }
+  onSortChange(event: any) {
+    let value = event.value;
 
-  constructor(private http: HttpClient) { }
+    if (value.indexOf('!') === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    let paging = { first: 0, rows: 12 };
+    this.dataView.paginate(paging);
+
+  }
 
   ngOnInit() {
     this.fetchProducts();
+    this.sortOptions = [
+      { label: 'Giá từ cao tới thấp', value: '!price' },
+      { label: 'Giá từ thấp tới cao', value: 'price' },
+      { label: 'Tên từ A -> Z', value: '!name' },
+      { label: 'Tên từ Z -> A', value: 'name' }
+    ];
+
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/sizes")
+      .subscribe((response) => {
+        this.shoeSizes = response;
+        this.shoeSizes.forEach((brand) => this.paymentOptions.push({ name: brand.name, value: brand.id }));
+        this.selectedSizes = null
+      });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/brands")
+      .subscribe((response) => {
+        this.brands = response;
+        this.brands.forEach((brand) => this.brandOptions.push({ label: brand.name, value: brand.id }));
+        this.selectedBrand = null
+      });
   }
 
   fetchProducts() {
@@ -27,5 +89,24 @@ export class ShopComponent implements OnInit {
         console.error('Error fetching products:', error);
       }
     );
+
+
+  }
+
+
+
+
+
+  calle() {
+    console.log(this.shoeSizes);
+    console.log(this.selectedSizes);
+    console.log(this.selectedBrand);
+  }
+  calle2() {
+    console.log(this.selectedBrand);
+
+  }
+  loge() {
+    console.log(this.rangeValues);
   }
 }

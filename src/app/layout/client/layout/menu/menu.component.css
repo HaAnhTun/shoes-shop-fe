@@ -9,6 +9,11 @@
   width: 1.2vw;
 }
 
+.p-element {
+  margin-left: -1vw;
+  height: 0;
+}
+
 .layout-topbar {
   border: 5px solid white;
   border-radius: 1.5vw;
