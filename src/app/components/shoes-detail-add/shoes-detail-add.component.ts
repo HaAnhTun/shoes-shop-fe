@@ -213,7 +213,6 @@ export class ShoesDetailAddComponent implements OnInit {
     );
     if (index !== -1) {
       this.uploadedFiles.splice(index, 1);
-      console.log(this.uploadedFiles);
     }
   }
   selection(event: UploadEvent) {
@@ -228,7 +227,7 @@ export class ShoesDetailAddComponent implements OnInit {
       (uploadedFile) => uploadedFile.name === fileToRemove.name
     );
     if (index !== -1) {
-      this.shoeVariants[0].images.splice(index, 1);
+      produceImages.splice(index, 1);
     }
     console.log(this.uploadedFiles);
 
@@ -396,6 +395,7 @@ export class ShoesDetailAddComponent implements OnInit {
         }
       }
     }
+    console.log(variants);
 
     return variants;
   }

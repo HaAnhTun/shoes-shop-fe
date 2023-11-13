@@ -87,6 +87,19 @@
                           formControlName="receivedBy"
                         />
                       </div>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('receivedBy').touched &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('receivedBy').errors?.required
+                        "
+                      >
+                        Khách hàng không được bỏ trống
+                      </span>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
@@ -100,6 +113,19 @@
                           formControlName="phone"
                         />
                       </div>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('phone').touched &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('phone').errors?.required
+                        "
+                      >
+                        Số điện thoại không được bỏ trống
+                      </span>
                     </div>
                   </div>
                   <div class="row" formGroupName="userAddress">
@@ -114,6 +140,21 @@
                           (onChange)="fetchDistricts()"
                           formControlName="province"
                         ></p-dropdown>
+                        <span
+                          class="text-danger"
+                          *ngIf="
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('province').touched &&
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('province').errors?.required
+                          "
+                        >
+                          Thành phố không được bỏ trống
+                        </span>
                       </div>
                       <div class="form-group">
                         <p-dropdown
@@ -124,6 +165,21 @@
                           (onChange)="fetchWards()"
                           formControlName="district"
                         ></p-dropdown>
+                        <span
+                          class="text-danger"
+                          *ngIf="
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('district').touched &&
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('district').errors?.required
+                          "
+                        >
+                          Quận/huyện không được bỏ trống
+                        </span>
                       </div>
                       <div class="form-group">
                         <p-dropdown
@@ -134,6 +190,21 @@
                           formControlName="ward"
                         ></p-dropdown>
                       </div>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('userAddress')
+                            .get('ward').touched &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('userAddress')
+                            .get('ward').errors?.required
+                        "
+                      >
+                        Xã phường không được bỏ trống
+                      </span>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
@@ -148,7 +219,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-6">
+                    <!-- <div class="col-6">
                       <label for="categoryCode">Khuyến mãi:</label>
                       <div class="p-inputgroup">
                         <input
@@ -160,7 +231,7 @@
                           >%</span
                         >
                       </div>
-                    </div>
+                    </div> -->
                     <div class="col-6">
                       <label for="">Tổng tiền sản phẩm:</label>
                       <div class="p-inputgroup">
@@ -171,27 +242,13 @@
                           inputId="currency-vn"
                           currency="VND"
                           locale="vi-VN"
-                          disable
+                          [disabled]="true"
                         ></p-inputNumber>
-                        <span class="p-inputgroup-addon" style="height: 37px"
+                        <span class="p-inputgroup-addon" style="height: 43px"
                           >VNĐ</span
                         >
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <!-- <div class="col-6">
-                        <div class="form-group">
-                          <label for="categoryCode">Phương thức mua hàng:</label>
-                          <p-treeSelect
-                            class="md:w-20rem w-full"
-                            containerStyleClass="w-full"
-                            [(ngModel)]="selectedNodes"
-                            [options]="nodes"
-                            placeholder="Select Item"
-                          ></p-treeSelect>
-                        </div>
-                      </div> -->
                     <div class="col-6">
                       <div class="form-group">
                         <label for="categoryCode"
@@ -209,10 +266,25 @@
                       </div>
                     </div>
                   </div>
-                  <p-triStateCheckbox
+
+                  <div class="row">
+                    <!-- <div class="col-6">
+                        <div class="form-group">
+                          <label for="categoryCode">Phương thức mua hàng:</label>
+                          <p-treeSelect
+                            class="md:w-20rem w-full"
+                            containerStyleClass="w-full"
+                            [(ngModel)]="selectedNodes"
+                            [options]="nodes"
+                            placeholder="Select Item"
+                          ></p-treeSelect>
+                        </div>
+                      </div> -->
+                  </div>
+                  <!-- <p-triStateCheckbox
                     inputId="tricheckbox"
                   ></p-triStateCheckbox>
-                  <span style="margin-left: 5px">Chờ thanh toán</span>
+                  <span style="margin-left: 5px">Chờ thanh toán</span> -->
                 </div>
                 <span style="text-align: right" (click)="saveOrder()"
                   ><p-button
@@ -330,7 +402,7 @@
       </ng-container>
     </ng-container>
   </p-tabPanel>
-  <p-tabPanel header="Danh sách hóa đơn">
+  <p-tabPanel header="Danh sách hóa đơn" #dshd>
     <ul class="nav nav-tabs" role="tablist">
       <li
         *ngFor="let item of this.listMenuItems"
@@ -351,7 +423,7 @@
             height: 50px;
           "
           (click)="clickListOder(item.name)"
-          [class]="checkString === item.name ? 'text-primaryy' : ''"
+          [class]="checkString == item.name ? 'text-primaryy' : ''"
         >
           {{ item.name }}
           <span style="margin-bottom: 15px">
@@ -373,7 +445,7 @@
           'status'
         ]"
         [tableStyle]="{ 'min-width': '75rem' }"
-        [(selection)]="selectedProducts"
+        [(selection)]="selectedOrderss"
         [rowHover]="true"
         dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -404,7 +476,7 @@
             </td>
             <td>{{ order.code }}</td>
             <td>
-              {{ order.customer }}
+              {{ order.customer ? order.customer : order.receivedBy }}
             </td>
             <td>{{ order.phone }}</td>
             <td>{{ order.lastModifiedBy }}</td>
@@ -420,7 +492,14 @@
                 pRipple
                 icon="pi pi-pencil"
                 class="p-button-rounded p-button-success mr-2"
-                (click)="editProduct(order)"
+                (click)="updateStatus(order.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"
               ></button>
             </td>
           </tr>
@@ -432,6 +511,7 @@
               <p-button
                 label="Xác nhận"
                 styleClass="p-button-outlined"
+                (click)="verifyOrder()"
               ></p-button>
             </span>
           </div>
@@ -493,6 +573,13 @@
                 icon="pi pi-pencil"
                 class="p-button-rounded p-button-success mr-2"
                 (click)="editProduct(order)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"
               ></button>
             </td>
           </tr>

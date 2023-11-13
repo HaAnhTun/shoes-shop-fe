@@ -3,72 +3,79 @@
         <div class="box">
             <p-toast></p-toast>
             <div class="view-lg">
-                <div class="text-login" routerLink="/login">Login</div>
+                <div class="text-login" routerLink="/login">Đăng nhập</div>
             </div>
             <div class="view-rs">
-                <div class="text-register">Register</div>
+                <div class="text-register">Đăng nhập</div>
             </div>
             <form class="group" [formGroup]="registionForm" (ngSubmit)="registion()">
                 <div class="group-input">
-                    <div class="title">Firstname</div>
+                    <div class="title">Tên</div>
                     <input class="input100" type="text" name="firstName" formControlName="firstName">
                     <small
-                        *ngIf="registionForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">Firstname
-                        is required</small>
+                        *ngIf="registionForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">
+                        Hãy nhập tên
+                    </small>
                 </div>
                 <div class="group-input">
-                    <div class="title">Lastname</div>
+                    <div class="title">Họ</div>
                     <input class="input100" type="text" name="lastName" formControlName="lastName">
                     <small
-                        *ngIf="registionForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">Lastname
-                        is required</small>
+                        *ngIf="registionForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">
+                        Hãy nhập họ
+                    </small>
                 </div>
                 <div class="group-input">
-                    <div class="title">Gmail</div>
+                    <div class="title">Email</div>
                     <input class="input100" type="text" name="email" formControlName="email">
                     <small
                         *ngIf="registionForm.get('email')?.hasError('required') && isFormControlInvalidAndTouched('email')">
-                        Email is required</small>
+                        Hãy nhập email</small>
                     <small
                         *ngIf="registionForm.get('email')?.hasError('duplicateEmail') && isFormControlInvalidAndTouched('email')">
-                        Email is duplicate</small>
+                        Email đã tồn tại</small>
                     <small
                         *ngIf="registionForm.get('email')?.hasError('email') && isFormControlInvalidAndTouched('email')">
-                        Email does not match form</small>
+                        Email không đúng định dạng</small>
                 </div>
                 <div class="group-input">
-                    <div class="title">Username</div>
+                    <div class="title">Tài khoản</div>
                     <input class="input100" type="text" name="username" formControlName="login">
                     <small
-                        *ngIf="registionForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">Username
-                        is required</small>
+                        *ngIf="registionForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">
+                        Hãy nhập tài khoản
+                    </small>
                     <small
-                        *ngIf="registionForm.get('login')?.hasError('duplicateLogin') && isFormControlInvalidAndTouched('login')">Username
-                        is duplicate</small>
+                        *ngIf="registionForm.get('login')?.hasError('duplicateLogin') && isFormControlInvalidAndTouched('login')">
+                        Tài khoản đã có người dùng
+                    </small>
                 </div>
                 <div class="group-input">
-                    <div class="title">Password</div>
+                    <div class="title">Mật khẩu</div>
                     <input class="input100" type="password" name="password" formControlName="passwordHash">
                     <small
-                        *ngIf="registionForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">Password
-                        is required</small>
+                        *ngIf="registionForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">
+                        Hãy nhập mật khẩu
+                    </small>
                     <small
-                        *ngIf="registionForm.get('passwordHash')?.hasError('minlength') && isFormControlInvalidAndTouched('passwordHash')">Password
-                        should be atleast 6 letters</small>
+                        *ngIf="registionForm.get('passwordHash')?.hasError('minlength') && isFormControlInvalidAndTouched('passwordHash')">
+                        Mật khẩu cần có ít nhất 6 kí tự
+                    </small>
                 </div>
                 <div class="group-input">
-                    <div class="title">Confirm Password</div>
+                    <div class="title">Nhập lại mật khẩu</div>
                     <input class="input100" type="password" name="confirmPassword" formControlName="confirmPassword">
                     <small
-                        *ngIf="registionForm.get('confirmPassword')?.hasError('required') && isFormControlInvalidAndTouched('confirmPassword')">Confirm
-                        Password
-                        is required</small>
+                        *ngIf="registionForm.get('confirmPassword')?.hasError('required') && isFormControlInvalidAndTouched('confirmPassword')">
+                        Hãy nhập lại mật khẩu
+                        </small>
                     <small
-                        *ngIf="registionForm.get('confirmPassword')?.hasError('mustMatch') && isFormControlInvalidAndTouched('confirmPassword')">Password
-                        mismatched</small>
+                        *ngIf="registionForm.get('confirmPassword')?.hasError('mustMatch') && isFormControlInvalidAndTouched('confirmPassword')">
+                        Không trùng với mật khẩu
+                    </small>
                 </div>
                 <button class="button-register">
-                    <div class="button-rs-text" type="submit">Register</div>
+                    <div class="button-rs-text" type="submit">Đăng ký</div>
                 </button>
             </form>
         </div>
