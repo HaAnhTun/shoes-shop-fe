@@ -62,10 +62,10 @@ const routes: Routes = [
       { path: "", component: ClientHomeComponent },
       { path: "home", component: ClientHomeComponent },
       { path: "cart", component: CartComponent },
+      { path: "shop", component: ShopComponent },
       { path: "pay", component: PayComponent },
       { path: "login-customer", component: LoginCustomerComponent },
       { path: "register-customer", component: RegisterCustomerComponent },
-      { path: "shop", component: ShopComponent },
     ],
   },
   /////CLIENT-LINKs
