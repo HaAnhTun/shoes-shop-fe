@@ -1,0 +1,57 @@
+<body class="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <p-toast></p-toast>
+                    <p class="title-login">Login</p>
+                    <div class="input">
+                        <input class="username" type="text" placeholder="Tài khoản" formControlName="login">
+                    </div>
+                    <div class="input">
+                        <input class="password" type="password" placeholder="Mật khẩu" formControlName="passwordHash">
+                    </div>
+                    <div class="save">
+                        <div class="check-box">
+                            <input type="checkbox" id="savePassword">
+                            <label for="savePassword">Nhớ mật khẩu</label>
+                        </div>
+                        <div class="forgotPassword"><u>Quên mật khẩu?</u></div>
+                    </div>
+                    <div class="button">
+                        <button class="button-login">
+                            <div class="text-login" type="submit">Login</div>
+                            <span class="icon">
+                                <i class="pi pi-arrow-right"></i>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-6">
+                <div class="box">
+                    <div class="group">
+                        <p class="title-label">ShoesStore Nhận thưởng ngay hôm nay.</p>
+                        <p>Là thành viên của ShoesStore, bạn sẽ nhận được phần thưởng khi làm những gì bạn yêu thích.
+                             Đăng ký ngay hôm nay và nhận ngay quyền truy cập vào các lợi ích này:</p>
+                        <div>
+                            <ul>
+                                <li>Miễn phí vận chuyển</li>
+                                <li>Giảm giá 10% cho đơn hàng đầu tiên</li>
+                            </ul>
+                        </div>
+                        <p>Tham gia ngay để nhận những ưu đãi hấp dẫn.​</p>
+                        <button class="button-join">
+                            <div class="text-join">Join the store</div>
+                            <span class="icon-1">
+                                <i class="pi pi-arrow-right"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>

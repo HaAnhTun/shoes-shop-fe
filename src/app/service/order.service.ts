@@ -22,4 +22,24 @@ export class OrderService {
       withCredentials: true,
     });
   }
+  public verifyOrder(data: any[]) {
+    return this.http.post<any>(this.baseUrl + "/verifyOrder", data, {
+      withCredentials: true,
+    });
+  }
+  public updateStatus(data: number) {
+    return this.http.get<any>(this.baseUrl + "/update-status/" + data, {
+      withCredentials: true,
+    });
+  }
+  public getOrder(data: number) {
+    return this.http.get<any>(this.baseUrl + "/" + data, {
+      withCredentials: true,
+    });
+  }
+  public cancelOrder(data: number) {
+    return this.http.get<any>(this.baseUrl + "/cancel/" + data, {
+      withCredentials: true,
+    });
+  }
 }
