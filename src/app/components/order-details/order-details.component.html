@@ -1,0 +1,216 @@
+<body>
+  <div class="container-fluid">
+    <!-- start page title -->
+    <div class="row">
+      <div class="col-12">
+        <div class="page-title-box">
+          <h4 class="page-title">Chi tiết đơn hàng</h4>
+        </div>
+      </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-10 col-sm-11">
+        <div class="horizontal-steps mt-4 mb-4 pb-5">
+          <div class="horizontal-steps-content">
+            <div class="step-item" [class]="{ current: order.status == 0 }">
+              <span
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title=""
+                data-original-title="20/08/2018 07:24 PM"
+                aria-describedby="tooltip680955"
+                >Đang chờ</span
+              >
+            </div>
+            <div class="step-item" [class]="order.status == 1 ? 'current' : ''">
+              <span
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title=""
+                data-original-title="21/08/2018 11:32 AM"
+                >Chờ giao hàng</span
+              >
+            </div>
+            <div class="step-item" [class]="order.status == 2 ? 'current' : ''">
+              <span>Đang giao hàng</span>
+            </div>
+            <div class="step-item" [class]="order.status == 4 ? 'current' : ''">
+              <span>Chờ thanh toán</span>
+            </div>
+            <div class="step-item" [class]="order.status == 3 ? 'current' : ''">
+              <span>Đã thanh toán</span>
+            </div>
+          </div>
+
+          <div
+            class="process-line"
+            [style]="
+              'width:' +
+              (order.status == 4
+                ? order.status - 1
+                : order.status == 3
+                ? order.status + 1
+                : order.status) *
+                (1 / 4) *
+                100 +
+              '%'
+            "
+          ></div>
+        </div>
+      </div>
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="header-title mb-3">Items from Order {{ order.code }}</h4>
+
+            <div class="table-responsive">
+              <p-table [value]="order.orderDetailsDTOList">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>#</th>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                  </tr>
+                </ng-template>
+                <ng-template
+                  pTemplate="body"
+                  let-orderDetails
+                  let-index="rowIndex"
+                >
+                  <tr *ngIf="orderDetails.status !== -1">
+                    <td>{{ index + 1 }}</td>
+                    <td>
+                      {{
+                        orderDetails.shoesDetails.shoes.name +
+                          "[" +
+                          orderDetails.shoesDetails.color.name +
+                          "]"
+                      }}
+                    </td>
+                    <td>
+                      {{ orderDetails.quantity }}
+                    </td>
+                    <td>{{ orderDetails.price | currency : "VND" }}</td>
+                    <td>
+                      {{
+                        orderDetails.quantity * orderDetails.price
+                          | currency : "VND"
+                      }}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <!-- end table-responsive -->
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="header-title mb-3">Tổng quan hóa đơn</h4>
+
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Mô tả</th>
+                    <th>Giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tổng tiền :</td>
+                    <td>
+                      {{ order.totalPrice | currency : "VND" }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Khuyến mãi :</td>
+                    <td>{{ 0 | currency : "VND" }}</td>
+                  </tr>
+                  <tr>
+                    <th>Tổng :</th>
+                    <td>
+                      {{ order.totalPrice | currency : "VND" }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- end table-responsive -->
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="header-title mb-3">Shipping Information</h4>
+
+            <h5>
+              {{ order.receivedBy ? order.receivedBy : order.owner.login }}
+            </h5>
+
+            <address class="mb-0 font-14 address-lg">
+              <p>
+                {{
+                  order.userAddress.addressDetails +
+                    ", " +
+                    ward +
+                    ", " +
+                    district +
+                    ", " +
+                    provine
+                }}
+              </p>
+              <p>
+                <abbr title="Phone">P:</abbr>
+                <span>{{ order.phone }}</span>
+              </p>
+              <p>
+                <abbr title="Mail">M:</abbr>
+                <span>{{ order.phone }}</span>
+              </p>
+            </address>
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+
+      <!-- end col -->
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="header-title mb-3">Delivery Info</h4>
+            <div class="text-center">
+              <i class="mdi mdi-truck-fast h2 text-muted"></i>
+              <h5><b>UPS Delivery</b></h5>
+              <p class="mb-1">
+                <b>Order ID : </b> <span>{{ order.id }}</span>
+              </p>
+              <p class="mb-0"><b>Payment Mode : </b> COD</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+  </div>
+</body>

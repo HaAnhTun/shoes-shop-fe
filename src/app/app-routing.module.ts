@@ -25,6 +25,10 @@ import { LayoutComponent } from "./layout/client/layout/layout.component";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
 import { CartComponent } from "./components/client/cart/cart.component";
 import { ShoesInspectComponent } from "./components/client/shoes-inspect/shoes-inspect.component";
+import { OrderDetailsComponent } from "./components/order-details/order-details.component";
+import { PayComponent } from "./components/client/pay/pay.component";
+import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
+import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 const routes: Routes = [
   {///ADMIN LINKS
     path: "admin",
@@ -48,7 +52,8 @@ const routes: Routes = [
       { path: "oder", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
-      { path: "users", component: UserComponent},
+      { path: "users", component: UserComponent },
+      { path: "order-details/:id", component: OrderDetailsComponent },
     ],
   },
   {
@@ -60,6 +65,9 @@ const routes: Routes = [
       { path: "cart", component: CartComponent },
       {path : "shoes-detail", component:ShoesInspectComponent},
       { path: "shop", component: ShopComponent },
+      { path: "pay", component: PayComponent },
+      { path: "login-customer", component: LoginCustomerComponent },
+      { path: "register-customer", component: RegisterCustomerComponent },
     ],
   },
   /////CLIENT-LINKs
@@ -70,8 +78,8 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "shoes-categories", component: ShoesCategoryComponent },
-  { path: "landing", component: LandingComponent},
-  { path: "users", component: UserComponent},
+  { path: "landing", component: LandingComponent },
+  { path: "users", component: UserComponent },
   //không được viết path bên dưới thằng **
   { path: "**", component: LoginComponent },
 ];

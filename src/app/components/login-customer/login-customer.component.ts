@@ -1,26 +1,32 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { NgForm } from "@angular/forms";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { AppConstants } from "../../app-constants";
-import { Login } from "src/app/dto/login";
-import { LoginService } from "src/app/service/login.service";
-import { MessageService } from "primeng/api";
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { AppConstants } from 'src/app/app-constants';
+import { Login } from 'src/app/dto/login';
+import { LoginService } from 'src/app/service/login.service';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  selector: 'app-login-customer',
+  templateUrl: './login-customer.component.html',
+  styleUrls: ['./login-customer.component.css']
 })
-export class LoginComponent {
-  loginUser: Login = new Login();
+export class LoginCustomerComponent {
+  loginForm : FormGroup;
 
   constructor(
     private router: Router,
     public http: HttpClient,
     private loginservice: LoginService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private fb : FormBuilder
+  ) {
+    this.loginForm = this.fb.group({
+      login: ['', Validators.required],
+      passwordHash: ['', Validators.required]
+    })
+  }
 
   isValid = true;
 
@@ -31,10 +37,10 @@ export class LoginComponent {
     }
   }
 
-  onLogin() {}
-
   login() {
-    this.loginservice.login(this.loginUser).subscribe({
+    const user = this.loginForm.value;
+    console.log(user)
+    this.loginservice.login(user).subscribe({
       next: (body: any) => {
         if (body && body?.id_token) {
           sessionStorage.setItem("access_token", body?.id_token);
@@ -55,7 +61,6 @@ export class LoginComponent {
     });
   }
   clickOauth2(): void {
-    sessionStorage.setItem("oathu2", "oathu2");
     location.replace(
       AppConstants.BASE_URL_API + "/oauth2/authorization/google"
     );

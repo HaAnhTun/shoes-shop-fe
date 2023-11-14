@@ -1,0 +1,24 @@
+.headerTable th {
+  text-align: center;
+}
+.bodyTable td {
+  text-align: center;
+}
+::ng-deep .button-height.p-button-icon-only {
+  height: 30px;
+}
+
+.table-container {
+  height: 35vw;
+  overflow: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

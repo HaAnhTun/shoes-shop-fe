@@ -50,6 +50,19 @@
                         <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
                           placeholder="Khách hàng" formControlName="receivedBy" />
                       </div>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('receivedBy').touched &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('receivedBy').errors?.required
+                        "
+                      >
+                        Khách hàng không được bỏ trống
+                      </span>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
@@ -57,25 +70,93 @@
                         <input type="text" class="form-control" id="categoryCode" aria-describedby="emailHelp"
                           placeholder="SĐT" formControlName="phone" />
                       </div>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('phone').touched &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('phone').errors?.required
+                        "
+                      >
+                        Số điện thoại không được bỏ trống
+                      </span>
                     </div>
                   </div>
                   <div class="row" formGroupName="userAddress">
                     <div class="col-6">
                       <div class="form-group">
                         <label for="categoryCode">Địa chỉ:</label>
-                        <p-dropdown [options]="cities" optionLabel="name" optionValue="code"
-                          placeholder="Chọn Tỉnh/thành phố" (onChange)="fetchDistricts()"
-                          formControlName="province"></p-dropdown>
+                        <p-dropdown
+                          [options]="cities"
+                          optionLabel="name"
+                          optionValue="code"
+                          placeholder="Chọn Tỉnh/thành phố"
+                          (onChange)="fetchDistricts()"
+                          formControlName="province"
+                        ></p-dropdown>
+                        <span
+                          class="text-danger"
+                          *ngIf="
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('province').touched &&
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('province').errors?.required
+                          "
+                        >
+                          Thành phố không được bỏ trống
+                        </span>
                       </div>
                       <div class="form-group">
-                        <p-dropdown [options]="districts" optionLabel="name" optionValue="code"
-                          placeholder="Chọn Quận/huyện" (onChange)="fetchWards()"
-                          formControlName="district"></p-dropdown>
+                        <p-dropdown
+                          [options]="districts"
+                          optionLabel="name"
+                          optionValue="code"
+                          placeholder="Chọn Quận/huyện"
+                          (onChange)="fetchWards()"
+                          formControlName="district"
+                        ></p-dropdown>
+                        <span
+                          class="text-danger"
+                          *ngIf="
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('district').touched &&
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('userAddress')
+                              .get('district').errors?.required
+                          "
+                        >
+                          Quận/huyện không được bỏ trống
+                        </span>
                       </div>
                       <div class="form-group">
                         <p-dropdown [options]="wards" optionLabel="name" optionValue="code" placeholder="Chọn Xã/phường"
                           formControlName="ward"></p-dropdown>
                       </div>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('userAddress')
+                            .get('ward').touched &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('userAddress')
+                            .get('ward').errors?.required
+                        "
+                      >
+                        Xã phường không được bỏ trống
+                      </span>
                     </div>
                     <div class="col-6">
                       <div class="form-group">
@@ -85,22 +166,40 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-6">
+                    <!-- <div class="col-6">
                       <label for="categoryCode">Khuyến mãi:</label>
                       <div class="p-inputgroup">
                         <input type="text" pInputText style="width: 75%; height: 37px" />
                         <span class="p-inputgroup-addon" style="height: 37px">%</span>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="col-6">
                       <label for="">Tổng tiền sản phẩm:</label>
                       <div class="p-inputgroup">
-                        <p-inputNumber formControlName="totalPrice" mode="currency" id="p-float" inputId="currency-vn"
-                          currency="VND" locale="vi-VN" disable></p-inputNumber>
-                        <span class="p-inputgroup-addon" style="height: 37px">VNĐ</span>
+                        <p-inputNumber
+                          formControlName="totalPrice"
+                          mode="currency"
+                          id="p-float"
+                          inputId="currency-vn"
+                          currency="VND"
+                          locale="vi-VN"
+                          [disabled]="true"
+                        ></p-inputNumber>
+                        <span class="p-inputgroup-addon" style="height: 43px"
+                          >VNĐ</span
+                        >
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="categoryCode">Phương thức thanh toán:</label>
+                        <p-dropdown class="md:w-20rem w-full" containerStyleClass="w-full" [options]="listPayment"
+                          optionLabel="name" optionValue="code" formControlName="paymentMethod"
+                          placeholder="Select Item"></p-dropdown>
                       </div>
                     </div>
                   </div>
+
                   <div class="row">
                     <!-- <div class="col-6">
                         <div class="form-group">
@@ -114,17 +213,11 @@
                           ></p-treeSelect>
                         </div>
                       </div> -->
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label for="categoryCode">Phương thức thanh toán:</label>
-                        <p-dropdown class="md:w-20rem w-full" containerStyleClass="w-full" [options]="listPayment"
-                          optionLabel="name" optionValue="code" formControlName="paymentMethod"
-                          placeholder="Select Item"></p-dropdown>
-                      </div>
-                    </div>
                   </div>
-                  <p-triStateCheckbox inputId="tricheckbox"></p-triStateCheckbox>
-                  <span style="margin-left: 5px">Chờ thanh toán</span>
+                  <!-- <p-triStateCheckbox
+                    inputId="tricheckbox"
+                  ></p-triStateCheckbox>
+                  <span style="margin-left: 5px">Chờ thanh toán</span> -->
                 </div>
                 <span style="text-align: right" (click)="saveOrder()"><p-button label="Tạo hóa đơn"
                     styleClass="p-button-outlined"></p-button></span>
@@ -223,7 +316,7 @@
       </ng-container>
     </ng-container>
   </p-tabPanel>
-  <p-tabPanel #dt header="Danh sách hóa đơn">
+  <p-tabPanel header="Danh sách hóa đơn" #dshd>
     <ul class="nav nav-tabs" role="tablist">
       <li *ngFor="let item of this.listMenuItems" class="nav-item" role="presentation"
         style="width: 16.66%; cursor: pointer">
@@ -232,7 +325,10 @@
             align-items: center;
             justify-content: center;
             height: 50px;
-          " (click)="clickListOder(item.name)" [class]="checkString === item.name ? 'text-primaryy' : ''">
+          "
+          (click)="clickListOder(item.name)"
+          [class]="checkString == item.name ? 'text-primaryy' : ''"
+        >
           {{ item.name }}
           <span style="margin-bottom: 15px">
             <p-badge [value]="item.quantity"></p-badge>
@@ -246,8 +342,14 @@
           'country.name',
           'representative.name',
           'status'
-        ]" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        ]"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedOrderss"
+        [rowHover]="true"
+        dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem">
@@ -273,7 +375,7 @@
             </td>
             <td>{{ order.code }}</td>
             <td>
-              {{ order.customer }}
+              {{ order.customer ? order.customer : order.receivedBy }}
             </td>
             <td>{{ order.phone }}</td>
             <td>{{ order.lastModifiedBy }}</td>
@@ -284,8 +386,20 @@
               {{ order.createdDate | date : "dd-MM-yyyy" }}
             </td>
             <td>
-              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                (click)="editProduct(order)"></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="updateStatus(order.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"
+              ></button>
             </td>
           </tr>
         </ng-template>
@@ -293,7 +407,11 @@
           <div style="text-align: right">
             <p-button label="Hủy" styleClass="p-button-outlined"></p-button>
             <span style="margin-left: 10px">
-              <p-button label="Xác nhận" styleClass="p-button-outlined"></p-button>
+              <p-button
+                label="Xác nhận"
+                styleClass="p-button-outlined"
+                (click)="verifyOrder()"
+              ></p-button>
             </span>
           </div>
         </ng-template>
@@ -337,8 +455,20 @@
               {{ order.createdDate | date : "dd-MM-yyyy" }}
             </td>
             <td>
-              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                (click)="editProduct(order)"></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="editProduct(order)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"
+              ></button>
             </td>
           </tr>
         </ng-template>

@@ -72,13 +72,17 @@ import { PanelMenuModule } from "primeng/panelmenu";
 import { StyleClassModule } from "primeng/styleclass";
 import { MenuModule } from "primeng/menu";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
-import { CartComponent } from './components/client/cart/cart.component';
+import { CartComponent } from "./components/client/cart/cart.component";
 import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from './components/landing/landing.component';
 import { SelectButtonModule } from "primeng/selectbutton";
 import { SliderModule } from 'primeng/slider';
 import { ShoesInspectComponent } from './components/client/shoes-inspect/shoes-inspect.component';
 
+import { OrderDetailsComponent } from "./components/order-details/order-details.component";
+import { PayComponent } from "./components/client/pay/pay.component";
+import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
+import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,10 +107,13 @@ import { ShoesInspectComponent } from './components/client/shoes-inspect/shoes-i
     UserComponent,
     DashboardComponent,
     LandingComponent,
-
     ClientHomeComponent,
     CartComponent,
     ShoesInspectComponent,
+    OrderDetailsComponent,
+    PayComponent,
+    LoginCustomerComponent,
+    RegisterCustomerComponent,
   ],
   imports: [
     AppLayoutModule,
@@ -163,4 +170,4 @@ import { ShoesInspectComponent } from './components/client/shoes-inspect/shoes-i
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}

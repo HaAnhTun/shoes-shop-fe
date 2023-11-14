@@ -286,10 +286,6 @@ export class ShoesDetailAddComponent implements OnInit {
             variant.images.forEach((image) => {
               objectTest.append("images", image);
             });
-
-            console.log(JSON.stringify(objectTest));
-            console.log(objectTest);
-
             this.http
               .post<any>(
                 "http://localhost:8088/api/shoes-details-image",

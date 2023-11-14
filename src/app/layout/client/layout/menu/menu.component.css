@@ -2,6 +2,7 @@
   border-radius: 50%;
   background: #cfdbe9;
   width: 50px;
+  margin-right: -1vw;
 }
 
 ::ng-deep .layout-topbar .layout-topbar-button {
