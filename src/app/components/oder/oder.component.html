@@ -2,52 +2,33 @@
 <p-tabView>
   <p-tabPanel header="Tạo mới">
     <span (click)="creatOder()"
-      
       ><p-button
-       
         label="Tạo mới hóa đơn"
-       
         styleClass="p-button-outlined"
-      
       ></p-button
-    
     ></span>
     <ng-container *ngIf="this.checkOder === true">
       <ul class="nav nav-tabs" role="tablist" style="margin-top: 10px">
         <li
-         
           *ngFor="let oder of this.listOder"
-         
           class="nav-item"
-         
           role="presentation"
-         
           style="width: 10%; cursor: pointer"
-        
         >
           <a
-           
             class="nav-link"
-           
             data-bs-toggle="tab"
-           
             aria-selected="false"
-           
             role="tab"
-           
             tabindex="-1"
-           
             style="
               display: flex;
               align-items: center;
               justify-content: center;
               height: 50px;
             "
-           
             (click)="clickIndexOder(oder)"
-           
             [class]="checkIndexOder === oder ? 'text-primaryy' : ''"
-          
           >
             Hóa đơn {{ oder }}
           </a>
@@ -57,7 +38,6 @@
     <ng-container *ngFor="let index of this.listOder; index as i">
       <ng-container *ngIf="checkIndexOder === index">
         <span
-         
           style="
             display: flex;
             justify-content: center;
@@ -66,16 +46,13 @@
             font-weight: 700;
             font-size: larger;
           "
-          
           >Hóa đơn {{ index }}</span
-        
         >
         <form action="" [formGroup]="formOrder.at(index - 1)">
           <div class="row">
             <div class="col-6">
               <div class="card">
                 <span
-                 
                   style="
                     display: flex;
                     justify-content: center;
@@ -83,26 +60,18 @@
                     font-weight: 700;
                     font-size: larger;
                   "
-                  
                   >Thông tin khách hàng</span
-                
                 >
                 <div class="card-body">
                   <div class="form-group">
                     <label for="categoryCode">MÃ HĐ:</label>
                     <input
-                     
                       type="text"
-                     
                       class="form-control"
-                     
                       id="categoryCode"
-                     
                       aria-describedby="emailHelp"
                       placeholder="mã hóa đơn"
-                     
                       formControlName="code"
-                   
                     />
                   </div>
                   <div class="row">
@@ -110,18 +79,12 @@
                       <div class="form-group">
                         <label for="categoryCode">Khách hàng:</label>
                         <input
-                         
                           type="text"
-                         
                           class="form-control"
-                         
                           id="categoryCode"
-                         
                           aria-describedby="emailHelp"
                           placeholder="Khách hàng"
-                         
                           formControlName="receivedBy"
-                       
                         />
                       </div>
                       <span
@@ -142,18 +105,12 @@
                       <div class="form-group">
                         <label for="categoryCode">SĐT:</label>
                         <input
-                         
                           type="text"
-                         
                           class="form-control"
-                         
                           id="categoryCode"
-                         
                           aria-describedby="emailHelp"
                           placeholder="SĐT"
-                         
                           formControlName="phone"
-                       
                         />
                       </div>
                       <span
@@ -226,16 +183,11 @@
                       </div>
                       <div class="form-group">
                         <p-dropdown
-                         
                           [options]="wards"
-                         
                           optionLabel="name"
-                         
                           optionValue="code"
-                         
                           placeholder="Chọn Xã/phường"
                           formControlName="ward"
-                        
                         ></p-dropdown>
                       </div>
                       <span
@@ -258,15 +210,10 @@
                       <div class="form-group">
                         <label for="categoryCode">Địa chỉ chi tiết:</label>
                         <textarea
-                         
                           rows="5"
-                         
                           cols="28"
-                         
                           pInputTextarea
-                         
                           formControlName="addressDetails"
-                        
                         ></textarea>
                       </div>
                     </div>
@@ -305,24 +252,16 @@
                     <div class="col-6">
                       <div class="form-group">
                         <label for="categoryCode"
-                          
                           >Phương thức thanh toán:</label
-                        
                         >
                         <p-dropdown
-                         
                           class="md:w-20rem w-full"
-                         
                           containerStyleClass="w-full"
-                         
                           [options]="listPayment"
                           optionLabel="name"
-                         
                           optionValue="code"
-                         
                           formControlName="paymentMethod"
                           placeholder="Select Item"
-                        
                         ></p-dropdown>
                       </div>
                     </div>
@@ -411,23 +350,16 @@
                 </div>
               </div> -->
               <p-button
-               
                 label="Chọn sản phẩm"
-               
                 styleClass="p-button-outlined"
                 (click)="openShoesDetailsDialog()"
-              
               ></p-button>
               <p-table
-               
                 [value]="
                   formOrder.at(index - 1).controls.orderDetailsDTOList.controls
                 "
-               
                 [tableStyle]="{ 'min-width': '30rem', 'margin-top': '60px' }"
-               
                 formArrayName="orderDetailsDTOList"
-              
               >
                 <ng-template pTemplate="header">
                   <tr>
@@ -447,34 +379,24 @@
                     </td>
                     <td>
                       <p-inputNumber
-                       
                         mode="decimal"
-                       
                         [showButtons]="true"
-                       
                         inputId="minmax-buttons"
-                       
                         [min]="1"
-                       
                         [max]="9999"
                         placeholder="Nhập số lượng"
-                       
                         formControlName="quantity"
                         (change)="updateTotalPrice()"
-                      
                       ></p-inputNumber>
                     </td>
                     <td>{{ order.value.price | currency : "VND" }}</td>
                     <td>
                       {{
-                          order.value.quantity * order.value.price
-                              | currency : "VND"
+                        order.value.quantity * order.value.price
+                          | currency : "VND"
                       }}
                     </td>
                     <td>
-                      <p-button (click)="deleteShoesDetails(index)"
-                        ><i class="pi pi-trash" style="font-size: 1rem"></i
-                      ></p-button>
                       <p-button (click)="deleteShoesDetails(index)"
                         ><i class="pi pi-trash" style="font-size: 1rem"></i
                       ></p-button>
@@ -491,27 +413,17 @@
   <p-tabPanel header="Danh sách hóa đơn" #dshd>
     <ul class="nav nav-tabs" role="tablist">
       <li
-       
         *ngFor="let item of this.listMenuItems"
-       
         class="nav-item"
-       
         role="presentation"
         style="width: 16.66%; cursor: pointer"
-      
       >
         <a
-         
           class="nav-link"
-         
           data-bs-toggle="tab"
-         
           aria-selected="false"
-         
           role="tab"
-         
           tabindex="-1"
-         
           style="
             display: flex;
             align-items: center;
@@ -530,15 +442,10 @@
     </ul>
     <ng-container *ngIf="this.check === true">
       <p-table
-       
         #dt
-       
         [value]="orders"
-       
         [rows]="5"
-       
         [paginator]="true"
-       
         [globalFilterFields]="[
           'name',
           'country.name',
@@ -627,33 +534,22 @@
     </ng-container>
     <ng-container *ngIf="this.checkOne === true">
       <p-table
-       
         #dt
-       
         [value]="orders"
-       
         [rows]="5"
-       
         [paginator]="true"
-       
         [globalFilterFields]="[
           'name',
           'country.name',
           'representative.name',
           'status'
         ]"
-       
         [tableStyle]="{ 'min-width': '75rem' }"
-       
         [(selection)]="selectedProducts"
-       
         [rowHover]="true"
-       
         dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-       
         [showCurrentPageReport]="true"
-      
       >
         <ng-template pTemplate="header">
           <tr>
@@ -713,11 +609,8 @@
             ></p-button>
             <span style="margin-left: 10px">
               <p-button
-               
                 label="Xác nhận"
-               
                 styleClass="p-button-outlined"
-              
                 *ngIf="checkString == 'Chờ xác nhận'"
               ></p-button>
             </span>
@@ -728,18 +621,12 @@
   </p-tabPanel>
 </p-tabView>
 <p-dialog
- 
   header="Chọn giày"
- 
   [(visible)]="orderDetailsDialog"
- 
   [modal]="true"
- 
   styleClass="container-fuild"
   [draggable]="false"
- 
   [resizable]="true"
-
 >
   <div class="row">
     <div class="col-12">
@@ -749,19 +636,13 @@
   <div class="row">
     <div class="col-12">
       <p-table
-       
         [value]="shoesDetails"
-       
         [tableStyle]="{ 'min-width': '60rem' }"
         styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
         [paginator]="true"
-       
         dataKey="code"
-       
         [rows]="5"
-       
         [rowsPerPageOptions]="[10, 25, 50]"
-      
       >
         <ng-template pTemplate="header">
           <tr>
@@ -771,30 +652,20 @@
           </tr>
         </ng-template>
         <ng-template
-         
           pTemplate="body"
-         
           let-shoes
-         
           let-index="rowIndex"
-         
           let-expanded="expanded"
-        
         >
           <tr>
             <td>
               <button
-               
                 type="button"
-               
                 pButton
-               
                 pRipple
-               
                 [pRowToggler]="shoes"
                 class="p-button-text p-button-rounded p-button-plain"
                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-              
               ></button>
             </td>
             <td>{{ shoes.code }}</td>
@@ -806,58 +677,43 @@
             <td colspan="7">
               <div class="p-3">
                 <p-table
-                 
                   [value]="shoes.shoesDetailsCustomeDTOS"
-                 
                   dataKey="id"
-                 
                   [(selection)]="selectedShoes"
-                
                 >
                   <ng-template pTemplate="header">
-                              <tr>
-                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-                                <th>Tên</th>
-                                <th>Giá</th>
-                                <th>Nhãn hiệu</th>
-                                <th>Size</th>
-                              </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-shoesDetail>
-                              <tr>
-                                <td>
-                                  <p-tableCheckbox
-                         
+                    <tr>
+                      <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                      <th>Tên</th>
+                      <th>Giá</th>
+                      <th>Nhãn hiệu</th>
+                      <th>Size</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-shoesDetail>
+                    <tr>
+                      <td>
+                        <p-tableCheckbox
                           [value]="shoesDetail"
-                         
                           (onClick)="updateSize(shoesDetail)"
-                        
                         ></p-tableCheckbox>
-                                </td>
-                                <td>
-                                  {{ shoes.name + "[" + shoesDetail.color.name + "]" }}
-                                </td>
-                                <td>{{ shoesDetail.price }}</td>
-                                <td>{{ shoesDetail.brand.name }}</td>
-                                <td>
-                                  <p-multiSelect
-                         
+                      </td>
+                      <td>
+                        {{ shoes.name + "[" + shoesDetail.color.name + "]" }}
+                      </td>
+                      <td>{{ shoesDetail.price }}</td>
+                      <td>{{ shoesDetail.brand.name }}</td>
+                      <td>
+                        <p-multiSelect
                           *ngIf="
                             selectedShoes && selectedShoes.includes(shoesDetail)
                           "
-                         
                           [options]="shoesDetail.sizes"
-                         
                           optionLabel="name"
-                         
                           optionValue="id"
-                         
-                                    [showClear]="true"
-                         
+                          [showClear]="true"
                           placeholder="Chọn size"
-                         
                           [virtualScrollItemSize]="43"
-                         
                           [style]="{
                             'z-index': '9999',
                             top: 'auto',
@@ -888,9 +744,6 @@
           </tr>
         </ng-template>
       </p-table>
-    </div>
-    <div class="col-12">
-      <p-button label="Lưu" (click)="pushShoesDetails()"></p-button>
     </div>
   </div>
 </p-dialog>
