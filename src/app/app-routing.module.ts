@@ -24,6 +24,7 @@ import { LandingComponent } from "./components/landing/landing.component";
 import { LayoutComponent } from "./layout/client/layout/layout.component";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
 import { CartComponent } from "./components/client/cart/cart.component";
+import { ShoesInspectComponent } from "./components/client/shoes-inspect/shoes-inspect.component";
 const routes: Routes = [
   {///ADMIN LINKS
     path: "admin",
@@ -57,6 +58,7 @@ const routes: Routes = [
       { path: "", component: ClientHomeComponent },
       { path: "home", component: ClientHomeComponent },
       { path: "cart", component: CartComponent },
+      {path : "shoes-detail", component:ShoesInspectComponent},
       { path: "shop", component: ShopComponent },
     ],
   },

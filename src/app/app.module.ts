@@ -77,6 +77,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from './components/landing/landing.component';
 import { SelectButtonModule } from "primeng/selectbutton";
 import { SliderModule } from 'primeng/slider';
+import { ShoesInspectComponent } from './components/client/shoes-inspect/shoes-inspect.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { SliderModule } from 'primeng/slider';
 
     ClientHomeComponent,
     CartComponent,
+    ShoesInspectComponent,
   ],
   imports: [
     AppLayoutModule,
