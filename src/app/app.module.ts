@@ -78,7 +78,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
-
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +109,7 @@ import { RegisterCustomerComponent } from "./components/register-customer/regist
     PayComponent,
     LoginCustomerComponent,
     RegisterCustomerComponent,
+    ProfileComponent,
   ],
   imports: [
     AppLayoutModule,

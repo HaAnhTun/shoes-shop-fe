@@ -43,7 +43,7 @@ export class UserComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       login: ['', Validators.required, [this.duplicateLogin()]],
-      passwordHash: ['', Validators.required, Validators.minLength(6)],
+      passwordHash: ['', Validators.required],
       email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]],
       authorities: ['', Validators.required],
     })
@@ -73,15 +73,24 @@ export class UserComponent {
     let listString: string[] = []
     const listAny = this.userForm.get('authorities')?.value
     console.log(listAny)
-    listAny.forEach((element: { label: string, value: string; }) => {
-      listString.push(element.value)
-    });
+    // listAny.forEach((element: { label: string, value: string; }) => {
+      listString.push(listAny.value)
+    // });
     return listString;
   }
 
   addUser() {
-    const newUser = { ...this.userForm.value };
-    console.log(newUser)
+    // const newUser = { ...this.userForm.value };
+    const newUser = {
+      "id": this.userForm.get('id')?.value,
+      "login": this.userForm.get('login')?.value,
+      "passwordHash": this.userForm.get('passwordHash')?.value,
+      "firstName": this.userForm.get('firstName')?.value,
+      "lastName": this.userForm.get('lastName')?.value,
+      "email": this.userForm.get('email')?.value,
+      "imageUrl": this.userForm.get('imageUrl')?.value,
+      "authorities": this.getRoleUser()
+    }
     // Kiểm tra các trường bắt buộc
     if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.authorities) {
       this.messageService.add({
@@ -95,16 +104,9 @@ export class UserComponent {
 
     if (!newUser.id) {
       // Thêm người dùng mới
-      const authUser = {
-        "login": this.userForm.get('login')?.value,
-        "passwordHash": this.userForm.get('passwordHash')?.value,
-        "firstName": this.userForm.get('firstName')?.value,
-        "lastName": this.userForm.get('lastName')?.value,
-        "email": this.userForm.get('email')?.value,
-        "imageUrl": this.userForm.get('imageUrl')?.value,
-        "authorities": this.getRoleUser()
-      }
-      this.userService.save(authUser).subscribe(
+      
+      console.log(newUser)
+      this.userService.save(newUser).subscribe(
         (response) => {
           console.log('Người dùng đã được thêm:', response);
           this.messageService.add({
@@ -127,6 +129,7 @@ export class UserComponent {
       );
     } else {
       // Cập nhật người dùng
+      
       this.userService.update(newUser).subscribe(
         (response) => {
           console.log('Người dùng đã được cập nhật:', response);
@@ -149,6 +152,7 @@ export class UserComponent {
         }
       );
     }
+    this.getAllUser();
     this.closeUserDialog();
   }
 
@@ -192,21 +196,17 @@ export class UserComponent {
       login: user.login,
       passwordHash: user.passwordHash,
       email: user.email,
-      authorities: user.authorities
+      authorities: user.authorities[0] == 'ROLE_USER' ? { label: 'User', value: 'ROLE_USER' } : { label: 'Admin', value: 'ROLE_ADMIN' }
     });
+
   }
 
   getOrder(user: User) {
-    console.log(user)
     this.userService.getOrderById(user.id).subscribe(
       (response) => {
         this.orderData[user.id] = response
       }
     )
-  }
-
-  getRole(authorities: string) {
-    return authorities === "User" ? "ROLE_USER" : "ROLE_ADMIN";
   }
 
   openUserDal() {
@@ -229,6 +229,7 @@ export class UserComponent {
       if (products.label?.toLowerCase().includes(query.toLowerCase())) {
         filtered.push(products);
       }
+      console.log(products)
     }
     this.list = filtered
   }

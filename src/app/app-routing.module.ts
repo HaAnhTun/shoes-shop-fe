@@ -27,6 +27,7 @@ import { CartComponent } from "./components/client/cart/cart.component";
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
+import { ProfileComponent } from "./components/profile/profile.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -64,6 +65,7 @@ const routes: Routes = [
       { path: "pay", component: PayComponent },
       { path: "login-customer", component: LoginCustomerComponent},
       { path: "register-customer", component: RegisterCustomerComponent},
+      { path: "profile", component: ProfileComponent}
     ],
   },
   /////CLIENT-LINKs
