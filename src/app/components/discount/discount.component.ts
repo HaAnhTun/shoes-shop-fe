@@ -31,7 +31,7 @@ export class DiscountComponent implements OnInit {
   shoesCategory: ShoesCategory = {};
   shoesCategoryValue: ShoesCategoryValue = {};
   selectedShoesCategories: ShoesCategory[] = [];
-  searchText: String = "";
+  searchText: string;
   submitted: boolean = false;
 
   cols: any[] = [];
@@ -65,6 +65,10 @@ export class DiscountComponent implements OnInit {
   updateVisibility(): void {
     this.visible = false;
     this.ngOnInit();
+    setTimeout(() => (this.visible = true), 500);
+  }
+  updateTable(): void {
+    this.visible = false;
     setTimeout(() => (this.visible = true), 0);
   }
   deleteDiscount(id: number) {
@@ -105,5 +109,15 @@ export class DiscountComponent implements OnInit {
         }
       },
     });
+  }
+  search() {
+    this.discountService.search(this.searchText).subscribe((res) => {
+      this.discounts = res;
+      console.log(res);
+      this.updateTable();
+    });
+  }
+  delay(time: any) {
+    return new Promise((resolve) => setTimeout(resolve, time));
   }
 }

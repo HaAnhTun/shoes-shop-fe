@@ -17,6 +17,8 @@ import { ProductService } from "src/app/product.service";
 import { SizeData } from "src/app/model/Size";
 import { AppConstants } from "src/app/app-constants";
 import { TabPanel } from "primeng/tabview";
+import { Router } from "@angular/router";
+import { error } from "console";
 @Component({
   selector: "app-oder",
   templateUrl: "./oder.component.html",
@@ -42,6 +44,10 @@ export class OderComponent implements OnInit {
   chartData: any[] | undefined;
   cities: any[];
   selectedCity: any;
+  province: any;
+  district: any;
+  ward: any;
+  reset: boolean = true;
   districts: any[];
   selectedDistricts: any;
   wards: any[];
@@ -76,19 +82,23 @@ export class OderComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private productService: ProductService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
   formOrder = this.fb.array<FormArray>([]);
   initForm() {
     return this.fb.group({
       id: [""],
-      code: [{ value: "", disabled: true }, Validators.required],
+      code: [{ value: "", disabled: true }],
       receivedBy: ["", Validators.required],
       phone: ["", Validators.required],
       userAddress: this.fb.group({
-        province: [""],
-        district: [""],
-        ward: [""],
+        province: ["", Validators.required],
+        provinceName: [""],
+        district: ["", Validators.required],
+        districtName: [""],
+        ward: ["", Validators.required],
+        wardName: [""],
         addressDetails: [""],
       }),
       paymentMethod: [""],
@@ -124,6 +134,22 @@ export class OderComponent implements OnInit {
   get getFormOrder() {
     return this.formOrder as FormArray;
   }
+  getProvine(code: number) {
+    this.addressService.getProvine(code).subscribe((res) => {
+      this.province = res.name;
+      console.log(res);
+    });
+  }
+  getDistrict(code: number) {
+    this.addressService.getDistrict1(code).subscribe((res) => {
+      this.district = res.name;
+    });
+  }
+  getWard(code: number) {
+    this.addressService.getWard(code).subscribe((res) => {
+      this.ward = res.name;
+    });
+  }
   creatOder() {
     this.getFormOrder.push(this.initForm());
     this.checkOder = true;
@@ -132,6 +158,41 @@ export class OderComponent implements OnInit {
     }
     this.indexOder++;
     this.listOder.push(this.indexOder);
+  }
+  deleteOrder() {
+    this.confirmationService.confirm({
+      message: "Bạn muốn xóa thông tin hóa đơn?",
+      header: "Xóa hóa đơn",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        if (this.indexOder >= 1) {
+          this.getFormOrder.removeAt(this.checkIndexOder - 1);
+          this.listOder.splice(this.checkIndexOder - 1, 1);
+          this.indexOder--;
+          for (let i = this.checkIndexOder - 1; i < this.indexOder; i++) {
+            this.listOder[i] = this.listOder[i] - 1;
+          }
+        }
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: "error",
+              summary: "Từ chối",
+              detail: "Bạn vừa từ chối",
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: "warn",
+              summary: "Cancelled",
+              detail: "You have cancelled",
+            });
+            break;
+        }
+      },
+    });
   }
   updateSize(shoesDetails: any) {
     console.log(shoesDetails);
@@ -257,10 +318,20 @@ export class OderComponent implements OnInit {
       .get(this.checkIndexOder - 1 + "")
       ?.get("orderDetailsDTOList") as FormArray;
   }
+  showOderDetails(id: number) {
+    this.router.navigate(["/admin/order-details/" + id]);
+  }
   pushShoesDetails() {
     for (let p of this.selectedShoes) {
-      if (p.selectedShoesDetails)
+      if (p.selectedShoesDetails) {
         for (let p1 of p.selectedShoesDetails) {
+          if (!p1.size || !p1.size.id) {
+            this.messageService.add({
+              severity: "warn",
+              summary: "Vui lòng trọn size",
+            });
+            return;
+          }
           this.orderDetails.shoesDetails = p1;
           if (
             !this.orderDetailsDTOList.value.find(
@@ -271,6 +342,13 @@ export class OderComponent implements OnInit {
             this.orderDetailsDTOList.push(this.initDetails(this.orderDetails));
           }
         }
+      } else {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Vui lòng trọn size",
+        });
+        return;
+      }
     }
     this.updateTotalPrice();
     this.closeShoesDetailsDialog();
@@ -286,22 +364,43 @@ export class OderComponent implements OnInit {
       header: "Lưu hóa đơn",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.orderService.saveOrder(data.value).subscribe((res) => {
-          this.messageService.add({
-            severity: "success",
-            summary: "Thêm mới thành công",
-            life: 3000,
-          });
-          this.updateTable();
-        });
+        if (!this.formOrder.at(this.checkIndexOder - 1).invalid) {
+          var rawData = data.value;
+          this.getProvine(rawData.userAddress.province);
+          this.getDistrict(rawData.userAddress.district);
+          this.getWard(rawData.userAddress.ward);
+          rawData.userAddress.provinceName = this.province;
+          rawData.userAddress.districtName = this.district;
+          rawData.userAddress.wardName = this.ward;
+          this.orderService.saveOrder(rawData).subscribe(
+            (res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "Thêm mới thành công",
+                life: 3000,
+              });
+              this.updateTable();
+            },
+            (error) => {
+              console.log(error);
+              this.messageService.add({
+                severity: "error",
+                summary: "Lỗi",
+                detail: error.error.title
+                  ? error.error.title
+                  : error.error.fieldErrors[0].message,
+              });
+            }
+          );
+        }
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
           case ConfirmEventType.REJECT:
             this.messageService.add({
               severity: "error",
-              summary: "Rejected",
-              detail: "You have rejected",
+              summary: "Từ chối",
+              detail: "Bạn vừa từ chối",
             });
             break;
           case ConfirmEventType.CANCEL:
@@ -365,6 +464,8 @@ export class OderComponent implements OnInit {
               images: [...this.uploadedFiles],
             }
       );
+
+      this.updateTable();
     }
     if (shoes) {
       console.log(shoes, "shoes");
@@ -377,76 +478,7 @@ export class OderComponent implements OnInit {
   deleteShoesDetails(index: number) {
     this.orderDetailsDTOList.at(index).get("status")?.setValue(-1);
   }
-  generateShoeVariants(): ShoesDetail[] {
-    this.http
-      .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details")
-      .subscribe((response: any[]) => {
-        this.shoesVariantsList = response;
-      });
-    const variants: ShoesDetail[] = [];
-    for (const shoes of this.selectedShoes) {
-      for (const color of shoes.colorDTOs) {
-        for (const size of shoes.sizeDTOs) {
-          const brand = shoes.shoesDetails;
-          const variant: ShoesDetail = {
-            shoes: { id: shoes.id, name: shoes.name },
-            status: shoes.status,
-            quantity: 0,
-            brand: { id: brand.id, name: brand.name },
-            description: "",
-            import_price: 0,
-            price: 0,
-            tax: 0,
-            code: shoes.code + brand.code + color.code + size.code,
-            color: { id: color.id, name: color.name },
-            size: { id: size.id, name: size.name },
-            images: [...this.uploadedFiles],
-          };
-          let isCodeFound = this.shoesVariantsList.some(
-            (v) => v.code == variant.code
-          );
-          if (isCodeFound) {
-            this.messageService.add({
-              severity: "warning",
-              summary: "Exist",
-              detail:
-                "Variants " +
-                variant.shoes.name +
-                "-" +
-                variant.brand.name +
-                "[" +
-                variant.color.name +
-                "-" +
-                variant.size.name +
-                "]" +
-                " Existed",
-              life: 3000,
-            });
-          } else {
-            variants.push(variant);
-            this.messageService.add({
-              severity: "success",
-              summary: "Generate",
-              detail:
-                "Variants " +
-                variant.shoes.name +
-                "-" +
-                variant.brand.name +
-                "[" +
-                variant.color.name +
-                "-" +
-                variant.size.name +
-                "]" +
-                " Generated",
-              life: 3000,
-            });
-          }
-        }
-      }
-    }
 
-    return variants;
-  }
   updateTotalPrice() {
     let data = this.formOrder.at(this.checkIndexOder - 1);
     let orderDetailList = this.orderDetailsDTOList.value;

@@ -1,0 +1,77 @@
+<main>
+    <app-header></app-header>
+    <p-galleria [value]="products" [autoPlay]="true" [circular]="true" [responsiveOptions]="responsiveOptions"
+        [numVisible]="3" [containerStyle]="{ 'width': '1980px' }">
+        <ng-template pTemplate="item" let-item>
+            <img [src]=item.image width="800" height="700" />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+                <img [src]=item.image width="400" height="200" />
+            </div>
+        </ng-template>
+    </p-galleria>
+    <div>
+        <p-carousel [value]="products" [numVisible]="3" [numScroll]="3" [circular]="true"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-product pTemplate="item">
+                <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+                    <div class="mb-3">
+                        <p-image [src]=product.image [alt]=product.name width="250" height="300"
+                            [preview]="true"></p-image>
+                    </div>
+                    <div>
+                        <h4 class="mb-1">{{ product.name }}</h4>
+                        <h6 class="mt-0 mb-3">{{ '$' + product.price }}</h6>
+                        <p-tag [value]="product.inStock ?'InStock': 'OutStock'"
+                            [severity]="product.inStock? 'success':'danger'"></p-tag>
+                        <div class="car-buttons mt-5">
+                            <p-button type="button" styleClass="p-button p-button-rounded mr-2"
+                                icon="pi pi-search"></p-button>
+                            <p-button type="button" styleClass="p-button-success p-button-rounded mr-2"
+                                icon="pi pi-star-fill"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+
+    <p-table [value]="products" [tableStyle]="{'min-width': '60rem'}">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Products
+                <p-button icon="pi pi-refresh"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Reviews</th>
+                <th>Status</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.name}}</td>
+                <td><img [src]=product.image [alt]="product.name" width="100" class="shadow-4" /></td>
+                <td>{{product.price | currency:'USD'}}</td>
+                <td>{{product.category}}</td>
+                <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+                <td> <p-tag [value]="product.inStock ?'InStock': 'OutStock'"
+                        [severity]="product.inStock? 'success':'danger'"></p-tag></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{products ? products.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+
+
+    <app-footer></app-footer>
+</main>
