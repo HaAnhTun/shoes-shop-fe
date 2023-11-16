@@ -44,6 +44,10 @@ export class OderComponent implements OnInit {
   chartData: any[] | undefined;
   cities: any[];
   selectedCity: any;
+  province: any;
+  district: any;
+  ward: any;
+  reset: boolean = true;
   districts: any[];
   selectedDistricts: any;
   wards: any[];
@@ -90,8 +94,11 @@ export class OderComponent implements OnInit {
       phone: ["", Validators.required],
       userAddress: this.fb.group({
         province: ["", Validators.required],
+        provinceName: [""],
         district: ["", Validators.required],
+        districtName: [""],
         ward: ["", Validators.required],
+        wardName: [""],
         addressDetails: [""],
       }),
       paymentMethod: [""],
@@ -127,6 +134,22 @@ export class OderComponent implements OnInit {
   get getFormOrder() {
     return this.formOrder as FormArray;
   }
+  getProvine(code: number) {
+    this.addressService.getProvine(code).subscribe((res) => {
+      this.province = res.name;
+      console.log(res);
+    });
+  }
+  getDistrict(code: number) {
+    this.addressService.getDistrict1(code).subscribe((res) => {
+      this.district = res.name;
+    });
+  }
+  getWard(code: number) {
+    this.addressService.getWard(code).subscribe((res) => {
+      this.ward = res.name;
+    });
+  }
   creatOder() {
     this.getFormOrder.push(this.initForm());
     this.checkOder = true;
@@ -135,6 +158,41 @@ export class OderComponent implements OnInit {
     }
     this.indexOder++;
     this.listOder.push(this.indexOder);
+  }
+  deleteOrder() {
+    this.confirmationService.confirm({
+      message: "Bạn muốn xóa thông tin hóa đơn?",
+      header: "Xóa hóa đơn",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        if (this.indexOder >= 1) {
+          this.getFormOrder.removeAt(this.checkIndexOder - 1);
+          this.listOder.splice(this.checkIndexOder - 1, 1);
+          this.indexOder--;
+          for (let i = this.checkIndexOder - 1; i < this.indexOder; i++) {
+            this.listOder[i] = this.listOder[i] - 1;
+          }
+        }
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({
+              severity: "error",
+              summary: "Từ chối",
+              detail: "Bạn vừa từ chối",
+            });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({
+              severity: "warn",
+              summary: "Cancelled",
+              detail: "You have cancelled",
+            });
+            break;
+        }
+      },
+    });
   }
   updateSize(shoesDetails: any) {
     console.log(shoesDetails);
@@ -306,8 +364,15 @@ export class OderComponent implements OnInit {
       header: "Lưu hóa đơn",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        if (!this.formOrder.invalid)
-          this.orderService.saveOrder(data.value).subscribe(
+        if (!this.formOrder.at(this.checkIndexOder - 1).invalid) {
+          var rawData = data.value;
+          this.getProvine(rawData.userAddress.province);
+          this.getDistrict(rawData.userAddress.district);
+          this.getWard(rawData.userAddress.ward);
+          rawData.userAddress.provinceName = this.province;
+          rawData.userAddress.districtName = this.district;
+          rawData.userAddress.wardName = this.ward;
+          this.orderService.saveOrder(rawData).subscribe(
             (res) => {
               this.messageService.add({
                 severity: "success",
@@ -317,21 +382,25 @@ export class OderComponent implements OnInit {
               this.updateTable();
             },
             (error) => {
+              console.log(error);
               this.messageService.add({
                 severity: "error",
-                summary: "Rejected",
-                detail: error.error.fieldErrors[0].message,
+                summary: "Lỗi",
+                detail: error.error.title
+                  ? error.error.title
+                  : error.error.fieldErrors[0].message,
               });
             }
           );
+        }
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
           case ConfirmEventType.REJECT:
             this.messageService.add({
               severity: "error",
-              summary: "Rejected",
-              detail: "You have rejected",
+              summary: "Từ chối",
+              detail: "Bạn vừa từ chối",
             });
             break;
           case ConfirmEventType.CANCEL:
