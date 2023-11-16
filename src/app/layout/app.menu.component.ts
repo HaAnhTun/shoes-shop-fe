@@ -21,36 +21,6 @@ export class AppMenuComponent implements OnInit {
             label: "Dashboard",
             icon: "pi pi-fw pi-home",
             routerLink: ["/admin"],
-          }, //không có gì  =  ''
-          {
-            label: "test cho ae ( home) ",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/admin/home"],
-          }, //này là home
-          {
-            label: "test cho ae ( category)",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/admin/shoes-category"],
-          }, //này là shop check component trong app-routing.ts path 'admin'
-          {
-            label: "test cho ae ( shop)",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/admin/shop"],
-          }, //này là shop check component trong app-routing.ts path 'admin'
-          {
-            label: "Tài khoản",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/admin/users"],
-          },
-          {
-            label: "test cho ae ( category)",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/admin/discount"],
-          },
-          {
-            label: "Tài khoản",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/admin/users"],
           },
         ],
       },
@@ -152,10 +122,10 @@ export class AppMenuComponent implements OnInit {
         ],
       },
       {
-        label: "ORTHER",
+        label: "Khác",
         items: [
           {
-            label: "Documentation",
+            label: "Tài liệu",
             icon: "pi pi-fw pi-book",
             routerLink: ["/documentation"],
           },

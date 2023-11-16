@@ -3,8 +3,9 @@
     <div class="col-3 card">
         <!--filter options and controls -->
         <div class="surface-card">
-            <h3>Filter Options</h3>
+            <h3>Bộ lọc</h3>
             <div class="card flex justify-content-center">
+                <h5>Thương Hiệu</h5>
                 <p-selectButton [options]="brandOptions" [(ngModel)]="selectedBrand" optionLabel="label"
                     (onOptionClick)="calle()" optionValue="value">
                     <ng-template let-brand pTemplate="item">
@@ -17,11 +18,13 @@
 
 
             <div class="card flex justify-content-center">
+                <h5>Size</h5>
                 <p-selectButton (onOptionClick)="calle()" [(options)]="paymentOptions" [(ngModel)]="selectedSizes"
                     [multiple]="true" optionLabel="name" optionValue="value" #tablos>
                 </p-selectButton>
             </div>
             <div class="card flex justify-content-center">
+                <h5>Giá</h5>
                 <label for="blockspace" class="font-bold block mb-2">Giá từ {{rangeValues[0] | currency: 'VND'}} đến
                     {{rangeValues[1] | currency: 'VND'}}</label>
                 <p-slider [(ngModel)]="rangeValues" (onChange)="loge()" [step]="100000" [range]="true" [max]="100000000"
@@ -67,7 +70,7 @@
                                         <i class="pi pi-tag"></i>
                                         <span class="font-semibold">{{category.name}}</span>
                                     </span>
-                                    <p-tag [value]="product.inStock ?'InStock': 'OutStock'"
+                                    <p-tag [value]="product.inStock ?'Còn Hàng': 'Còn ít'"
                                         [severity]="product.inStock? 'success':'danger'">
                                     </p-tag>
                                 </div>
@@ -90,7 +93,7 @@
                                 <i class="pi pi-tag"></i>
                                 <span class="font-semibold">{{category.name}}</span>
                             </span>
-                            <p-tag [value]="product.inStock ? 'InStock': 'OutStock'"
+                            <p-tag [value]="product.inStock ? 'Còn Hàng': 'Còn ít'"
                                 [severity]="product.inStock ? 'success':'danger'"></p-tag>
                         </div>
 
