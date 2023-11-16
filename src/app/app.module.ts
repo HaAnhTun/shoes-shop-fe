@@ -83,6 +83,8 @@ import { OrderDetailsComponent } from "./components/order-details/order-details.
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
+import { AboutComponent } from './components/client/about/about.component';
+import { ContactComponent } from './components/client/contact/contact.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,6 +116,8 @@ import { RegisterCustomerComponent } from "./components/register-customer/regist
     PayComponent,
     LoginCustomerComponent,
     RegisterCustomerComponent,
+    AboutComponent,
+    ContactComponent,
   ],
   imports: [
     AppLayoutModule,
