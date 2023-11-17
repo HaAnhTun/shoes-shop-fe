@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LayoutService } from "src/app/layout/service/app.layout.service";
 import { LoginService } from "src/app/service/login.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-client.home",
@@ -10,7 +11,8 @@ import { LoginService } from "src/app/service/login.service";
 export class ClientHomeComponent implements OnInit {
   constructor(
     public layoutService: LayoutService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     if (
@@ -21,6 +23,7 @@ export class ClientHomeComponent implements OnInit {
         next: (body: any) => {
           if (body && body?.id_token) {
             sessionStorage.setItem("access_token", body?.id_token);
+            window.location.reload();
           }
         },
       });

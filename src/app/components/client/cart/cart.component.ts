@@ -60,18 +60,18 @@ export class CartComponent implements OnInit {
         (c) =>
           (check = this.cartDetailService.reduceQuanity(id).subscribe(() => {
             c.quantity = c.quantity - 1;
+            this.cartDetails
+              .filter(
+                (c) =>
+                  c.id === id &&
+                  c.quantity > 1 &&
+                  c.status === 0 &&
+                  c.quantity <= c.shoesDetails.quantity
+              )
+              .map((c) => (c.status = 1));
             this.loadTotalPrice();
           }))
       );
-    this.cartDetails
-      .filter(
-        (c) =>
-          c.id === id &&
-          c.quantity > 1 &&
-          c.status === 0 &&
-          c.quantity <= c.shoesDetails.quantity
-      )
-      .map((c) => (c.status = 1));
     if (check === null) {
       this.deleteProductCart(id);
       this.loadTotalPrice();
@@ -101,14 +101,6 @@ export class CartComponent implements OnInit {
               severity: "error",
               summary: "Hủy",
               detail: "Xóa không thành công",
-              life: 3000,
-            });
-            break;
-          case ConfirmEventType.CANCEL:
-            this.messageService.add({
-              severity: "warn",
-              summary: "Hủy",
-              detail: "Bạn đã hủy",
               life: 3000,
             });
             break;
@@ -284,5 +276,20 @@ export class CartComponent implements OnInit {
           });
         })
       );
+  }
+  pay() {
+    let checkPay = false;
+    this.cartDetails
+      .filter((c) => c.checkBox === true)
+      .map((c) => (checkPay = true));
+    if (checkPay === false) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Thông báo",
+        detail: "Bạn vẫn chưa chọn sản phẩm nào để mua hàng",
+        life: 5000,
+      });
+    } else {
+    }
   }
 }
