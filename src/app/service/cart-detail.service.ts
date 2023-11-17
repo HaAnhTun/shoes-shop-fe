@@ -54,4 +54,10 @@ export class CartDetailService {
       withCredentials: true,
     });
   }
+
+  getCount() {
+    return this.http.get<any>(this.apiUrl + "count", {
+      withCredentials: true,
+    });
+  }
 }

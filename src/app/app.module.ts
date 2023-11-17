@@ -79,6 +79,7 @@ import { OrderDetailsComponent } from "./components/order-details/order-details.
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
+import { CardModule } from "primeng/card";
 
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { RegisterCustomerComponent } from "./components/register-customer/regist
     MenuModule,
     StyleClassModule,
     MultiSelectModule,
+    CardModule,
   ],
   providers: [
     DataViewLayoutOptions,

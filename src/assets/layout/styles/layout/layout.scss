@@ -433,6 +433,15 @@ a {
   transition: margin-left $transitionDuration;
 }
 
+.layout-main-containers {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding: 7rem 0;
+  transition: margin-left $transitionDuration;
+}
+
 .layout-main {
   flex: 1 1 auto;
 }
