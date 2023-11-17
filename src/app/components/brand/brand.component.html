@@ -1,7 +1,7 @@
 <div class="card">
     <p-dialog [(visible)]="displayConfirmDialog" (onHide)="onDeleteBrand(false)">
         <p-header>
-            <h2>Confirm Delete</h2>
+            <h2>Xác nhận xóa</h2>
         </p-header>
         <p-footer>
             <button type="button" pButton icon="pi pi-check" (click)="onDeleteBrand(true)" label="Yes"></button>
@@ -9,16 +9,16 @@
         </p-footer>
     </p-dialog>
     <p-toast></p-toast>
-    <input pInputText type="text" placeholder="Search Brands" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
+    <input pInputText type="text" placeholder="Tìm kiếm" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
     <p-table [value]="filteredBrands.length ? filteredBrands : brand" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
         <ng-template pTemplate="header">
             <tr>
                 <th>ID</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Last Modified By</th>
-                <th>Last Modified Date</th>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Mô tả</th>
+                <th>Người cập nhật</th>
+                <th>Ngày cập nhật</th>
                 <th></th>
             </tr>
         </ng-template>
@@ -69,7 +69,7 @@
         </ng-template>
     </p-table>
     <div class="card flex justify-content-center">
-        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Add Brand"></p-button>
+        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Thêm mới"></p-button>
         <p-dialog header="Add Brand" [modal]="true" [(visible)]="displayAddDialog" [style]="{width: '30vw'}" [maximizable]="true">
             <div *ngIf="codeError" class="p-error">Code is required and must be less than 50 characters.</div>
             <div class="p-inputgroup">

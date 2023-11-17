@@ -10,15 +10,15 @@
     </p-dialog>
     
     <p-toast></p-toast>
-    <input pInputText type="text" placeholder="Search Colors" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
+    <input pInputText type="text" placeholder="Tìm kiếm" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
     <p-table [value]="filteredColors.length ? filteredColors : Color" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
         <ng-template pTemplate="header">
             <tr>
                 <th>ID</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Last Modified By</th>
-                <th>Last Modified Date</th>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Người cập nhật</th>
+                <th>Ngày cập nhật</th>
                 <th></th>
             </tr>
         </ng-template>
@@ -59,7 +59,7 @@
         </ng-template>
     </p-table>
     <div class="card flex justify-content-center">
-        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Add Color"></p-button>
+        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Thêm màu"></p-button>
         <p-dialog header="Add Color" [modal]="true" [(visible)]="displayAddDialog" [style]="{width: '30vw'}" [maximizable]="true">
             <div *ngIf="codeError" class="p-error">Code is required and must be less than 50 characters.</div>
             <div class="p-inputgroup">
