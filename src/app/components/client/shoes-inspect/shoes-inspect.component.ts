@@ -47,7 +47,7 @@ export class ShoesInspectComponent {
       price: 50000,
       quantity: 100,
       images: [
-        "https://tse3.mm.bing.net/th/id/OIP.AjzWApytAwaFTtBLVhLPdwHaHa?w=217&h=217&c=7&r=0&o=5&dpr=1.1&pid=1.7",
+        "https://duyhung-bucket.s3.ap-southeast-1.amazonaws.com/images/badcb1487af6c62c6a0cb1487af6c62c6a0Screenshot2023-07-26163607.png",
         "https://tse3.mm.bing.net/th/id/OIP.AjzWApytAwaFTtBLVhLPdwHaHa?w=217&h=217&c=7&r=0&o=5&dpr=1.1&pid=1.7",
         "https://tse3.mm.bing.net/th/id/OIP.AjzWApytAwaFTtBLVhLPdwHaHa?w=217&h=217&c=7&r=0&o=5&dpr=1.1&pid=1.7",
         "https://tse3.mm.bing.net/th/id/OIP.AjzWApytAwaFTtBLVhLPdwHaHa?w=217&h=217&c=7&r=0&o=5&dpr=1.1&pid=1.7",

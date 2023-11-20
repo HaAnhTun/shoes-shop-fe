@@ -35,6 +35,11 @@ export class ShopComponent implements OnInit, AfterViewInit {
   brands: any[] = [];
   constructor(private http: HttpClient, private primeNGConfig: PrimeNGConfig) {
     this.primeNGConfig.ripple = true;
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details/testing")
+      .subscribe((response) => {
+        console.log(response.length);
+      });
   }
   onSortChange(event: any) {
     let value = event.value;
@@ -80,7 +85,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
   }
 
   fetchProducts() {
-    this.http.get<any>('http://localhost:3000/products').subscribe(
+    this.http.get<any>('http://localhost:8088/api/shoes-details/shop').subscribe(
       (data) => {
         this.products = data;
         console.log(data);
