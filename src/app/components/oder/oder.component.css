@@ -1,7 +1,8 @@
-.text-primaryy {
-  /* color: rgb(42, 151, 248); */
+/* @import url("../../../../node_modules/bootstrap/dist/css/bootstrap.css"); */
+@import url("../../../../src/assets/css/app-creative.css");
+.text-primaryyy {
   background: #2a97f8;
-  color: black;
+  color: black !important;
 }
 ::ng-deep .p-orderlist .p-orderlist-controls {
   display: none;
@@ -12,9 +13,3 @@
 ::ng-deep .p-treeselect-label-container {
   height: 37px;
 }
-
-@import url("../../../../node_modules/bootstrap/dist/css/bootstrap.css");
-@import url("../../../../node_modules/font-awesome/css/font-awesome.css");
-@import url("../../../../src/assets/css/app-creative-dark.css");
-@import url("../../../../src/assets/css/app-creative.css");
-@import url("../../../../src/assets/css/icons.css");
