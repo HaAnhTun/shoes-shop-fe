@@ -1,5 +1,5 @@
 import { group } from '@angular/animations';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Order } from 'src/app/model/Order';
 import { User } from 'src/app/model/User';
@@ -18,7 +18,7 @@ interface AutoCompleteCompleteEvent {
 })
 
 
-export class UserComponent {
+export class UserComponent implements OnInit {
   userForm: FormGroup;
   user: any;
   orderData: { [userId: number]: Order[] } = {};
@@ -74,7 +74,7 @@ export class UserComponent {
     const listAny = this.userForm.get('authorities')?.value
     console.log(listAny)
     // listAny.forEach((element: { label: string, value: string; }) => {
-      listString.push(listAny.value)
+    listString.push(listAny.value)
     // });
     return listString;
   }
@@ -104,7 +104,7 @@ export class UserComponent {
 
     if (!newUser.id) {
       // Thêm người dùng mới
-      
+
       console.log(newUser)
       this.userService.save(newUser).subscribe(
         (response) => {
@@ -115,6 +115,8 @@ export class UserComponent {
             detail: 'User Create',
             life: 3000
           });
+
+          this.ngOnInit()
         },
         (error) => {
           console.error('Lỗi khi thêm người dùng:', error);
@@ -129,7 +131,7 @@ export class UserComponent {
       );
     } else {
       // Cập nhật người dùng
-      
+
       this.userService.update(newUser).subscribe(
         (response) => {
           console.log('Người dùng đã được cập nhật:', response);
@@ -140,6 +142,8 @@ export class UserComponent {
             detail: 'User Update',
             life: 3000
           });
+
+          this.ngOnInit()
         },
         (error) => {
           console.error('Lỗi khi cập nhật người dùng:', error);
@@ -152,12 +156,10 @@ export class UserComponent {
         }
       );
     }
-    this.getAllUser();
     this.closeUserDialog();
   }
 
   deleteUser(user: User) {
-    console.log("hi")
     this.confirmationService.confirm({
       message: 'Are you want to delete the selected user',
       header: 'Confirm',
@@ -171,6 +173,8 @@ export class UserComponent {
               detail: 'User Deleted',
               life: 3000
             });
+
+            this.ngOnInit()
           },
           error => {
             this.messageService.add({
@@ -188,7 +192,7 @@ export class UserComponent {
   editUser(user: User) {
     this.userDialog = true
     this.showPassword = false;
-    
+
     this.userForm.patchValue({
       id: user.id.toString(),
       firstName: user.firstName,
@@ -237,11 +241,11 @@ export class UserComponent {
   duplicateLogin(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const controlValue = control.value;
-  
+
       if (!controlValue) {
         return of(null);
       }
-  
+
       return this.userService.usernameExist(controlValue).pipe(
         map((response) => {
           if (response != null) {
@@ -254,16 +258,16 @@ export class UserComponent {
       );
     };
   }
-  
+
 
   duplicateEmail(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const emailValue = control.value;
-  
+
       if (!emailValue) {
         return of(null);
       }
-  
+
       return this.userService.emailExist(emailValue).pipe(
         map((response) => {
           if (response != null) {

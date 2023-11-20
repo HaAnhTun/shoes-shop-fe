@@ -39,7 +39,6 @@ export class LoginCustomerComponent {
 
   login() {
     const user = this.loginForm.value;
-    console.log(user)
     this.loginservice.login(user).subscribe({
       next: (body: any) => {
         if (body && body?.id_token) {

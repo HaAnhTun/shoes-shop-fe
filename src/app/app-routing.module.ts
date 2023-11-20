@@ -28,7 +28,7 @@ import { OrderDetailsComponent } from "./components/order-details/order-details.
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
-import { ProfileComponent } from "./components/profile/profile.component";
+import { UserOrderComponent } from "./components/user-order/user-order.component";
 const routes: Routes = [
   {///ADMIN LINKS
     path: "admin",
@@ -67,7 +67,7 @@ const routes: Routes = [
       { path: "pay", component: PayComponent },
       { path: "login-customer", component: LoginCustomerComponent},
       { path: "register-customer", component: RegisterCustomerComponent},
-      { path: "profile", component: ProfileComponent}
+      { path: "user-order", component: UserOrderComponent}
     ],
   },
   /////CLIENT-LINKs

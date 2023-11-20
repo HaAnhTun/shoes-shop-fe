@@ -16,9 +16,13 @@ export class UserService {
   }
 
   getOrderById(id:Number){
-    return this.http.get<any>(this.baseUrl + "/admin/order-owner/" + id, {
+    return this.http.get<any>(this.baseUrl + "/order-owner/" + id, {
       withCredentials: true,
     })
+  }
+
+  getOrderByStatusAndOwnerLogin(status : Number, login : string){
+    return this.http.get<any>(this.baseUrl + "/users/find?status=" + status + '&login=' + login)
   }
 
   save(user : any):Observable<any>{

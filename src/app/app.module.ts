@@ -81,7 +81,7 @@ import { OrderDetailsComponent } from "./components/order-details/order-details.
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
-import { ProfileComponent } from './components/profile/profile.component';
+import { UserOrderComponent } from './components/user-order/user-order.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +113,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     PayComponent,
     LoginCustomerComponent,
     RegisterCustomerComponent,
-    ProfileComponent,
+    UserOrderComponent,
   ],
   imports: [
     AppLayoutModule,
