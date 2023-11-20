@@ -21,12 +21,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/cus-css.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
-              "node_modules/font-awesome/css/font-awesome.css",
-              "src/assets/css/app-creative-dark.css",
-              "src/assets/css/app-creative.css",
-              "src/assets/css/icons.css"
+              "src/cus-css.scss"
             ],
             "scripts": ["node_modules/chart.js/dist/chart.js"]
           },

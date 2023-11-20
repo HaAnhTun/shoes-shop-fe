@@ -1,0 +1,17 @@
+.icon-homne {
+  display: flex;
+  justify-content: center;
+}
+.home-title {
+  display: flex;
+  justify-content: center;
+  margin: 0.5vw 0vw;
+  font-size: large;
+  font-weight: 700;
+  color: #049d16;
+}
+.home-text {
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+}

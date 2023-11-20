@@ -77,10 +77,14 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { LandingComponent } from './components/landing/landing.component';
 import { SelectButtonModule } from "primeng/selectbutton";
 import { SliderModule } from 'primeng/slider';
+import { ShoesInspectComponent } from './components/client/shoes-inspect/shoes-inspect.component';
 import { OrderDetailsComponent } from "./components/order-details/order-details.component";
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
+import { AboutComponent } from './components/client/about/about.component';
+import { ContactComponent } from './components/client/contact/contact.component';
+import { CardModule } from "primeng/card";
 import { UserOrderComponent } from './components/user-order/user-order.component';
 
 @NgModule({
@@ -109,10 +113,13 @@ import { UserOrderComponent } from './components/user-order/user-order.component
     LandingComponent,
     ClientHomeComponent,
     CartComponent,
+    ShoesInspectComponent,
     OrderDetailsComponent,
     PayComponent,
     LoginCustomerComponent,
     RegisterCustomerComponent,
+    AboutComponent,
+    ContactComponent,
     UserOrderComponent,
   ],
   imports: [
@@ -158,6 +165,7 @@ import { UserOrderComponent } from './components/user-order/user-order.component
     MenuModule,
     StyleClassModule,
     MultiSelectModule,
+    CardModule,
     SliderModule,
     SelectButtonModule
   ],
