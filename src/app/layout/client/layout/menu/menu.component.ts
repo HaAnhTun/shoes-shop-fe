@@ -11,11 +11,10 @@ export class MenuComponent implements OnInit {
   totalQuanity: number = 0;
   constructor(private cartDetailService: CartDetailService) {}
   ngOnInit() {
-    this.cartDetailService.getAllCartDetail().subscribe((Response) => {
-      this.cartDetails = Response;
-      this.cartDetails.forEach(
-        (c) => (this.totalQuanity = this.totalQuanity + c.quantity)
-      );
-    });
+    if (sessionStorage.getItem("access_token") != null) {
+      this.cartDetailService.getCount().subscribe((Response) => {
+        this.totalQuanity = Response;
+      });
+    }
   }
 }
