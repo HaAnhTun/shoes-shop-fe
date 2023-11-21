@@ -40,8 +40,9 @@ export class ShoesInspectComponent {
   quantity: number = 1
   visible: boolean = false;
   activeIndex: number = 0;
-  shoesDetails: ShoesDetail;
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  shoesDetails: any;
+  productId: string | null;
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router,) {
     this.shoesDetails = {
       code: "ABC123",
       price: 50000,
@@ -84,6 +85,39 @@ export class ShoesInspectComponent {
       ],
     };
 
+  }
+  fetchProductDetails() {
+    // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+    const apiUrl = `http://localhost:8088/api/shoes-details/shop/${this.productId}`;
+
+    // Make the HTTP request
+    this.http.get(apiUrl).subscribe(
+      (data: any) => {
+        this.shoesDetails = data
+        this.shoesDetails.images = this.splitPaths(data.paths[0])
+        console.log(this.shoesDetails);
+      },
+      error => {
+        console.error('Error fetching product details:', error);
+      }
+    );
+  }
+  splitPaths(input: string): string[] {
+    // Split the input string based on commas
+    const pathsArray = input.split(',');
+
+    // Trim each path to remove leading/trailing spaces
+    const trimmedPaths = pathsArray.map(path => path.trim());
+
+    return trimmedPaths;
+  }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+
+      this.productId = params.get('id');
+      this.fetchProductDetails();
+    });
   }
   showGuide() {
     this.visible = true;
