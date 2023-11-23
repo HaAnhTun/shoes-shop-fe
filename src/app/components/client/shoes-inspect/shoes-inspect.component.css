@@ -1,0 +1,12 @@
+/* Định nghĩa trong styles.css hoặc tương ứng */
+.selected {
+  border: 2px solid #0000ff; /* Viền màu xanh đậm */
+  background-color: #add8e6; /* Màu nền xanh nhạt */
+  color: #0000ff; /* Màu chữ xanh đậm */
+}
+
+.not-selected {
+  border: 1px solid #cccccc; /* Viền màu xám nhẹ */
+  background-color: #ffffff; /* Màu nền trắng */
+  color: #000000; /* Màu chữ đen */
+}
