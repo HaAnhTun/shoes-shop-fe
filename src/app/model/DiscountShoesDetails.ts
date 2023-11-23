@@ -7,4 +7,5 @@ export interface DiscountShoesDetails {
   shoesDetails: Product;
   discountAmount?: number;
   status?: number;
+  brandId?: number;
 }

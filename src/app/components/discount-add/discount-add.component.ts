@@ -36,11 +36,12 @@ export class DiscountAddComponent implements OnInit {
   ) {}
   idDiscount: number | null;
   shoesDetailsDialog: boolean = false;
-  shoesDetails: Product[];
+  shoesDetails: any[];
   shoesDetails2: Product[];
-  selectedShoes: Product[] = new Array();
+  selectedShoes: any[] = new Array();
   discount: Discount;
   product: Product | null;
+  enable: boolean = false;
   discountShoesDetails: DiscountShoesDetails = {
     shoesDetails: {
       id: 0,
@@ -58,10 +59,10 @@ export class DiscountAddComponent implements OnInit {
   discountMethods: Object[];
   formDiscount = this.fb.group({
     id: [""],
-    code: ["", Validators.required],
+    code: [{ value: "", disabled: true }],
     name: ["", Validators.required],
     discountMethod: ["", Validators.required],
-    discountAmount: ["", Validators.required],
+    discountAmount: [0],
     discountStatus: [""],
     startDate: ["", Validators.required],
     endDate: ["", Validators.required],
@@ -89,18 +90,23 @@ export class DiscountAddComponent implements OnInit {
           .get("endDate")
           ?.setValue(new Date(res.endDate).toISOString().split("T")[0]);
         for (let p of res.discountShoesDetailsDTOS) {
-          this.selectedShoes.push(p.shoesDetails);
+          this.selectedShoes.push(p);
           this.discountShoesDetails = p;
           this.pushShoes2();
         }
       });
     }
+    this.updateVisibility();
     this.discountMethods = [
       { id: 1, name: "Giảm tiền cho tất cả giày" },
       { id: 2, name: "Giảm % cho tất cả giày" },
       { id: 3, name: "Giảm tiền cho từng giày" },
       { id: 4, name: "Giảm % cho từng giày" },
     ];
+  }
+  updateVisibility() {
+    this.enable = false;
+    setTimeout(() => (this.enable = true), 500);
   }
   openShoesDetailsDialog() {
     this.shoesDetailsDialog = true;
@@ -112,15 +118,51 @@ export class DiscountAddComponent implements OnInit {
     return this.formDiscount.get("discountShoesDetailsDTOS") as FormArray;
   }
   get code() {
-    return this.formDiscount.get("code");
+    return this.formDiscount.get("code") as FormControl;
   }
-  initDetails(data: DiscountShoesDetails) {
+  isVisiable() {
+    let check = false;
+    if (
+      this.formDiscount.get("discountMethod")?.value == "1" ||
+      this.formDiscount.get("discountMethod")?.value == "2"
+    ) {
+      check = true;
+    }
+    if (check) {
+      // Add the custom validator when the field is visible
+      this.formDiscount
+        .get("discountMethod")
+        ?.setValidators([Validators.required]);
+    } else {
+      // Remove the custom validator when the field is not visible
+      this.formDiscount.get("discountMethod")?.clearValidators();
+    }
+
+    // Update the validation status
+    this.formDiscount.get("discountMethod")?.updateValueAndValidity();
+    this.formDiscount.updateValueAndValidity();
+  }
+
+  initDetails(data: any) {
+    return this.fb.group({
+      id: [data ? data.id : ""],
+      shoesDetails: [{ id: data.shoesDetails.shoes_id }],
+      code: [data.shoesDetails.code],
+      name: [data.shoesDetails.name],
+      brandId: [data.shoesDetails.brand_id],
+      brand: [data.shoesDetails.brandName],
+      discountAmount: [data.discountAmount],
+      status: [data.status ? data.status : 1],
+    });
+  }
+  initDetails2(data: any) {
     return this.fb.group({
       id: [data ? data.id : ""],
       shoesDetails: [{ id: data.shoesDetails.id }],
       code: [data.shoesDetails.code],
       name: [data.shoesDetails.name],
-      brand: [data.shoesDetails.brand],
+      brandId: [data.brandId],
+      brand: [data.brandName],
       discountAmount: [data.discountAmount],
       status: [data.status ? data.status : 1],
     });
@@ -128,7 +170,6 @@ export class DiscountAddComponent implements OnInit {
   pushShoes() {
     for (let p of this.selectedShoes) {
       this.discountShoesDetails.shoesDetails = p;
-      console.log(this.discountShoesDetails);
       this.discountShoesDetailsDTOS.push(
         this.initDetails(this.discountShoesDetails)
       );
@@ -136,16 +177,21 @@ export class DiscountAddComponent implements OnInit {
     this.shoesDetails = this.shoesDetails.filter(
       (shoes) => !this.selectedShoes.includes(shoes)
     );
+
+    this.selectedShoes = [];
     this.hideShoesDetailsDialog();
   }
   pushShoes2() {
     this.discountShoesDetailsDTOS.push(
-      this.initDetails(this.discountShoesDetails)
+      this.initDetails2(this.discountShoesDetails)
     );
-    this.shoesDetails = this.shoesDetails.filter(
-      (shoes) => !this.selectedShoes.includes(shoes)
-    );
-    console.log(this.formDiscount.value);
+    this.shoesDetails = this.shoesDetails.filter((s) => {
+      return !(
+        s.shoes_id == this.discountShoesDetails.shoesDetails.id &&
+        s.brandId == this.discountShoesDetails.brandId
+      );
+    });
+    this.selectedShoes = [];
   }
   isFormControlInvalidAndTouched(controlName: string): boolean | undefined {
     // Lấy FormControl từ FormGroup bằng cách sử dụng tên của FormControl
@@ -167,19 +213,22 @@ export class DiscountAddComponent implements OnInit {
         if (!this.formDiscount.invalid) {
           this.discountService.saveDiscount(this.formDiscount.value).subscribe(
             (res) => {
-              this.messageService.add({
-                severity: "success",
-                summary: "Success",
-                detail: "Thêm mới thành công!",
+              this.router.navigate(["/admin/discount"]).then(() => {
+                this.messageService.add({
+                  severity: "success",
+                  summary: "Success",
+                  detail: "Lưu thông tin thành công!",
+                });
               });
-              this.router.navigate(["/admin/discount"]);
             },
             (error) => {
               console.log(error);
               this.messageService.add({
                 severity: "error",
-                summary: "Rejected",
-                detail: error.error.fieldErrors[0].message,
+                summary: "Lỗi",
+                detail: error.error.fieldErrors
+                  ? error.error.fieldErrors[0].message
+                  : error.error.title,
               });
             }
           );

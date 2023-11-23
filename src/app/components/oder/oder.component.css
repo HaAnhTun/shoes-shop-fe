@@ -1,7 +1,8 @@
-/* @import url("../../../../node_modules/bootstrap/dist/css/bootstrap.css"); */
-@import url("../../../../src/assets/css/app-creative.css");
+@import url("/src/assets/css/app-creative-dark.css");
+@import url("/src/assets/css/app-creative.css");
+@import url("/src/assets/css/icons.css");
 .text-primaryyy {
-  background: #2a97f8;
+  background: hsl(208, 94%, 57%);
   color: black !important;
 }
 ::ng-deep .p-orderlist .p-orderlist-controls {
