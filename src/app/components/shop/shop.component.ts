@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
 import { SelectButton } from 'primeng/selectbutton';
@@ -33,13 +34,8 @@ export class ShopComponent implements OnInit, AfterViewInit {
   selectedItems: any[] = [];
   sortField: string;
   brands: any[] = [];
-  constructor(private http: HttpClient, private primeNGConfig: PrimeNGConfig) {
+  constructor(private http: HttpClient, private primeNGConfig: PrimeNGConfig, private router: Router) {
     this.primeNGConfig.ripple = true;
-    this.http
-      .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details/testing")
-      .subscribe((response) => {
-        console.log(response.length);
-      });
   }
   onSortChange(event: any) {
     let value = event.value;
@@ -51,6 +47,19 @@ export class ShopComponent implements OnInit, AfterViewInit {
       this.sortOrder = 1;
       this.sortField = value;
     }
+  }
+
+  navigateToRoute(product: any) {
+    const queryParams = {
+      shid: product.shoes_id,
+      brid: product.brand_id,
+      siid: product.size_id,
+      clid: product.color_id,
+      list: [1, 2, 3]
+    }
+    console.log(queryParams);
+
+    this.router.navigate(['/client/shoes-detail'], { queryParams: queryParams });
   }
 
   ngAfterViewInit(): void {
