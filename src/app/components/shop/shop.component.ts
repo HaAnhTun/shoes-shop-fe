@@ -50,7 +50,13 @@ export class ShopComponent implements OnInit, AfterViewInit {
   }
 
   navigateToRoute(product: any) {
-    const queryParams = { shid: product.shoes_id, brid: product.brand_id, siid: product.size_id, clid: product.color_id };
+    const queryParams = {
+      shid: product.shoes_id,
+      brid: product.brand_id,
+      siid: product.size_id,
+      clid: product.color_id,
+      list: [1, 2, 3]
+    }
     console.log(queryParams);
 
     this.router.navigate(['/client/shoes-detail'], { queryParams: queryParams });

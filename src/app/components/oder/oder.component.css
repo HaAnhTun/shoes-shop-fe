@@ -1,5 +1,5 @@
 /* @import url("../../../../node_modules/bootstrap/dist/css/bootstrap.css"); */
-@import url("../../../../src/assets/css/app-creative.css");
+@import url("/src/assets/css/app-creative.css");
 .text-primaryyy {
   background: #2a97f8;
   color: black !important;

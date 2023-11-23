@@ -33,10 +33,12 @@
             <div class="font-bold text-900 mb-3">Color</div>
             <div class="flex align-items-center mb-5">
                 <p-selectButton [options]="colorOptions" [(ngModel)]="selectedColor" optionLabel="label"
-                    optionValue="value">
-                    <ng-template let-size pTemplate="item"
-                        class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                        {{size.name}}
+                    (onChange)="onColorChange()" optionValue="value">
+                    <ng-template let-color pTemplate="item">
+                        <div [ngClass]="color.value === selectedColor ? 'selected' : 'not-selected'"
+                            class="col h-3rem inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer transition-duration-150 transition-colors">
+                            {{color.name}}
+                        </div>
                     </ng-template>
                 </p-selectButton>
             </div>
@@ -49,7 +51,7 @@
             </div>
             <div class="grid grid-nogutter align-items-center mb-5">
                 <p-selectButton [options]="sizeOptions" [(ngModel)]="selectedsize" optionLabel="label"
-                    optionValue="value">
+                    (onChange)="onSizeChange()" optionValue="value">
                     <ng-template let-size pTemplate="item"
                         class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
                         {{size.name}}
