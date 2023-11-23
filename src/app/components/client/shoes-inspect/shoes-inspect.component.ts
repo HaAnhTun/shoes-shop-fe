@@ -41,7 +41,7 @@ export class ShoesInspectComponent {
   visible: boolean = false;
   activeIndex: number = 0;
   shoesDetails: any;
-  productId: string | null;
+  productId: any | null;
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router,) {
     this.shoesDetails = {
       code: "ABC123",
@@ -84,41 +84,62 @@ export class ShoesInspectComponent {
         },
       ],
     };
-
+    this.route.queryParams.subscribe(params => {
+      // Access the query parameters inside the subscribe callback
+      const shid = params['shid'];
+      const brid = params['brid'];
+      const siid = params['siid'];
+      const clid = params['clid'];
+      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid }
+    });
+    this.fetchProductDetails();
   }
   fetchProductDetails() {
     // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-    const apiUrl = `http://localhost:8088/api/shoes-details/shop/${this.productId}`;
-
+    const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
     // Make the HTTP request
-    this.http.get(apiUrl).subscribe(
+    this.http.post<any>(apiUrl, this.productId).subscribe(
       (data: any) => {
         this.shoesDetails = data
-        this.shoesDetails.images = this.splitPaths(data.paths[0])
-        console.log(this.shoesDetails);
+        console.log(data.paths);
+        this.shoesDetails.images = this.splitPaths(data.paths)
+        this.sizeOptions = this.mergeLists(this.splitPaths(this.shoesDetails.size_names), this.splitPaths(this.shoesDetails.size_ids))
+        console.log(this.sizeOptions.length);
       },
       error => {
         console.error('Error fetching product details:', error);
       }
     );
+
   }
-  splitPaths(input: string): string[] {
-    // Split the input string based on commas
+  splitPaths(input: string): any[] {
     const pathsArray = input.split(',');
-
-    // Trim each path to remove leading/trailing spaces
     const trimmedPaths = pathsArray.map(path => path.trim());
-
     return trimmedPaths;
   }
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-
-      this.productId = params.get('id');
-      this.fetchProductDetails();
-    });
+  ale() {
+    console.log(this.selectedsize);
   }
+
+  clickAddCart() {
+    console.log(this.shoesDetails.id + " - " + this.quantity);
+  }
+
+  ngOnInit(): void {
+  }
+
+  mergeLists(names: any[], values: any[]): any[] {
+    var Options: any[] = [];
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      const value = values[i];
+      const option = { name: name, value: Number(value) };
+      Options.push(option);
+    }
+    return Options;
+  }
+
   showGuide() {
     this.visible = true;
   }

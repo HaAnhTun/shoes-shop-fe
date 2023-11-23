@@ -90,7 +90,7 @@
             <ng-template let-product pTemplate="gridItem">
                 <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
                     <div class="p-4 border-1 surface-border surface-card border-round "
-                        (click)="OpenDetails(product.id,product.brand_id,product.shoes_id)">
+                        (click)="navigateToRoute(product)">
                         <div class="flex flex-wrap gap-2">
                             <span *ngFor="let category of product.categories" class="flex align-items-center gap-2">
                                 <i class="pi pi-tag"></i>
@@ -100,8 +100,7 @@
                                 [severity]="product.quantity >=10 ? 'success':'danger'"></p-tag>
                         </div>
 
-                        <div class="flex flex-column align-items-center gap-3 py-5 cursor-pointer"
-                            [routerLink]="['/client/shoes-detail', product.id]">
+                        <div class="flex flex-column align-items-center gap-3 py-5 cursor-pointer">
                             <img class=" shadow-2 border-round w-20rem h-20rem" [src]=product.path
                                 [alt]="product.name" />
                             <div class="text-2xl font-bold">{{ product.name }}</div>
