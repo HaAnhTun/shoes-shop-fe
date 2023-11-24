@@ -1,3 +1,4 @@
+
 import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Route, Router } from "@angular/router";
@@ -10,6 +11,7 @@ import {
   ConfirmEventType,
 } from "primeng/api";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
+
 
 export interface ShoesDetail {
   id?: number;
@@ -127,6 +129,24 @@ export class ShoesInspectComponent {
     });
     this.fetchProductDetails();
   }
+
+
+
+  // Gọi hàm này mỗi khi quantity thay đổi
+  onQuantityChange() {
+    if (this.quantity >= this.shoesDetails.quantity) {
+      this.showMessage();
+    }
+  }
+
+  showMessage() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Số Lượng tối đa',
+      detail: 'Đã đạt giới hạn hàng trong kho'
+    });
+  }
+
   fetchProductDetails() {
     const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
     // Make the HTTP request
@@ -194,11 +214,11 @@ export class ShoesInspectComponent {
           .filter((c) => c.shoesDetails.id === this.shoesDetails.id)
           .forEach(
             (c) =>
-              (this.check = this.cartDetailService
-                .updateQuanity(c.id, this.quantity)
-                .subscribe(() => {
-                  this.router.navigate(["/client/cart"]);
-                }))
+            (this.check = this.cartDetailService
+              .updateQuanity(c.id, this.quantity)
+              .subscribe(() => {
+                this.router.navigate(["/client/cart"]);
+              }))
           );
         if (this.check === null) {
           this.CartDetailSave.status = 1;
@@ -217,7 +237,7 @@ export class ShoesInspectComponent {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   mergeLists(names: any[], values: any[]): any[] {
     var Options: any[] = [];
