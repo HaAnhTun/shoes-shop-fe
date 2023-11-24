@@ -2,7 +2,7 @@ import { Cart } from "./Cart";
 import { ShoesDetail } from "./ShoesDetail";
 
 export interface CartDetail {
-  id?: number;
+  id: number;
   quantity: number;
   status?: number;
   Cart: Cart;

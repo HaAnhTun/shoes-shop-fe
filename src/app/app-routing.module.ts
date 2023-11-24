@@ -55,6 +55,7 @@ const routes: Routes = [
       { path: "size", component: SizeComponent },
       { path: "oder", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
+
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: "users", component: UserComponent },
       { path: "order-details/:id", component: OrderDetailsComponent },
@@ -67,7 +68,8 @@ const routes: Routes = [
       { path: "", component: ClientHomeComponent },
       { path: "home", component: ClientHomeComponent },
       { path: "cart", component: CartComponent },
-      {path : "shoes-detail", component:ShoesInspectComponent},
+      { path: "shoes-detail", component: ShoesInspectComponent },
+      { path: "shoes-detail/:id", component: ShoesInspectComponent },
       { path: "shop", component: ShopComponent },
       { path: "pay", component: PayComponent },
       { path: "about", component: AboutComponent },
@@ -98,4 +100,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

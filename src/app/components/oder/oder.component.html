@@ -1,5 +1,5 @@
 <h2>QUẢN LÝ HÓA ĐƠN</h2>
-<p-tabView>
+<p-tabView #dshd>
   <p-tabPanel header="Tạo mới">
     <span (click)="creatOder()"
       ><p-button
@@ -28,7 +28,7 @@
               height: 50px;
             "
             (click)="clickIndexOder(oder)"
-            [class]="checkIndexOder === oder ? 'text-primaryy' : ''"
+            [class]="checkIndexOder === oder ? 'text-primaryyy' : ''"
           >
             Hóa đơn {{ oder }}
           </a>
@@ -125,6 +125,22 @@
                         "
                       >
                         Số điện thoại không được bỏ trống
+                      </span>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          (this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('phone').dirty ||
+                            this.formOrder
+                              .at(this.checkIndexOder - 1)
+                              .get('phone').touched) &&
+                          this.formOrder
+                            .at(this.checkIndexOder - 1)
+                            .get('phone').errors?.pattern
+                        "
+                      >
+                        Số điện thoại không đúng định dạng [0-9]
                       </span>
                     </div>
                   </div>
@@ -410,7 +426,7 @@
       </ng-container>
     </ng-container>
   </p-tabPanel>
-  <p-tabPanel header="Danh sách hóa đơn" #dshd>
+  <p-tabPanel header="Danh sách hóa đơn">
     <ul class="nav nav-tabs" role="tablist">
       <li
         *ngFor="let item of this.listMenuItems"
@@ -431,7 +447,7 @@
             height: 50px;
           "
           (click)="clickListOder(item.name)"
-          [class]="checkString == item.name ? 'text-primaryy' : ''"
+          [class]="checkString == item.name ? 'text-primaryyy' : ''"
         >
           {{ item.name }}
           <span style="margin-bottom: 15px">
@@ -713,13 +729,6 @@
                           optionValue="id"
                           [showClear]="true"
                           placeholder="Chọn size"
-                          [virtualScrollItemSize]="43"
-                          [style]="{
-                            'z-index': '9999',
-                            top: 'auto',
-                            bottom: '100%'
-                          }"
-                          [panelStyle]="{}"
                           (onChange)="
                             updateSelectedShoesSize(
                               shoes.id,

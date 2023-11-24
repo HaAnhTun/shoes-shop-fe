@@ -230,7 +230,6 @@ export class ShoesDetailAddComponent implements OnInit {
       produceImages.splice(index, 1);
     }
     console.log(this.uploadedFiles);
-
     console.log(this.shoeVariants);
   }
 

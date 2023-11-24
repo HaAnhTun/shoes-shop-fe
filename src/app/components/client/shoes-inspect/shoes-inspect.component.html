@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-6 mb:col-6 py-3 lg:pl-6">
-            <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{shoesDetails.shoes.name}}</div>
+            <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{shoesDetails.name}}</div>
             <div class="flex align-items-center justify-content-between mb-5"><span
                     class="text-900 font-medium text-3xl block">{{shoesDetails.price | currency : 'VND' }}</span>
                 <div class="flex align-items-center"><span class="mr-3"><i
@@ -33,10 +33,12 @@
             <div class="font-bold text-900 mb-3">Color</div>
             <div class="flex align-items-center mb-5">
                 <p-selectButton [options]="colorOptions" [(ngModel)]="selectedColor" optionLabel="label"
-                    optionValue="value">
-                    <ng-template let-size pTemplate="item"
-                        class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                        {{size.name}}
+                    (onChange)="onColorChange()" optionValue="value">
+                    <ng-template let-color pTemplate="item">
+                        <div [ngClass]="color.value === selectedColor ? 'selected' : 'not-selected'"
+                            class="col h-3rem inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer transition-duration-150 transition-colors">
+                            {{color.name}}
+                        </div>
                     </ng-template>
                 </p-selectButton>
             </div>
@@ -49,7 +51,7 @@
             </div>
             <div class="grid grid-nogutter align-items-center mb-5">
                 <p-selectButton [options]="sizeOptions" [(ngModel)]="selectedsize" optionLabel="label"
-                    optionValue="value">
+                    (onChange)="onSizeChange()" optionValue="value">
                     <ng-template let-size pTemplate="item"
                         class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
                         {{size.name}}
@@ -64,7 +66,7 @@
                     incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber>
                 <div class="col-2"></div>
                 <div class="col-4 sm:col-6">
-                    <button pripple="" label="Add to Cart" class=" p-button ">
+                    <button (click)="clickAddCart()" pripple="" label="Add to Cart" class=" p-button ">
                         <span class="p-button-label">Add to Cart</span>
                     </button>
                 </div>
@@ -192,67 +194,94 @@
         </p-tabPanel>
     </p-tabView>
 
-    <p-dialog header="Hướng Dẫn Chọn Kích Thước Giày" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }"
-        [draggable]="false" [resizable]="false">
-        <div class="m-0">
-            <ol>
-                <li>
-                    <strong>Đo Chiều Dài Chân:</strong>
-                    <ul>
-                        <li>Đo chiều dài chân của bạn bằng một thước đo chân.</li>
-                        <li>Đo từ phía đầu ngón chân đến phần gối chân.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Xem Bảng Kích Thước:</strong>
-                    <ul>
-                        <li>Mỗi thương hiệu giày có thể có các bảng kích thước khác nhau. Hãy kiểm tra bảng kích thước
-                            của thương hiệu bạn đang quan tâm.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>So Sánh Kích Thước:</strong>
-                    <ul>
-                        <li>So sánh chiều dài chân của bạn với bảng kích thước để xem kích thước tương ứng.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Chọn Kích Thước Lớn Hơn:</strong>
-                    <ul>
-                        <li>Nếu chiều dài chân của bạn nằm giữa hai kích thước, nên chọn kích thước lớn hơn để đảm bảo
-                            sự thoải mái.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Thử Nghiệm Trước Khi Mua:</strong>
-                    <ul>
-                        <li>Nếu có thể, hãy thử giày trước khi mua để đảm bảo vừa vặn chính xác.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Chú Ý Đến Loại Giày:</strong>
-                    <ul>
-                        <li>Các loại giày có thể có các kích thước khác nhau. Ví dụ, giày chạy có thể yêu cầu một kích
-                            thước lớn hơn so với giày thể thao.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Theo Dõi Đánh Giá và Phản Hồi:</strong>
-                    <ul>
-                        <li>Đọc đánh giá từ người mua trước để biết về kích thước thực tế của sản phẩm.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Xem Xét Chất Liệu:</strong>
-                    <ul>
-                        <li>Chất liệu của giày cũng có thể ảnh hưởng đến cảm giác về kích thước. Chất liệu mềm dẻo có
-                            thể co giãn hơn so với chất liệu cứng.</li>
-                    </ul>
-                </li>
-            </ol>
-            <p>Lưu ý rằng quy tắc chung là thoải mái và không gây chật chội. Nếu có thể, thử giày trước khi mua là quan
-                trọng để đảm bảo vừa vặn hoàn hảo cho đôi chân của bạn.</p>
-        </div>
-    </p-dialog>
-
+  <p-dialog
+    header="Hướng Dẫn Chọn Kích Thước Giày"
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="m-0">
+      <ol>
+        <li>
+          <strong>Đo Chiều Dài Chân:</strong>
+          <ul>
+            <li>Đo chiều dài chân của bạn bằng một thước đo chân.</li>
+            <li>Đo từ phía đầu ngón chân đến phần gối chân.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Xem Bảng Kích Thước:</strong>
+          <ul>
+            <li>
+              Mỗi thương hiệu giày có thể có các bảng kích thước khác nhau. Hãy
+              kiểm tra bảng kích thước của thương hiệu bạn đang quan tâm.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>So Sánh Kích Thước:</strong>
+          <ul>
+            <li>
+              So sánh chiều dài chân của bạn với bảng kích thước để xem kích
+              thước tương ứng.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Chọn Kích Thước Lớn Hơn:</strong>
+          <ul>
+            <li>
+              Nếu chiều dài chân của bạn nằm giữa hai kích thước, nên chọn kích
+              thước lớn hơn để đảm bảo sự thoải mái.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Thử Nghiệm Trước Khi Mua:</strong>
+          <ul>
+            <li>
+              Nếu có thể, hãy thử giày trước khi mua để đảm bảo vừa vặn chính
+              xác.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Chú Ý Đến Loại Giày:</strong>
+          <ul>
+            <li>
+              Các loại giày có thể có các kích thước khác nhau. Ví dụ, giày chạy
+              có thể yêu cầu một kích thước lớn hơn so với giày thể thao.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Theo Dõi Đánh Giá và Phản Hồi:</strong>
+          <ul>
+            <li>
+              Đọc đánh giá từ người mua trước để biết về kích thước thực tế của
+              sản phẩm.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Xem Xét Chất Liệu:</strong>
+          <ul>
+            <li>
+              Chất liệu của giày cũng có thể ảnh hưởng đến cảm giác về kích
+              thước. Chất liệu mềm dẻo có thể co giãn hơn so với chất liệu cứng.
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <p>
+        Lưu ý rằng quy tắc chung là thoải mái và không gây chật chội. Nếu có
+        thể, thử giày trước khi mua là quan trọng để đảm bảo vừa vặn hoàn hảo
+        cho đôi chân của bạn.
+      </p>
+    </div>
+  </p-dialog>
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
 </div>

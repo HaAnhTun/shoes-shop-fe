@@ -16,7 +16,7 @@ import { OrderDetals } from "src/app/model/OrderDetails";
 import { ProductService } from "src/app/product.service";
 import { SizeData } from "src/app/model/Size";
 import { AppConstants } from "src/app/app-constants";
-import { TabPanel } from "primeng/tabview";
+import { TabPanel, TabView } from "primeng/tabview";
 import { Router } from "@angular/router";
 import { error } from "console";
 @Component({
@@ -27,7 +27,7 @@ import { error } from "console";
 export class OderComponent implements OnInit {
   listMenuItems: any[] = [];
   listOder: any[] = [];
-  @ViewChild("dshd") panel: TabPanel;
+  @ViewChild("dshd") panel: TabView;
   listPayment: any[] = [];
   selectedOrderss: any[] = [];
   indexOder: number = 0;
@@ -91,7 +91,7 @@ export class OderComponent implements OnInit {
       id: [""],
       code: [{ value: "", disabled: true }],
       receivedBy: ["", Validators.required],
-      phone: ["", Validators.required],
+      phone: ["", Validators.required, Validators.pattern("^[0-9]+$")],
       userAddress: this.fb.group({
         province: ["", Validators.required],
         provinceName: [""],
@@ -364,6 +364,7 @@ export class OderComponent implements OnInit {
       header: "Lưu hóa đơn",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
+        this.formOrder.at(this.checkIndexOder - 1).markAllAsTouched();
         if (!this.formOrder.at(this.checkIndexOder - 1).invalid) {
           var rawData = data.value;
           this.getProvine(rawData.userAddress.province);
@@ -380,15 +381,23 @@ export class OderComponent implements OnInit {
                 life: 3000,
               });
               this.updateTable();
+              if (this.indexOder >= 1) {
+                this.getFormOrder.removeAt(this.checkIndexOder - 1);
+                this.listOder.splice(this.checkIndexOder - 1, 1);
+                this.indexOder--;
+                for (let i = this.checkIndexOder - 1; i < this.indexOder; i++) {
+                  this.listOder[i] = this.listOder[i] - 1;
+                }
+              }
             },
             (error) => {
               console.log(error);
               this.messageService.add({
                 severity: "error",
                 summary: "Lỗi",
-                detail: error.error.title
-                  ? error.error.title
-                  : error.error.fieldErrors[0].message,
+                detail: error.error.fieldErrors
+                  ? error.error.fieldErrors[0].message
+                  : error.error.title,
               });
             }
           );
