@@ -1,4 +1,5 @@
 <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <p-toast></p-toast>
     <div class="grid mb-7">
         <div class="col-6 mb:col-6">
             <div class="flex">
@@ -62,12 +63,16 @@
             <div class="formgrid grid">
                 <p-inputNumber class-="col-6 sm:col-3" min="1" [showButtons]="true" buttonLayout="horizontal"
                     [(ngModel)]="quantity" inputId="horizontal" spinnerMode="horizontal" [step]="1"
-                    decrementButtonClass="p-button-text" incrementButtonClass="p-button-text"
-                    incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber>
+                    [max]="shoesDetails.quantity" decrementButtonClass="p-button-text"
+                    incrementButtonClass="p-button-text" incrementButtonIcon="pi pi-plus"
+                    decrementButtonIcon="pi pi-minus" (onInput)="onQuantityChange()"
+                    (onBlur)="onQuantityChange()"></p-inputNumber>
                 <div class="col-2"></div>
                 <div class="col-4 sm:col-6">
-                    <button (click)="clickAddCart()" pripple="" label="Add to Cart" class=" p-button ">
-                        <span class="p-button-label">Add to Cart</span>
+                    <button (click)="clickAddCart()" [disabled]="shoesDetails.quantity <= 0" label="Add to Cart"
+                        class=" p-button ">
+                        <span class="p-button-label">
+                            {{shoesDetails.quantity <= 0 ? "Hết hàng" : "Thêm vào giỏ" }} </span>
                     </button>
                 </div>
             </div>
