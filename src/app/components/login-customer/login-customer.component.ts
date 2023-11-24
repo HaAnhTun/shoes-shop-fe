@@ -43,7 +43,7 @@ export class LoginCustomerComponent {
       next: (body: any) => {
         if (body && body?.id_token) {
           sessionStorage.setItem("access_token", body?.id_token);
-          this.router.navigate(["admin/users"]);
+          this.router.navigate(["client/home"]);
         } else {
           this.isValid = false;
         }

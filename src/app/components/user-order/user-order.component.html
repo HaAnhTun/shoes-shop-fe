@@ -1,4 +1,4 @@
-
+<h2 style="text-align: center; margin: 20px 0;">Đơn hàng của bạn</h2>
 
 <ul class="nav nav-tabs" role="tablist">
   <li
@@ -54,6 +54,7 @@
             <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
               Ngày mua
             </th>
+            <th pSortableColumn="status">Trạng thái</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-order>
@@ -68,6 +69,9 @@
             </td>
             <td>
               {{ order.createdDate | date : "dd-MM-yyyy" }}
+            </td>
+            <td>
+              {{ checkString }}
             </td>
           </tr>
         </ng-template>
