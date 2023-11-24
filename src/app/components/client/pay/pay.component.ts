@@ -1,17 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 @Component({
-  selector: 'app-pay',
-  templateUrl: './pay.component.html',
-  styleUrls: ['./pay.component.css']
+  selector: "app-pay",
+  templateUrl: "./pay.component.html",
+  styleUrls: ["./pay.component.css"],
 })
-export class PayComponent {
-  basePrice: number = 1790000; // Giá cơ bản của sản phẩm
+export class PayComponent implements OnInit {
+  checkCartDetailCustom: any[];
   shippingCost: number = 0; // Phí giao hàng ban đầu là 0
-  totalPrice: number = this.basePrice + this.shippingCost; // Tổng giá ban đầu
+  totalPrice: number = 0;
+  totalPayment: number = 0;
+  constructor(private cartDetailCustomerService: CartDetailCustomerService) {
+    this.checkCartDetailCustom =
+      this.cartDetailCustomerService.getCartDetailCustomerService();
+  }
 
+  ngOnInit() {
+    this.checkCartDetailCustom.map((customer) => {
+      this.totalPrice = this.totalPrice + customer.price * customer.quantity;
+    });
+  }
   updateShippingCost(cost: number) {
-    this.shippingCost = cost;
-    this.totalPrice = this.basePrice + this.shippingCost; // Cập nhật tổng giá
+    this.totalPayment = this.totalPrice + this.shippingCost; // Cập nhật tổng giá
   }
 }
