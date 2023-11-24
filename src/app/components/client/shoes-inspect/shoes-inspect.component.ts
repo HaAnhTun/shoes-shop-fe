@@ -116,16 +116,17 @@ export class ShoesInspectComponent {
     };
     this.route.queryParams.subscribe((params) => {
       // Access the query parameters inside the subscribe callback
-      const shid = params["shid"];
-      const brid = params["brid"];
-      const siid = params["siid"];
-      const clid = params["clid"];
-      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid };
+      const shid = params['shid'];
+      const brid = params['brid'];
+      const siid = params['siid'];
+      const clid = params['clid'];
+      console.log(params['list']);
+
+      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid }
     });
     this.fetchProductDetails();
   }
   fetchProductDetails() {
-    // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
     const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
     // Make the HTTP request
     this.http.post<any>(apiUrl, this.productId).subscribe(
@@ -138,12 +139,32 @@ export class ShoesInspectComponent {
           this.splitPaths(this.shoesDetails.size_ids)
         );
         console.log(this.sizeOptions.length);
+        this.selectedsize = data.size_id
+        this.colorOptions = this.mergeLists(this.splitPaths(this.shoesDetails.color_names), this.splitPaths(this.shoesDetails.color_ids))
+        this.selectedColor = data.color_id
       },
       (error) => {
         console.error("Error fetching product details:", error);
       }
     );
   }
+
+  onColorChange() {
+    this.productId.siid = null;
+    this.productId.clid = this.selectedColor
+    console.log(this.productId);
+    this.fetchProductDetails();
+    console.log(this.shoesDetails);
+  }
+
+  onSizeChange() {
+    this.productId.siid = this.selectedsize;
+    this.productId.clid = this.selectedColor
+    console.log(this.productId);
+    this.fetchProductDetails();
+    console.log(this.shoesDetails);
+  }
+
   splitPaths(input: string): any[] {
     const pathsArray = input.split(",");
     const trimmedPaths = pathsArray.map((path) => path.trim());
