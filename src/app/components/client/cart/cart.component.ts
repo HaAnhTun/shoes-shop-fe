@@ -6,7 +6,9 @@ import {
 } from "primeng/api";
 import { Router } from "@angular/router";
 import { CartDetail } from "src/app/model/CartDetail";
+import { CartDetailCustom } from "src/app/model/CartDetailCustom";
 import { CartDetailService } from "src/app/service/cart-detail.service";
+import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 @Component({
   selector: "app-cart",
@@ -15,27 +17,36 @@ import { CartDetailService } from "src/app/service/cart-detail.service";
   providers: [ConfirmationService, MessageService],
 })
 export class CartComponent implements OnInit {
-  cartDetails: CartDetail[];
+  // cartDetails: CartDetail[];
+  cartDetails: CartDetailCustom[];
   cartDetail: CartDetail;
   tongTien: number = 0;
+  cartDetailCustoms: any[] = [];
   constructor(
     private router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private cartDetailService: CartDetailService
+    private cartDetailService: CartDetailService,
+    private cartDetailCustomerService: CartDetailCustomerService
   ) {}
   ngOnInit() {
-    this.cartDetailService.getAllCartDetail().subscribe((Response) => {
+    // this.cartDetailService.getAllCartDetail().subscribe((Response) => {
+    //   this.cartDetails = Response;
+    //   this.cartDetails
+    //     .filter((c) => c.quantity > c.shoesDetails.quantity)
+    //     .forEach((c) => (c.status = 0));
+    // });
+    this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
       this.cartDetails = Response;
       this.cartDetails
-        .filter((c) => c.quantity > c.shoesDetails.quantity)
+        .filter((c) => c.quantity > c.quantityShoesDetail)
         .forEach((c) => (c.status = 0));
     });
   }
   addQuanity(id: number) {
     let check = null;
     this.cartDetails
-      .filter((c) => c.id === id && c.quantity < c.shoesDetails.quantity)
+      .filter((c) => c.id === id && c.quantity < c.quantityShoesDetail)
       .forEach(
         (c) =>
           (check = this.cartDetailService.addQuanity(id).subscribe(() => {
@@ -66,7 +77,7 @@ export class CartComponent implements OnInit {
                   c.id === id &&
                   c.quantity > 1 &&
                   c.status === 0 &&
-                  c.quantity <= c.shoesDetails.quantity
+                  c.quantity <= c.quantityShoesDetail
               )
               .map((c) => (c.status = 1));
             this.loadTotalPrice();
@@ -137,7 +148,7 @@ export class CartComponent implements OnInit {
       .filter(
         (c) =>
           c.id === id &&
-          c.quantity <= c.shoesDetails.quantity &&
+          c.quantity <= c.quantityShoesDetail &&
           c.quantity > 0 &&
           c.quantity % 1 === 0
       )
@@ -155,7 +166,7 @@ export class CartComponent implements OnInit {
       .filter(
         (c) =>
           c.id === id &&
-          c.quantity <= c.shoesDetails.quantity &&
+          c.quantity <= c.quantityShoesDetail &&
           c.quantity > 0 &&
           c.quantity % 1 === 0 &&
           c.status === 0
@@ -170,7 +181,7 @@ export class CartComponent implements OnInit {
         this.loadTotalPrice();
       });
       this.cartDetails
-        .filter((c) => c.id === id && c.quantity > c.shoesDetails.quantity)
+        .filter((c) => c.id === id && c.quantity > c.quantityShoesDetail)
         .map((c) =>
           this.messageService.add({
             severity: "warn",
@@ -196,27 +207,24 @@ export class CartComponent implements OnInit {
     this.tongTien = 0;
     this.cartDetails
       .filter((c) => c.checkBox === true)
-      .map(
-        (c) =>
-          (this.tongTien = this.tongTien + c.shoesDetails.price * c.quantity)
-      );
+      .map((c) => (this.tongTien = this.tongTien + c.price * c.quantity));
   }
   checkQuanityAll() {
     let check = null;
     this.cartDetails
-      .filter((c) => c.status === 0 && c.shoesDetails.quantity != 0)
+      .filter((c) => c.status === 0 && c.quantityShoesDetail != 0)
       .map(
         (c) =>
           (check = this.cartDetailService
-            .editQuanity(c.shoesDetails.quantity, c.id != undefined ? c.id : -1)
+            .editQuanity(c.quantityShoesDetail, c.id != undefined ? c.id : -1)
             .subscribe(() => {
-              c.quantity = c.shoesDetails.quantity;
+              c.quantity = c.quantityShoesDetail;
               c.status = 1;
               this.loadTotalPrice();
             }))
       );
     this.cartDetails
-      .filter((c) => c.status === 0 && c.shoesDetails.quantity === 0)
+      .filter((c) => c.status === 0 && c.quantityShoesDetail === 0)
       .map(
         (c) =>
           (check = this.cartDetailService
@@ -241,13 +249,13 @@ export class CartComponent implements OnInit {
   checkQuanityOne(id: number) {
     this.cartDetails
       .filter(
-        (c) => c.status === 0 && c.shoesDetails.quantity != 0 && c.id === id
+        (c) => c.status === 0 && c.quantityShoesDetail != 0 && c.id === id
       )
       .map((c) =>
         this.cartDetailService
-          .editQuanity(c.shoesDetails.quantity, id)
+          .editQuanity(c.quantityShoesDetail, id)
           .subscribe(() => {
-            c.quantity = c.shoesDetails.quantity;
+            c.quantity = c.quantityShoesDetail;
             c.status = 1;
             this.loadTotalPrice();
             this.messageService.add({
@@ -261,7 +269,7 @@ export class CartComponent implements OnInit {
       );
     this.cartDetails
       .filter(
-        (c) => c.status === 0 && c.shoesDetails.quantity === 0 && c.id === id
+        (c) => c.status === 0 && c.quantityShoesDetail === 0 && c.id === id
       )
       .map((c) =>
         this.cartDetailService.deleteCartDetail(id).subscribe(() => {
@@ -290,6 +298,25 @@ export class CartComponent implements OnInit {
         life: 5000,
       });
     } else {
+      this.cartDetails
+        .filter((c) => c.checkBox === true)
+        .map((c) => this.cartDetailCustoms.push(c));
+      this.cartDetailCustomerService.setCartDetailCustomerService(
+        this.cartDetailCustoms
+      );
+      this.router.navigate(["/client/pay"]);
     }
+  }
+  shoesDetail(shoesDetail: CartDetailCustom) {
+    const queryParams = {
+      shid: shoesDetail.idsh,
+      brid: shoesDetail.idb,
+      siid: shoesDetail.idsz,
+      clid: shoesDetail.idc,
+    };
+
+    this.router.navigate(["/client/shoes-detail"], {
+      queryParams: queryParams,
+    });
   }
 }

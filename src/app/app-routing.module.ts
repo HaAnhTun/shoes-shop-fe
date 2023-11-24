@@ -29,8 +29,10 @@ import { OrderDetailsComponent } from "./components/order-details/order-details.
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
+import { UserOrderComponent } from "./components/user-order/user-order.component";
 import { AboutComponent } from "./components/client/about/about.component";
 import { ContactComponent } from "./components/client/contact/contact.component";
+import { PaySuccessComponent } from "./components/client/pay-success/pay-success.component";
 const routes: Routes = [
   {///ADMIN LINKS
     path: "admin",
@@ -74,6 +76,10 @@ const routes: Routes = [
       { path: "contact", component: ContactComponent },
       { path: "login-customer", component: LoginCustomerComponent },
       { path: "register-customer", component: RegisterCustomerComponent },
+      { path: "login-customer", component: LoginCustomerComponent},
+      { path: "register-customer", component: RegisterCustomerComponent},
+      { path: "user-order", component: UserOrderComponent},
+      { path: "pay-success", component: PaySuccessComponent}
     ],
   },
   /////CLIENT-LINKs

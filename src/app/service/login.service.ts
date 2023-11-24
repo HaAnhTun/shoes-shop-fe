@@ -16,4 +16,20 @@ export class LoginService {
   ouath2(): Observable<object> {
     return this.httpClient.get(this.baseUrl1, { withCredentials: true });
   }
+  
+  decodeJwtToken(token: string) {
+    const tokenParts = token.split('.');
+  
+    if (tokenParts.length !== 3) {
+      throw new Error('Invalid token structure');
+    }
+  
+    const base64Url = tokenParts[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(atob(base64));
+  
+    return payload;
+  }
+
+
 }
