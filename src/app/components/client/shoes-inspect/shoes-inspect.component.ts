@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 export interface ShoesDetail {
   id?: number;
@@ -42,7 +43,7 @@ export class ShoesInspectComponent {
   activeIndex: number = 0;
   shoesDetails: any;
   productId: any | null;
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router,) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private messageService: MessageService) {
     this.shoesDetails = {
       code: "ABC123",
       price: 50000,
@@ -96,6 +97,24 @@ export class ShoesInspectComponent {
     });
     this.fetchProductDetails();
   }
+
+
+
+  // Gọi hàm này mỗi khi quantity thay đổi
+  onQuantityChange() {
+    if (this.quantity >= this.shoesDetails.quantity) {
+      this.showMessage();
+    }
+  }
+
+  showMessage() {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Số Lượng tối đa',
+      detail: 'Đã đạt giới hạn hàng trong kho'
+    });
+  }
+
   fetchProductDetails() {
     const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
     // Make the HTTP request
