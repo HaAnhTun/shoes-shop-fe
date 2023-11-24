@@ -39,12 +39,11 @@ export class LoginCustomerComponent {
 
   login() {
     const user = this.loginForm.value;
-    console.log(user)
     this.loginservice.login(user).subscribe({
       next: (body: any) => {
         if (body && body?.id_token) {
           sessionStorage.setItem("access_token", body?.id_token);
-          this.router.navigate(["admin/users"]);
+          this.router.navigate(["client/home"]);
         } else {
           this.isValid = false;
         }
