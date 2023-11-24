@@ -30,12 +30,6 @@ export class CartComponent implements OnInit {
     private cartDetailCustomerService: CartDetailCustomerService
   ) {}
   ngOnInit() {
-    // this.cartDetailService.getAllCartDetail().subscribe((Response) => {
-    //   this.cartDetails = Response;
-    //   this.cartDetails
-    //     .filter((c) => c.quantity > c.shoesDetails.quantity)
-    //     .forEach((c) => (c.status = 0));
-    // });
     this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
       this.cartDetails = Response;
       this.cartDetails

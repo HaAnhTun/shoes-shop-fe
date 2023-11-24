@@ -42,124 +42,20 @@
       margin-top: 3vw;
     "
   >
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
+    <div
+      *ngFor="let shoes of shoesDetailCustom"
+      style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw"
+    >
+      <p-card header="{{ shoes.name }}">
         <ng-template pTemplate="header">
           <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
+            (click)="shoesDetail(shoes)"
+            [alt]="shoes.name"
+            [src]="shoes.path"
             style="height: 13vw"
           />
         </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
-      </p-card>
-    </div>
-    <div style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw">
-      <p-card header="Tên sản phẩm">
-        <ng-template pTemplate="header">
-          <img
-            alt="Card"
-            src="https://primefaces.org/cdn/primeng/images/usercard.png"
-            style="height: 13vw"
-          />
-        </ng-template>
-        <p style="font-size: larger; font-weight: 500">50000Đ</p>
+        <p style="font-size: larger; font-weight: 500">{{ shoes.price }}đ</p>
       </p-card>
     </div>
   </div>
