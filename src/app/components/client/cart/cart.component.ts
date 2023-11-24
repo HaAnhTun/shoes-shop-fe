@@ -97,6 +97,9 @@ export class CartComponent implements OnInit {
         this.cartDetailService.deleteCartDetail(id).subscribe((data) => {
           this.cartDetails = this.cartDetails.filter((item) => item.id != id);
           this.loadTotalPrice();
+          this.cartDetailService.getCount().subscribe((Response) => {
+            this.cartDetailCustomerService.setData(Response);
+          });
           this.messageService.add({
             severity: "info",
             summary: "Đã xác nhận",

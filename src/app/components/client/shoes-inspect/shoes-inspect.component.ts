@@ -9,7 +9,7 @@ import {
   MessageService,
   ConfirmEventType,
 } from "primeng/api";
-import { log } from "console";
+import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 export interface ShoesDetail {
   id?: number;
@@ -70,7 +70,8 @@ export class ShoesInspectComponent {
     private router: Router,
     private cartDetailService: CartDetailService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private cartDetailCustomerService: CartDetailCustomerService
   ) {
     this.shoesDetails = {
       code: "ABC123",
@@ -116,13 +117,13 @@ export class ShoesInspectComponent {
     };
     this.route.queryParams.subscribe((params) => {
       // Access the query parameters inside the subscribe callback
-      const shid = params['shid'];
-      const brid = params['brid'];
-      const siid = params['siid'];
-      const clid = params['clid'];
-      console.log(params['list']);
+      const shid = params["shid"];
+      const brid = params["brid"];
+      const siid = params["siid"];
+      const clid = params["clid"];
+      console.log(params["list"]);
 
-      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid }
+      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid };
     });
     this.fetchProductDetails();
   }
@@ -139,9 +140,12 @@ export class ShoesInspectComponent {
           this.splitPaths(this.shoesDetails.size_ids)
         );
         console.log(this.sizeOptions.length);
-        this.selectedsize = data.size_id
-        this.colorOptions = this.mergeLists(this.splitPaths(this.shoesDetails.color_names), this.splitPaths(this.shoesDetails.color_ids))
-        this.selectedColor = data.color_id
+        this.selectedsize = data.size_id;
+        this.colorOptions = this.mergeLists(
+          this.splitPaths(this.shoesDetails.color_names),
+          this.splitPaths(this.shoesDetails.color_ids)
+        );
+        this.selectedColor = data.color_id;
       },
       (error) => {
         console.error("Error fetching product details:", error);
@@ -151,7 +155,7 @@ export class ShoesInspectComponent {
 
   onColorChange() {
     this.productId.siid = null;
-    this.productId.clid = this.selectedColor
+    this.productId.clid = this.selectedColor;
     console.log(this.productId);
     this.fetchProductDetails();
     console.log(this.shoesDetails);
@@ -159,7 +163,7 @@ export class ShoesInspectComponent {
 
   onSizeChange() {
     this.productId.siid = this.selectedsize;
-    this.productId.clid = this.selectedColor
+    this.productId.clid = this.selectedColor;
     console.log(this.productId);
     this.fetchProductDetails();
     console.log(this.shoesDetails);
@@ -203,6 +207,9 @@ export class ShoesInspectComponent {
           this.cartDetailService
             .saveCartDetail(this.CartDetailSave)
             .subscribe((cartDetail: CartDetail) => {
+              this.cartDetailService.getCount().subscribe((Response) => {
+                this.cartDetailCustomerService.setData(Response);
+              });
               this.router.navigate(["/client/cart"]);
             });
         }
