@@ -1,258 +1,369 @@
 <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
-    <div class="grid mb-7">
-        <div class="col-6 mb:col-6">
-            <div class="flex">
-                <div class="flex flex-column w-2 justify-content-between">
-                    <img class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 border-primary ng-star-inserted"
-                        [src]="shoesDetails.images[1]">
-                    <img class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
-                        [src]="shoesDetails.images[2]">
-                    <img class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
-                        [src]="shoesDetails.images[3]">
-                    <img class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
-                        [src]="shoesDetails.images[4]"><!-- -->
-                </div>
-                <div class="pl-3 w-10">
-                    <img class="w-full border-round" [src]="shoesDetails.images[0]">
-                </div>
-
-            </div>
+  <div class="grid mb-7">
+    <div class="col-6 mb:col-6">
+      <div class="flex">
+        <div class="flex flex-column w-2 justify-content-between">
+          <img
+            class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 border-primary ng-star-inserted"
+            [src]="shoesDetails.images[1]"
+          />
+          <img
+            class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
+            [src]="shoesDetails.images[2]"
+          />
+          <img
+            class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
+            [src]="shoesDetails.images[3]"
+          />
+          <img
+            class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
+            [src]="shoesDetails.images[4]"
+          /><!-- -->
         </div>
-        <div class="col-6 mb:col-6 py-3 lg:pl-6">
-            <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{shoesDetails.name}}</div>
-            <div class="flex align-items-center justify-content-between mb-5"><span
-                    class="text-900 font-medium text-3xl block">{{shoesDetails.price | currency : 'VND' }}</span>
-                <div class="flex align-items-center"><span class="mr-3"><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star text-700 mr-1"></i></span><span class="text-sm"><b
-                            class="text-900 mr-1">24</b><span class="text-500"></span>reviews</span></div>
-            </div>
-            <div class="font-bold text-900 mb-3">Color</div>
-            <div class="flex align-items-center mb-5">
-                <p-selectButton [options]="colorOptions" [(ngModel)]="selectedColor" optionLabel="label"
-                    optionValue="value">
-                    <ng-template let-size pTemplate="item"
-                        class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                        {{size.name}}
-                    </ng-template>
-                </p-selectButton>
-            </div>
-            <div class="mb-3 flex align-items-center justify-content-between"><span
-                    class="font-bold text-900">Size</span>
-                <a tabindex="0" (click)="showGuide()"
-                    class="cursor-pointer text-600 text-sm flex align-items-center">Hướng dẫn chọn size <i
-                        class="ml-1 pi pi-angle-right"> </i>
-                </a>
-            </div>
-            <div class="grid grid-nogutter align-items-center mb-5">
-                <p-selectButton [options]="sizeOptions" [(ngModel)]="selectedsize" optionLabel="label"
-                    optionValue="value">
-                    <ng-template let-size pTemplate="item"
-                        class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                        {{size.name}}
-                    </ng-template>
-                </p-selectButton>
-            </div>
-            <div class="font-bold text-900 mb-3">Quantity</div>
-            <div class="formgrid grid">
-                <p-inputNumber class-="col-6 sm:col-3" min="1" [showButtons]="true" buttonLayout="horizontal"
-                    [(ngModel)]="quantity" inputId="horizontal" spinnerMode="horizontal" [step]="1"
-                    decrementButtonClass="p-button-text" incrementButtonClass="p-button-text"
-                    incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber>
-                <div class="col-2"></div>
-                <div class="col-4 sm:col-6">
-                    <button (click)="clickAddCart()" pripple="" label="Add to Cart" class=" p-button ">
-                        <span class="p-button-label">Add to Cart</span>
-                    </button>
-                </div>
-            </div>
+        <div class="pl-3 w-10">
+          <img class="w-full border-round" [src]="shoesDetails.images[0]" />
         </div>
+      </div>
     </div>
-    <p-tabView [(activeIndex)]="activeIndex">
-        <p-tabPanel header="Chi tiết">
-            <div class="text-900 font-medium text-3xl mb-4 mt-2">Chi tiết sản phẩm</div>
-            <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">{{shoesDetails.description}}</p>
-            <div class="grid">
-                <div class="col-12 lg:col-4">
-                    <span class="text-900 block font-medium mb-3">Đặc Điểm</span>
-                    <ul class="py-0 pl-3 m-0 text-700 mb-3">
-                        <li class="mb-2">Chất liệu đế êm mềm, độ đàn hồi tốt, chống trơn trượt</li>
-                        <li class="mb-2">Thiết kế độc đáo và sang trọng</li>
-                        <li class="mb-2">Phù hợp với nhiều dịp sử dụng</li>
-                        <li>Chất lượng cao, bền bỉ theo thời gian</li>
-                    </ul>
-                </div>
-                <div class="col-12 lg:col-4"><span class="text-900 block font-medium mb-3">Kích cỡ</span>
-                    <ul class="list-none p-0 m-0 text-700 mb-4">
-                        <li class="mb-3"><span class="font-medium">Leo vel:</span> Egestas congue.</li>
-                        <li class="mb-3"><span class="font-medium">Sociis natoque:</span> Parturient montes
-                            nascetur.</li>
-                        <li><span class="font-medium">Suspendisse in:</span> Purus sit amet volutpat.</li>
-                    </ul>
-                </div>
-                <div class="col-12 lg:col-4"><span class="text-900 block font-medium mb-3">Bảo dưỡng &amp;
-                        Bảo quản </span>
-                    <ul class="p-0 m-0 text-700 flex flex-wrap flex-column xl:flex-row">
-                        <li class="flex align-items-center white-space-nowrap w-10rem block mr-2 mb-3"><i
-                                class="pi pi-sun mr-2"></i><span>Không giặt tay</span></li>
-                        <li class="flex align-items-center white-space-nowrap w-10rem block mb-3"><i
-                                class="pi pi-times-circle mr-2"></i><span>Không giặt hóa chất</span></li>
-                        <li class="flex align-items-center white-space-nowrap w-10rem block mb-3 mr-2"><i
-                                class="pi pi-sliders-h mr-2"></i><span>Sấy nhiệt độ trung</span></li>
-                        <li class="flex align-items-center white-space-nowrap w-10rem block mb-3"><i
-                                class="pi pi-minus-circle mr-2"></i><span>Giặt khô</span></li>
-                    </ul>
-                </div>
-            </div>
-        </p-tabPanel>
-        <p-tabPanel header="Đánh giá">
-            <div class="text-900 font-medium text-3xl mb-4 mt-2">Đánh giá sản phẩm</div>
-            <ul class="list-none p-0 m-0">
-                <li class="pb-5 border-bottom-1 surface-border"><span><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-gray-500"></i></span>
-                    <div class="text-900 font-medium text-xl my-3">Absolute Perfection!</div>
-                    <p class="mx-0 mt-0 mb-3 text-700 line-height-3">Blandit libero volutpat sed cras ornare
-                        arcu dui vivamus. Arcu dictum varius duis at consectetur lorem donec massa.
-                        Imperdiet proin fermentum leo vel orci porta non. Porttitor rhoncus dolor purus non.
-                    </p><span class="text-600 font-medium">Darlene Robertson, 2 days ago</span>
-                </li>
-                <li class="py-5 border-bottom-1 surface-border"><span><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500 mr-1"></i><i
-                            class="pi pi-star-fill text-yellow-500"></i></span>
-                    <div class="text-900 font-medium text-xl my-3">Classy</div>
-                    <p class="mx-0 mt-0 mb-3 text-700 line-height-3">Venenatis cras sed felis eget. Proin
-                        nibh nisl condimentum id venenatis a condimentum.</p><span class="text-600 font-medium">Kristin
-                        Watson, 2 days ago</span>
-                </li>
-            </ul>
-        </p-tabPanel>
-        <p-tabPanel header="Chính sách">
-            <div class="text-900 font-medium text-3xl mb-4 mt-2">Chính sách bán hàng</div>
-            <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">
-                * SportKick cam kết hoàn tiền 100% cho tất cả khách hàng nếu sản phẩm bán ra không chính hãng và không
-                đảm bảo chất lượng.
-
-                * SportKick cam hết mọi sản phẩm đều ở tình trạng mới 100% với bao bì đi kèm của nhà sản xuất
-
-                * Miễn phí đổi Size và mẫu nếu khách hàng không hài lòng
-
-                * Bảo hành sản phẩm 365 ngày đối với các lỗi của nhà sản xuất
-
-                * Áp dụng chương trình vệ sinh giày 0đ đối với mỗi khách hàng của SportKick
-
-                * Sẵn sàng trả lời mọi thắc mắc, yêu cầu hỗ trợ từ quý khách 24/7
-            </p>
-            <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">
-                * Chất lượng sản phẩm được đảm bảo
-
-                - Đóng gói tỉ mỉ với 2 lớp hộp và một lớp xốp chống sốc
-
-                - Hợp tác với các đơn vị vận chuyển uy tín nhất tại Việt Nam
-
-                - Giao hàng hỏa tốc không mất thêm phụ phí
-
-                "* Thời gian giao hàng
-
-                - Giao hàng trong vòng 24h đối với các đơn hàng nội thành
-
-                - Giao hàng trong vòng 3 - 5 ngày đối với các đợn hàng ngoại tỉnh hoặc đặt hàng dưới dạng đặt trước, vận
-                chuyển từ kho.</p>
-            <div class="grid">
-                <div class="col-12 md:col-6"><span class="text-900 block font-medium mb-3">Phí vận chuyển</span>
-                    <ul class="py-0 pl-3 m-0 text-700 mb-3">
-                        <li class="mb-2">Japan - JPY 2,500.</li>
-                        <li class="mb-2">Europe – EUR 10</li>
-                        <li class="mb-2">Switzerland – CHF 10</li>
-                        <li class="mb-2">Canada – CAD 25</li>
-                        <li class="mb-2">USA – USD 20</li>
-                        <li class="mb-2">Australia – AUD 30</li>
-                        <li class="mb-2">United Kingdom – GBP 10</li>
-                    </ul>
-                </div>
-                <div class="col-12 md:col-6"><span class="text-900 block font-medium mb-3">Chính sách đổi trả</span>
-                    <p class="line-height-3 text-700 p-0 m-0">* Thời gian đổi trả hàng:
-
-                        - Đổi hàng: Trong vòng 07 ngày kể từ ngày khách hàng nhận được sản phẩm.
-
-                        - Trả hàng: Trong vòng 03 ngày kể từ ngày khách hàng nhận được sản phẩm.
-
-                        Tham khảo thêm thông tin tại Chính sách đổi trả.</p>
-                </div>
-            </div>
-        </p-tabPanel>
-    </p-tabView>
-
-    <p-dialog header="Hướng Dẫn Chọn Kích Thước Giày" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }"
-        [draggable]="false" [resizable]="false">
-        <div class="m-0">
-            <ol>
-                <li>
-                    <strong>Đo Chiều Dài Chân:</strong>
-                    <ul>
-                        <li>Đo chiều dài chân của bạn bằng một thước đo chân.</li>
-                        <li>Đo từ phía đầu ngón chân đến phần gối chân.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Xem Bảng Kích Thước:</strong>
-                    <ul>
-                        <li>Mỗi thương hiệu giày có thể có các bảng kích thước khác nhau. Hãy kiểm tra bảng kích thước
-                            của thương hiệu bạn đang quan tâm.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>So Sánh Kích Thước:</strong>
-                    <ul>
-                        <li>So sánh chiều dài chân của bạn với bảng kích thước để xem kích thước tương ứng.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Chọn Kích Thước Lớn Hơn:</strong>
-                    <ul>
-                        <li>Nếu chiều dài chân của bạn nằm giữa hai kích thước, nên chọn kích thước lớn hơn để đảm bảo
-                            sự thoải mái.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Thử Nghiệm Trước Khi Mua:</strong>
-                    <ul>
-                        <li>Nếu có thể, hãy thử giày trước khi mua để đảm bảo vừa vặn chính xác.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Chú Ý Đến Loại Giày:</strong>
-                    <ul>
-                        <li>Các loại giày có thể có các kích thước khác nhau. Ví dụ, giày chạy có thể yêu cầu một kích
-                            thước lớn hơn so với giày thể thao.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Theo Dõi Đánh Giá và Phản Hồi:</strong>
-                    <ul>
-                        <li>Đọc đánh giá từ người mua trước để biết về kích thước thực tế của sản phẩm.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Xem Xét Chất Liệu:</strong>
-                    <ul>
-                        <li>Chất liệu của giày cũng có thể ảnh hưởng đến cảm giác về kích thước. Chất liệu mềm dẻo có
-                            thể co giãn hơn so với chất liệu cứng.</li>
-                    </ul>
-                </li>
-            </ol>
-            <p>Lưu ý rằng quy tắc chung là thoải mái và không gây chật chội. Nếu có thể, thử giày trước khi mua là quan
-                trọng để đảm bảo vừa vặn hoàn hảo cho đôi chân của bạn.</p>
+    <div class="col-6 mb:col-6 py-3 lg:pl-6">
+      <div class="flex align-items-center text-xl font-medium text-900 mb-4">
+        {{ shoesDetails.name }}
+      </div>
+      <div class="flex align-items-center justify-content-between mb-5">
+        <span class="text-900 font-medium text-3xl block">{{
+          shoesDetails.price | currency : "VND"
+        }}</span>
+        <div class="flex align-items-center">
+          <span class="mr-3"
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star text-700 mr-1"></i></span
+          ><span class="text-sm"
+            ><b class="text-900 mr-1">24</b
+            ><span class="text-500"></span>reviews</span
+          >
         </div>
-    </p-dialog>
+      </div>
+      <div class="font-bold text-900 mb-3">Color</div>
+      <div class="flex align-items-center mb-5">
+        <p-selectButton
+          [options]="colorOptions"
+          [(ngModel)]="selectedColor"
+          optionLabel="label"
+          optionValue="value"
+        >
+          <ng-template
+            let-size
+            pTemplate="item"
+            class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors"
+          >
+            {{ size.name }}
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="mb-3 flex align-items-center justify-content-between">
+        <span class="font-bold text-900">Size</span>
+        <a
+          tabindex="0"
+          (click)="showGuide()"
+          class="cursor-pointer text-600 text-sm flex align-items-center"
+          >Hướng dẫn chọn size <i class="ml-1 pi pi-angle-right"> </i>
+        </a>
+      </div>
+      <div class="grid grid-nogutter align-items-center mb-5">
+        <p-selectButton
+          [options]="sizeOptions"
+          [(ngModel)]="selectedsize"
+          optionLabel="label"
+          optionValue="value"
+        >
+          <ng-template
+            let-size
+            pTemplate="item"
+            class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors"
+          >
+            {{ size.name }}
+          </ng-template>
+        </p-selectButton>
+      </div>
+      <div class="font-bold text-900 mb-3">Quantity</div>
+      <div class="formgrid grid">
+        <p-inputNumber
+          class-="col-6 sm:col-3"
+          min="1"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          [(ngModel)]="quantity"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          [step]="1"
+          decrementButtonClass="p-button-text"
+          incrementButtonClass="p-button-text"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+        ></p-inputNumber>
+        <div class="col-2"></div>
+        <div class="col-4 sm:col-6">
+          <button
+            (click)="clickAddCart()"
+            pripple=""
+            label="Add to Cart"
+            class="p-button"
+          >
+            <span class="p-button-label">Add to Cart</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-tabView [(activeIndex)]="activeIndex">
+    <p-tabPanel header="Chi tiết">
+      <div class="text-900 font-medium text-3xl mb-4 mt-2">
+        Chi tiết sản phẩm
+      </div>
+      <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">
+        {{ shoesDetails.description }}
+      </p>
+      <div class="grid">
+        <div class="col-12 lg:col-4">
+          <span class="text-900 block font-medium mb-3">Đặc Điểm</span>
+          <ul class="py-0 pl-3 m-0 text-700 mb-3">
+            <li class="mb-2">
+              Chất liệu đế êm mềm, độ đàn hồi tốt, chống trơn trượt
+            </li>
+            <li class="mb-2">Thiết kế độc đáo và sang trọng</li>
+            <li class="mb-2">Phù hợp với nhiều dịp sử dụng</li>
+            <li>Chất lượng cao, bền bỉ theo thời gian</li>
+          </ul>
+        </div>
+        <div class="col-12 lg:col-4">
+          <span class="text-900 block font-medium mb-3">Kích cỡ</span>
+          <ul class="list-none p-0 m-0 text-700 mb-4">
+            <li class="mb-3">
+              <span class="font-medium">Leo vel:</span> Egestas congue.
+            </li>
+            <li class="mb-3">
+              <span class="font-medium">Sociis natoque:</span> Parturient montes
+              nascetur.
+            </li>
+            <li>
+              <span class="font-medium">Suspendisse in:</span> Purus sit amet
+              volutpat.
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 lg:col-4">
+          <span class="text-900 block font-medium mb-3"
+            >Bảo dưỡng &amp; Bảo quản
+          </span>
+          <ul class="p-0 m-0 text-700 flex flex-wrap flex-column xl:flex-row">
+            <li
+              class="flex align-items-center white-space-nowrap w-10rem block mr-2 mb-3"
+            >
+              <i class="pi pi-sun mr-2"></i><span>Không giặt tay</span>
+            </li>
+            <li
+              class="flex align-items-center white-space-nowrap w-10rem block mb-3"
+            >
+              <i class="pi pi-times-circle mr-2"></i
+              ><span>Không giặt hóa chất</span>
+            </li>
+            <li
+              class="flex align-items-center white-space-nowrap w-10rem block mb-3 mr-2"
+            >
+              <i class="pi pi-sliders-h mr-2"></i
+              ><span>Sấy nhiệt độ trung</span>
+            </li>
+            <li
+              class="flex align-items-center white-space-nowrap w-10rem block mb-3"
+            >
+              <i class="pi pi-minus-circle mr-2"></i><span>Giặt khô</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Đánh giá">
+      <div class="text-900 font-medium text-3xl mb-4 mt-2">
+        Đánh giá sản phẩm
+      </div>
+      <ul class="list-none p-0 m-0">
+        <li class="pb-5 border-bottom-1 surface-border">
+          <span
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-gray-500"></i
+          ></span>
+          <div class="text-900 font-medium text-xl my-3">
+            Absolute Perfection!
+          </div>
+          <p class="mx-0 mt-0 mb-3 text-700 line-height-3">
+            Blandit libero volutpat sed cras ornare arcu dui vivamus. Arcu
+            dictum varius duis at consectetur lorem donec massa. Imperdiet proin
+            fermentum leo vel orci porta non. Porttitor rhoncus dolor purus non.
+          </p>
+          <span class="text-600 font-medium"
+            >Darlene Robertson, 2 days ago</span
+          >
+        </li>
+        <li class="py-5 border-bottom-1 surface-border">
+          <span
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
+            ><i class="pi pi-star-fill text-yellow-500"></i
+          ></span>
+          <div class="text-900 font-medium text-xl my-3">Classy</div>
+          <p class="mx-0 mt-0 mb-3 text-700 line-height-3">
+            Venenatis cras sed felis eget. Proin nibh nisl condimentum id
+            venenatis a condimentum.
+          </p>
+          <span class="text-600 font-medium">Kristin Watson, 2 days ago</span>
+        </li>
+      </ul>
+    </p-tabPanel>
+    <p-tabPanel header="Chính sách">
+      <div class="text-900 font-medium text-3xl mb-4 mt-2">
+        Chính sách bán hàng
+      </div>
+      <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">
+        * SportKick cam kết hoàn tiền 100% cho tất cả khách hàng nếu sản phẩm
+        bán ra không chính hãng và không đảm bảo chất lượng. * SportKick cam hết
+        mọi sản phẩm đều ở tình trạng mới 100% với bao bì đi kèm của nhà sản
+        xuất * Miễn phí đổi Size và mẫu nếu khách hàng không hài lòng * Bảo hành
+        sản phẩm 365 ngày đối với các lỗi của nhà sản xuất * Áp dụng chương
+        trình vệ sinh giày 0đ đối với mỗi khách hàng của SportKick * Sẵn sàng
+        trả lời mọi thắc mắc, yêu cầu hỗ trợ từ quý khách 24/7
+      </p>
+      <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">
+        * Chất lượng sản phẩm được đảm bảo - Đóng gói tỉ mỉ với 2 lớp hộp và một
+        lớp xốp chống sốc - Hợp tác với các đơn vị vận chuyển uy tín nhất tại
+        Việt Nam - Giao hàng hỏa tốc không mất thêm phụ phí "* Thời gian giao
+        hàng - Giao hàng trong vòng 24h đối với các đơn hàng nội thành - Giao
+        hàng trong vòng 3 - 5 ngày đối với các đợn hàng ngoại tỉnh hoặc đặt hàng
+        dưới dạng đặt trước, vận chuyển từ kho.
+      </p>
+      <div class="grid">
+        <div class="col-12 md:col-6">
+          <span class="text-900 block font-medium mb-3">Phí vận chuyển</span>
+          <ul class="py-0 pl-3 m-0 text-700 mb-3">
+            <li class="mb-2">Japan - JPY 2,500.</li>
+            <li class="mb-2">Europe – EUR 10</li>
+            <li class="mb-2">Switzerland – CHF 10</li>
+            <li class="mb-2">Canada – CAD 25</li>
+            <li class="mb-2">USA – USD 20</li>
+            <li class="mb-2">Australia – AUD 30</li>
+            <li class="mb-2">United Kingdom – GBP 10</li>
+          </ul>
+        </div>
+        <div class="col-12 md:col-6">
+          <span class="text-900 block font-medium mb-3"
+            >Chính sách đổi trả</span
+          >
+          <p class="line-height-3 text-700 p-0 m-0">
+            * Thời gian đổi trả hàng: - Đổi hàng: Trong vòng 07 ngày kể từ ngày
+            khách hàng nhận được sản phẩm. - Trả hàng: Trong vòng 03 ngày kể từ
+            ngày khách hàng nhận được sản phẩm. Tham khảo thêm thông tin tại
+            Chính sách đổi trả.
+          </p>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
 
+  <p-dialog
+    header="Hướng Dẫn Chọn Kích Thước Giày"
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="m-0">
+      <ol>
+        <li>
+          <strong>Đo Chiều Dài Chân:</strong>
+          <ul>
+            <li>Đo chiều dài chân của bạn bằng một thước đo chân.</li>
+            <li>Đo từ phía đầu ngón chân đến phần gối chân.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Xem Bảng Kích Thước:</strong>
+          <ul>
+            <li>
+              Mỗi thương hiệu giày có thể có các bảng kích thước khác nhau. Hãy
+              kiểm tra bảng kích thước của thương hiệu bạn đang quan tâm.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>So Sánh Kích Thước:</strong>
+          <ul>
+            <li>
+              So sánh chiều dài chân của bạn với bảng kích thước để xem kích
+              thước tương ứng.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Chọn Kích Thước Lớn Hơn:</strong>
+          <ul>
+            <li>
+              Nếu chiều dài chân của bạn nằm giữa hai kích thước, nên chọn kích
+              thước lớn hơn để đảm bảo sự thoải mái.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Thử Nghiệm Trước Khi Mua:</strong>
+          <ul>
+            <li>
+              Nếu có thể, hãy thử giày trước khi mua để đảm bảo vừa vặn chính
+              xác.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Chú Ý Đến Loại Giày:</strong>
+          <ul>
+            <li>
+              Các loại giày có thể có các kích thước khác nhau. Ví dụ, giày chạy
+              có thể yêu cầu một kích thước lớn hơn so với giày thể thao.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Theo Dõi Đánh Giá và Phản Hồi:</strong>
+          <ul>
+            <li>
+              Đọc đánh giá từ người mua trước để biết về kích thước thực tế của
+              sản phẩm.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Xem Xét Chất Liệu:</strong>
+          <ul>
+            <li>
+              Chất liệu của giày cũng có thể ảnh hưởng đến cảm giác về kích
+              thước. Chất liệu mềm dẻo có thể co giãn hơn so với chất liệu cứng.
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <p>
+        Lưu ý rằng quy tắc chung là thoải mái và không gây chật chội. Nếu có
+        thể, thử giày trước khi mua là quan trọng để đảm bảo vừa vặn hoàn hảo
+        cho đôi chân của bạn.
+      </p>
+    </div>
+  </p-dialog>
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
 </div>
