@@ -307,4 +307,16 @@ export class CartComponent implements OnInit {
       this.router.navigate(["/client/pay"]);
     }
   }
+  shoesDetail(shoesDetail: CartDetailCustom) {
+    const queryParams = {
+      shid: shoesDetail.idsh,
+      brid: shoesDetail.idb,
+      siid: shoesDetail.idsz,
+      clid: shoesDetail.idc,
+    };
+
+    this.router.navigate(["/client/shoes-detail"], {
+      queryParams: queryParams,
+    });
+  }
 }

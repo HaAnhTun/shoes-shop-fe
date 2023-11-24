@@ -1,5 +1,9 @@
 export interface CartDetailCustom {
   id: number;
+  idsh: number;
+  idsz: number;
+  idc: number;
+  idb: number;
   path: String;
   status: number;
   quantity: number;

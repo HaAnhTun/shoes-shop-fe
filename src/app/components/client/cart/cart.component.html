@@ -30,13 +30,15 @@
           ></p-tableCheckbox>
         </td>
         <td>
-          <img
-            [src]="cartDetails.path"
-            [alt]=""
-            width="100"
-            height="100"
-            class="shadow-4"
-          />
+          <div (click)="shoesDetail(cartDetails)">
+            <img
+              [src]="cartDetails.path"
+              [alt]=""
+              width="100"
+              height="100"
+              class="shadow-4"
+            />
+          </div>
         </td>
         <td>
           Tên sản phẩm: {{ cartDetails.nameshoes }}
