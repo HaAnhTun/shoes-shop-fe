@@ -74,22 +74,23 @@ import { MenuModule } from "primeng/menu";
 import { ClientHomeComponent } from "./components/client/home/client.home.component";
 import { CartComponent } from "./components/client/cart/cart.component";
 import { MultiSelectModule } from "primeng/multiselect";
-import { LandingComponent } from './components/landing/landing.component';
+import { LandingComponent } from "./components/landing/landing.component";
 import { SelectButtonModule } from "primeng/selectbutton";
-import { SliderModule } from 'primeng/slider';
-import { ShoesInspectComponent } from './components/client/shoes-inspect/shoes-inspect.component';
+import { SliderModule } from "primeng/slider";
+import { ShoesInspectComponent } from "./components/client/shoes-inspect/shoes-inspect.component";
 import { OrderDetailsComponent } from "./components/order-details/order-details.component";
 import { PayComponent } from "./components/client/pay/pay.component";
 import { LoginCustomerComponent } from "./components/login-customer/login-customer.component";
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
-import { AboutComponent } from './components/client/about/about.component';
-import { ContactComponent } from './components/client/contact/contact.component';
+import { AboutComponent } from "./components/client/about/about.component";
+import { ContactComponent } from "./components/client/contact/contact.component";
 import { CardModule } from "primeng/card";
-import { UserOrderComponent } from './components/user-order/user-order.component';
-import { PaySuccessComponent } from './components/client/pay-success/pay-success.component';
-import { PayFaileComponent } from './components/client/pay-faile/pay-faile.component';
+import { DiscountShoesComponent } from "./components/discount-shoes/discount-shoes.component";
+import { UserOrderComponent } from "./components/user-order/user-order.component";
+import { PaySuccessComponent } from "./components/client/pay-success/pay-success.component";
+import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 
-import { InplaceModule } from 'primeng/inplace';
+import { InplaceModule } from "primeng/inplace";
 @NgModule({
   declarations: [
     AppComponent,
@@ -123,6 +124,7 @@ import { InplaceModule } from 'primeng/inplace';
     RegisterCustomerComponent,
     AboutComponent,
     ContactComponent,
+    DiscountShoesComponent,
     UserOrderComponent,
     PaySuccessComponent,
     PayFaileComponent,
@@ -173,7 +175,7 @@ import { InplaceModule } from 'primeng/inplace';
     CardModule,
     SliderModule,
     SelectButtonModule,
-    InplaceModule
+    InplaceModule,
   ],
   providers: [
     DataViewLayoutOptions,
@@ -184,4 +186,4 @@ import { InplaceModule } from 'primeng/inplace';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}

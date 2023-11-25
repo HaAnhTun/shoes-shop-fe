@@ -7,7 +7,7 @@
             <div class="row">
               <div class="col-10">
                 <div class="flex align-items-center justify-content-between">
-                  <h3>Thêm mới khuyến mãi</h3>
+                  <h3>Chương trình khuyến mãi</h3>
                 </div>
               </div>
               <div class="col-2">
@@ -19,32 +19,20 @@
           </div>
           <div class="col-12">
             <div class="row">
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label for="categoryCode">Mã khuyến mãi</label>
                   <input
-                    [readonly]="idDiscount"
                     type="text"
                     class="form-control"
                     id="discountCode"
                     aria-describedby="emailHelp"
                     placeholder="Nhập mã khuyến mãi"
                     formControlName="code"
-                    [class.ng-invalid]="isFormControlInvalidAndTouched('code')"
-                    required
                   />
-                  <small
-                    class="p-error"
-                    *ngIf="
-                      formDiscount.get('code')?.hasError('required') &&
-                      isFormControlInvalidAndTouched('code')
-                    "
-                  >
-                    Mã khuyến mãi không được để trống.
-                  </small>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label for="categoryCode">Tên khuyến mãi</label>
                   <input
@@ -67,7 +55,7 @@
                   </small>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label for="exampleFormControlSelect2"
                     >Hình thức khuyến mãi</label
@@ -76,8 +64,11 @@
                     class="form-control"
                     id="exampleFormControlSelect2"
                     formControlName="discountMethod"
+                    (change)="isVisiable()"
                   >
-                    <option value="-1">--Chọn hình thức--</option>
+                    <option value="" disabled selected>
+                      --Chọn hình thức--
+                    </option>
                     <option
                       *ngFor="let discountMethod of discountMethods"
                       value="{{ discountMethod.id }}"
@@ -99,7 +90,7 @@
                 </div>
               </div>
               <div
-                class="col-4"
+                class="col-6"
                 *ngIf="
                   formDiscount.controls['discountMethod'].value == '1' ||
                   formDiscount.controls['discountMethod'].value == '2'
@@ -114,6 +105,10 @@
                     aria-describedby="emailHelp"
                     placeholder="Nhập số phần trăm giảm"
                     formControlName="discountAmount"
+                    [required]="
+                      formDiscount.controls['discountMethod'].value == '1' ||
+                      formDiscount.controls['discountMethod'].value == '2'
+                    "
                   />
                   <small
                     class="p-error"
@@ -128,7 +123,7 @@
                   </small>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label for="categoryCode">Ngày hiệu lực</label>
                   <input
@@ -150,7 +145,7 @@
                   </small>
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="form-group">
                   <label for="categoryCode">Ngày hết hiệu lực</label>
                   <input
@@ -239,6 +234,7 @@
             <div class="row">
               <div class="col-12">
                 <p-table
+                  *ngIf="enable"
                   [value]="
                     formDiscount.controls.discountShoesDetailsDTOS.controls
                   "
