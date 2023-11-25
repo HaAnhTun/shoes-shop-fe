@@ -109,6 +109,7 @@ export class DiscountAddComponent implements OnInit {
     setTimeout(() => (this.enable = true), 500);
   }
   openShoesDetailsDialog() {
+    this.selectedShoes = [];
     this.shoesDetailsDialog = true;
   }
   hideShoesDetailsDialog() {
@@ -145,9 +146,9 @@ export class DiscountAddComponent implements OnInit {
 
   initDetails(data: any) {
     return this.fb.group({
-      id: [data ? data.id : ""],
+      id: [""],
       shoesDetails: [{ id: data.shoesDetails.shoes_id }],
-      code: [data.shoesDetails.code],
+      code: [data.shoesDetails.shoesCode],
       name: [data.shoesDetails.name],
       brandId: [data.shoesDetails.brand_id],
       brand: [data.shoesDetails.brandName],
@@ -169,29 +170,34 @@ export class DiscountAddComponent implements OnInit {
   }
   pushShoes() {
     for (let p of this.selectedShoes) {
+      console.log(p);
       this.discountShoesDetails.shoesDetails = p;
+      if (
+        this.discountShoesDetailsDTOS.value.find(
+          (value: { brandId: number; shoesDetails: any; "": any }) => {
+            if (
+              value.shoesDetails.id == p.shoes_id &&
+              value.brandId == p.brand_id
+            ) {
+              return p;
+            }
+            return null;
+          }
+        )
+      ) {
+        break;
+      }
       this.discountShoesDetailsDTOS.push(
         this.initDetails(this.discountShoesDetails)
       );
     }
-    this.shoesDetails = this.shoesDetails.filter(
-      (shoes) => !this.selectedShoes.includes(shoes)
-    );
 
-    this.selectedShoes = [];
     this.hideShoesDetailsDialog();
   }
   pushShoes2() {
     this.discountShoesDetailsDTOS.push(
       this.initDetails2(this.discountShoesDetails)
     );
-    this.shoesDetails = this.shoesDetails.filter((s) => {
-      return !(
-        s.shoes_id == this.discountShoesDetails.shoesDetails.id &&
-        s.brandId == this.discountShoesDetails.brandId
-      );
-    });
-    this.selectedShoes = [];
   }
   isFormControlInvalidAndTouched(controlName: string): boolean | undefined {
     // Lấy FormControl từ FormGroup bằng cách sử dụng tên của FormControl
