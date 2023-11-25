@@ -12,6 +12,7 @@ import {
 } from "primeng/api";
 import { log } from "console";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 
 export interface ShoesDetail {
@@ -84,6 +85,7 @@ export class ShoesInspectComponent {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private fb: FormBuilder,
+    private cartDetailCustomerService: CartDetailCustomerService
   ) {
     this.getAccount();
     this.shoesDetails = {
@@ -137,7 +139,6 @@ export class ShoesInspectComponent {
       this.productId = { shid: shid, brid: brid, siid: siid, clid: clid }
     });
     this.fetchProductDetails();
-
   }
 
   getAccount() {
@@ -178,10 +179,12 @@ export class ShoesInspectComponent {
           this.splitPaths(this.shoesDetails.size_ids)
         );
         console.log(this.sizeOptions.length);
-        this.selectedsize = data.size_id
-        this.colorOptions = this.mergeLists(this.splitPaths(this.shoesDetails.color_names), this.splitPaths(this.shoesDetails.color_ids))
-        this.selectedColor = data.color_id
-        this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
+        this.selectedsize = data.size_id;
+        this.colorOptions = this.mergeLists(
+          this.splitPaths(this.shoesDetails.color_names),
+          this.splitPaths(this.shoesDetails.color_ids)
+        );
+        this.selectedColor = data.color_id;
       },
       (error) => {
         console.error("Error fetching product details:", error);
@@ -191,7 +194,7 @@ export class ShoesInspectComponent {
 
   onColorChange() {
     this.productId.siid = null;
-    this.productId.clid = this.selectedColor
+    this.productId.clid = this.selectedColor;
     console.log(this.productId);
     this.fetchProductDetails();
     console.log(this.shoesDetails);
@@ -218,7 +221,7 @@ export class ShoesInspectComponent {
 
   onSizeChange() {
     this.productId.siid = this.selectedsize;
-    this.productId.clid = this.selectedColor
+    this.productId.clid = this.selectedColor;
     console.log(this.productId);
     this.fetchProductDetails();
     console.log(this.shoesDetails);
@@ -262,6 +265,9 @@ export class ShoesInspectComponent {
           this.cartDetailService
             .saveCartDetail(this.CartDetailSave)
             .subscribe((cartDetail: CartDetail) => {
+              this.cartDetailService.getCount().subscribe((Response) => {
+                this.cartDetailCustomerService.setData(Response);
+              });
               this.router.navigate(["/client/cart"]);
             });
         }
