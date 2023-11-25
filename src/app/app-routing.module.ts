@@ -32,9 +32,12 @@ import { RegisterCustomerComponent } from "./components/register-customer/regist
 import { UserOrderComponent } from "./components/user-order/user-order.component";
 import { AboutComponent } from "./components/client/about/about.component";
 import { ContactComponent } from "./components/client/contact/contact.component";
+import { DiscountShoesComponent } from "./components/discount-shoes/discount-shoes.component";
 import { PaySuccessComponent } from "./components/client/pay-success/pay-success.component";
+import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 const routes: Routes = [
-  {///ADMIN LINKS
+  {
+    ///ADMIN LINKS
     path: "admin",
     component: AppLayoutComponent, //trang layout mạc định  (http://localhost:4200/admin)
     children: [
@@ -76,10 +79,12 @@ const routes: Routes = [
       { path: "contact", component: ContactComponent },
       { path: "login-customer", component: LoginCustomerComponent },
       { path: "register-customer", component: RegisterCustomerComponent },
-      { path: "login-customer", component: LoginCustomerComponent},
-      { path: "register-customer", component: RegisterCustomerComponent},
-      { path: "user-order", component: UserOrderComponent},
-      { path: "pay-success", component: PaySuccessComponent}
+      { path: "discount", component: DiscountShoesComponent },
+      { path: "login-customer", component: LoginCustomerComponent },
+      { path: "register-customer", component: RegisterCustomerComponent },
+      { path: "user-order", component: UserOrderComponent },
+      { path: "pay-success", component: PaySuccessComponent },
+      { path: "pay-faile", component: PayFaileComponent },
     ],
   },
   /////CLIENT-LINKs
@@ -100,4 +105,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
