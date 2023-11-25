@@ -85,6 +85,7 @@ import { RegisterCustomerComponent } from "./components/register-customer/regist
 import { AboutComponent } from './components/client/about/about.component';
 import { ContactComponent } from './components/client/contact/contact.component';
 import { CardModule } from "primeng/card";
+import { DiscountShoesComponent } from './components/discount-shoes/discount-shoes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +119,7 @@ import { CardModule } from "primeng/card";
     RegisterCustomerComponent,
     AboutComponent,
     ContactComponent,
+    DiscountShoesComponent,
   ],
   imports: [
     AppLayoutModule,

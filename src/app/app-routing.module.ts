@@ -31,8 +31,10 @@ import { LoginCustomerComponent } from "./components/login-customer/login-custom
 import { RegisterCustomerComponent } from "./components/register-customer/register-customer.component";
 import { AboutComponent } from "./components/client/about/about.component";
 import { ContactComponent } from "./components/client/contact/contact.component";
+import { DiscountShoesComponent } from "./components/discount-shoes/discount-shoes.component";
 const routes: Routes = [
-  {///ADMIN LINKS
+  {
+    ///ADMIN LINKS
     path: "admin",
     component: AppLayoutComponent, //trang layout mạc định  (http://localhost:4200/admin)
     children: [
@@ -74,6 +76,7 @@ const routes: Routes = [
       { path: "contact", component: ContactComponent },
       { path: "login-customer", component: LoginCustomerComponent },
       { path: "register-customer", component: RegisterCustomerComponent },
+      { path: "discount", component: DiscountShoesComponent },
     ],
   },
   /////CLIENT-LINKs
@@ -94,4 +97,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

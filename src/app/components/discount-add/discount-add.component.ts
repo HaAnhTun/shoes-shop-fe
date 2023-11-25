@@ -260,7 +260,14 @@ export class DiscountAddComponent implements OnInit {
       header: "Xóa giày",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.discountShoesDetailsDTOS.at(index).get("status")?.setValue(-1);
+        if (
+          this.discountShoesDetailsDTOS.at(index).get("id")?.value &&
+          this.discountShoesDetailsDTOS.at(index).get("id")?.value != ""
+        ) {
+          this.discountShoesDetailsDTOS.at(index).get("status")?.setValue(-1);
+        } else {
+          this.discountShoesDetailsDTOS.removeAt(index);
+        }
       },
       reject: (type: ConfirmEventType) => {
         switch (type) {
