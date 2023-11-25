@@ -51,6 +51,7 @@ export class PayComponent implements OnInit {
     this.checkCartDetailCustom.map((customer) => {
       this.totalPrice = this.totalPrice + customer.price * customer.quantity;
     });
+    this.totalPayment = this.totalPrice*1.08
   }
 
   getAccount() {

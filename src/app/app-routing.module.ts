@@ -35,6 +35,7 @@ import { ContactComponent } from "./components/client/contact/contact.component"
 import { DiscountShoesComponent } from "./components/discount-shoes/discount-shoes.component";
 import { PaySuccessComponent } from "./components/client/pay-success/pay-success.component";
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
+import { ShoesComponent } from "./components/shoes/shoes.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -45,7 +46,7 @@ const routes: Routes = [
       { path: "home", component: HomeComponent }, //các component con (http://localhost:4200/admin/home)
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
-      { path: "shoes", component: ProductComponent },
+     // { path: "shoes", component: ProductComponent },
       {
         path: "shoes-category",
         component: ShoesCategoryComponent,
@@ -58,7 +59,7 @@ const routes: Routes = [
       { path: "size", component: SizeComponent },
       { path: "oder", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
-
+      { path: "shoes", component: ShoesComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: "users", component: UserComponent },
       { path: "order-details/:id", component: OrderDetailsComponent },

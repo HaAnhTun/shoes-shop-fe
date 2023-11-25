@@ -1,0 +1,82 @@
+<div class="card">
+    <p-dialog [(visible)]="displayConfirmDialog" (onHide)="onDeleteShoes(false)">
+        <p-header>
+            <h2>Confirm Delete</h2>
+        </p-header>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="onDeleteShoes(true)" label="Yes"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="onDeleteShoes(false)" label="No"></button>
+        </p-footer>
+    </p-dialog>
+    
+    <p-toast></p-toast>
+    <input pInputText type="text" placeholder="Tìm kiếm" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
+    <p-table [value]="filteredShoess.length ? filteredShoess : Shoes" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Người cập nhật</th>
+                <th>Ngày cập nhật</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-Shoes let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="Shoes">
+                <td>{{ Shoes.id }}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="Shoes.code">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ Shoes.code }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="Shoes.name">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ Shoes.name }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>{{ Shoes.lastModifiedBy }}</td>
+                <td>{{ Shoes.lastModifiedDate | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-spin pi-cog" style="font-size: 2rem" (click)="onRowEditInit(Shoes)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash" style="font-size: 2rem" (click)="onRowDeleteInit(Shoes.id)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(Shoes)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(Shoes, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <div class="card flex justify-content-center">
+        <p-button (click)="showDialog()" icon="pi pi-external-link" label="Thêm Shoes"></p-button>
+        <p-dialog header="Add Shoes" [modal]="true" [(visible)]="displayAddDialog" [style]="{width: '30vw'}" [maximizable]="true">
+            <div *ngIf="codeError" class="p-error">Code is required and must be less than 50 characters.</div>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-book"></i>
+                </span>
+                <input [style]="{width: '20vw'}" placeholder="Name" id="name" pInputText type="text" [(ngModel)]="newShoes.name" name="name" required maxlength="50" (blur)="validateField('name')" />
+            </div>
+            <div *ngIf="nameError" class="p-error">Name is required and must be less than 50 characters.</div>
+            
+            
+            <ng-template pTemplate="footer">
+                <p-button icon="pi pi-check" (click)="onSaveNewShoes()" label="Save" styleClass="p-button-text"></p-button>
+                <p-button icon="pi pi-times" (click)="hideDialog()" label="Cancel" styleClass="p-button-text"></p-button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+
+
