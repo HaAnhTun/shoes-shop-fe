@@ -1,5 +1,5 @@
 
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Route, Router } from "@angular/router";
 import { CartDetailService } from "src/app/service/cart-detail.service";
@@ -10,6 +10,8 @@ import {
   MessageService,
   ConfirmEventType,
 } from "primeng/api";
+import { log } from "console";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 
@@ -66,6 +68,15 @@ export class ShoesInspectComponent {
   activeIndex: number = 0;
   shoesDetails: any;
   productId: any | null;
+  feedbacks: any[];
+  feedback = {
+    rate: 0,
+    comment: '',
+    user: { id: 4 },   // Thay đổi theo ID người dùng thực tế
+    shoes: { id: 246 } // Thay đổi theo ID sản phẩm thực tế
+  };
+  feedbackForm: FormGroup;
+  user: any = null;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -73,8 +84,10 @@ export class ShoesInspectComponent {
     private cartDetailService: CartDetailService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private fb: FormBuilder,
     private cartDetailCustomerService: CartDetailCustomerService
   ) {
+    this.getAccount();
     this.shoesDetails = {
       code: "ABC123",
       price: 50000,
@@ -119,17 +132,23 @@ export class ShoesInspectComponent {
     };
     this.route.queryParams.subscribe((params) => {
       // Access the query parameters inside the subscribe callback
-      const shid = params["shid"];
-      const brid = params["brid"];
-      const siid = params["siid"];
-      const clid = params["clid"];
-      console.log(params["list"]);
-
-      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid };
+      const shid = params['shid'];
+      const brid = params['brid'];
+      const siid = params['siid'];
+      const clid = params['clid'];
+      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid }
     });
     this.fetchProductDetails();
   }
 
+  getAccount() {
+    this.http.get('http://localhost:8088/api/account').subscribe(
+      (response) => {
+        console.log('Response:', response);
+        this.user = response;
+      },
+    );
+  }
 
 
   // Gọi hàm này mỗi khi quantity thay đổi
@@ -179,6 +198,25 @@ export class ShoesInspectComponent {
     console.log(this.productId);
     this.fetchProductDetails();
     console.log(this.shoesDetails);
+  }
+
+  getFeedBack(shid: number, brid: number) {
+    const params = new HttpParams()
+      .set('shid', shid.toString())
+      .set('brid', brid.toString());
+    // Gửi yêu cầu GET
+    this.http.get<any>('http://localhost:8088/api/shop/feed-back', { params })
+      .subscribe(
+        (response) => {
+          this.feedbacks = response
+          console.log(this.feedbacks);
+        },
+        (error) => {
+          // Xử lý lỗi ở đây
+          console.error(error);
+        }
+      );
+
   }
 
   onSizeChange() {
@@ -237,7 +275,6 @@ export class ShoesInspectComponent {
     }
   }
 
-  ngOnInit(): void { }
 
   mergeLists(names: any[], values: any[]): any[] {
     var Options: any[] = [];
@@ -252,5 +289,54 @@ export class ShoesInspectComponent {
 
   showGuide() {
     this.visible = true;
+  }
+  ngOnInit() {
+    this.feedbackForm = this.fb.group({
+      comment: ['', Validators.required
+      ],
+      rate: [0],
+      // user and shoes will be set when submitting the form
+      user: [null],
+      shoes: [null],
+      status: 1
+    });
+  }
+
+  submitFeedback() {
+    // Set user and shoes details
+    this.feedbackForm.patchValue({
+      user: this.user,
+      shoes: this.shoesDetails,
+      status: 1
+    });
+    if (this.feedbackForm.valid) {
+      this.http.post('http://localhost:8088/api/feed-backs', this.feedbackForm.value).subscribe({
+        next: (response) => {
+          console.log('Feedback submitted', response);
+          this.feedbackForm.reset();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Đã gửi feedback',
+            detail: 'Feedback của bạn đã được gửi'
+          });
+          this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
+        },
+        error: (error) => {
+          console.error('Error submitting feedback', error);
+          this.messageService.add({
+            severity: 'danger',
+            summary: 'Lỗi hệ thống',
+            detail: 'Không thể comment'
+          });
+        }
+      });
+    } else {
+      // Hiển thị thông báo lỗi
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Form không hợp lệ',
+        detail: 'Vui lòng kiểm tra lại thông tin đánh giá'
+      });
+    }
   }
 }
