@@ -87,6 +87,8 @@ import { ContactComponent } from './components/client/contact/contact.component'
 import { CardModule } from "primeng/card";
 import { UserOrderComponent } from './components/user-order/user-order.component';
 import { PaySuccessComponent } from './components/client/pay-success/pay-success.component';
+import { PayFaileComponent } from './components/client/pay-faile/pay-faile.component';
+
 import { InplaceModule } from 'primeng/inplace';
 @NgModule({
   declarations: [
@@ -123,6 +125,7 @@ import { InplaceModule } from 'primeng/inplace';
     ContactComponent,
     UserOrderComponent,
     PaySuccessComponent,
+    PayFaileComponent,
   ],
   imports: [
     AppLayoutModule,
