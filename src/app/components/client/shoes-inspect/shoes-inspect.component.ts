@@ -172,19 +172,18 @@ export class ShoesInspectComponent {
     this.http.post<any>(apiUrl, this.productId).subscribe(
       (data: any) => {
         this.shoesDetails = data;
-        console.log(data.paths);
         this.shoesDetails.images = this.splitPaths(data.paths);
         this.sizeOptions = this.mergeLists(
           this.splitPaths(this.shoesDetails.size_names),
           this.splitPaths(this.shoesDetails.size_ids)
         );
-        console.log(this.sizeOptions.length);
         this.selectedsize = data.size_id;
         this.colorOptions = this.mergeLists(
           this.splitPaths(this.shoesDetails.color_names),
           this.splitPaths(this.shoesDetails.color_ids)
         );
         this.selectedColor = data.color_id;
+        this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
       },
       (error) => {
         console.error("Error fetching product details:", error);
@@ -195,7 +194,6 @@ export class ShoesInspectComponent {
   onColorChange() {
     this.productId.siid = null;
     this.productId.clid = this.selectedColor;
-    console.log(this.productId);
     this.fetchProductDetails();
     console.log(this.shoesDetails);
   }
@@ -209,11 +207,9 @@ export class ShoesInspectComponent {
       .subscribe(
         (response) => {
           this.feedbacks = response
-          console.log(this.feedbacks);
         },
         (error) => {
           // Xử lý lỗi ở đây
-          console.error(error);
         }
       );
 
@@ -222,9 +218,7 @@ export class ShoesInspectComponent {
   onSizeChange() {
     this.productId.siid = this.selectedsize;
     this.productId.clid = this.selectedColor;
-    console.log(this.productId);
     this.fetchProductDetails();
-    console.log(this.shoesDetails);
   }
 
   splitPaths(input: string): any[] {
@@ -233,9 +227,6 @@ export class ShoesInspectComponent {
     return trimmedPaths;
   }
 
-  ale() {
-    console.log(this.selectedsize);
-  }
 
   clickAddCart() {
     if (this.selectedColor === null || this.selectedsize === null) {
@@ -322,7 +313,6 @@ export class ShoesInspectComponent {
           this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
         },
         error: (error) => {
-          console.error('Error submitting feedback', error);
           this.messageService.add({
             severity: 'danger',
             summary: 'Lỗi hệ thống',
