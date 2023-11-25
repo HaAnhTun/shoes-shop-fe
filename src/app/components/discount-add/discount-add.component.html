@@ -205,6 +205,8 @@
                             </th>
                             <th>Mã giày</th>
                             <th>Tên giày</th>
+                            <th>Hãng</th>
+                            <th>Giá</th>
                           </tr>
                         </ng-template>
                         <ng-template
@@ -218,8 +220,10 @@
                                 [value]="shoes"
                               ></p-tableCheckbox>
                             </td>
-                            <td>{{ shoes.code }}</td>
+                            <td>{{ shoes.shoesCode }}</td>
                             <td>{{ shoes.name }}</td>
+                            <td>{{ shoes.brandName }}</td>
+                            <td>{{ shoes.price | currency : "VND" }}</td>
                           </tr>
                         </ng-template>
                       </p-table>
