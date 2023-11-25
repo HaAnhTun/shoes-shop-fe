@@ -89,6 +89,7 @@ import { UserOrderComponent } from './components/user-order/user-order.component
 import { PaySuccessComponent } from './components/client/pay-success/pay-success.component';
 import { PayFaileComponent } from './components/client/pay-faile/pay-faile.component';
 
+import { InplaceModule } from 'primeng/inplace';
 @NgModule({
   declarations: [
     AppComponent,
@@ -171,7 +172,8 @@ import { PayFaileComponent } from './components/client/pay-faile/pay-faile.compo
     MultiSelectModule,
     CardModule,
     SliderModule,
-    SelectButtonModule
+    SelectButtonModule,
+    InplaceModule
   ],
   providers: [
     DataViewLayoutOptions,
@@ -182,4 +184,4 @@ import { PayFaileComponent } from './components/client/pay-faile/pay-faile.compo
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

@@ -55,7 +55,6 @@ export class ShopComponent implements OnInit, AfterViewInit {
       brid: product.brand_id,
       siid: product.size_id,
       clid: product.color_id,
-      list: [1, 2, 3]
     }
     console.log(queryParams);
 
