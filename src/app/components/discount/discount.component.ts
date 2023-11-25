@@ -26,12 +26,12 @@ export class DiscountComponent implements OnInit {
   updateShoesCategoryDialog: boolean = false;
   saveShoesCategoryDialog: boolean = false;
   shoesCategories: ShoesCategory[] = [];
-  discounts: Discount[] = [];
+  discounts: any[] = [];
   visible: boolean = true;
   shoesCategory: ShoesCategory = {};
   shoesCategoryValue: ShoesCategoryValue = {};
   selectedShoesCategories: ShoesCategory[] = [];
-  searchText: string;
+  searchText: string = "   ";
   submitted: boolean = false;
 
   cols: any[] = [];
@@ -53,7 +53,7 @@ export class DiscountComponent implements OnInit {
     private discountService: DiscountService
   ) {}
   ngOnInit(): void {
-    this.discountService.getDiscounts().subscribe(
+    this.discountService.search(this.searchText).subscribe(
       (response) => {
         this.discounts = response;
       },
@@ -111,11 +111,13 @@ export class DiscountComponent implements OnInit {
     });
   }
   search() {
-    this.discountService.search(this.searchText).subscribe((res) => {
-      this.discounts = res;
-      console.log(res);
-      this.updateTable();
-    });
+    this.discountService
+      .search(this.searchText == "" ? "   " : this.searchText)
+      .subscribe((res) => {
+        this.discounts = res;
+        console.log(res);
+        this.updateTable();
+      });
   }
   delay(time: any) {
     return new Promise((resolve) => setTimeout(resolve, time));
