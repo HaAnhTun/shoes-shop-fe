@@ -15,7 +15,7 @@
       color: #049d16;
     "
   >
-    SHOESSPORT
+    SPORTKICK
     <img
       src="../../assets/images/sp.png"
       alt="logo"
@@ -70,10 +70,11 @@
         <span>giỏi hàng</span>
       </button>
     </div>
-    <p-badge [value]="totalQuanity" severity="success"></p-badge>
+    <p-badge [value]="quanity" severity="success"></p-badge>
     <button
       style="margin-left: 4vw; margin-right: 3vw"
       class="p-link layout-topbar-button"
+      [routerLink]="'/client/user-order'"
     >
       <i class="pi pi-user"></i>
       <span>trang cá nhân</span>

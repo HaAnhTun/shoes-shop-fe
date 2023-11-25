@@ -20,7 +20,7 @@ export class LoginComponent {
     public http: HttpClient,
     private loginservice: LoginService,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   isValid = true;
 
@@ -31,7 +31,7 @@ export class LoginComponent {
     }
   }
 
-  onLogin() {}
+  onLogin() { }
 
   login() {
     this.loginservice.login(this.loginUser).subscribe({

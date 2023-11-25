@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { CartDetailService } from "src/app/service/cart-detail.service";
 import { CartDetail } from "src/app/model/CartDetail";
 @Component({
@@ -9,11 +9,12 @@ import { CartDetail } from "src/app/model/CartDetail";
 export class MenuComponent implements OnInit {
   cartDetails: CartDetail[];
   totalQuanity: number = 0;
+  @Input() quanity: number = 0;
   constructor(private cartDetailService: CartDetailService) {}
   ngOnInit() {
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getCount().subscribe((Response) => {
-        this.totalQuanity = Response;
+        this.quanity = Response;
       });
     }
   }
