@@ -536,12 +536,14 @@
               *ngIf="
                 checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
               "
+              (click)="cancelOrder()"
             ></p-button>
             <span style="margin-left: 10px">
               <p-button
                 label="Xác nhận"
                 styleClass="p-button-outlined"
                 *ngIf="checkString == 'Chờ xác nhận'"
+                (click)="verifyOrder()"
               ></p-button>
             </span>
           </div>

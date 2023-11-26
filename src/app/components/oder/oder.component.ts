@@ -536,6 +536,44 @@ export class OderComponent implements OnInit {
       });
     }
   }
+  cancelOrder() {
+    if (this.selectedOrderss) {
+      this.confirmationService.confirm({
+        message: "Bạn muốn hủy hóa đơn?",
+        header: "Lưu hóa đơn",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.orderService
+            .cancelOrder(this.selectedOrderss.map((s) => s.id))
+            .subscribe((res) => {
+              this.messageService.add({
+                severity: "success",
+                summary: "Hủy thành công!",
+              });
+              this.updateTable();
+            });
+        },
+        reject: (type: ConfirmEventType) => {
+          switch (type) {
+            case ConfirmEventType.REJECT:
+              this.messageService.add({
+                severity: "error",
+                summary: "Rejected",
+                detail: "You have rejected",
+              });
+              break;
+            case ConfirmEventType.CANCEL:
+              this.messageService.add({
+                severity: "warn",
+                summary: "Cancelled",
+                detail: "You have cancelled",
+              });
+              break;
+          }
+        },
+      });
+    }
+  }
   updateStatus(id: number) {
     this.confirmationService.confirm({
       message: "Bạn muốn cập nhật trạng thái hóa đơn?",

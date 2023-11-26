@@ -37,7 +37,7 @@ export class OrderService {
       withCredentials: true,
     });
   }
-  public cancelOrder(data: number) {
+  public cancelOrder(data: any[]) {
     return this.http.get<any>(this.baseUrl + "/cancel/" + data, {
       withCredentials: true,
     });
