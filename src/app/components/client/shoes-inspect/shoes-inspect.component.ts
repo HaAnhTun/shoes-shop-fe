@@ -184,6 +184,8 @@ export class ShoesInspectComponent {
         );
         this.selectedColor = data.color_id;
         this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
+        console.log(data);
+
       },
       (error) => {
         console.error("Error fetching product details:", error);

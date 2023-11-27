@@ -67,10 +67,9 @@
                                     <p-rating [(ngModel)]="product.rating" [readonly]="false"
                                         [cancel]="false"></p-rating>
                                     <div class="flex flex-wrap gap-2">
-                                        <span *ngFor="let category of product.categories"
-                                            class="flex align-items-center gap-2">
+                                        <span class="flex align-items-center gap-2">
                                             <i class="pi pi-tag"></i>
-                                            <span class="font-semibold">{{category.name}}</span>
+                                            <span class="font-semibold">khuyến mãi 10%</span>
                                         </span>
                                         <p-tag [value]="product.quantity >=10 ? 'Còn Hàng': 'Còn ít'"
                                             [severity]="product.quantity >=10 ? 'success':'danger'"></p-tag>
@@ -92,9 +91,9 @@
                     <div class="p-4 border-1 surface-border surface-card border-round "
                         (click)="navigateToRoute(product)">
                         <div class="flex flex-wrap gap-2">
-                            <span *ngFor="let category of product.categories" class="flex align-items-center gap-2">
+                            <span class="flex align-items-center gap-2">
                                 <i class="pi pi-tag"></i>
-                                <span class="font-semibold">{{category.name}}</span>
+                                <span class="font-semibold">Khuyến mãi </span>
                             </span>
                             <p-tag [value]="product.quantity >=10 ? 'Còn Hàng': 'Còn ít'"
                                 [severity]="product.quantity >=10 ? 'success':'danger'"></p-tag>
