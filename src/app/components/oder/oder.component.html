@@ -73,10 +73,16 @@
           <div style="text-align: right">
             <p-button label="Hủy" styleClass="p-button-outlined" *ngIf="
                 checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
-              "></p-button>
+              "
+              (click)="cancelOrder()"
+            ></p-button>
             <span style="margin-left: 10px">
-              <p-button label="Xác nhận" styleClass="p-button-outlined"
-                *ngIf="checkString == 'Chờ xác nhận'"></p-button>
+              <p-button
+                label="Xác nhận"
+                styleClass="p-button-outlined"
+                *ngIf="checkString == 'Chờ xác nhận'"
+                (click)="verifyOrder()"
+              ></p-button>
             </span>
           </div>
         </ng-template>

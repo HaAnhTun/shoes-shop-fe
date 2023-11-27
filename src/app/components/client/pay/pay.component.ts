@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 import {
   ConfirmEventType,
   ConfirmationService,
@@ -51,7 +52,7 @@ export class PayComponent implements OnInit {
     this.checkCartDetailCustom.map((customer) => {
       this.totalPrice = this.totalPrice + customer.price * customer.quantity;
     });
-    this.totalPayment = this.totalPrice*1.08
+    this.totalPayment = this.totalPrice * 1.08;
   }
 
   getAccount() {
