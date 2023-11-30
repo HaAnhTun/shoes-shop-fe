@@ -10,8 +10,10 @@
   >
     <ng-template pTemplate="header">
       <tr class="headerTable">
-        <th (click)="checkboxAll()" style="width: 4rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox
+            (click)="checkboxAll()"
+          ></p-tableHeaderCheckbox>
         </th>
         <th style="width: 15rem">Hình ảnh</th>
         <th pSortableColumn="shoesDetails.shoes.name">Sản phẩm</th>
@@ -23,8 +25,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-cartDetails>
       <tr class="bodyTable">
-        <td (click)="checkBoxOne(cartDetails.id)" class="hai">
+        <td class="hai">
           <p-tableCheckbox
+            (click)="checkBoxOne(cartDetails.id)"
             [value]="cartDetails"
             aria-checked="true"
           ></p-tableCheckbox>
