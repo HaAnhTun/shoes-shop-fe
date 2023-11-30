@@ -17,8 +17,7 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
   providers: [ConfirmationService, MessageService],
 })
 export class CartComponent implements OnInit {
-  // cartDetails: CartDetail[];
-  cartDetails: CartDetailCustom[];
+  cartDetails: CartDetailCustom[] = [];
   cartDetail: CartDetail;
   tongTien: number = 0;
   cartDetailCustoms: any[] = [];
@@ -30,91 +29,236 @@ export class CartComponent implements OnInit {
     private cartDetailCustomerService: CartDetailCustomerService
   ) {}
   ngOnInit() {
-    this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
-      this.cartDetails = Response;
-      this.cartDetails
-        .filter((c) => c.quantity > c.quantityShoesDetail)
-        .forEach((c) => (c.status = 0));
-    });
+    if (sessionStorage.getItem("access_token") != null) {
+      this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
+        this.cartDetails = Response;
+        this.cartDetails
+          .filter((c) => c.quantity > c.quantityShoesDetail)
+          .forEach((c) => (c.status = 0));
+      });
+    } else {
+      if (sessionStorage.getItem("cartDetailCustom") != null) {
+        if (sessionStorage.getItem("cartDetailCustoms") === null) {
+          let cartDetailCustom = sessionStorage.getItem("cartDetailCustom");
+          if (cartDetailCustom) {
+            let data = JSON.parse(cartDetailCustom);
+            this.cartDetails.push(data);
+            this.cartDetails
+              .filter((c) => c.quantity > c.quantityShoesDetail)
+              .forEach((c) => (c.status = 0));
+            this.cartDetailCustomerService.setData(
+              "" + this.cartDetails.length
+            );
+            sessionStorage.removeItem("cartDetailCustom");
+            sessionStorage.setItem(
+              "cartDetailCustoms",
+              JSON.stringify(this.cartDetails)
+            );
+          }
+        } else {
+          let cartDetailCustom = sessionStorage.getItem("cartDetailCustom");
+          if (cartDetailCustom) {
+            let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
+            if (cartDetailCustoms) {
+              let datas = JSON.parse(cartDetailCustoms);
+              this.cartDetails = datas;
+            }
+            let data = JSON.parse(cartDetailCustom);
+            let check = null;
+            this.cartDetails
+              .filter((c) => c.id === data.id)
+              .forEach(
+                (c) => (check = c.quantity = c.quantity + data.quantity)
+              );
+            if (check === null) {
+              this.cartDetails.push(data);
+            }
+            this.cartDetails
+              .filter((c) => c.quantity > c.quantityShoesDetail)
+              .forEach((c) => (c.status = 0));
+            sessionStorage.removeItem("cartDetailCustom");
+            this.cartDetailCustomerService.setData(
+              "" + this.cartDetails.length
+            );
+            sessionStorage.setItem(
+              "cartDetailCustoms",
+              JSON.stringify(this.cartDetails)
+            );
+          }
+        }
+      } else {
+        let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
+        if (cartDetailCustoms) {
+          let datas = JSON.parse(cartDetailCustoms);
+          this.cartDetails = datas;
+          this.cartDetails
+            .filter((c) => c.quantity > c.quantityShoesDetail)
+            .forEach((c) => (c.status = 0));
+          this.cartDetailCustomerService.setData("" + this.cartDetails.length);
+        }
+      }
+    }
   }
   addQuanity(id: number) {
-    let check = null;
-    this.cartDetails
-      .filter((c) => c.id === id && c.quantity < c.quantityShoesDetail)
-      .forEach(
-        (c) =>
-          (check = this.cartDetailService.addQuanity(id).subscribe(() => {
-            c.quantity = c.quantity + 1;
-            this.loadTotalPrice();
-          }))
-      );
-    if (check === null) {
-      this.messageService.add({
-        severity: "warn",
-        summary: "Thông báo",
-        detail: "Số lượng đã vượt quá số lượng tồn không thể thêm số lượng",
-        life: 3000,
-      });
+    if (sessionStorage.getItem("access_token") != null) {
+      let check = null;
+      this.cartDetails
+        .filter((c) => c.id === id && c.quantity < c.quantityShoesDetail)
+        .forEach(
+          (c) =>
+            (check = this.cartDetailService.addQuanity(id).subscribe(() => {
+              c.quantity = c.quantity + 1;
+              this.loadTotalPrice();
+            }))
+        );
+      if (check === null) {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Thông báo",
+          detail: "Số lượng đã vượt quá số lượng tồn không thể thêm số lượng",
+          life: 3000,
+        });
+      }
+    } else {
+      let quanity = 0;
+      this.cartDetails
+        .filter((c) => c.id === id && c.quantity < c.quantityShoesDetail)
+        .forEach((c) => (quanity = c.quantity = c.quantity + 1));
+      this.loadTotalPrice();
+      if (quanity === 0) {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Thông báo",
+          detail: "Số lượng đã vượt quá số lượng tồn không thể thêm số lượng",
+          life: 3000,
+        });
+      }
+      {
+        sessionStorage.setItem(
+          "cartDetailCustoms",
+          JSON.stringify(this.cartDetails)
+        );
+      }
     }
   }
   reduceQuantity(id: number) {
-    let check = null;
-    this.cartDetails
-      .filter((c) => c.id === id && c.quantity > 1)
-      .forEach(
-        (c) =>
-          (check = this.cartDetailService.reduceQuanity(id).subscribe(() => {
-            c.quantity = c.quantity - 1;
-            this.cartDetails
-              .filter(
-                (c) =>
-                  c.id === id &&
-                  c.quantity > 1 &&
-                  c.status === 0 &&
-                  c.quantity <= c.quantityShoesDetail
-              )
-              .map((c) => (c.status = 1));
-            this.loadTotalPrice();
-          }))
+    if (sessionStorage.getItem("access_token") != null) {
+      let check = null;
+      this.cartDetails
+        .filter((c) => c.id === id && c.quantity > 1)
+        .forEach(
+          (c) =>
+            (check = this.cartDetailService.reduceQuanity(id).subscribe(() => {
+              c.quantity = c.quantity - 1;
+              this.cartDetails
+                .filter(
+                  (c) =>
+                    c.id === id &&
+                    c.quantity > 1 &&
+                    c.status === 0 &&
+                    c.quantity <= c.quantityShoesDetail
+                )
+                .map((c) => (c.status = 1));
+              this.loadTotalPrice();
+            }))
+        );
+      if (check === null) {
+        this.deleteProductCart(id);
+        this.loadTotalPrice();
+      }
+    } else {
+      let quanity = 0;
+      this.cartDetails
+        .filter((c) => c.id === id && c.quantity > 1)
+        .forEach((c) => (quanity = c.quantity = c.quantity - 1));
+      sessionStorage.setItem(
+        "cartDetailCustoms",
+        JSON.stringify(this.cartDetails)
       );
-    if (check === null) {
-      this.deleteProductCart(id);
+      this.cartDetails
+        .filter(
+          (c) =>
+            c.id === id &&
+            c.quantity > 1 &&
+            c.status === 0 &&
+            c.quantity <= c.quantityShoesDetail
+        )
+        .map((c) => (c.status = 1));
       this.loadTotalPrice();
+      if (quanity === 0) {
+        this.deleteProductCart(id);
+        this.loadTotalPrice();
+      }
     }
   }
   deleteProductCart(id: number) {
-    this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xóa không?",
-      header: "Xóa",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.cartDetailService.deleteCartDetail(id).subscribe((data) => {
+    if (sessionStorage.getItem("access_token") != null) {
+      this.confirmationService.confirm({
+        message: "Bạn có chắc muốn xóa không?",
+        header: "Xóa",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.cartDetailService.deleteCartDetail(id).subscribe((data) => {
+            this.cartDetails = this.cartDetails.filter((item) => item.id != id);
+            this.loadTotalPrice();
+            this.cartDetailService.getCount().subscribe((Response) => {
+              this.cartDetailCustomerService.setData(Response);
+            });
+            this.messageService.add({
+              severity: "info",
+              summary: "Đã xác nhận",
+              detail: "Xóa thành công",
+              life: 3000,
+            });
+          });
+        },
+        reject: (type: ConfirmEventType) => {
+          switch (type) {
+            case ConfirmEventType.REJECT:
+              this.messageService.add({
+                severity: "error",
+                summary: "Hủy",
+                detail: "Xóa không thành công",
+                life: 3000,
+              });
+              break;
+          }
+        },
+      });
+    } else {
+      this.confirmationService.confirm({
+        message: "Bạn có chắc muốn xóa không?",
+        header: "Xóa",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
           this.cartDetails = this.cartDetails.filter((item) => item.id != id);
           this.loadTotalPrice();
-          this.cartDetailService.getCount().subscribe((Response) => {
-            this.cartDetailCustomerService.setData(Response);
-          });
+          this.cartDetailCustomerService.setData("" + this.cartDetails.length);
+          sessionStorage.setItem(
+            "cartDetailCustoms",
+            JSON.stringify(this.cartDetails)
+          );
           this.messageService.add({
             severity: "info",
             summary: "Đã xác nhận",
             detail: "Xóa thành công",
             life: 3000,
           });
-        });
-      },
-      reject: (type: ConfirmEventType) => {
-        switch (type) {
-          case ConfirmEventType.REJECT:
-            this.messageService.add({
-              severity: "error",
-              summary: "Hủy",
-              detail: "Xóa không thành công",
-              life: 3000,
-            });
-            break;
-        }
-      },
-    });
+        },
+        reject: (type: ConfirmEventType) => {
+          switch (type) {
+            case ConfirmEventType.REJECT:
+              this.messageService.add({
+                severity: "error",
+                summary: "Hủy",
+                detail: "Xóa không thành công",
+                life: 3000,
+              });
+              break;
+          }
+        },
+      });
+    }
   }
   checkboxAll() {
     let checkFalse = null;
@@ -140,63 +284,111 @@ export class CartComponent implements OnInit {
     this.checkQuanityOne(id);
   }
   handleChange(soLuong: number, id: number) {
-    let check = null;
-    this.cartDetails
-      .filter(
-        (c) =>
-          c.id === id &&
-          c.quantity <= c.quantityShoesDetail &&
-          c.quantity > 0 &&
-          c.quantity % 1 === 0
-      )
-      .forEach(
-        (c) =>
-          (check = this.cartDetailService
-            .editQuanity(soLuong, id)
-            .subscribe(() => {
-              this.cartDetails
-                .filter((c) => c.checkBox === true)
-                .map((c) => this.loadTotalPrice());
-            }))
-      );
-    this.cartDetails
-      .filter(
-        (c) =>
-          c.id === id &&
-          c.quantity <= c.quantityShoesDetail &&
-          c.quantity > 0 &&
-          c.quantity % 1 === 0 &&
-          c.status === 0
-      )
-      .map((c) => (c.status = 1));
-    if (check === null) {
-      this.cartDetailService.getCartDetailById(id).subscribe((Response) => {
-        this.cartDetail = Response;
+    if (sessionStorage.getItem("access_token") != null) {
+      let check = null;
+      this.cartDetails
+        .filter(
+          (c) =>
+            c.id === id &&
+            c.quantity <= c.quantityShoesDetail &&
+            c.quantity > 0 &&
+            c.quantity % 1 === 0
+        )
+        .forEach(
+          (c) =>
+            (check = this.cartDetailService
+              .editQuanity(soLuong, id)
+              .subscribe(() => {
+                c.status = 1;
+                this.cartDetails
+                  .filter((c) => c.checkBox === true)
+                  .map((c) => this.loadTotalPrice());
+              }))
+        );
+      if (check === null) {
+        this.cartDetailService.getCartDetailById(id).subscribe((Response) => {
+          this.cartDetail = Response;
+          this.cartDetails
+            .filter((response) => response.id === id)
+            .map((response) => (response.quantity = this.cartDetail.quantity));
+          this.loadTotalPrice();
+        });
         this.cartDetails
-          .filter((response) => response.id === id)
-          .map((response) => (response.quantity = this.cartDetail.quantity));
-        this.loadTotalPrice();
-      });
+          .filter((c) => c.id === id && c.quantity > c.quantityShoesDetail)
+          .map((c) =>
+            this.messageService.add({
+              severity: "warn",
+              summary: "Thông báo",
+              detail:
+                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng",
+              life: 3000,
+            })
+          );
+        this.cartDetails
+          .filter(
+            (c) => c.id === id && (c.quantity <= 0 || c.quantity % 1 != 0)
+          )
+          .map((c) =>
+            this.messageService.add({
+              severity: "warn",
+              summary: "Thông báo",
+              detail: "Số lượng phải là số nguyên dương",
+              life: 3000,
+            })
+          );
+      }
+    } else {
+      let check = null;
       this.cartDetails
-        .filter((c) => c.id === id && c.quantity > c.quantityShoesDetail)
-        .map((c) =>
-          this.messageService.add({
-            severity: "warn",
-            summary: "Thông báo",
-            detail: "Số lượng đã vượt quá số lượng tồn không thể thêm số lượng",
-            life: 3000,
-          })
+        .filter(
+          (c) =>
+            c.id === id &&
+            c.quantity <= c.quantityShoesDetail &&
+            c.quantity > 0 &&
+            c.quantity % 1 === 0
+        )
+        .forEach((c) => (check = c.status = 1));
+      if (check) {
+        this.cartDetails
+          .filter((c) => c.checkBox === true)
+          .map((c) => this.loadTotalPrice());
+        sessionStorage.setItem(
+          "cartDetailCustoms",
+          JSON.stringify(this.cartDetails)
         );
-      this.cartDetails
-        .filter((c) => c.id === id && (c.quantity <= 0 || c.quantity % 1 != 0))
-        .map((c) =>
-          this.messageService.add({
-            severity: "warn",
-            summary: "Thông báo",
-            detail: "Số lượng phải là số nguyên dương",
-            life: 3000,
-          })
-        );
+      } else {
+        let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
+        if (cartDetailCustoms) {
+          let datas = JSON.parse(cartDetailCustoms);
+          this.cartDetails = datas;
+          this.cartDetails
+            .filter((c) => c.quantity > c.quantityShoesDetail)
+            .forEach((c) => (c.status = 0));
+        }
+        this.cartDetails
+          .filter((c) => c.id === id && c.quantity > c.quantityShoesDetail)
+          .map((c) =>
+            this.messageService.add({
+              severity: "warn",
+              summary: "Thông báo",
+              detail:
+                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng",
+              life: 3000,
+            })
+          );
+        this.cartDetails
+          .filter(
+            (c) => c.id === id && (c.quantity <= 0 || c.quantity % 1 != 0)
+          )
+          .map((c) =>
+            this.messageService.add({
+              severity: "warn",
+              summary: "Thông báo",
+              detail: "Số lượng phải là số nguyên dương",
+              life: 3000,
+            })
+          );
+      }
     }
   }
 
@@ -207,80 +399,167 @@ export class CartComponent implements OnInit {
       .map((c) => (this.tongTien = this.tongTien + c.price * c.quantity));
   }
   checkQuanityAll() {
-    let check = null;
-    this.cartDetails
-      .filter((c) => c.status === 0 && c.quantityShoesDetail != 0)
-      .map(
-        (c) =>
-          (check = this.cartDetailService
-            .editQuanity(c.quantityShoesDetail, c.id != undefined ? c.id : -1)
+    if (sessionStorage.getItem("access_token") != null) {
+      let check = null;
+      this.cartDetails
+        .filter((c) => c.status === 0 && c.quantityShoesDetail != 0)
+        .map(
+          (c) =>
+            (check = this.cartDetailService
+              .editQuanity(c.quantityShoesDetail, c.id != undefined ? c.id : -1)
+              .subscribe(() => {
+                c.quantity = c.quantityShoesDetail;
+                c.status = 1;
+                this.loadTotalPrice();
+              }))
+        );
+      this.cartDetails
+        .filter((c) => c.status === 0 && c.quantityShoesDetail === 0)
+        .map(
+          (c) =>
+            (check = this.cartDetailService
+              .deleteCartDetail(c.id != undefined ? c.id : -1)
+              .subscribe(() => {
+                this.cartDetails = this.cartDetails.filter(
+                  (item) => item.id != c.id
+                );
+                this.loadTotalPrice();
+              }))
+        );
+      if (check != null) {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Thông báo",
+          detail:
+            "Rất tiếc 1 số sản phẩm Số lượng đã vượt quá số lượng tồn chúng tôi phải điều chỉnh về = số lượng tồn để có thể mua, số lượng tồn = 0 chúng tôi sẽ xóa khỏi giỏ hàng",
+          life: 5000,
+        });
+      }
+    } else {
+      let check = null;
+      this.cartDetails
+        .filter((c) => c.status === 0 && c.quantityShoesDetail != 0)
+        .map((c) => (check = c.quantity = c.quantityShoesDetail));
+      this.cartDetails
+        .filter((c) => c.status === 0 && c.quantityShoesDetail != 0)
+        .map((c) => (c.status = 1));
+      this.cartDetails
+        .filter((c) => c.status === 0 && c.quantityShoesDetail === 0)
+        .map(
+          (c) =>
+            (this.cartDetails = this.cartDetails.filter(
+              (item) => (check = item.id != c.id)
+            ))
+        );
+      if (check != null) {
+        sessionStorage.setItem(
+          "cartDetailCustoms",
+          JSON.stringify(this.cartDetails)
+        );
+        this.loadTotalPrice();
+        this.messageService.add({
+          severity: "warn",
+          summary: "Thông báo",
+          detail:
+            "Rất tiếc 1 số sản phẩm Số lượng đã vượt quá số lượng tồn chúng tôi phải điều chỉnh về = số lượng tồn để có thể mua, số lượng tồn = 0 chúng tôi sẽ xóa khỏi giỏ hàng",
+          life: 5000,
+        });
+      }
+    }
+  }
+  checkQuanityOne(id: number) {
+    if (sessionStorage.getItem("access_token") != null) {
+      this.cartDetails
+        .filter(
+          (c) => c.status === 0 && c.quantityShoesDetail != 0 && c.id === id
+        )
+        .map((c) =>
+          this.cartDetailService
+            .editQuanity(c.quantityShoesDetail, id)
             .subscribe(() => {
               c.quantity = c.quantityShoesDetail;
               c.status = 1;
               this.loadTotalPrice();
-            }))
-      );
-    this.cartDetails
-      .filter((c) => c.status === 0 && c.quantityShoesDetail === 0)
-      .map(
-        (c) =>
-          (check = this.cartDetailService
-            .deleteCartDetail(c.id != undefined ? c.id : -1)
-            .subscribe(() => {
-              this.cartDetails = this.cartDetails.filter(
-                (item) => item.id != c.id
-              );
-              this.loadTotalPrice();
-            }))
-      );
-    if (check != null) {
-      this.messageService.add({
-        severity: "warn",
-        summary: "Thông báo",
-        detail:
-          "Rất tiếc 1 số sản phẩm Số lượng đã vượt quá số lượng tồn chúng tôi phải điều chỉnh về = số lượng tồn để có thể mua, số lượng tồn = 0 chúng tôi sẽ xóa khỏi giỏ hàng",
-        life: 5000,
-      });
-    }
-  }
-  checkQuanityOne(id: number) {
-    this.cartDetails
-      .filter(
-        (c) => c.status === 0 && c.quantityShoesDetail != 0 && c.id === id
-      )
-      .map((c) =>
-        this.cartDetailService
-          .editQuanity(c.quantityShoesDetail, id)
-          .subscribe(() => {
-            c.quantity = c.quantityShoesDetail;
-            c.status = 1;
+              this.messageService.add({
+                severity: "warn",
+                summary: "Thông báo",
+                detail:
+                  "Rất tiếc sản phẩm Số lượng đã vượt quá số lượng tồn chúng tôi phải điều chỉnh về = số lượng tồn để có thể mua",
+                life: 5000,
+              });
+            })
+        );
+      this.cartDetails
+        .filter(
+          (c) => c.status === 0 && c.quantityShoesDetail === 0 && c.id === id
+        )
+        .map((c) =>
+          this.cartDetailService.deleteCartDetail(id).subscribe(() => {
+            this.cartDetails = this.cartDetails.filter(
+              (item) => item.id != c.id
+            );
             this.loadTotalPrice();
             this.messageService.add({
               severity: "warn",
               summary: "Thông báo",
               detail:
-                "Rất tiếc sản phẩm Số lượng đã vượt quá số lượng tồn chúng tôi phải điều chỉnh về = số lượng tồn để có thể mua",
+                "Rất tiếc sản phẩm đã hết hàng để có thể mua sản phẩm khác chúng tôi sẽ xóa bỏ sản phẩm khỏi giỏ hàng",
               life: 5000,
             });
           })
-      );
-    this.cartDetails
-      .filter(
-        (c) => c.status === 0 && c.quantityShoesDetail === 0 && c.id === id
-      )
-      .map((c) =>
-        this.cartDetailService.deleteCartDetail(id).subscribe(() => {
-          this.cartDetails = this.cartDetails.filter((item) => item.id != c.id);
-          this.loadTotalPrice();
-          this.messageService.add({
-            severity: "warn",
-            summary: "Thông báo",
-            detail:
-              "Rất tiếc sản phẩm đã hết hàng để có thể mua sản phẩm khác chúng tôi sẽ xóa bỏ sản phẩm khỏi giỏ hàng",
-            life: 5000,
-          });
-        })
-      );
+        );
+    } else {
+      let check = null;
+      let checkDelete = null;
+      this.cartDetails
+        .filter(
+          (c) => c.status === 0 && c.quantityShoesDetail != 0 && c.id === id
+        )
+        .map((c) => (check = c.quantity = c.quantityShoesDetail));
+      this.cartDetails
+        .filter(
+          (c) => c.status === 0 && c.quantityShoesDetail != 0 && c.id === id
+        )
+        .map((c) => (c.status = 1));
+      if (check != null) {
+        sessionStorage.setItem(
+          "cartDetailCustoms",
+          JSON.stringify(this.cartDetails)
+        );
+        this.loadTotalPrice();
+        this.messageService.add({
+          severity: "warn",
+          summary: "Thông báo",
+          detail:
+            "Rất tiếc sản phẩm Số lượng đã vượt quá số lượng tồn chúng tôi phải điều chỉnh về = số lượng tồn để có thể mua",
+          life: 5000,
+        });
+      }
+      this.cartDetails
+        .filter(
+          (c) => c.status === 0 && c.quantityShoesDetail === 0 && c.id === id
+        )
+        .map(
+          (c) =>
+            (this.cartDetails = this.cartDetails.filter(
+              (item) => (check = item.id != c.id)
+            ))
+        );
+      if (checkDelete != null) {
+        sessionStorage.setItem(
+          "cartDetailCustoms",
+          JSON.stringify(this.cartDetails)
+        );
+        this.loadTotalPrice();
+        this.messageService.add({
+          severity: "warn",
+          summary: "Thông báo",
+          detail:
+            "Rất tiếc sản phẩm đã hết hàng để có thể mua sản phẩm khác chúng tôi sẽ xóa bỏ sản phẩm khỏi giỏ hàng",
+          life: 5000,
+        });
+      }
+    }
   }
   pay() {
     let checkPay = false;
