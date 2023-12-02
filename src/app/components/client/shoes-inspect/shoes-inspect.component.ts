@@ -300,7 +300,7 @@ export class ShoesInspectComponent {
     this.feedbackForm.patchValue({
       user: this.user,
       shoes: this.shoesDetails,
-      status: 1
+      status: 0
     });
     if (this.feedbackForm.valid) {
       this.http.post('http://localhost:8088/api/feed-backs', this.feedbackForm.value).subscribe({
@@ -310,15 +310,16 @@ export class ShoesInspectComponent {
           this.messageService.add({
             severity: 'success',
             summary: 'Đã gửi feedback',
-            detail: 'Feedback của bạn đã được gửi'
+            detail: 'Feedback của bạn đã được gửi và chờ phê duyệt'
           });
           this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
         },
         error: (error) => {
+          console.log(error);
           this.messageService.add({
-            severity: 'danger',
+            severity: 'error',
             summary: 'Lỗi hệ thống',
-            detail: 'Không thể comment'
+            detail: error.error.title
           });
         }
       });
@@ -326,7 +327,7 @@ export class ShoesInspectComponent {
       // Hiển thị thông báo lỗi
       this.messageService.add({
         severity: 'warn',
-        summary: 'Form không hợp lệ',
+        summary: 'Thiếu nội dung đánh giá',
         detail: 'Vui lòng kiểm tra lại thông tin đánh giá'
       });
     }

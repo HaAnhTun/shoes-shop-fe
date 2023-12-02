@@ -20,7 +20,7 @@
         <ng-template pTemplate="caption">
             <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                    <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                    <p-dropdown [ngModel]="1" [options]="statuses" (onChange)="filter($event.value)"
                         placeholder="Tất cả" [showClear]="true">
                         <ng-template let-option pTemplate="item">
                             <p-tag [value]="option.label" [severity]="getSeverityProduct(option.value)"></p-tag>
@@ -37,20 +37,7 @@
                         placeholder="Nhập tên sản phẩm..." />
                 </span>
             </div>
-
         </ng-template>
-
-
-        <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any"
-                    [showClear]="true">
-                    <ng-template let-option pTemplate="item">
-                        <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
-                    </ng-template>
-                </p-dropdown>
-            </ng-template>
-        </p-columnFilter>
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 4rem">

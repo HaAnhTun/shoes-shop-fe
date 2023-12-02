@@ -1,0 +1,71 @@
+<p-table #dt [value]="feedbacks" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
+    [globalFilterFields]="['user.firstName', 'user.login','comment','shoes.id','createdDate']"
+    [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedFeedbacks" [rowHover]="true" dataKey="id"
+    [filter]="true" currentPageReportTemplate="Hiển thị từ {first} đến {last} của {totalRecords} bình luận"
+    [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+        <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <p-dropdown [ngModel]="0" [options]="statuses" (onChange)="filter($event.value)" placeholder="Tất cả"
+                    [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                        <p-tag [value]="option.label"></p-tag>
+                    </ng-template>
+                </p-dropdown>
+            </ng-template>
+        </p-columnFilter>
+        <br>
+        <div class=" flex align-items-center justify-content-between">
+            <h5 class="m-0">Đánh giá</h5>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Tìm kiếm..." />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 4rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pSortableColumn="user.login">Tài khoản<p-sortIcon field="user.login"></p-sortIcon></th>
+            <th pSortableColumn="user.firstName" style="min-width:15rem">Tên tài khoản <p-sortIcon
+                    field="user.firstName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="comment" style="max-width:10rem;">Bình luận <p-sortIcon field="comment"></p-sortIcon>
+            <th pSortableColumn="rate" style="min-width:10rem">Đánh giá <p-sortIcon field="rate"></p-sortIcon>
+            <th pSortableColumn="shoes.id" style="min-width:10rem">Mã Sản phẩm <p-sortIcon
+                    field="shoes.id"></p-sortIcon>;
+            <th pSortableColumn="createdDate" style="min-width:10rem">Thời gian <p-sortIcon
+                    field="createdDate"></p-sortIcon>
+            </th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td>{{ rowData.user.login }}</td>
+            <td>{{ rowData.user.firstName }}</td>
+            <td class="wrap-text">{{
+                rowData.comment }}</td>
+            <td>{{ rowData.rate }}</td>
+            <td>{{ rowData.shoes.id }}</td>
+            <td>{{ rowData.createdDate | date:'medium' }}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" *ngIf="rowData.status == 0 || rowData.status == -1"
+                    class="p-button-rounded p-button-success mr-2" (click)="updateStatus(1,rowData.id)"></button>
+                <button pButton pRipple icon="pi pi-trash" *ngIf="rowData.status == 0 || rowData.status == 1"
+                    class="p-button-rounded p-button-danger" (click)="updateStatus(-1,rowData.id)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">In total there are {{ products ?
+            products.length : 0 }} products.</div>
+    </ng-template>
+</p-table>
+<p-toast></p-toast>
