@@ -36,6 +36,7 @@ import { DiscountShoesComponent } from "./components/discount-shoes/discount-sho
 import { PaySuccessComponent } from "./components/client/pay-success/pay-success.component";
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 import { ShoesComponent } from "./components/shoes/shoes.component";
+import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -46,7 +47,8 @@ const routes: Routes = [
       { path: "home", component: HomeComponent }, //các component con (http://localhost:4200/admin/home)
       { path: "shop", component: ShopComponent },
       { path: "manage", component: ManageComponent },
-     // { path: "shoes", component: ProductComponent },
+      { path: "feedback", component: FeedbackManagComponent },
+      // { path: "shoes", component: ProductComponent },
       {
         path: "shoes-category",
         component: ShoesCategoryComponent,
@@ -106,4 +108,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

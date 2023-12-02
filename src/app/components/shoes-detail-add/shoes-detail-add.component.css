@@ -4,3 +4,7 @@ wid100 {
 .error {
   border: 1px solid red;
 }
+p-table {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
