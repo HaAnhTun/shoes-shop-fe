@@ -1,0 +1,124 @@
+<p>return-order works!</p>
+<form [formGroup]="datas">
+  <p-table
+    [value]="returnOrderDetails.controls"
+    formArrayName="returnOrderDetails"
+  >
+    <ng-template pTemplate="header" dataKey="id">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Đơn giá</th>
+        <th>Phương thức đổi trả</th>
+        <th>Số lượng</th>
+        <th *ngIf="enable">Chọn sản phẩm</th>
+        <th>Lý do</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-index="rowIndex">
+      <tr [formGroupName]="index">
+        <td>
+          <p-tableCheckbox></p-tableCheckbox>
+        </td>
+        <td>
+          {{
+            orderDetails[index].shoesDetails.shoes.name +
+              "[" +
+              orderDetails[index].shoesDetails.color.name +
+              "]"
+          }}
+        </td>
+        <td>
+          {{ orderDetails[index].quantity }}
+        </td>
+        <td>{{ orderDetails[index].price | currency : "VND" }}</td>
+        <td>
+          <p-dropdown
+            [options]="returnMethods"
+            placeholder="Chọn phương thức đổi trả"
+            optionLabel="name"
+            optionValue="code"
+            [showClear]="true"
+            appendTo="body"
+            optionDisabled="selectedOrderDetails[rowIndex]"
+            formControlName="type"
+            (onChange)="selectedMethod($event.value, index)"
+          ></p-dropdown>
+        </td>
+        <td>
+          <p-inputNumber
+            mode="decimal"
+            placeholder="Nhập số lượng"
+            formControlName="returnQuantity"
+            [useGrouping]="false"
+            [min]="1"
+            [max]="orderDetails[index].quantity"
+          ></p-inputNumber>
+        </td>
+        <td *ngIf="enable" formArrayName="returnShoesDetails">
+          <ng-template
+            ngFor
+            [ngForOf]="shoesReturnDetails(index).controls"
+            let-i="index"
+            let-item
+            class="row"
+          >
+            <div class="col-12 row" [formGroup]="item">
+              <p-autoComplete
+                [suggestions]="filteredCountries"
+                (completeMethod)="filterCountry($event)"
+                field="name"
+                appendTo="body"
+                formControlName="shoesDetailsId"
+                [dropdown]="true"
+                class="col-6"
+                [id]="'auto' + i"
+              >
+                <ng-template let-country pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <img
+                      [src]="country.path"
+                      [class]="'flag flag-' + country.code.toLowerCase()"
+                      style="width: 18px"
+                    />
+                    <div>{{ country.name }}</div>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+              <p-inputNumber
+                mode="decimal"
+                [id]="'number' + i"
+                placeholder="Nhập số lượng"
+                formControlName="quantity"
+                [useGrouping]="false"
+                class="col-5"
+              >
+              </p-inputNumber>
+              <p-button
+                *ngIf="i + 1 == shoesReturnDetails(index).value.length"
+                (onClick)="addShoesDetails(index)"
+                class="col-1"
+                icon="pi pi-plus"
+              >
+              </p-button>
+            </div>
+          </ng-template>
+        </td>
+        <td>
+          <textarea
+            rows="5"
+            cols="30"
+            type="text"
+            pInputTextarea
+            placeholder="Nhập lý do đổi trả"
+            formControlName="reason"
+          ></textarea>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</form>
+<pre>{{ datas.value | json }}</pre>
