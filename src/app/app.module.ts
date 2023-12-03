@@ -91,8 +91,9 @@ import { PaySuccessComponent } from "./components/client/pay-success/pay-success
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 
 import { InplaceModule } from "primeng/inplace";
-import { ShoesComponent } from './components/shoes/shoes.component';
-import { FeedbackManagComponent } from './components/feedback-manag/feedback-manag.component';
+import { ShoesComponent } from "./components/shoes/shoes.component";
+import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
+import { ReturnOrderComponent } from "./components/return-order/return-order.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -132,6 +133,7 @@ import { FeedbackManagComponent } from './components/feedback-manag/feedback-man
     PayFaileComponent,
     ShoesComponent,
     FeedbackManagComponent,
+    ReturnOrderComponent,
   ],
   imports: [
     AppLayoutModule,

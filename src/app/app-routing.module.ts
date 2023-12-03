@@ -37,6 +37,7 @@ import { PaySuccessComponent } from "./components/client/pay-success/pay-success
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 import { ShoesComponent } from "./components/shoes/shoes.component";
 import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
+import { ReturnOrderComponent } from "./components/return-order/return-order.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -76,6 +77,7 @@ const routes: Routes = [
       { path: "cart", component: CartComponent },
       { path: "shoes-detail", component: ShoesInspectComponent },
       { path: "shoes-detail/:id", component: ShoesInspectComponent },
+      { path: "return-order/:id", component: ReturnOrderComponent },
       { path: "shop", component: ShopComponent },
       { path: "pay", component: PayComponent },
       { path: "about", component: AboutComponent },
@@ -108,4 +110,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
