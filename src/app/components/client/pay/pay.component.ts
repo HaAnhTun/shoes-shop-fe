@@ -45,14 +45,21 @@ export class PayComponent implements OnInit {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
     console.log(this.checkCartDetailCustom);
-    this.getAccount();
+    if (sessionStorage.getItem("access_token") != null){
+      this.getAccount();
+    }
   }
 
   ngOnInit() {
+    console.log(this.checkCartDetailCustom)
     this.checkCartDetailCustom.map((customer) => {
       this.totalPrice = this.totalPrice + customer.price * customer.quantity;
     });
     this.totalPayment = this.totalPrice * 1.08;
+
+    // if (this.user != null){
+    //   this.fullName = this.user. this.user.firstName
+    // }
   }
 
   getAccount() {
@@ -63,19 +70,24 @@ export class PayComponent implements OnInit {
   }
 
   updateShippingCost(cost: number) {
-    this.totalPayment = this.totalPrice + this.shippingCost; // Cập nhật tổng giá
+    this.totalPayment = (this.totalPrice + this.shippingCost)*1.08; // Cập nhật tổng giá
   }
 
   payment() {
     if (this.paymentMethod == 1) {
       this.saveOrder();
     } else {
+      let idUser = null;
+      if(this.user != null){
+        idUser = this.user.id
+      }
       this.arrSanPham = this.checkCartDetailCustom
-        .map((any) => any.id)
+        .map((any) => any.shoesdetailid)
         .join("a");
       this.arrQuantity = this.checkCartDetailCustom
         .map((any) => any.quantity)
         .join("b");
+        console.log(this.user)
       this.payService
         .createPayment(
           this.totalPayment,
@@ -84,7 +96,7 @@ export class PayComponent implements OnInit {
           this.emailAddress,
           this.homeAddress,
           this.shippingCost,
-          this.user.id,
+          idUser,
           this.arrSanPham,
           this.arrQuantity
         )

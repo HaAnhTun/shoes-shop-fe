@@ -102,4 +102,8 @@ export class UserOrderComponent implements OnInit {
     }
     await this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
   }
+
+  getProduct(codeOrder: String){
+      console.log(codeOrder)
+  }
 }

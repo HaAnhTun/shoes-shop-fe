@@ -18,9 +18,6 @@
       [class]="checkString == item.name ? 'text-primaryy' : ''"
     >
       {{ item.name }}
-      <span style="margin-bottom: 15px">
-        <p-badge [value]="item.quantity"></p-badge>
-      </span>
     </a>
   </li>
 </ul>
@@ -55,6 +52,7 @@
               Ngày mua
             </th>
             <th pSortableColumn="status">Trạng thái</th>
+            <th style="width: 5rem"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-order>
@@ -73,7 +71,14 @@
             <td>
               {{ checkString }}
             </td>
+            <td>
+              <button type="button" pButton pRipple [pRowToggler]="user"
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-left'"
+                  (click)="!expanded && getProduct(order.code)"></button>
+            </td> 
           </tr>
+          
         </ng-template>
         <ng-template pTemplate="summary">
           <div style="text-align: right">
