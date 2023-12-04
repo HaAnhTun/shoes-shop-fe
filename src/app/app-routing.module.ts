@@ -38,6 +38,8 @@ import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.compo
 import { ShoesComponent } from "./components/shoes/shoes.component";
 import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
 import { ReturnOrderComponent } from "./components/return-order/return-order.component";
+import { OrderReturnAdminComponent } from "./components/order-return-admin/order-return-admin.component";
+import { OrderReturnDetailsComponent } from "./components/order-return-details/order-return-details.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -56,11 +58,16 @@ const routes: Routes = [
       },
       { path: "brand", component: BrandComponent },
       { path: "discount", component: DiscountComponent },
+      { path: "order-returns", component: OrderReturnAdminComponent },
       { path: "discount-add", component: DiscountAddComponent },
       { path: "discount-details/:id", component: DiscountAddComponent },
+      {
+        path: "order-return-details/:id",
+        component: OrderReturnDetailsComponent,
+      },
       { path: "color", component: ColorComponent },
       { path: "size", component: SizeComponent },
-      { path: "oder", component: OderComponent },
+      { path: "orders", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes", component: ShoesComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
