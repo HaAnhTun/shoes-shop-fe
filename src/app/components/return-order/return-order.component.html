@@ -3,6 +3,7 @@
   <p-table
     [value]="returnOrderDetails.controls"
     formArrayName="returnOrderDetails"
+    [(selection)]="selectedOrderDetails"
   >
     <ng-template pTemplate="header" dataKey="id">
       <tr>
@@ -18,10 +19,10 @@
         <th>Lý do</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-index="rowIndex">
+    <ng-template pTemplate="body" let-orderDetail let-index="rowIndex">
       <tr [formGroupName]="index">
         <td>
-          <p-tableCheckbox></p-tableCheckbox>
+          <p-tableCheckbox [value]="orderDetail"></p-tableCheckbox>
         </td>
         <td>
           {{
@@ -121,4 +122,5 @@
     </ng-template>
   </p-table>
 </form>
+<p-button label="Gửi yêu cầu" (onClick)="submitOrder()" ></p-button>
 <pre>{{ datas.value | json }}</pre>

@@ -30,16 +30,21 @@ export class ReturnOrderComponent implements OnInit {
       .get("http://localhost:8088/api/orders/" + this.orderId)
       .subscribe((res) => {
         this.order = res;
+        console.log(this.order);
         for (let data of this.order.orderDetailsDTOList) {
           let orderdetail = this.initReturnOrderDetails(data);
-          let returnShoesDetails = orderdetail.get(
-            "returnShoesDetails"
-          ) as FormArray;
-          returnShoesDetails.push(this.initReturnShoesDetails());
+          // let returnShoesDetails = orderdetail.get(
+          //   "returnShoesDetails"
+          // ) as FormArray;
+          // returnShoesDetails.push(this.initReturnShoesDetails());
           this.returnOrderDetails.push(orderdetail);
         }
       });
     this.fetchProducts();
+   this.datas = this.fb.group({
+      orderId: [this.orderId],
+      returnOrderDetails: this.fb.array<FormArray>([]),
+    });
     this.returnMethods = [
       {
         code: 1,
@@ -51,10 +56,7 @@ export class ReturnOrderComponent implements OnInit {
       },
     ];
   }
-  datas = this.fb.group({
-    orderId: [this.orderId],
-    returnOrderDetails: this.fb.array<FormArray>([]),
-  });
+  datas : FormGroup;
   get returnOrderDetails() {
     return this.datas.get("returnOrderDetails") as FormArray;
   }
@@ -141,6 +143,33 @@ export class ReturnOrderComponent implements OnInit {
           "returnShoesDetails"
         ) as FormArray
       ).clear();
+    }
+  }
+  submitOrder(){
+    if(this.selectedOrderDetails){
+      this.selectedOrderDetails.forEach((data) => {
+        this.returnOrderDetails.controls = this.returnOrderDetails.controls.filter((data1) => {
+           return data.get("orderDetailsId")?.value == data1.get("orderDetailsId")?.value
+        })
+        this.returnOrderDetails.controls.forEach(element => {
+          if(element.get("returnShoesDetails") != null && (element.get("returnShoesDetails") as FormArray).controls.length> 0 ){
+            (element.get("returnShoesDetails") as FormArray).controls.forEach((elemen1) => {
+              if(!(elemen1.get("shoesDetailsId")?.value instanceof Number)){
+                let object = elemen1.get("shoesDetailsId")?.value;
+                elemen1.get("shoesDetailsId")?.setValue(object.id);
+                elemen1.get("price")?.setValue(object.price);
+                elemen1.get("discount")?.setValue(object.discount_amount);
+              }
+              
+            })
+          }
+        });
+      })
+      this.http.post("http://localhost:8088/api/order-returns",this.datas.value).subscribe(
+        (res) => {
+          console.log(res)
+        }
+      )
     }
   }
 }
