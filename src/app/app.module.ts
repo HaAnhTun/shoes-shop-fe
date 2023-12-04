@@ -94,6 +94,8 @@ import { InplaceModule } from "primeng/inplace";
 import { ShoesComponent } from "./components/shoes/shoes.component";
 import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
 import { ReturnOrderComponent } from "./components/return-order/return-order.component";
+import { OrderReturnAdminComponent } from './components/order-return-admin/order-return-admin.component';
+import { OrderReturnDetailsComponent } from './components/order-return-details/order-return-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -134,6 +136,8 @@ import { ReturnOrderComponent } from "./components/return-order/return-order.com
     ShoesComponent,
     FeedbackManagComponent,
     ReturnOrderComponent,
+    OrderReturnAdminComponent,
+    OrderReturnDetailsComponent,
   ],
   imports: [
     AppLayoutModule,
