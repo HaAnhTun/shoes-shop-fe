@@ -1,4 +1,3 @@
-
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Route, Router } from "@angular/router";
@@ -13,7 +12,7 @@ import {
 import { log } from "console";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
-
+import { CartDetailCustom } from "src/app/model/CartDetailCustom";
 
 export interface ShoesDetail {
   id?: number;
@@ -48,6 +47,8 @@ export interface ShoesDetail {
 export class ShoesInspectComponent {
   CartDetailSave: CartDetailSave = {};
   cartDetails: CartDetail[];
+  cartDetailCustoms: CartDetailCustom[] = [];
+  cartDetailCustom: CartDetailCustom;
   check: any = null;
   sizeOptions: any[] = [
     { name: "31", value: 1 },
@@ -71,9 +72,9 @@ export class ShoesInspectComponent {
   feedbacks: any[];
   feedback = {
     rate: 0,
-    comment: '',
-    user: { id: 4 },   // Thay đổi theo ID người dùng thực tế
-    shoes: { id: 246 } // Thay đổi theo ID sản phẩm thực tế
+    comment: "",
+    user: { id: 4 }, // Thay đổi theo ID người dùng thực tế
+    shoes: { id: 246 }, // Thay đổi theo ID sản phẩm thực tế
   };
   feedbackForm: FormGroup;
   user: any = null;
@@ -132,24 +133,25 @@ export class ShoesInspectComponent {
     };
     this.route.queryParams.subscribe((params) => {
       // Access the query parameters inside the subscribe callback
-      const shid = params['shid'];
-      const brid = params['brid'];
-      const siid = params['siid'];
-      const clid = params['clid'];
-      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid }
+      const shid = params["shid"];
+      const brid = params["brid"];
+      const siid = params["siid"];
+      const clid = params["clid"];
+      this.productId = { shid: shid, brid: brid, siid: siid, clid: clid };
     });
     this.fetchProductDetails();
   }
 
   getAccount() {
-    this.http.get('http://localhost:8088/api/account').subscribe(
-      (response) => {
-        console.log('Response:', response);
-        this.user = response;
-      },
-    );
+    if (sessionStorage.getItem("access_token") != null) {
+      this.http
+        .get("http://localhost:8088/api/account")
+        .subscribe((response) => {
+          console.log("Response:", response);
+          this.user = response;
+        });
+    }
   }
-
 
   // Gọi hàm này mỗi khi quantity thay đổi
   onQuantityChange() {
@@ -160,9 +162,9 @@ export class ShoesInspectComponent {
 
   showMessage() {
     this.messageService.add({
-      severity: 'warn',
-      summary: 'Số Lượng tối đa',
-      detail: 'Đã đạt giới hạn hàng trong kho'
+      severity: "warn",
+      summary: "Số Lượng tối đa",
+      detail: "Đã đạt giới hạn hàng trong kho",
     });
   }
 
@@ -202,19 +204,19 @@ export class ShoesInspectComponent {
 
   getFeedBack(shid: number, brid: number) {
     const params = new HttpParams()
-      .set('shid', shid.toString())
-      .set('brid', brid.toString());
+      .set("shid", shid.toString())
+      .set("brid", brid.toString());
     // Gửi yêu cầu GET
-    this.http.get<any>('http://localhost:8088/api/shop/feed-back', { params })
+    this.http
+      .get<any>("http://localhost:8088/api/shop/feed-back", { params })
       .subscribe(
         (response) => {
-          this.feedbacks = response
+          this.feedbacks = response;
         },
         (error) => {
           // Xử lý lỗi ở đây
         }
       );
-
   }
 
   onSizeChange() {
@@ -229,7 +231,6 @@ export class ShoesInspectComponent {
     return trimmedPaths;
   }
 
-
   clickAddCart() {
     if (this.selectedColor === null || this.selectedsize === null) {
       this.messageService.add({
@@ -239,35 +240,59 @@ export class ShoesInspectComponent {
         life: 5000,
       });
     } else {
-      this.cartDetailService.getAllCartDetail().subscribe((Response) => {
-        this.cartDetails = Response;
-        this.cartDetails
-          .filter((c) => c.shoesDetails.id === this.shoesDetails.id)
-          .forEach(
-            (c) =>
-            (this.check = this.cartDetailService
-              .updateQuanity(c.id, this.quantity)
-              .subscribe(() => {
+      if (sessionStorage.getItem("access_token") != null) {
+        this.cartDetailService.getAllCartDetail().subscribe((Response) => {
+          this.cartDetails = Response;
+          this.cartDetails
+            .filter((c) => c.shoesDetails.id === this.shoesDetails.id)
+            .forEach(
+              (c) =>
+                (this.check = this.cartDetailService
+                  .updateQuanity(c.id, this.quantity)
+                  .subscribe(() => {
+                    this.router.navigate(["/client/cart"]);
+                  }))
+            );
+          if (this.check === null) {
+            this.CartDetailSave.status = 1;
+            this.CartDetailSave.quantity = this.quantity;
+            this.CartDetailSave.shoesDetails = this.shoesDetails;
+            this.cartDetailService
+              .saveCartDetail(this.CartDetailSave)
+              .subscribe((cartDetail: CartDetail) => {
+                this.cartDetailService.getCount().subscribe((Response) => {
+                  this.cartDetailCustomerService.setData(Response);
+                });
                 this.router.navigate(["/client/cart"]);
-              }))
-          );
-        if (this.check === null) {
-          this.CartDetailSave.status = 1;
-          this.CartDetailSave.quantity = this.quantity;
-          this.CartDetailSave.shoesDetails = this.shoesDetails;
-          this.cartDetailService
-            .saveCartDetail(this.CartDetailSave)
-            .subscribe((cartDetail: CartDetail) => {
-              this.cartDetailService.getCount().subscribe((Response) => {
-                this.cartDetailCustomerService.setData(Response);
               });
-              this.router.navigate(["/client/cart"]);
-            });
-        }
-      });
+          }
+        });
+      } else {
+        this.cartDetailCustom = {
+          id: this.shoesDetails.id,
+          idsh: this.shoesDetails.shoes_id,
+          idsz: this.shoesDetails.size_id,
+          idc: this.shoesDetails.color_id,
+          idb: this.shoesDetails.brand_id,
+          path: this.shoesDetails.path,
+          status: 1,
+          quantity: this.quantity,
+          quantityShoesDetail: this.shoesDetails.quantity,
+          price: this.shoesDetails.price,
+          shoesdetailid: this.shoesDetails.id,
+          namesize: this.shoesDetails.size_names,
+          namecolor: this.shoesDetails.color_names,
+          nameshoes: this.shoesDetails.name,
+          checkBox: false,
+        };
+        sessionStorage.setItem(
+          "cartDetailCustom",
+          JSON.stringify(this.cartDetailCustom)
+        );
+        this.router.navigate(["/client/cart"]);
+      }
     }
   }
-
 
   mergeLists(names: any[], values: any[]): any[] {
     var Options: any[] = [];
@@ -285,13 +310,12 @@ export class ShoesInspectComponent {
   }
   ngOnInit() {
     this.feedbackForm = this.fb.group({
-      comment: ['', Validators.required
-      ],
+      comment: ["", Validators.required],
       rate: [0],
       // user and shoes will be set when submitting the form
       user: [null],
       shoes: [null],
-      status: 1
+      status: 1,
     });
   }
 
