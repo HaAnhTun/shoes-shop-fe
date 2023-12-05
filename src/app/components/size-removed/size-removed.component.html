@@ -1,0 +1,54 @@
+<div class="card">
+   
+    
+    <p-toast></p-toast>
+    <input pInputText type="text" placeholder="Tìm kiếm" [(ngModel)]="searchText" (input)="onSearchInputChange()" />
+    <p-table [value]="filteredSizes.length ? filteredSizes : Size" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Người cập nhật</th>
+                <th>Ngày cập nhật</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-Size let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="Size">
+                <td>{{ Size.id }}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="Size.code">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ Size.code }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="Size.name">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ Size.name }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>{{ Size.lastModifiedBy }}</td>
+                <td>{{ Size.lastModifiedDate | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-spin pi-cog" style="font-size: 2rem" (click)="onRowEditInit(Size)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(Size)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(Size, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+

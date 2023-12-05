@@ -40,6 +40,9 @@ import { FeedbackManagComponent } from "./components/feedback-manag/feedback-man
 import { ReturnOrderComponent } from "./components/return-order/return-order.component";
 import { OrderReturnAdminComponent } from "./components/order-return-admin/order-return-admin.component";
 import { OrderReturnDetailsComponent } from "./components/order-return-details/order-return-details.component";
+import { ColorRemovedComponent } from "./components/color-removed/color-removed.component";
+import { SizeRemovedComponent } from "./components/size-removed/size-removed.component";
+import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -73,6 +76,9 @@ const routes: Routes = [
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: "users", component: UserComponent },
       { path: "order-details/:id", component: OrderDetailsComponent },
+      { path: "removedColor", component: ColorRemovedComponent },
+      { path: "removedSize", component: SizeRemovedComponent },
+      { path: "removedBrand", component: BrandRemovedComponent },
     ],
   },
   {

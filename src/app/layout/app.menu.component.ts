@@ -78,6 +78,11 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-briefcase",
                 routerLink: ["/admin/brand"],
               },
+              {
+                label: "Đã xóa",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/removedBrand"],
+              },
             ],
           },
           {
@@ -89,6 +94,11 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-circle-fill",
                 routerLink: ["/admin/color"],
               },
+              {
+                label: "Đã xóa",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/removedColor"],
+              },
             ],
           },
           {
@@ -99,6 +109,11 @@ export class AppMenuComponent implements OnInit {
                 label: "Size",
                 icon: "pi pi-fw pi-sitemap",
                 routerLink: ["/admin/size"],
+              },
+              {
+                label: "Đã xóa",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/removedSize"],
               },
             ],
           },
