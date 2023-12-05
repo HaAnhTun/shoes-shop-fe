@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { log } from 'console';
 import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
 import { SelectButton } from 'primeng/selectbutton';
@@ -30,7 +31,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
   shoeSizes: any[];
   selectedSizes!: any
   paymentOptions: any[] = [];
-  rangeValues: number[] = [100000, 100000000];
+  rangeValues: number[] = [0, 100000000];
   selectedItems: any[] = [];
   sortField: string;
   brands: any[] = [];
@@ -93,7 +94,15 @@ export class ShopComponent implements OnInit, AfterViewInit {
   }
 
   fetchProducts() {
-    this.http.get<any>('http://localhost:8088/api/shoes-details/shop').subscribe(
+    // Tạo đối tượng SearchSDsResponse để chuyển thành JSON
+    const searchData = {
+      sizeIds: this.selectedSizes != null ? this.selectedSizes : [], // Thay thế bằng dữ liệu thực tế
+      brandId: this.selectedBrand ? this.selectedBrand : null, // Thay thế bằng dữ liệu thực tế
+      startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế
+      endPrice: this.rangeValues[1] // Thay thế bằng dữ liệu thực tế
+    };
+    // Gửi yêu cầu POST
+    this.http.post<any>('http://localhost:8088/api/shoes-details/shop', searchData).subscribe(
       (data) => {
         this.products = data;
         console.log(data);
@@ -102,8 +111,6 @@ export class ShopComponent implements OnInit, AfterViewInit {
         console.error('Error fetching products:', error);
       }
     );
-
-
   }
 
 
@@ -114,6 +121,14 @@ export class ShopComponent implements OnInit, AfterViewInit {
     console.log(this.shoeSizes);
     console.log(this.selectedSizes);
     console.log(this.selectedBrand);
+    const searchData = {
+      sizeIds: this.selectedSizes, // Thay thế bằng dữ liệu thực tế
+      brandId: this.selectedBrand, // Thay thế bằng dữ liệu thực tế
+      startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế
+      endPrice: this.rangeValues[1] // Thay thế bằng dữ liệu thực tế
+    };
+    console.log(searchData);
+
   }
   calle2() {
     console.log(this.selectedBrand);
