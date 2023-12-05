@@ -1,4 +1,3 @@
-<p>order-return-admin works!</p>
 <div class="card">
   <p-tabView #dshd>
     <p-tabPanel header="Danh sách yêu cầu đổi trả">
@@ -55,9 +54,7 @@
               <th style="width: 4rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
-              <th style="width: 15rem">
-                Mẫ yêu cầu
-              </th>
+              <th style="width: 15rem">Mẫ yêu cầu</th>
               <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
               <th>Khách hàng</th>
               <th pSortableColumn="price">Số điện thoại</th>
@@ -82,7 +79,7 @@
               </td>
               <td>{{ order.phone }}</td>
               <td>{{ order.lastModifiedBy }}</td>
-  
+
               <td>
                 {{ order.createdDate | date : "dd-MM-yyyy" }}
               </td>
@@ -98,7 +95,7 @@
                 <button
                   pButton
                   pRipple
-                  icon="pi pi-pencil"
+                  icon="pi pi-check"
                   class="p-button-rounded p-button-success mr-2"
                   (click)="finish(order.id)"
                   *ngIf="order.status == 2"
@@ -110,13 +107,15 @@
                   class="p-button-rounded p-button-success mr-2"
                   (click)="showOrderReturnDetails(order.id)"
                 ></button>
-                
               </td>
             </tr>
           </ng-template>
-          
         </p-table>
       </ng-container>
+      <div class="dialog">
+        <p-toast></p-toast>
+        <p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
+      </div>
       <!-- <ng-container *ngIf="this.checkOne === true">
         <p-table
           #dt
