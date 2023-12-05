@@ -1,110 +1,227 @@
-<p>order-return-details works!</p>
-<h4>
-  Thông tin chi tiết - Mã:{{ orderReturn.code }} - Order:{{
-    orderReturn.order.code
-  }}
-</h4>
-<div class="card">
-  <p-table
-    [value]="orderReturn.orderReturnDetailsDTOS"
-    dataKey="name"
-    [tableStyle]="{ 'min-width': '60rem' }"
-  >
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 5rem"></th>
-        <th>Tên giày</th>
-        <th>Giá</th>
-        <th>Số lượng mua</th>
-        <th>Số lượng trả</th>
-        <th>Loại đổi trả</th>
-        <th>Lý do</th>
-      </tr>
-    </ng-template>
-    <ng-template
-      pTemplate="body"
-      let-orderReturnDetails
-      let-expanded="expanded"
-    >
-      <tr>
-        <td>
-          <button
-            *ngIf="orderReturnDetails.type == 1"
-            type="button"
-            pButton
-            pRipple
-            [pRowToggler]="orderReturnDetails"
-            class="p-button-text p-button-rounded p-button-plain"
-            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-          ></button>
-        </td>
-        <td>
-          {{
-            orderReturnDetails.orderDetails.shoesDetails.shoes.name +
-              "[" +
-              orderReturnDetails.orderDetails.shoesDetails.color.name +
-              "]" +
-              "-" +
-              orderReturnDetails.orderDetails.shoesDetails.brand.name
-          }}
-        </td>
+<h3 class="header-title mb-3">Thông tin chi tiết yêu cầu đổi trả</h3>
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="header-title mb-3">
+          Thông tin hóa đơn - Mã hóa đơn {{ order.code }}
+        </h4>
 
-        <td>{{ orderReturnDetails.orderDetails.price | currency : "VND" }}</td>
-        <td>
-          {{ orderReturnDetails.orderDetails.quantity }}
-        </td>
-        <td>
-          {{ orderReturnDetails.returnQuantity }}
-        </td>
-        <td>
-          {{ orderReturnDetails.type == 1 ? "Đổi hàng" : "Trả hàng" }}
-        </td>
-        <td>
-          {{ orderReturnDetails.reason }}
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="rowexpansion" let-orderReturnDetails>
-      <tr>
-        <td colspan="7">
-          <div class="p-3">
-            <p-table
-              [value]="orderReturnDetails.returnShoesDetails"
-              dataKey="id"
+        <div class="table-responsive">
+          <p-table [value]="order.orderDetailsDTOList">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>#</th>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-orderDetails
+              let-index="rowIndex"
             >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>Tên giày</th>
-                  <th>Giá</th>
-                  <th>Số lượng đổi</th>
-                  <th style="width: 4rem"></th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-shoesReturn>
-                <tr>
-                  <td>
-                    {{
-                      shoesReturn.shoesDetails.shoes.name +
-                        "[" +
-                        shoesReturn.shoesDetails.color.name +
-                        "]" +
-                        "-" +
-                        shoesReturn.shoesDetails.brand.name
-                    }}
-                  </td>
-                  <td>{{ shoesReturn.price }}</td>
-                  <td>{{ shoesReturn.quantity }}</td>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                <tr>
-                  <td colspan="6">There are no order for this product yet.</td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+              <tr *ngIf="orderDetails.status !== -1">
+                <td>{{ index + 1 }}</td>
+                <td>
+                  {{
+                    orderDetails.shoesDetails.shoes.name +
+                      "[" +
+                      orderDetails.shoesDetails.color.name +
+                      "]"
+                  }}
+                </td>
+                <td>
+                  {{ orderDetails.quantity }}
+                </td>
+                <td>{{ orderDetails.price | currency : "VND" }}</td>
+                <td>
+                  {{
+                    orderDetails.quantity * orderDetails.price
+                      | currency : "VND"
+                  }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
+
+  <div class="col-lg-4">
+    <div class="card ">
+      <div class="card-body">
+        <h4 class="header-title mb-3">Tổng quan hóa đơn</h4>
+
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>Mô tả</th>
+                <th>Giá</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tổng tiền :</td>
+                <td>
+                  {{ order.totalPrice | currency : "VND" }}
+                </td>
+              </tr>
+              <tr>
+                <td>Khuyến mãi :</td>
+                <td>{{ 0 | currency : "VND" }}</td>
+              </tr>
+              <tr>
+                <th>Tổng :</th>
+                <td>
+                  {{ order.totalPrice | currency : "VND" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- end table-responsive -->
+      </div>
+    </div>
+  </div>
+  <!-- end col -->
 </div>
+<!-- end row -->
+<div class="card">
+  <div class="card-body">
+    <h4 class="header-title mb-3">
+      Thông tin yêu cầu - Mã:{{ orderReturn.code }} 
+    </h4>
+    <div class="card">
+      <p-table
+        [value]="orderReturn.orderReturnDetailsDTOS"
+        dataKey="id"
+        [tableStyle]="{ 'min-width': '60rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 5rem"></th>
+            <th>Tên giày</th>
+            <th>Giá</th>
+            <th>Số lượng mua</th>
+            <th>Số lượng trả</th>
+            <th>Số lượng lỗi</th>
+            <th>Loại đổi trả</th>
+            <th>Lý do</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-orderReturnDetails
+          let-expanded="expanded"
+          let-index="rowIndex"
+        >
+          <tr>
+            <td>
+              <button
+                *ngIf="orderReturnDetails.type == 1"
+                type="button"
+                pButton
+                pRipple
+                [pRowToggler]="orderReturnDetails"
+                class="p-button-text p-button-rounded p-button-plain"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+              ></button>
+            </td>
+            <td>
+              {{
+                orderReturnDetails.orderDetails.shoesDetails.shoes.name +
+                  "[" +
+                  orderReturnDetails.orderDetails.shoesDetails.color.name +
+                  "]" +
+                  "-" +
+                  orderReturnDetails.orderDetails.shoesDetails.brand.name
+              }}
+            </td>
+    
+            <td>{{ orderReturnDetails.orderDetails.price | currency : "VND" }}</td>
+            <td>
+              {{ orderReturnDetails.orderDetails.quantity }}
+            </td>
+            <td>
+              {{ orderReturnDetails.returnQuantity }}
+            </td>
+            <td>
+              <p-inputNumber [disabled]="orderReturn.status != 1" [(ngModel)]="request.list[index].errorQuantity" inputId="minmax" mode="decimal" [min]="0" [max]="orderReturnDetails.returnQuantity"> </p-inputNumber>
+            </td>
+            <td>
+              {{ orderReturnDetails.type == 1 ? "Đổi hàng" : "Trả hàng" }}
+            </td>
+            <td>
+              {{ orderReturnDetails.reason }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-orderReturnDetails>
+          <tr>
+            <td colspan="7">
+              <div class="p-3">
+                <p-table
+                  [value]="orderReturnDetails.returnShoesDetails"
+                  dataKey="id"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Tên giày</th>
+                      <th>Giá</th>
+                      <th>Số lượng đổi</th>
+                      <th style="width: 4rem"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-shoesReturn>
+                    <tr>
+                      <td>
+                        {{
+                          shoesReturn.shoesDetails.shoes.name +
+                            "[" +
+                            shoesReturn.shoesDetails.color.name +
+                            "]" +
+                            "-" +
+                            shoesReturn.shoesDetails.brand.name
+                        }}
+                      </td>
+                      <td>{{ shoesReturn.price }}</td>
+                      <td>{{ shoesReturn.quantity }}</td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="6">There are no order for this product yet.</td>
+                    </tr>
+                  </ng-template>
+                  
+                </p-table>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" *ngIf="orderReturn.status == 1">
+          <div style="text-align: right">
+            <p-button label="Hủy" styleClass="p-button-outlined" 
+              (click)="cancelOrderReturn()"
+            ></p-button>
+            <span style="margin-left: 10px">
+              <p-button
+                label="Xác nhận"
+                styleClass="p-button-outlined"
+                (click)="verifyOrderReturn(orderReturnId)"
+              ></p-button>
+            </span>
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+

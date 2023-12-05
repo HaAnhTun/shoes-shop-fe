@@ -56,6 +56,7 @@ export class OrderReturnAdminComponent implements OnInit {
       { code: 1, name: "Chờ xác nhận", quantity: 0 },
       { code: 2, name: "Đang xử lý", quantity: 0 },
       { code: 3, name: "Hoàn thành", quantity: 0 },
+      { code: 4, name: "Hủy", quantity: 0 },
     ];
   }
   clickIndexOder(index: number): void {
@@ -70,15 +71,40 @@ export class OrderReturnAdminComponent implements OnInit {
     } else if (label.startsWith("Hoàn thành")) {
       this.checkString = "Hoàn thành";
       this.orderSearchReqDTO.status = 3;
-      this.checkOne = true;
-      this.check = false;
+      // this.checkOne = true;
+      this.check = true;
     } else if (label.startsWith("Đang xử lý")) {
       this.checkString = "Đang xử lý";
       this.orderSearchReqDTO.status = 2;
-      this.checkOne = true;
-      this.check = false;
+      // this.checkOne = true;
+      this.check = true;
+    } else{
+      this.checkString = "Hủy";
+      this.orderSearchReqDTO.status = 4;
+      // this.checkOne = true;
+      this.check = true;
     }
     this.fetchOrders();
+  }
+  cancelOrderReturn(id:number){
+    
+    this.http.get("http://localhost:8088/api/order-returns/cancel/" + id).subscribe((res)=>{
+      console.log(res);
+      this.fetchOrders();
+    })
+    
+  }
+  finish(id:number){
+    this.http.get("http://localhost:8088/api/order-returns/finish/" + id).subscribe((res)=>{
+      console.log(res);
+      this.fetchOrders();
+    })
+    
+  }
+  visible = false;
+  updateVisibility(): void {
+    this.visible = false;
+    setTimeout(() => (this.visible = true), 0);
   }
   fetchOrders(): void {
     this.http
@@ -92,6 +118,7 @@ export class OrderReturnAdminComponent implements OnInit {
         },
         (error) => {}
       );
+      this.updateVisibility()
   }
   fetchQuantityOrder(): void {
     this.orderService.getOrderQuantity().subscribe((res) => {

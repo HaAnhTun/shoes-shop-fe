@@ -12,7 +12,7 @@ import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
 export class ReturnOrderComponent implements OnInit {
   order: any;
   orderId: any = -1;
-  enable = false;
+  enable: boolean[] = [];
   selectedOrderDetails: any[] = [];
   returnMethods: any[];
   shoesDetails: any[];
@@ -38,6 +38,7 @@ export class ReturnOrderComponent implements OnInit {
           // ) as FormArray;
           // returnShoesDetails.push(this.initReturnShoesDetails());
           this.returnOrderDetails.push(orderdetail);
+          this.enable.push(false);
         }
       });
     this.fetchProducts();
@@ -130,14 +131,14 @@ export class ReturnOrderComponent implements OnInit {
   }
   selectedMethod(data: number, index: number) {
     if (data == 1) {
-      this.enable = true;
+      this.enable[index] = true;
       (
         (this.returnOrderDetails.at(index) as FormGroup).get(
           "returnShoesDetails"
         ) as FormArray
       ).push(this.initReturnShoesDetails());
     } else {
-      this.enable = false;
+      this.enable[index] = true;
       (
         (this.returnOrderDetails.at(index) as FormGroup).get(
           "returnShoesDetails"
@@ -147,24 +148,24 @@ export class ReturnOrderComponent implements OnInit {
   }
   submitOrder(){
     if(this.selectedOrderDetails){
-      this.selectedOrderDetails.forEach((data) => {
-        this.returnOrderDetails.controls = this.returnOrderDetails.controls.filter((data1) => {
-           return data.get("orderDetailsId")?.value == data1.get("orderDetailsId")?.value
-        })
-        this.returnOrderDetails.controls.forEach(element => {
-          if(element.get("returnShoesDetails") != null && (element.get("returnShoesDetails") as FormArray).controls.length> 0 ){
-            (element.get("returnShoesDetails") as FormArray).controls.forEach((elemen1) => {
-              if(!(elemen1.get("shoesDetailsId")?.value instanceof Number)){
-                let object = elemen1.get("shoesDetailsId")?.value;
-                elemen1.get("shoesDetailsId")?.setValue(object.id);
-                elemen1.get("price")?.setValue(object.price);
-                elemen1.get("discount")?.setValue(object.discount_amount);
-              }
-              
-            })
-          }
-        });
-      })
+      this.returnOrderDetails.controls = this.returnOrderDetails.controls.filter((data1) => {
+        return this.selectedOrderDetails.find((data) => {
+           return data1.get("orderDetailsId")?.value == data.get("orderDetailsId")?.value
+        }) 
+     })
+      this.returnOrderDetails.controls.forEach(element => {
+        if(element.get("returnShoesDetails") != null && (element.get("returnShoesDetails") as FormArray).controls.length> 0 ){
+          (element.get("returnShoesDetails") as FormArray).controls.forEach((elemen1) => {
+            if(!(elemen1.get("shoesDetailsId")?.value instanceof Number)){
+              let object = elemen1.get("shoesDetailsId")?.value;
+              elemen1.get("shoesDetailsId")?.setValue(object.id);
+              elemen1.get("price")?.setValue(object.price);
+              elemen1.get("discount")?.setValue(object.discount_amount);
+            }
+            
+          })
+        }
+      });
       this.http.post("http://localhost:8088/api/order-returns",this.datas.value).subscribe(
         (res) => {
           console.log(res)
