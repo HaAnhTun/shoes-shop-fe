@@ -37,6 +37,9 @@ import { PaySuccessComponent } from "./components/client/pay-success/pay-success
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 import { ShoesComponent } from "./components/shoes/shoes.component";
 import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
+import { ColorRemovedComponent } from "./components/color-removed/color-removed.component";
+import { SizeRemovedComponent } from "./components/size-removed/size-removed.component";
+import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -65,6 +68,9 @@ const routes: Routes = [
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
       { path: "users", component: UserComponent },
       { path: "order-details/:id", component: OrderDetailsComponent },
+      { path: "removedColor", component: ColorRemovedComponent },
+      { path: "removedSize", component: SizeRemovedComponent },
+      { path: "removedBrand", component: BrandRemovedComponent },
     ],
   },
   {
