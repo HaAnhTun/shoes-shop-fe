@@ -1,4 +1,6 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { Router, RouterLinkActive } from "@angular/router";
 import { rejects } from "assert";
 import { error, log } from "console";
 import { resolve } from "path";
@@ -26,10 +28,13 @@ export class UserOrderComponent implements OnInit {
   orderSearchReqDTO: OrderSearchReq = {
     status: 0,
   };
+  orderQuantity: Map<any, any>;
   constructor(
     private userService: UserService,
     private orderService: OrderService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private http: HttpClient,
+    private router: Router
   ) {
     this.listMenuItems = [
       { code: 0, name: "Chờ xác nhận", quantity: 0 },
@@ -49,11 +54,31 @@ export class UserOrderComponent implements OnInit {
       } else {
         console.error("Access token is null");
       }
+      this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    this.fetchQuantityOrder();
   }
-  
+  showOderDetails(id: number) {
+    this.router.navigate(["/client/order-details/" + id]);
+  }
+  returnOrder(id: number) {
+    this.router.navigate(["/client/return-order/" + id]);
+  }
+  fetchQuantityOrder(): void {
+    this.http
+      .get("http://localhost:8088/api/orders/quantity")
+      .subscribe((res) => {
+        this.orderQuantity = new Map(Object.entries(res));
+        for (let i = 0; i < this.listMenuItems.length; i++) {
+          if (this.orderQuantity.has(this.listMenuItems[i].code + ""))
+            this.listMenuItems[i].quantity = this.orderQuantity.get(
+              this.listMenuItems[i].code + ""
+            );
+        }
+      });
+  }
   findByLogin(status: number, login: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.userService.getOrderByStatusAndOwnerLogin(status, login).subscribe(

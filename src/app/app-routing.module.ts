@@ -37,6 +37,9 @@ import { PaySuccessComponent } from "./components/client/pay-success/pay-success
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 import { ShoesComponent } from "./components/shoes/shoes.component";
 import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
+import { ReturnOrderComponent } from "./components/return-order/return-order.component";
+import { OrderReturnAdminComponent } from "./components/order-return-admin/order-return-admin.component";
+import { OrderReturnDetailsComponent } from "./components/order-return-details/order-return-details.component";
 import { ColorRemovedComponent } from "./components/color-removed/color-removed.component";
 import { SizeRemovedComponent } from "./components/size-removed/size-removed.component";
 import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
@@ -58,11 +61,16 @@ const routes: Routes = [
       },
       { path: "brand", component: BrandComponent },
       { path: "discount", component: DiscountComponent },
+      { path: "order-returns", component: OrderReturnAdminComponent },
       { path: "discount-add", component: DiscountAddComponent },
       { path: "discount-details/:id", component: DiscountAddComponent },
+      {
+        path: "order-return-details/:id",
+        component: OrderReturnDetailsComponent,
+      },
       { path: "color", component: ColorComponent },
       { path: "size", component: SizeComponent },
-      { path: "oder", component: OderComponent },
+      { path: "orders", component: OderComponent },
       { path: "shoes-detail", component: ShoesDetailComponent },
       { path: "shoes", component: ShoesComponent },
       { path: "shoes-detail-add", component: ShoesDetailAddComponent },
@@ -82,6 +90,7 @@ const routes: Routes = [
       { path: "cart", component: CartComponent },
       { path: "shoes-detail", component: ShoesInspectComponent },
       { path: "shoes-detail/:id", component: ShoesInspectComponent },
+      { path: "return-order/:id", component: ReturnOrderComponent },
       { path: "shop", component: ShopComponent },
       { path: "pay", component: PayComponent },
       { path: "about", component: AboutComponent },
@@ -94,6 +103,7 @@ const routes: Routes = [
       { path: "user-order", component: UserOrderComponent },
       { path: "pay-success", component: PaySuccessComponent },
       { path: "pay-faile", component: PayFaileComponent },
+      { path: "order-details/:id", component: OrderDetailsComponent },
     ],
   },
   /////CLIENT-LINKs
@@ -114,4 +124,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

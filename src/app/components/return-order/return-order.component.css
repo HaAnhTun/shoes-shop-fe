@@ -1,0 +1,4 @@
+.disabled-row {
+  opacity: 0.5; /* Example: Reduce opacity for disabled rows */
+  pointer-events: none; /* Example: Disable pointer events for disabled rows */
+}

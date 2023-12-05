@@ -1,4 +1,4 @@
-<h2 style="text-align: center; margin: 20px 0;">Đơn hàng của bạn</h2>
+<h2 style="text-align: center; margin: 20px 0">Đơn hàng của bạn</h2>
 
 <ul class="nav nav-tabs" role="tablist">
   <li
@@ -13,7 +13,12 @@
       aria-selected="false"
       role="tab"
       tabindex="-1"
-      style="display: flex; align-items: center; justify-content: center; height: 50px;"
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+      "
       (click)="clickListOder(item.name)"
       [class]="checkString == item.name ? 'text-primaryy' : ''"
     >
@@ -25,66 +30,84 @@
   </li>
 </ul>
 
-    <ng-container>
-      <p-table
-        #dt
-        [value]="order"
-        [rows]="5"
-        [paginator]="true"
-        [globalFilterFields]="[
-          'name',
-          'country.name',
-          'representative.name',
-          'status'
-        ]"
-        [tableStyle]="{ 'min-width': '75rem' }"
-        [rowHover]="true"
-        dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 4rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
-            <th pSortableColumn="quantity">Số lượng</th>
-            <th pSortableColumn="price">Tổng tiền</th>
-            <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
-              Ngày mua
-            </th>
-            <th pSortableColumn="status">Trạng thái</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-order>
-          <tr>
-            <td>
-              <p-tableCheckbox [value]="order"></p-tableCheckbox>
-            </td>
-            <td>{{ order.code }}</td>
-            <td>1</td>
-            <td>
-              {{ order.totalPrice | currency : "VND" }}
-            </td>
-            <td>
-              {{ order.createdDate | date : "dd-MM-yyyy" }}
-            </td>
-            <td>
-              {{ checkString }}
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-          <div style="text-align: right">
-            <p-button
-              label="Hủy"
-              styleClass="p-button-outlined"
-              *ngIf="
-                checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
-              "
-            ></p-button>
-          </div>
-        </ng-template>
-      </p-table>
-    </ng-container>
+<ng-container>
+  <p-table
+    #dt
+    [value]="order"
+    [rows]="5"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'name',
+      'country.name',
+      'representative.name',
+      'status'
+    ]"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
+        <th pSortableColumn="quantity">Số lượng</th>
+        <th pSortableColumn="price">Tổng tiền</th>
+        <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
+          Ngày mua
+        </th>
+        <th pSortableColumn="status">Trạng thái</th>
+        <th pSortableColumn="status"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="order"></p-tableCheckbox>
+        </td>
+        <td>{{ order.code }}</td>
+        <td>1</td>
+        <td>
+          {{ order.totalPrice | currency : "VND" }}
+        </td>
+        <td>
+          {{ order.createdDate | date : "dd-MM-yyyy" }}
+        </td>
+        <td>
+          {{ checkString }}
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-shopping-cart"
+            class="p-button-rounded p-button-primry mr-2"
+            (click)="returnOrder(order.id)"
+            *ngIf="checkString == 'Hoàn thành'"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-eye"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="showOderDetails(order.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div style="text-align: right">
+        <p-button
+          label="Hủy"
+          styleClass="p-button-outlined"
+          *ngIf="
+            checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
+          "
+        ></p-button>
+      </div>
+    </ng-template>
+  </p-table>
+</ng-container>

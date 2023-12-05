@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import {
   ConfirmEventType,
   ConfirmationService,
@@ -40,7 +40,8 @@ export class PayComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private productService: ProductService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
@@ -139,6 +140,7 @@ export class PayComponent implements OnInit {
           summary: "Thanh toán thành công",
           life: 3000,
         });
+        this.router.navigate(["/client/pay-success"]);
       },
       (error) => {
         console.log(error);
