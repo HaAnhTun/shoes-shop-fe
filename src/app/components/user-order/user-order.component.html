@@ -55,6 +55,7 @@
               Ngày mua
             </th>
             <th pSortableColumn="status">Trạng thái</th>
+            <th pSortableColumn="status"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-order>
@@ -72,6 +73,12 @@
             </td>
             <td>
               {{ checkString }}
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                (click)="returnOrder(order.id)"></button>
+              <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"></button>
             </td>
           </tr>
         </ng-template>

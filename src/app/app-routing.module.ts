@@ -97,6 +97,7 @@ const routes: Routes = [
       { path: "user-order", component: UserOrderComponent },
       { path: "pay-success", component: PaySuccessComponent },
       { path: "pay-faile", component: PayFaileComponent },
+      { path: "order-details/:id", component: OrderDetailsComponent },
     ],
   },
   /////CLIENT-LINKs

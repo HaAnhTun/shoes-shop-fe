@@ -1,28 +1,31 @@
-<p>return-order works!</p>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <p>return-order works!</p>
 <form [formGroup]="datas">
   <p-table
     [value]="returnOrderDetails.controls"
     formArrayName="returnOrderDetails"
     [(selection)]="selectedOrderDetails"
   >
-    <ng-template pTemplate="header" dataKey="id">
+    <ng-template pTemplate="header" dataKey="id" let-index="rowIndex">
       <tr>
         <th style="width: 4rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          <p-tableHeaderCheckbox class="disabled-row"></p-tableHeaderCheckbox>
         </th>
         <th>Sản phẩm</th>
-        <th>Số lượng</th>
+        <th>Số lượng mua</th>
         <th>Đơn giá</th>
         <th>Phương thức đổi trả</th>
-        <th>Số lượng</th>
+        <th>Số lượng muốn trả</th>
         <th *ngIf="enable">Chọn sản phẩm</th>
         <th>Lý do</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-orderDetail let-index="rowIndex">
-      <tr [formGroupName]="index">
+      <tr [formGroupName]="index" >
         <td>
-          <p-tableCheckbox [value]="orderDetail"></p-tableCheckbox>
+          <p-tableCheckbox (click)="enableRow(index)" [value]="orderDetail"></p-tableCheckbox>
         </td>
         <td>
           {{
@@ -47,6 +50,7 @@
             optionDisabled="selectedOrderDetails[rowIndex]"
             formControlName="type"
             (onChange)="selectedMethod($event.value, index)"
+            [ngClass]="{'disabled-row': isDisable[index]}"
           ></p-dropdown>
         </td>
         <td>
@@ -57,6 +61,7 @@
             [useGrouping]="false"
             [min]="1"
             [max]="orderDetails[index].quantity"
+            [ngClass]="{'disabled-row': isDisable[index]}"
           ></p-inputNumber>
         </td>
         <td *ngIf="enable" formArrayName="returnShoesDetails">
@@ -77,6 +82,7 @@
                 [dropdown]="true"
                 class="col-6"
                 [id]="'auto' + i"
+                [ngClass]="{'disabled-row': isDisable[index]}"
               >
                 <ng-template let-country pTemplate="item">
                   <div class="flex align-items-center gap-2">
@@ -95,14 +101,24 @@
                 placeholder="Nhập số lượng"
                 formControlName="quantity"
                 [useGrouping]="false"
-                class="col-5"
+                class="col-4"
+                [ngClass]="{'disabled-row': isDisable[index]}"
               >
               </p-inputNumber>
+              <p-button
+                (onClick)="deleteShoesDetails(index,i)"
+                *ngIf="i != 0"
+                class="col-1"
+                icon="pi pi-minus"
+                [ngClass]="{'disabled-row': isDisable[index]}"
+              >
+              </p-button>
               <p-button
                 *ngIf="i + 1 == shoesReturnDetails(index).value.length"
                 (onClick)="addShoesDetails(index)"
                 class="col-1"
                 icon="pi pi-plus"
+                [ngClass]="{'disabled-row': isDisable[index]}"
               >
               </p-button>
             </div>
@@ -110,6 +126,7 @@
         </td>
         <td>
           <textarea
+          [ngClass]="{'disabled-row': isDisable[index]}"
             rows="5"
             cols="30"
             type="text"
@@ -124,3 +141,7 @@
 </form>
 <p-button label="Gửi yêu cầu" (onClick)="submitOrder()" ></p-button>
 <pre>{{ datas.value | json }}</pre>
+
+    </div>
+  </div>
+</div>

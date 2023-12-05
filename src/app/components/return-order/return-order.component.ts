@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, NgModule, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
 
@@ -19,6 +19,7 @@ export class ReturnOrderComponent implements OnInit {
   selectedCountry: any;
   filteredCountries: any[] | undefined;
   disabledRows: Set<number> = new Set<number>();
+  isDisable: boolean[] = [];
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -39,6 +40,7 @@ export class ReturnOrderComponent implements OnInit {
           // returnShoesDetails.push(this.initReturnShoesDetails());
           this.returnOrderDetails.push(orderdetail);
           this.enable.push(false);
+          this.isDisable.push(true)
         }
       });
     this.fetchProducts();
@@ -56,6 +58,14 @@ export class ReturnOrderComponent implements OnInit {
         name: "Trả hàng",
       },
     ];
+  }
+  enableRow(index:number){
+     
+    if(this.isDisable[index]){
+      this.isDisable[index] = false;
+    }else{
+      this.isDisable[index] = true;
+    }
   }
   datas : FormGroup;
   get returnOrderDetails() {
@@ -75,16 +85,16 @@ export class ReturnOrderComponent implements OnInit {
   initReturnOrderDetails(data: { id: any }) {
     return this.fb.group({
       orderDetailsId: [data.id],
-      returnQuantity: [""],
-      reason: [""],
-      type: [""],
+      returnQuantity: ["",Validators.required],
+      reason: ["",Validators.required],
+      type: ["",Validators.required],
       returnShoesDetails: this.fb.array<FormArray>([]),
     });
   }
   initReturnShoesDetails() {
     return this.fb.group({
       shoesDetailsId: [""],
-      quantity: [""],
+      quantity: ["",Validators.required],
       price: [""],
       discount: [""],
     });
@@ -129,6 +139,12 @@ export class ReturnOrderComponent implements OnInit {
     console.log(index);
     this.shoesReturnDetails(index).push(this.initReturnShoesDetails());
   }
+  deleteShoesDetails(index1:number,index2:number){
+    if(this.shoesReturnDetails(index1).controls.length > 1){
+      this.shoesReturnDetails(index1).removeAt(index2);
+    }
+    
+  }
   selectedMethod(data: number, index: number) {
     if (data == 1) {
       this.enable[index] = true;
@@ -138,7 +154,7 @@ export class ReturnOrderComponent implements OnInit {
         ) as FormArray
       ).push(this.initReturnShoesDetails());
     } else {
-      this.enable[index] = true;
+      this.enable[index] = false;
       (
         (this.returnOrderDetails.at(index) as FormGroup).get(
           "returnShoesDetails"
