@@ -153,7 +153,12 @@ export class ReturnOrderComponent implements OnInit {
   }
   fetchProducts() {
     this.http
-      .get<any>("http://localhost:8088/api/shoes-details/shop")
+      .post<any>("http://localhost:8088/api/shoes-details/shop", {
+        sizeIds: [],
+        brandId: null,
+        startPrice: 1,
+        endPrice: 10000000,
+      })
       .subscribe(
         (data) => {
           this.shoesDetails = data;
