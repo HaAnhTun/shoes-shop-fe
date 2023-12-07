@@ -37,6 +37,7 @@ import { PaySuccessComponent } from "./components/client/pay-success/pay-success
 import { PayFaileComponent } from "./components/client/pay-faile/pay-faile.component";
 import { ShoesComponent } from "./components/shoes/shoes.component";
 import { FeedbackManagComponent } from "./components/feedback-manag/feedback-manag.component";
+import { ProfileComponent } from "./components/client/profile/profile.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -88,6 +89,7 @@ const routes: Routes = [
       { path: "user-order", component: UserOrderComponent },
       { path: "pay-success", component: PaySuccessComponent },
       { path: "pay-faile", component: PayFaileComponent },
+      { path: "profile", component: ProfileComponent },
     ],
   },
   /////CLIENT-LINKs

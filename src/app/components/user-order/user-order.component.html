@@ -1,95 +1,121 @@
-<h2 style="text-align: center; margin: 20px 0;">Đơn hàng của bạn</h2>
+<div class="container">
+  <h2 style="text-align: center; margin: 20px 0;">Đơn hàng của bạn</h2>
 
-<ul class="nav nav-tabs" role="tablist">
-  <li
-    *ngFor="let item of listMenuItems"
-    class="nav-item"
-    role="presentation"
-    style="width: 16.66%; cursor: pointer"
-  >
-    <a
-      class="nav-link"
-      data-bs-toggle="tab"
-      aria-selected="false"
-      role="tab"
-      tabindex="-1"
-      style="display: flex; align-items: center; justify-content: center; height: 50px;"
-      (click)="clickListOder(item.name)"
-      [class]="checkString == item.name ? 'text-primaryy' : ''"
-    >
-      {{ item.name }}
-    </a>
-  </li>
-</ul>
+  <ul class="nav nav-tabs" role="tablist">
+    <li *ngFor="let item of listMenuItems" class="nav-item" role="presentation" style="width: 16.66%; cursor: pointer">
+      <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
+        style="display: flex; align-items: center; justify-content: center; height: 50px;"
+        (click)="clickListOder(item.name)" [class]="checkString == item.name ? 'text-primaryy' : ''">
+        {{ item.name }}
+      </a>
+    </li>
+  </ul>
 
-    <ng-container>
-      <p-table
-        #dt
-        [value]="order"
-        [rows]="5"
-        [paginator]="true"
-        [globalFilterFields]="[
+  <ng-container>
+    <p-table #dt [value]="order" [rows]="5" [paginator]="true" [globalFilterFields]="[
           'name',
           'country.name',
           'representative.name',
           'status'
-        ]"
-        [tableStyle]="{ 'min-width': '75rem' }"
-        [rowHover]="true"
-        dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 4rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
-            <th pSortableColumn="quantity">Số lượng</th>
-            <th pSortableColumn="price">Tổng tiền</th>
-            <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
-              Ngày mua
-            </th>
-            <th pSortableColumn="status">Trạng thái</th>
-            <th style="width: 5rem"></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-order>
-          <tr>
-            <td>
-              <p-tableCheckbox [value]="order"></p-tableCheckbox>
-            </td>
-            <td>{{ order.code }}</td>
-            <td>1</td>
-            <td>
-              {{ order.totalPrice | currency : "VND" }}
-            </td>
-            <td>
-              {{ order.createdDate | date : "dd-MM-yyyy" }}
-            </td>
-            <td>
-              {{ checkString }}
-            </td>
-            <td>
-              <button type="button" pButton pRipple [pRowToggler]="user"
-                  class="p-button-text p-button-rounded p-button-plain"
-                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-left'"
-                  (click)="!expanded && getProduct(order.code)"></button>
-            </td> 
-          </tr>
-          
-        </ng-template>
-        <ng-template pTemplate="summary">
-          <div style="text-align: right">
-            <p-button
-              label="Hủy"
-              styleClass="p-button-outlined"
-              *ngIf="
-                checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
-              "
-            ></p-button>
-          </div>
-        </ng-template>
-      </p-table>
-    </ng-container>
+        ]" [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
+          <th pSortableColumn="price">Tổng tiền</th>
+          <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
+            Ngày mua
+          </th>
+          <th pSortableColumn="status">Trạng thái</th>
+          <th style="width: 5rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="order"></p-tableCheckbox>
+          </td>
+          <td>{{ order.code }}</td>
+          <td>
+            {{ order.totalPrice | currency : "VND" }}
+          </td>
+          <td>
+            {{ order.createdDate | date : "dd-MM-yyyy" }}
+          </td>
+          <td>
+            {{ checkString }}
+          </td>
+          <td>
+            <button type="button" pButton pRipple [pRowToggler]="order"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-left'"
+              (click)="!expanded && getShoes(order.code)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-order>
+        <tr>
+          <td colspan="7">
+            <div class="p-3">
+              <p-table [value]="orderDetailData[order.code]" dataKey="code" [rows]="5" [paginator]="true"
+                [tableStyle]="{ 'min-width': '60rem' }">
+                <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="image">
+            <div class="th">Ảnh</div>
+          </th>
+          <th pSortableColumn="nameShoes">
+            <div class="th">Thông tin sản phẩm</div>
+          </th>
+          <th pSortableColumn="price">
+            <div class="th">Giá</div>
+          </th>
+          <th pSortableColumn="quantity">
+            <div class="th">Số lượng</div>
+          </th>
+          <th style="width: 4rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-orderDetailData>
+        <tr>
+          <td>
+            <img
+              [src]="orderDetailData.path"
+              [alt]=""
+              width="100"
+              height="100"
+              class="shadow-4"
+            />
+          </td>
+          <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
+          <td>
+            <div><span>Tên giày:</span> {{ orderDetailData.nameshoes }}</div>
+            <div><span>Hãng:</span> {{ orderDetailData.namebrand }}</div>
+            <div><span>Size:</span> {{ orderDetailData.namesize }}</div>
+            <div><span>Màu:</span> {{ orderDetailData.namecolor }}</div>
+          </td>
+          <td>
+            <span>{{ orderDetailData.priceShoes }}</span>
+          </td>
+          <td>{{ orderDetailData.quantity }}</td>
+          <td><p-button type="button">Mua lại</p-button></td>
+        </tr>
+      </ng-template>
+    </p-table>
+</div>
+</td>
+</tr>
+</ng-template>
+<ng-template pTemplate="summary">
+  <div style="text-align: right">
+    <p-button label="Hủy" styleClass="p-button-outlined" *ngIf="
+                  checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
+                "></p-button>
+  </div>
+</ng-template>
+</p-table>
+</ng-container>
+</div>

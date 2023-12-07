@@ -11,6 +11,7 @@ import { ProductService } from "src/app/product.service";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 import { OrderService } from "src/app/service/order.service";
 import { PayService } from "src/app/service/pay.service";
+import { UserDataService } from "src/app/service/user-data.service";
 
 @Component({
   selector: "app-pay",
@@ -40,37 +41,34 @@ export class PayComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private productService: ProductService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private userDataService: UserDataService
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
-    console.log(this.checkCartDetailCustom);
-    if (sessionStorage.getItem("access_token") != null){
-      this.getAccount();
-    }
   }
 
   ngOnInit() {
-    console.log(this.checkCartDetailCustom)
     this.checkCartDetailCustom.map((customer) => {
       this.totalPrice = this.totalPrice + customer.price * customer.quantity;
     });
     this.totalPayment = this.totalPrice * 1.08;
-
-    // if (this.user != null){
-    //   this.fullName = this.user. this.user.firstName
-    // }
-  }
-
-  getAccount() {
-    this.http.get("http://localhost:8088/api/account").subscribe((response) => {
-      console.log("Response:", response);
-      this.user = response;
-    });
+    if (sessionStorage.getItem("access_token") != null) {
+      this.http.get("http://localhost:8088/api/account").subscribe(
+      (response: any) => {
+        this.user = response
+        if (this.user != null) {
+          console.log("hihi")
+          console.log(this.user)
+          this.fullName = this.user.lastName + " " + this.user.firstName;
+          this.emailAddress = this.user.email;
+        }
+      });
+    }
   }
 
   updateShippingCost(cost: number) {
-    this.totalPayment = (this.totalPrice + this.shippingCost)*1.08; // Cập nhật tổng giá
+    this.totalPayment = (this.totalPrice + this.shippingCost) * 1.08; // Cập nhật tổng giá
   }
 
   payment() {
@@ -78,7 +76,7 @@ export class PayComponent implements OnInit {
       this.saveOrder();
     } else {
       let idUser = null;
-      if(this.user != null){
+      if (this.user != null) {
         idUser = this.user.id
       }
       this.arrSanPham = this.checkCartDetailCustom
@@ -87,7 +85,6 @@ export class PayComponent implements OnInit {
       this.arrQuantity = this.checkCartDetailCustom
         .map((any) => any.quantity)
         .join("b");
-        console.log(this.user)
       this.payService
         .createPayment(
           this.totalPayment,
@@ -153,7 +150,6 @@ export class PayComponent implements OnInit {
         });
       },
       (error) => {
-        console.log(error);
         this.messageService.add({
           severity: "error",
           summary: "Lỗi",
