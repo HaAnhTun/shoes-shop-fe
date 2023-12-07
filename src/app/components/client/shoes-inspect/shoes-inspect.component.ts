@@ -285,6 +285,9 @@ export class ShoesInspectComponent {
           namesize: this.shoesDetails.size_name,
           namecolor: this.shoesDetails.color_name,
           nameshoes: this.shoesDetails.name,
+          discountamount_1_2: 0,
+          discountamount_3_4: 0,
+          discountmethod: 0,
           checkBox: false,
         };
         sessionStorage.setItem(

@@ -50,8 +50,17 @@ export class PayComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkCartDetailCustom.map((customer) => {
-      this.totalPrice = this.totalPrice + customer.price * customer.quantity;
+    this.checkCartDetailCustom.map((c) => {
+      this.totalPrice =
+        c.discountmethod === 1
+          ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
+          : c.discountmethod === 2
+          ? this.totalPrice +
+            (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
+          : c.discountmethod === 3
+          ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
+          : this.totalPrice +
+            (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity;
     });
     this.totalPayment = this.totalPrice * 1.08;
     if (sessionStorage.getItem("access_token") != null) {
