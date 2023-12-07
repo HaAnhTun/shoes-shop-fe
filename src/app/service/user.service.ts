@@ -22,6 +22,7 @@ export class UserService {
   }
 
   getOrderByStatusAndOwnerLogin(status : Number, login : string){
+    console.log(this.baseUrl + "/users/find?status=" + status + '&login=' + login)
     return this.http.get<any>(this.baseUrl + "/users/find?status=" + status + '&login=' + login)
   }
 
