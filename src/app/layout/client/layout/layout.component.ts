@@ -1,5 +1,8 @@
-import { Component } from "@angular/core";
-import { Subscription } from "rxjs";
+import {
+  AfterContentChecked,
+  ChangeDetectorRef,
+  Component,
+} from "@angular/core";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 @Component({
@@ -7,13 +10,19 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.css"],
 })
-export class LayoutComponent {
+export class LayoutComponent implements AfterContentChecked {
   dataFromChild: string;
-  private subscription: Subscription;
 
-  constructor(private cartDetailCustomerService: CartDetailCustomerService) {
-    this.subscription = this.cartDetailCustomerService
+  constructor(
+    private cartDetailCustomerService: CartDetailCustomerService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.cartDetailCustomerService
       .getData()
       .subscribe((data) => (this.dataFromChild = data));
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 }
