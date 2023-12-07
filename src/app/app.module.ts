@@ -99,9 +99,7 @@ import { FeedbackManagComponent } from "./components/feedback-manag/feedback-man
 import { ColorRemovedComponent } from "./components/color-removed/color-removed.component";
 import { SizeRemovedComponent } from "./components/size-removed/size-removed.component";
 import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
-import { ShoesComponent } from './components/shoes/shoes.component';
-import { FeedbackManagComponent } from './components/feedback-manag/feedback-manag.component';
-import { ProfileComponent } from './components/client/profile/profile.component';
+import { ProfileComponent } from "./components/client/profile/profile.component";
 @NgModule({
   declarations: [
     AppComponent,
