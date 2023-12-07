@@ -32,6 +32,7 @@ export class CartComponent implements OnInit {
   ngOnInit() {
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
+        console.log(Response);
         this.cartDetails = Response;
         this.cartDetails
           .filter((c) => c.quantity > c.quantityShoesDetail)
@@ -400,7 +401,19 @@ export class CartComponent implements OnInit {
     this.tongTien = 0;
     this.cartDetails
       .filter((c) => c.checkBox === true)
-      .map((c) => (this.tongTien = this.tongTien + c.price * c.quantity));
+      .map(
+        (c) =>
+          (this.tongTien =
+            c.discountmethod === 1
+              ? this.tongTien + (c.price - c.discountamount_1_2) * c.quantity
+              : c.discountmethod === 2
+              ? this.tongTien +
+                (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
+              : c.discountmethod === 3
+              ? this.tongTien + (c.price - c.discountamount_3_4) * c.quantity
+              : this.tongTien +
+                (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity)
+      );
   }
   checkQuanityAll() {
     if (sessionStorage.getItem("access_token") != null) {
