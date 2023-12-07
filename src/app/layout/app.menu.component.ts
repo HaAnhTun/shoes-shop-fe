@@ -5,12 +5,12 @@ import { LayoutService } from "./service/app.layout.service";
 @Component({
   selector: "app-menu",
   templateUrl: "./app.menu.component.html",
-  styleUrls: ["./app.menu.component.css"]
+  styleUrls: ["./app.menu.component.css"],
 })
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) { }
+  constructor(public layoutService: LayoutService) {}
 
   ngOnInit() {
     this.model = [
@@ -30,9 +30,13 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Quản lý hóa đơn",
             icon: "pi pi-fw pi-shopping-bag",
-            routerLink: ["/admin/oder"],
+            routerLink: ["/admin/orders"],
           },
-
+          {
+            label: "Quản lý dổi trả",
+            icon: "pi pi-fw pi-shopping-bag",
+            routerLink: ["/admin/order-returns"],
+          },
         ],
       },
       {
@@ -74,6 +78,11 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-briefcase",
                 routerLink: ["/admin/brand"],
               },
+              {
+                label: "Đã xóa",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/removedBrand"],
+              },
             ],
           },
           {
@@ -84,7 +93,12 @@ export class AppMenuComponent implements OnInit {
                 label: "Màu sắc",
                 icon: "pi pi-fw pi-circle-fill",
                 routerLink: ["/admin/color"],
-              }
+              },
+              {
+                label: "Đã xóa",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/removedColor"],
+              },
             ],
           },
           {
@@ -95,6 +109,11 @@ export class AppMenuComponent implements OnInit {
                 label: "Size",
                 icon: "pi pi-fw pi-sitemap",
                 routerLink: ["/admin/size"],
+              },
+              {
+                label: "Đã xóa",
+                icon: "pi pi-fw pi-circle-fill",
+                routerLink: ["/admin/removedSize"],
               },
             ],
           },
@@ -114,7 +133,6 @@ export class AppMenuComponent implements OnInit {
             routerLink: ["/admin/feedback"],
           },
         ],
-
       },
       {
         label: "Giảm giá và vouchers",

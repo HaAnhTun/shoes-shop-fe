@@ -15,6 +15,9 @@ export class BrandService {
   getBrand() {
     return this.http.get(this.apiUrl);
   }
+  getBrandRemoved() {
+    return this.http.get(this.apiUrl + '/removed');
+  }
   editBrand(brand: BrandData): Observable<BrandData> {
       const updateUrl = `${this.apiUrl}/${brand.id}`;
       return this.http.put<BrandData>(updateUrl, brand);

@@ -25,8 +25,14 @@
     </div>
     <div class="col-6 mb:col-6 py-3 lg:pl-6">
       <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{shoesDetails.name}}</div>
-      <div class="flex align-items-center justify-content-between mb-5"><span
-          class="text-900 font-medium text-3xl block">{{shoesDetails.price | currency : 'VND' }}</span>
+      <div class="flex align-items-center justify-content-between mb-5">
+        <span class="text-900 font-medium text-3xl block">{{ shoesDetails.discount_method ?
+          (shoesDetails.discount_method == 1 ||
+          shoesDetails.discount_method == 3
+          ? (shoesDetails.price - shoesDetails.discount_amount | currency : 'VND')
+          : shoesDetails.price -
+          (shoesDetails.discount_amount / 100) * shoesDetails.price | currency : 'VND' )
+          : shoesDetails.price | currency : 'VND' }}</span>
         <div class="flex align-items-center"><span class="mr-3"><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i
               class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star-fill text-yellow-500 mr-1"></i><i
               class="pi pi-star-fill text-yellow-500 mr-1"></i><i class="pi pi-star text-700 mr-1"></i></span><span
