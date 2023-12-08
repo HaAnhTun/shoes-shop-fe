@@ -93,6 +93,7 @@ export class CartComponent implements OnInit {
         if (cartDetailCustoms) {
           let datas = JSON.parse(cartDetailCustoms);
           this.cartDetails = datas;
+          console.log(datas);
           this.cartDetails
             .filter((c) => c.quantity > c.quantityShoesDetail)
             .forEach((c) => (c.status = 0));
@@ -103,6 +104,7 @@ export class CartComponent implements OnInit {
     }
   }
   addQuanity(id: number) {
+    console.log(this.cartDetails);
     if (sessionStorage.getItem("access_token") != null) {
       let check = null;
       this.cartDetails
