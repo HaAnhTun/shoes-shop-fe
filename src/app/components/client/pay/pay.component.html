@@ -278,7 +278,7 @@
     <div class="section order-summary">
       <div style="margin-top: 1vw">
         <div>Tổng giá: {{ totalPrice }}đ</div>
-        <div>Thuế: {{ totalPrice * 0.08 | number : "1.0-0" }}đ</div>
+        <div>Thuế: {{ this.tax | number : "1.0-0" }}đ</div>
         <div>phí ship: {{ shippingCost }}đ</div>
         <div>
           Tổng tiền cần thanh toán: {{ totalPayment | number : "1.0-0" }}đ

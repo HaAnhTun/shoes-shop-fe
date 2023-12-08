@@ -23,6 +23,7 @@ export class PayComponent implements OnInit {
   shippingCost: number = 0; // Phí giao hàng ban đầu là 0
   totalPrice: number = 0;
   totalPayment: number = 0;
+  tax: number = 0;
 
   fullName: string = "";
   phoneNumber: string = "";
@@ -62,23 +63,26 @@ export class PayComponent implements OnInit {
           : this.totalPrice +
             (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity;
     });
-    this.totalPayment = this.totalPrice * 1.08;
+    this.tax = this.totalPrice * 0.08;
+    this.totalPayment = this.totalPrice + this.tax;
     if (sessionStorage.getItem("access_token") != null) {
-      this.http.get("http://localhost:8088/api/account").subscribe(
-      (response: any) => {
-        this.user = response
-        if (this.user != null) {
-          console.log("hihi")
-          console.log(this.user)
-          this.fullName = this.user.lastName + " " + this.user.firstName;
-          this.emailAddress = this.user.email;
-        }
-      });
+      this.http
+        .get("http://localhost:8088/api/account")
+        .subscribe((response: any) => {
+          this.user = response;
+          if (this.user != null) {
+            console.log("hihi");
+            console.log(this.user);
+            this.fullName = this.user.lastName + " " + this.user.firstName;
+            this.emailAddress = this.user.email;
+          }
+        });
     }
   }
 
   updateShippingCost(cost: number) {
-    this.totalPayment = (this.totalPrice + this.shippingCost) * 1.08; // Cập nhật tổng giá
+    this.tax = (this.totalPrice + this.shippingCost) * 0.08;
+    this.totalPayment = this.totalPrice + this.shippingCost + this.tax; // Cập nhật tổng giá
   }
 
   payment() {
@@ -87,7 +91,7 @@ export class PayComponent implements OnInit {
     } else {
       let idUser = null;
       if (this.user != null) {
-        idUser = this.user.id
+        idUser = this.user.id;
       }
       this.arrSanPham = this.checkCartDetailCustom
         .map((any) => any.shoesdetailid)
