@@ -19,9 +19,9 @@ export class MenuComponent implements OnInit {
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getCount().subscribe((Response) => {
         this.quanity = Response;
+        console.log(this.quanity);
       });
-    }
-    if (sessionStorage.getItem("cartDetailCustoms") != null) {
+    } else {
       let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
       if (cartDetailCustoms) {
         let datas = JSON.parse(cartDetailCustoms);
