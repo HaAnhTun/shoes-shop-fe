@@ -31,6 +31,7 @@
           </th>
           <th pSortableColumn="status">Trạng thái</th>
           <th style="width: 5rem"></th>
+          <th style="width: 5rem"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-order>
@@ -53,6 +54,23 @@
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-left'"
               (click)="!expanded && getShoes(order.code)"></button>
+          </td>
+          <td>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-shopping-cart"
+              class="p-button-rounded p-button-primry mr-2"
+              (click)="returnOrder(order.id)"
+              *ngIf="checkString == 'Hoàn thành'"
+            ></button>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-eye"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="showOderDetails(order.id)"
+            ></button>
           </td>
         </tr>
       </ng-template>
@@ -101,23 +119,7 @@
             <span>{{ orderDetailData.priceShoes }}</span>
           </td>
           <td>{{ orderDetailData.quantity }}</td>
-          <td>
-            <button
-              pButton
-              pRipple
-              icon="pi pi-shopping-cart"
-              class="p-button-rounded p-button-primry mr-2"
-              (click)="returnOrder(order.id)"
-              *ngIf="checkString == 'Hoàn thành'"
-            ></button>
-            <button
-              pButton
-              pRipple
-              icon="pi pi-eye"
-              class="p-button-rounded p-button-success mr-2"
-              (click)="showOderDetails(order.id)"
-            ></button>
-          </td>
+          
         </tr>
       </ng-template>
     </p-table>
