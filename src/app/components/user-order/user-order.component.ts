@@ -1,12 +1,18 @@
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { Router, RouterLinkActive } from "@angular/router";
 import { rejects } from "assert";
 import { error, log } from "console";
 import { resolve } from "path";
 import { Order } from "src/app/model/Order";
 import { OrderSearchReq } from "src/app/model/OrderSearchReq";
+import { Shoes } from "src/app/model/Shoes";
 import { LoginService } from "src/app/service/login.service";
 import { OrderService } from "src/app/service/order.service";
 import { UserService } from "src/app/service/user.service";
+import { ShoesDetail } from "../shoes-detail-add/shoes-detail-add.component";
+import { OrderDetals } from "src/app/model/OrderDetails";
+import { OrderDetailCustom } from "src/app/model/OrderDetailCustom";
 
 @Component({
   selector: "app-user-order",
@@ -26,10 +32,14 @@ export class UserOrderComponent implements OnInit {
   orderSearchReqDTO: OrderSearchReq = {
     status: 0,
   };
+  orderDetailData: { [orderCode: string]: OrderDetailCustom[]} ={}
+  orderQuantity: Map<any, any>;
   constructor(
     private userService: UserService,
     private orderService: OrderService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private http: HttpClient,
+    private router: Router
   ) {
     this.listMenuItems = [
       { code: 0, name: "Chờ xác nhận", quantity: 0 },
@@ -49,11 +59,31 @@ export class UserOrderComponent implements OnInit {
       } else {
         console.error("Access token is null");
       }
+      this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    this.fetchQuantityOrder();
   }
-  
+  showOderDetails(id: number) {
+    this.router.navigate(["/client/order-details/" + id]);
+  }
+  returnOrder(id: number) {
+    this.router.navigate(["/client/return-order/" + id]);
+  }
+  fetchQuantityOrder(): void {
+    this.http
+      .get("http://localhost:8088/api/orders/quantity")
+      .subscribe((res) => {
+        this.orderQuantity = new Map(Object.entries(res));
+        for (let i = 0; i < this.listMenuItems.length; i++) {
+          if (this.orderQuantity.has(this.listMenuItems[i].code + ""))
+            this.listMenuItems[i].quantity = this.orderQuantity.get(
+              this.listMenuItems[i].code + ""
+            );
+        }
+      });
+  }
   findByLogin(status: number, login: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.userService.getOrderByStatusAndOwnerLogin(status, login).subscribe(
@@ -101,5 +131,14 @@ export class UserOrderComponent implements OnInit {
       this.checkOne = false;
     }
     await this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
+  }
+
+  getShoes(orderCode: string){
+      this.orderService.getOrderDetailByOrderCode(orderCode).subscribe(
+        (response) => {
+          this.orderDetailData[orderCode] = response
+          console.log(response)
+        }
+      )
   }
 }

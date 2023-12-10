@@ -27,7 +27,7 @@ export class PayService {
     .set('email', email)
     .set('address', address)
     .set('shipPrice', shipPrice.toString())
-    .set('idOwner', idOwner.toString())
+    .set('idOwner', idOwner)
     .set('arrSanPham', arrSanPham)
     .set('arrQuantity', arrQuantity);
     return this.http.get("http://localhost:8088/api/create-payment", {

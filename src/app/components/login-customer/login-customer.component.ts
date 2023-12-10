@@ -1,31 +1,31 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { AppConstants } from 'src/app/app-constants';
-import { Login } from 'src/app/dto/login';
-import { LoginService } from 'src/app/service/login.service';
+import { HttpClient } from "@angular/common/http";
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { AppConstants } from "src/app/app-constants";
+import { Login } from "src/app/dto/login";
+import { LoginService } from "src/app/service/login.service";
 
 @Component({
-  selector: 'app-login-customer',
-  templateUrl: './login-customer.component.html',
-  styleUrls: ['./login-customer.component.css']
+  selector: "app-login-customer",
+  templateUrl: "./login-customer.component.html",
+  styleUrls: ["./login-customer.component.css"],
 })
 export class LoginCustomerComponent {
-  loginForm : FormGroup;
+  loginForm: FormGroup;
 
   constructor(
     private router: Router,
     public http: HttpClient,
     private loginservice: LoginService,
     private messageService: MessageService,
-    private fb : FormBuilder
+    private fb: FormBuilder
   ) {
     this.loginForm = this.fb.group({
-      login: ['', Validators.required],
-      passwordHash: ['', Validators.required]
-    })
+      login: ["", Validators.required],
+      passwordHash: ["", Validators.required],
+    });
   }
 
   isValid = true;
@@ -60,6 +60,7 @@ export class LoginCustomerComponent {
     });
   }
   clickOauth2(): void {
+    sessionStorage.setItem("oathu2", "oathu2");
     location.replace(
       AppConstants.BASE_URL_API + "/oauth2/authorization/google"
     );

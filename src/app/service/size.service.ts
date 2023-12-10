@@ -15,6 +15,9 @@ export class SizeService {
   getSize() {
     return this.http.get(this.apiUrl);
   }
+  getSizeRemoved() {
+    return this.http.get(this.apiUrl + '/removed');
+  }
   editSize(Size: SizeData): Observable<SizeData> {
       const updateUrl = `${this.apiUrl}/${Size.id}`;
       return this.http.put<SizeData>(updateUrl, Size);

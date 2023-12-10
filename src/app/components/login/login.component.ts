@@ -20,7 +20,7 @@ export class LoginComponent {
     public http: HttpClient,
     private loginservice: LoginService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
   isValid = true;
 
@@ -31,7 +31,7 @@ export class LoginComponent {
     }
   }
 
-  onLogin() { }
+  onLogin() {}
 
   login() {
     this.loginservice.login(this.loginUser).subscribe({
@@ -53,11 +53,5 @@ export class LoginComponent {
         });
       },
     });
-  }
-  clickOauth2(): void {
-    sessionStorage.setItem("oathu2", "oathu2");
-    location.replace(
-      AppConstants.BASE_URL_API + "/oauth2/authorization/google"
-    );
   }
 }

@@ -136,9 +136,9 @@
           <tr class="headerTable">
             <th style="width: 10rem">Hình ảnh</th>
             <th style="width: 20rem">Sản phẩm</th>
-            <th style="width: 20rem">Giá</th>
+            <th style="width: 25rem">Giá</th>
             <th style="width: 5rem">Số lượng</th>
-            <th style="width: 20rem">Tổng giá</th>
+            <th style="width: 15rem">Tổng giá</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-cartDetails>
@@ -162,15 +162,113 @@
               </div>
             </td>
             <td>
-              {{ cartDetails.price }}
-              đ
+              <div>
+                <span *ngIf="cartDetails.discountmethod === null"
+                  >{{ cartDetails.price }} đ</span
+                >
+                <span
+                  [ngClass]="{
+                    'text-decoration-line-through': cartDetails.discountmethod,
+                    'text-secondary': cartDetails.discountmethod
+                  }"
+                  *ngIf="cartDetails.discountmethod != null"
+                  >{{ cartDetails.price }} đ</span
+                >
+              </div>
+              <div
+                *ngIf="
+                  cartDetails.discountmethod === 1 ||
+                  cartDetails.discountmethod === 3
+                "
+              >
+                Giá sau khuyến mãi
+                <span *ngIf="cartDetails.discountmethod === 1"
+                  >{{ cartDetails.discountamount_1_2 }}đ</span
+                >
+                <span *ngIf="cartDetails.discountmethod === 3"
+                  >{{ cartDetails.discountamount_3_4 }}đ</span
+                >
+              </div>
+              <div
+                *ngIf="
+                  cartDetails.discountmethod === 2 ||
+                  cartDetails.discountmethod === 4
+                "
+              >
+                Giá sau khuyến mãi
+                <span *ngIf="cartDetails.discountmethod === 2"
+                  >{{ cartDetails.discountamount_1_2 }}%</span
+                >
+                <span *ngIf="cartDetails.discountmethod === 4"
+                  >{{ cartDetails.discountamount_3_4 }}%</span
+                >
+              </div>
+              <div *ngIf="cartDetails.discountmethod != null">
+                <span *ngIf="cartDetails.discountmethod === 1">
+                  {{ cartDetails.price - cartDetails.discountamount_1_2 }} đ
+                </span>
+                <span *ngIf="cartDetails.discountmethod === 2">
+                  {{
+                    cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_1_2) / 100
+                  }}
+                  đ
+                </span>
+                <span *ngIf="cartDetails.discountmethod === 3">
+                  {{ cartDetails.price - cartDetails.discountamount_3_4 }} đ
+                </span>
+                <span *ngIf="cartDetails.discountmethod === 4">
+                  {{
+                    cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_3_4) / 100
+                  }}
+                  đ
+                </span>
+              </div>
             </td>
             <td>
               {{ cartDetails.quantity }}
             </td>
             <td>
-              {{ cartDetails.price * cartDetails.quantity }}
-              đ
+              <div>
+                <span *ngIf="cartDetails.discountmethod === null"
+                  >{{ cartDetails.price * cartDetails.quantity }} đ</span
+                >
+              </div>
+              <div *ngIf="cartDetails.discountmethod != null">
+                <span *ngIf="cartDetails.discountmethod === 1">
+                  {{
+                    (cartDetails.price - cartDetails.discountamount_1_2) *
+                      cartDetails.quantity
+                  }}
+                  đ
+                </span>
+                <span *ngIf="cartDetails.discountmethod === 2">
+                  {{
+                    (cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_1_2) /
+                        100) *
+                      cartDetails.quantity
+                  }}
+                  đ
+                </span>
+                <span *ngIf="cartDetails.discountmethod === 3">
+                  {{
+                    (cartDetails.price - cartDetails.discountamount_3_4) *
+                      cartDetails.quantity
+                  }}
+                  đ
+                </span>
+                <span *ngIf="cartDetails.discountmethod === 4">
+                  {{
+                    (cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_3_4) /
+                        100) *
+                      cartDetails.quantity
+                  }}
+                  đ
+                </span>
+              </div>
             </td>
           </tr>
         </ng-template>
@@ -180,9 +278,11 @@
     <div class="section order-summary">
       <div style="margin-top: 1vw">
         <div>Tổng giá: {{ totalPrice }}đ</div>
-        <div>Thuế: {{ totalPrice * 0.08 | number:'1.0-0' }}đ</div>
+        <div>Thuế: {{ this.tax | number : "1.0-0" }}đ</div>
         <div>phí ship: {{ shippingCost }}đ</div>
-        <div>Tổng tiền cần thanh toán: {{ totalPayment | number:'1.0-0' }}đ</div>
+        <div>
+          Tổng tiền cần thanh toán: {{ totalPayment | number : "1.0-0" }}đ
+        </div>
       </div>
     </div>
 

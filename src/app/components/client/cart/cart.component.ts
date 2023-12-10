@@ -18,6 +18,7 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 })
 export class CartComponent implements OnInit {
   cartDetails: CartDetailCustom[] = [];
+  cartDetailsChange: CartDetailCustom[] = [];
   cartDetail: CartDetail;
   tongTien: number = 0;
   cartDetailCustoms: any[] = [];
@@ -31,6 +32,7 @@ export class CartComponent implements OnInit {
   ngOnInit() {
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
+        console.log(Response);
         this.cartDetails = Response;
         this.cartDetails
           .filter((c) => c.quantity > c.quantityShoesDetail)
@@ -91,15 +93,18 @@ export class CartComponent implements OnInit {
         if (cartDetailCustoms) {
           let datas = JSON.parse(cartDetailCustoms);
           this.cartDetails = datas;
+          console.log(datas);
           this.cartDetails
             .filter((c) => c.quantity > c.quantityShoesDetail)
             .forEach((c) => (c.status = 0));
+          this.cartDetails.forEach((c) => (c.checkBox = false));
           this.cartDetailCustomerService.setData("" + this.cartDetails.length);
         }
       }
     }
   }
   addQuanity(id: number) {
+    console.log(this.cartDetails);
     if (sessionStorage.getItem("access_token") != null) {
       let check = null;
       this.cartDetails
@@ -348,7 +353,7 @@ export class CartComponent implements OnInit {
             c.quantity % 1 === 0
         )
         .forEach((c) => (check = c.status = 1));
-      if (check) {
+      if (check != null) {
         this.cartDetails
           .filter((c) => c.checkBox === true)
           .map((c) => this.loadTotalPrice());
@@ -357,14 +362,6 @@ export class CartComponent implements OnInit {
           JSON.stringify(this.cartDetails)
         );
       } else {
-        let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
-        if (cartDetailCustoms) {
-          let datas = JSON.parse(cartDetailCustoms);
-          this.cartDetails = datas;
-          this.cartDetails
-            .filter((c) => c.quantity > c.quantityShoesDetail)
-            .forEach((c) => (c.status = 0));
-        }
         this.cartDetails
           .filter((c) => c.id === id && c.quantity > c.quantityShoesDetail)
           .map((c) =>
@@ -372,7 +369,9 @@ export class CartComponent implements OnInit {
               severity: "warn",
               summary: "Thông báo",
               detail:
-                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng",
+                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng (số lượng tồn còn lại " +
+                c.quantityShoesDetail +
+                ")",
               life: 3000,
             })
           );
@@ -388,6 +387,14 @@ export class CartComponent implements OnInit {
               life: 3000,
             })
           );
+        let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
+        if (cartDetailCustoms) {
+          let datas = JSON.parse(cartDetailCustoms);
+          this.cartDetails = datas;
+          this.cartDetails
+            .filter((c) => c.quantity > c.quantityShoesDetail)
+            .forEach((c) => (c.status = 0));
+        }
       }
     }
   }
@@ -396,7 +403,19 @@ export class CartComponent implements OnInit {
     this.tongTien = 0;
     this.cartDetails
       .filter((c) => c.checkBox === true)
-      .map((c) => (this.tongTien = this.tongTien + c.price * c.quantity));
+      .map(
+        (c) =>
+          (this.tongTien =
+            c.discountmethod === 1
+              ? this.tongTien + (c.price - c.discountamount_1_2) * c.quantity
+              : c.discountmethod === 2
+              ? this.tongTien +
+                (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
+              : c.discountmethod === 3
+              ? this.tongTien + (c.price - c.discountamount_3_4) * c.quantity
+              : this.tongTien +
+                (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity)
+      );
   }
   checkQuanityAll() {
     if (sessionStorage.getItem("access_token") != null) {

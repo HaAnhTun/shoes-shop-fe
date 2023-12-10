@@ -20,8 +20,14 @@
         </ng-template>
 
         <div class="wrap-input100 validate-input">
-          <input class="input100" type="text" name="username" [(ngModel)]="loginUser.login" placeholder="tài khoản"
-            ngModel />
+          <input
+            class="input100"
+            type="text"
+            name="username"
+            [(ngModel)]="loginUser.login"
+            placeholder="tài khoản"
+            ngModel
+          />
           <span class="focus-input100"></span>
           <span class="symbol-input100">
             <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -35,9 +41,10 @@
             class="input100"
             type="password"
             name="password"
-            [(ngModel)]="loginUser.passwordHash" 
-            placeholder="mật khẩu" 
-            ngModel>
+            [(ngModel)]="loginUser.passwordHash"
+            placeholder="mật khẩu"
+            ngModel
+          />
           <span class="focus-input100"></span>
           <span class="symbol-input100">
             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -55,14 +62,6 @@
           <a routerLink="/register" class="">
             <small>Tạo tài khoản</small>
           </a>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: center">
-          <button>
-            <img class="flat-color-icons" src="../../../assets/images/flat-color-icons_google.jpg" />
-            <a (click)="clickOauth2()" class="">
-              <small>Continue with Google</small>
-            </a>
-          </button>
         </div>
       </form>
     </div>

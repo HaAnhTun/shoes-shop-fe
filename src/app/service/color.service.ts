@@ -15,6 +15,10 @@ export class ColorService {
   getColor() {
     return this.http.get(this.apiUrl);
   }
+
+  getColorRemoved() {
+    return this.http.get(this.apiUrl + '/removed');
+  }
   editColor(Color: ColorData): Observable<ColorData> {
       const updateUrl = `${this.apiUrl}/${Color.id}`;
       return this.http.put<ColorData>(updateUrl, Color);
