@@ -10,7 +10,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class ProfileComponent implements OnInit{
   user: any;
-
+  check: boolean = true;
 
   constructor(
     private userService: UserService,
@@ -18,7 +18,13 @@ export class ProfileComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this.getAccount()
+    if(sessionStorage.getItem('access_token') != null){
+      this.getAccount();
+      this.check = true;
+    }else {
+      this.check = false;
+    }
+    
   }
 
   getAccount() {
