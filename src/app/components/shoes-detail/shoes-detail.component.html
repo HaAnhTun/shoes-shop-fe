@@ -43,6 +43,7 @@
                 <th style="width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
+                <th>Image</th>
                 <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
                 <th pSortableColumn="shoes.name" style="min-width:15rem">Tên Sản Phẩm <p-sortIcon
                         field="shoes.name"></p-sortIcon>
@@ -53,9 +54,9 @@
                 <th pSortableColumn="price" style="min-width:10rem">Giá Bán(VNĐ) <p-sortIcon field="price"></p-sortIcon>
                 <th pSortableColumn="quantity" style="min-width:10rem">Số Lượng(đôi) <p-sortIcon
                         field="quantity"></p-sortIcon>
-                <th pSortableColumn="quantity" style="min-width:10rem">Trạng Thái <p-sortIcon
-                        field="quantity"></p-sortIcon>
+                <th pSortableColumn="status" style="min-width:10rem">Trạng Thái<p-sortIcon field="status"></p-sortIcon>
                 </th>
+
                 <th>Action</th>
             </tr>
         </ng-template>
@@ -64,14 +65,17 @@
                 <td>
                     <p-tableCheckbox [value]="product"></p-tableCheckbox>
                 </td>
+                <td><img [src]="product.path" [alt]="product.name" width="50" class="shadow-4" /></td>
                 <td>{{ product.code }}</td>
-                <td>{{ product.shoes.name }}</td>
+                <td>{{ product.name +'[' + product.color_name + '-' + product.size_name +']' }}</td>
                 <td>{{ product.tax }}</td>
                 <td>{{ product.import_price }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.quantity }}</td>
                 <td>
-                    <p-tag [value]="getStatus(product.quantity)" [severity]="getSeverity(product.quantity)"></p-tag>
+                    <p-tag [value]="product.status == 1 ? 'Khả dụng' : 'Không khả dụng'"
+                        [severity]="getSeverityProduct(product.status)">
+                    </p-tag>
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
