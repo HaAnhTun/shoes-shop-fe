@@ -92,16 +92,32 @@
           </td>
           <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
           <td>
-            <div><span>Tên giày:</span> {{ orderDetailData.nameshoes }}</div>
-            <div><span>Hãng:</span> {{ orderDetailData.namebrand }}</div>
-            <div><span>Size:</span> {{ orderDetailData.namesize }}</div>
-            <div><span>Màu:</span> {{ orderDetailData.namecolor }}</div>
+            <div><span>Tên giày:</span> {{ orderDetailData.nameShoes }}</div>
+            <div><span>Hãng:</span> {{ orderDetailData.nameBrand }}</div>
+            <div><span>Size:</span> {{ orderDetailData.nameSize }}</div>
+            <div><span>Màu:</span> {{ orderDetailData.nameColor }}</div>
           </td>
           <td>
             <span>{{ orderDetailData.priceShoes }}</span>
           </td>
           <td>{{ orderDetailData.quantity }}</td>
-          <td><p-button type="button">Mua lại</p-button></td>
+          <td>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-shopping-cart"
+              class="p-button-rounded p-button-primry mr-2"
+              (click)="returnOrder(order.id)"
+              *ngIf="checkString == 'Hoàn thành'"
+            ></button>
+            <button
+              pButton
+              pRipple
+              icon="pi pi-eye"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="showOderDetails(order.id)"
+            ></button>
+          </td>
         </tr>
       </ng-template>
     </p-table>

@@ -9,7 +9,7 @@
                             <div class="img">
                                 <img src="../../../assets/images/users/avatar-1.jpg" alt="">
                             </div>
-                            <div class="chao"><h4>Xin chào {{user?.firstName}}</h4></div>
+                            <div class="chao"><h4>Xin chào {{user?.firstName || ' '}}</h4></div>
                             <a href="your_link_here" class="account">
                                 <i class="pi pi-user"></i>
                                 <p>Thông tin tài khoản</p>
@@ -37,7 +37,7 @@
                                     <div class="title-phone">SĐT: </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="name">{{user?.lastName + ' ' + user?.firstName}}</div>
+                                    <div class="name">{{ (user?.lastName || '') + ' ' + (user?.firstName || '') }}</div>
                                     <div class="email">{{user?.email}}</div>
                                     <div class="dob">5/1/2003</div>
                                     <div class="phone">0979334308</div>

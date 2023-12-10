@@ -79,6 +79,7 @@ export class PayComponent implements OnInit {
           }
         });
     }
+    console.log(this.checkCartDetailCustom)
   }
 
   updateShippingCost(cost: number) {
