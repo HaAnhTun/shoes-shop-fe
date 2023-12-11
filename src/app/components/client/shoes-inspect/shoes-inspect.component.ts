@@ -185,9 +185,11 @@ export class ShoesInspectComponent {
           this.splitPaths(this.shoesDetails.color_ids)
         );
         this.selectedColor = data.color_id;
-        this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
+        this.getFeedBack(
+          this.shoesDetails.shoes_id,
+          this.shoesDetails.brand_id
+        );
         console.log(data);
-
       },
       (error) => {
         console.error("Error fetching product details:", error);
@@ -280,9 +282,12 @@ export class ShoesInspectComponent {
           quantityShoesDetail: this.shoesDetails.quantity,
           price: this.shoesDetails.price,
           shoesdetailid: this.shoesDetails.id,
-          namesize: this.shoesDetails.size_names,
-          namecolor: this.shoesDetails.color_names,
+          namesize: this.shoesDetails.size_name,
+          namecolor: this.shoesDetails.color_name,
           nameshoes: this.shoesDetails.name,
+          discountamount_1_2: this.shoesDetails.discount_amount,
+          discountamount_3_4: this.shoesDetails.discount_amount_3_4,
+          discountmethod: this.shoesDetails.discount_method,
           checkBox: false,
         };
         sessionStorage.setItem(
@@ -293,6 +298,8 @@ export class ShoesInspectComponent {
       }
     }
   }
+
+  clickByNow() {}
 
   mergeLists(names: any[], values: any[]): any[] {
     var Options: any[] = [];
@@ -324,35 +331,40 @@ export class ShoesInspectComponent {
     this.feedbackForm.patchValue({
       user: this.user,
       shoes: this.shoesDetails,
-      status: 0
+      status: 0,
     });
     if (this.feedbackForm.valid) {
-      this.http.post('http://localhost:8088/api/feed-backs', this.feedbackForm.value).subscribe({
-        next: (response) => {
-          console.log('Feedback submitted', response);
-          this.feedbackForm.reset();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Đã gửi feedback',
-            detail: 'Feedback của bạn đã được gửi và chờ phê duyệt'
-          });
-          this.getFeedBack(this.shoesDetails.shoes_id, this.shoesDetails.brand_id)
-        },
-        error: (error) => {
-          console.log(error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Lỗi hệ thống',
-            detail: error.error.title
-          });
-        }
-      });
+      this.http
+        .post("http://localhost:8088/api/feed-backs", this.feedbackForm.value)
+        .subscribe({
+          next: (response) => {
+            console.log("Feedback submitted", response);
+            this.feedbackForm.reset();
+            this.messageService.add({
+              severity: "success",
+              summary: "Đã gửi feedback",
+              detail: "Feedback của bạn đã được gửi và chờ phê duyệt",
+            });
+            this.getFeedBack(
+              this.shoesDetails.shoes_id,
+              this.shoesDetails.brand_id
+            );
+          },
+          error: (error) => {
+            console.log(error);
+            this.messageService.add({
+              severity: "error",
+              summary: "Lỗi hệ thống",
+              detail: error.error.title,
+            });
+          },
+        });
     } else {
       // Hiển thị thông báo lỗi
       this.messageService.add({
-        severity: 'warn',
-        summary: 'Thiếu nội dung đánh giá',
-        detail: 'Vui lòng kiểm tra lại thông tin đánh giá'
+        severity: "warn",
+        summary: "Thiếu nội dung đánh giá",
+        detail: "Vui lòng kiểm tra lại thông tin đánh giá",
       });
     }
   }

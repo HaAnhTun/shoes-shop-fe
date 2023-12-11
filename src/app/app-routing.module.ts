@@ -43,6 +43,8 @@ import { OrderReturnDetailsComponent } from "./components/order-return-details/o
 import { ColorRemovedComponent } from "./components/color-removed/color-removed.component";
 import { SizeRemovedComponent } from "./components/size-removed/size-removed.component";
 import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
+import { ProfileComponent } from "./components/client/profile/profile.component";
+import { CodeForgotPasswordComponent } from "./components/client/code-forgot-password/code-forgot-password.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -104,6 +106,7 @@ const routes: Routes = [
       { path: "pay-success", component: PaySuccessComponent },
       { path: "pay-faile", component: PayFaileComponent },
       { path: "order-details/:id", component: OrderDetailsComponent },
+      { path: "profile", component: ProfileComponent },
     ],
   },
   /////CLIENT-LINKs
@@ -116,6 +119,7 @@ const routes: Routes = [
   { path: "shoes-categories", component: ShoesCategoryComponent },
   { path: "landing", component: LandingComponent },
   { path: "users", component: UserComponent },
+  { path: "nhap-ma", component: CodeForgotPasswordComponent },
   //không được viết path bên dưới thằng **
   { path: "**", component: LoginComponent },
 ];

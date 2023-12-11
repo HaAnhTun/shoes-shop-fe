@@ -78,7 +78,7 @@ export class ShoesDetailComponent {
   }
 
   ngOnInit() {
-    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details").subscribe((response) => { this.products = response });
+    this.http.get<any>(AppConstants.BASE_URL_API + "/api/shoes-details-variants").subscribe((response) => { this.products = response });
     this.statuses = [
       { label: 'Khả dụng', value: 1 },
       { label: 'Không khả dụng', value: 0 },
@@ -167,6 +167,10 @@ export class ShoesDetailComponent {
           this.product.quantity = this.productForm.get('quantity')?.value;
           this.product.description = this.productForm.get('description')?.value;
           this.product.status = this.productForm.get('status')?.value;
+          this.product.brand = { id: this.product.brand_id }
+          this.product.shoes = { id: this.product.shoes_id }
+          this.product.color = { id: this.product.color_id }
+          this.product.size = { id: this.product.size_id }
           console.log(this.product);
           this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes-details/' + this.product.id, this.product).subscribe(response => {
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã cập nhật', life: 3000 });

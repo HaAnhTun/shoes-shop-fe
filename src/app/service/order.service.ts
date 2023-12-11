@@ -42,4 +42,9 @@ export class OrderService {
       withCredentials: true,
     });
   }
+  public getOrderDetailByOrderCode(data: string){
+    return this.http.get<any>(this.baseUrl+"/"+data+"/details",{
+      withCredentials: true,
+    })
+  }
 }

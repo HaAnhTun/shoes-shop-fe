@@ -6,9 +6,13 @@ import { error, log } from "console";
 import { resolve } from "path";
 import { Order } from "src/app/model/Order";
 import { OrderSearchReq } from "src/app/model/OrderSearchReq";
+import { Shoes } from "src/app/model/Shoes";
 import { LoginService } from "src/app/service/login.service";
 import { OrderService } from "src/app/service/order.service";
 import { UserService } from "src/app/service/user.service";
+import { ShoesDetail } from "../shoes-detail-add/shoes-detail-add.component";
+import { OrderDetals } from "src/app/model/OrderDetails";
+import { OrderDetailCustom } from "src/app/model/OrderDetailCustom";
 
 @Component({
   selector: "app-user-order",
@@ -28,6 +32,7 @@ export class UserOrderComponent implements OnInit {
   orderSearchReqDTO: OrderSearchReq = {
     status: 0,
   };
+  orderDetailData: { [orderCode: string]: OrderDetailCustom[]} ={}
   orderQuantity: Map<any, any>;
   constructor(
     private userService: UserService,
@@ -126,5 +131,14 @@ export class UserOrderComponent implements OnInit {
       this.checkOne = false;
     }
     await this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
+  }
+
+  getShoes(orderCode: string){
+      this.orderService.getOrderDetailByOrderCode(orderCode).subscribe(
+        (response) => {
+          this.orderDetailData[orderCode] = response
+          console.log(response)
+        }
+      )
   }
 }

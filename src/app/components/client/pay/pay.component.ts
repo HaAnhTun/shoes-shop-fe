@@ -11,6 +11,7 @@ import { ProductService } from "src/app/product.service";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 import { OrderService } from "src/app/service/order.service";
 import { PayService } from "src/app/service/pay.service";
+import { UserDataService } from "src/app/service/user-data.service";
 
 @Component({
   selector: "app-pay",
@@ -22,6 +23,7 @@ export class PayComponent implements OnInit {
   shippingCost: number = 0; // Phí giao hàng ban đầu là 0
   totalPrice: number = 0;
   totalPayment: number = 0;
+  tax: number = 0;
 
   fullName: string = "";
   phoneNumber: string = "";
@@ -32,6 +34,7 @@ export class PayComponent implements OnInit {
   arrQuantity: string;
   formOrder: any;
   paymentMethod: number = 1;
+  shoesInCart: any
 
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
@@ -40,40 +43,71 @@ export class PayComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private productService: ProductService,
+    private router: Router,
     private orderService: OrderService,
-    private router: Router
+    private userDataService: UserDataService
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
-    console.log(this.checkCartDetailCustom);
-    this.getAccount();
   }
 
   ngOnInit() {
-    this.checkCartDetailCustom.map((customer) => {
-      this.totalPrice = this.totalPrice + customer.price * customer.quantity;
+    this.checkCartDetailCustom.map((c) => {
+      this.totalPrice =
+        c.discountmethod === 1
+          ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
+          : c.discountmethod === 2
+          ? this.totalPrice +
+            (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
+          : c.discountmethod === 3
+          ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
+          : this.totalPrice +
+            (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity;
     });
-    this.totalPayment = this.totalPrice * 1.08;
-  }
-
-  getAccount() {
-    this.http.get("http://localhost:8088/api/account").subscribe((response) => {
-      console.log("Response:", response);
-      this.user = response;
-    });
+    this.tax = this.totalPrice * 0.08;
+    this.totalPayment = this.totalPrice + this.tax;
+    if (sessionStorage.getItem("access_token") != null) {
+      this.http
+        .get("http://localhost:8088/api/account")
+        .subscribe((response: any) => {
+          this.user = response;
+          if (this.user != null) {
+            console.log("hihi");
+            console.log(this.user);
+            this.fullName = this.user.lastName + " " + this.user.firstName;
+            this.emailAddress = this.user.email;
+          }
+        });
+    }
+    console.log(this.checkCartDetailCustom)
   }
 
   updateShippingCost(cost: number) {
-    this.totalPayment = this.totalPrice + this.shippingCost; // Cập nhật tổng giá
+    this.tax = (this.totalPrice + this.shippingCost) * 0.08;
+    this.totalPayment = this.totalPrice + this.shippingCost + this.tax; // Cập nhật tổng giá
   }
 
   payment() {
     if (this.paymentMethod == 1) {
       this.saveOrder();
     } else {
+      let idUser = null;
+      if (this.user != null) {
+        idUser = this.user.id;
+      }else {
+        idUser = 'null'
+      }
       this.arrSanPham = this.checkCartDetailCustom
-        .map((any) => any.id)
+        .map((any) => any.shoesdetailid)
         .join("a");
+      this.shoesInCart = this.checkCartDetailCustom.map((any) => any.shoesdetailid);
+      sessionStorage.setItem(
+        "shoesInCart",
+        JSON.stringify(
+          this.shoesInCart
+        )
+      );
+
       this.arrQuantity = this.checkCartDetailCustom
         .map((any) => any.quantity)
         .join("b");
@@ -85,7 +119,7 @@ export class PayComponent implements OnInit {
           this.emailAddress,
           this.homeAddress,
           this.shippingCost,
-          this.user.id,
+          idUser,
           this.arrSanPham,
           this.arrQuantity
         )
@@ -143,7 +177,6 @@ export class PayComponent implements OnInit {
         this.router.navigate(["/client/pay-success"]);
       },
       (error) => {
-        console.log(error);
         this.messageService.add({
           severity: "error",
           summary: "Lỗi",

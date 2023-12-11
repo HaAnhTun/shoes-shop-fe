@@ -1,0 +1,45 @@
+.content{
+    padding-top: 40px;
+}
+.col-3{
+    background-color: aliceblue;
+}
+.img, .chao{
+    text-align: center;
+    padding-top: 10px;
+}
+/* Remove underline and set color for anchor tags */
+a{
+    text-decoration: none; /* Remove underline */
+    color: black; /* Set text color to blue */
+}
+a:hover{
+    color: blue;
+}
+/* Apply flexbox to each container */
+.account,
+.order,
+.address,
+.sign-out {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    text-align: center; /* Center text horizontally */
+    padding-top: 10px;
+}
+
+/* Add spacing between icon and text */
+.account i,
+.order i,
+.address i,
+.sign-out i {
+    margin-right: 5px; /* Adjust the spacing between icon and text as needed */
+}
+.title, .inf{
+    padding-left: 20px;
+}
+.name, .email, .dob, .phone,
+.title-name, .title-email, .title-dob, .title-phone{
+    font-size: 20px;
+    margin-top: 15px;
+}
