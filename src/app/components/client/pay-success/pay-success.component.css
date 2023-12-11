@@ -1,0 +1,18 @@
+.payment-success {
+    text-align: center;
+    margin-top: 50px;
+    color: #28a745;
+  }
+  
+  .payment-success i {
+    margin-bottom: 20px;
+  }
+  
+  .payment-success h1 {
+    margin-bottom: 15px;
+  }
+  
+  .payment-success p {
+    font-size: 18px;
+  }
+  
