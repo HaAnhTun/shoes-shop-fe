@@ -51,6 +51,16 @@ export class PayComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (
+      this.checkCartDetailCustom.length === 0 &&
+      sessionStorage.getItem("shoesDetailInOder") != null
+    ) {
+      let cartDetailCustoms = sessionStorage.getItem("shoesDetailInOder");
+      if (cartDetailCustoms) {
+        let datas = JSON.parse(cartDetailCustoms);
+        this.checkCartDetailCustom = datas;
+      }
+    }
     this.checkCartDetailCustom.map((c) => {
       this.totalPrice =
         c.discountmethod === 1
@@ -60,8 +70,10 @@ export class PayComponent implements OnInit {
             (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
           : c.discountmethod === 3
           ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
-          : this.totalPrice +
-            (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity;
+          : c.discount_amount === 4
+          ? this.totalPrice +
+            (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity
+          : this.totalPrice + c.price * c.quantity;
     });
     this.tax = this.totalPrice * 0.08;
     this.totalPayment = this.totalPrice + this.tax;

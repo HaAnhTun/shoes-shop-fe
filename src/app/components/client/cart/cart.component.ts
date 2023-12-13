@@ -19,6 +19,7 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 export class CartComponent implements OnInit {
   cartDetails: CartDetailCustom[] = [];
   cartDetailsChange: CartDetailCustom[] = [];
+  cartDetailCustom: CartDetailCustom;
   cartDetail: CartDetail;
   tongTien: number = 0;
   cartDetailCustoms: any[] = [];
@@ -32,7 +33,6 @@ export class CartComponent implements OnInit {
   ngOnInit() {
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
-        console.log(Response);
         this.cartDetails = Response;
         this.cartDetails
           .filter((c) => c.quantity > c.quantityShoesDetail)
@@ -93,7 +93,6 @@ export class CartComponent implements OnInit {
         if (cartDetailCustoms) {
           let datas = JSON.parse(cartDetailCustoms);
           this.cartDetails = datas;
-          console.log(datas);
           this.cartDetails
             .filter((c) => c.quantity > c.quantityShoesDetail)
             .forEach((c) => (c.status = 0));
@@ -104,7 +103,6 @@ export class CartComponent implements OnInit {
     }
   }
   addQuanity(id: number) {
-    console.log(this.cartDetails);
     if (sessionStorage.getItem("access_token") != null) {
       let check = null;
       this.cartDetails
@@ -325,7 +323,9 @@ export class CartComponent implements OnInit {
               severity: "warn",
               summary: "Thông báo",
               detail:
-                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng",
+                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng (số lượng tồn còn lại " +
+                c.quantityShoesDetail +
+                ")",
               life: 3000,
             })
           );
@@ -390,10 +390,13 @@ export class CartComponent implements OnInit {
         let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
         if (cartDetailCustoms) {
           let datas = JSON.parse(cartDetailCustoms);
-          this.cartDetails = datas;
+          this.cartDetailsChange = datas;
+          this.cartDetailsChange
+            .filter((c) => c.id === id)
+            .map((c) => (this.cartDetailCustom = c));
           this.cartDetails
-            .filter((c) => c.quantity > c.quantityShoesDetail)
-            .forEach((c) => (c.status = 0));
+            .filter((c) => c.id === id)
+            .map((c) => (c.quantity = this.cartDetailCustom.quantity));
         }
       }
     }
@@ -545,7 +548,6 @@ export class CartComponent implements OnInit {
           "cartDetailCustoms",
           JSON.stringify(this.cartDetails)
         );
-        this.loadTotalPrice();
         this.messageService.add({
           severity: "warn",
           summary: "Thông báo",
@@ -561,7 +563,7 @@ export class CartComponent implements OnInit {
         .map(
           (c) =>
             (this.cartDetails = this.cartDetails.filter(
-              (item) => (check = item.id != c.id)
+              (item) => (checkDelete = item.id != c.id)
             ))
         );
       if (checkDelete != null) {
@@ -569,7 +571,6 @@ export class CartComponent implements OnInit {
           "cartDetailCustoms",
           JSON.stringify(this.cartDetails)
         );
-        this.loadTotalPrice();
         this.messageService.add({
           severity: "warn",
           summary: "Thông báo",
@@ -578,9 +579,13 @@ export class CartComponent implements OnInit {
           life: 5000,
         });
       }
+      this.loadTotalPrice();
     }
   }
   pay() {
+    if (sessionStorage.getItem("shoesDetailInOder") != null) {
+      sessionStorage.removeItem("shoesDetailInOder");
+    }
     let checkPay = false;
     this.cartDetails
       .filter((c) => c.checkBox === true)
@@ -598,6 +603,10 @@ export class CartComponent implements OnInit {
         .map((c) => this.cartDetailCustoms.push(c));
       this.cartDetailCustomerService.setCartDetailCustomerService(
         this.cartDetailCustoms
+      );
+      sessionStorage.setItem(
+        "shoesDetailInOder",
+        JSON.stringify(this.cartDetailCustoms)
       );
       this.router.navigate(["/client/pay"]);
     }
