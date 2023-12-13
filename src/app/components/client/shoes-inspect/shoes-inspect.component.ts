@@ -49,6 +49,7 @@ export class ShoesInspectComponent {
   cartDetails: CartDetail[];
   cartDetailCustoms: CartDetailCustom[] = [];
   cartDetailCustom: CartDetailCustom;
+  shoesOder: any[] = [];
   check: any = null;
   sizeOptions: any[] = [
     { name: "31", value: 1 },
@@ -299,7 +300,35 @@ export class ShoesInspectComponent {
     }
   }
 
-  clickByNow() {}
+  clickByNow() {
+    if (sessionStorage.getItem("shoesDetailInOder") != null) {
+      sessionStorage.removeItem("shoesDetailInOder");
+    }
+    this.cartDetailCustom = {
+      id: this.shoesDetails.id,
+      idsh: this.shoesDetails.shoes_id,
+      idsz: this.shoesDetails.size_id,
+      idc: this.shoesDetails.color_id,
+      idb: this.shoesDetails.brand_id,
+      path: this.shoesDetails.path,
+      status: 1,
+      quantity: this.quantity,
+      quantityShoesDetail: this.shoesDetails.quantity,
+      price: this.shoesDetails.price,
+      shoesdetailid: this.shoesDetails.id,
+      namesize: this.shoesDetails.size_name,
+      namecolor: this.shoesDetails.color_name,
+      nameshoes: this.shoesDetails.name,
+      discountamount_1_2: this.shoesDetails.discount_amount,
+      discountamount_3_4: this.shoesDetails.discount_amount_3_4,
+      discountmethod: this.shoesDetails.discount_method,
+      checkBox: false,
+    };
+    this.shoesOder.push(this.cartDetailCustom);
+    this.cartDetailCustomerService.setCartDetailCustomerService(this.shoesOder);
+    sessionStorage.setItem("shoesDetailInOder", JSON.stringify(this.shoesOder));
+    this.router.navigate(["/client/pay"]);
+  }
 
   mergeLists(names: any[], values: any[]): any[] {
     var Options: any[] = [];

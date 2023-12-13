@@ -6,6 +6,7 @@ import { MessageService } from "primeng/api";
 import { AppConstants } from "src/app/app-constants";
 import { Login } from "src/app/dto/login";
 import { LoginService } from "src/app/service/login.service";
+import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 @Component({
   selector: "app-login-customer",
@@ -20,7 +21,8 @@ export class LoginCustomerComponent {
     public http: HttpClient,
     private loginservice: LoginService,
     private messageService: MessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cartDetailCustomerService: CartDetailCustomerService
   ) {
     this.loginForm = this.fb.group({
       login: ["", Validators.required],
@@ -31,7 +33,10 @@ export class LoginCustomerComponent {
   isValid = true;
 
   ngOnInit(): void {
-    sessionStorage.removeItem("access_token");
+    if (sessionStorage.getItem("access_token") != null) {
+      this.cartDetailCustomerService.setData("0");
+      sessionStorage.clear();
+    }
     if (this.router.url === "/logout") {
       this.router.navigate(["login"]);
     }
