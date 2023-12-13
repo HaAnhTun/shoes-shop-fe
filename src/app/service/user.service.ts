@@ -62,9 +62,13 @@ export class UserService {
       withCredentials: true,
     });
   }
-  checkActivationKey(key:any):Observable<any>{
-    return this.http.post<any>(this.baseUrl + '/account/checkActivationKey', key, {
+  checkResetKey(key:any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + '/account/checkResetKey', key, {
       withCredentials: true,
     });
+  }
+
+  newPassword(keyAndPassword: any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + "/account/reset-password/finish", keyAndPassword);
   }
 }

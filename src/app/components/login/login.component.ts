@@ -38,7 +38,15 @@ export class LoginComponent {
       next: (body: any) => {
         if (body && body?.id_token) {
           sessionStorage.setItem("access_token", body?.id_token);
-          this.router.navigate(["admin/users"]);
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Đăng nhập Thành công",
+            life: 3000,
+          });
+          setTimeout(()=>{
+            this.router.navigate(["admin/users"]);
+          }, 2000)
         } else {
           this.isValid = false;
         }
@@ -48,7 +56,7 @@ export class LoginComponent {
         this.messageService.add({
           severity: "error",
           summary: "Error",
-          detail: "Login Error",
+          detail: "Đăng nhập thất bại.",
           life: 3000,
         });
       },

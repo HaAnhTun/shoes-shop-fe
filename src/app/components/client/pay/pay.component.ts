@@ -33,8 +33,8 @@ export class PayComponent implements OnInit {
   arrSanPham: string;
   arrQuantity: string;
   formOrder: any;
-  paymentMethod: number = 1;
-  shoesInCart: any
+  paymentMethod: number = -1;
+  shoesInCart: any;
 
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
@@ -91,7 +91,7 @@ export class PayComponent implements OnInit {
           }
         });
     }
-    console.log(this.checkCartDetailCustom)
+    console.log(this.checkCartDetailCustom);
   }
 
   updateShippingCost(cost: number) {
@@ -100,44 +100,59 @@ export class PayComponent implements OnInit {
   }
 
   payment() {
-    if (this.paymentMethod == 1) {
-      this.saveOrder();
-    } else {
-      let idUser = null;
-      if (this.user != null) {
-        idUser = this.user.id;
-      }else {
-        idUser = 'null'
-      }
-      this.arrSanPham = this.checkCartDetailCustom
-        .map((any) => any.shoesdetailid)
-        .join("a");
-      this.shoesInCart = this.checkCartDetailCustom.map((any) => any.shoesdetailid);
-      sessionStorage.setItem(
-        "shoesInCart",
-        JSON.stringify(
-          this.shoesInCart
-        )
-      );
+    console.log(this.paymentMethod);
+    console.log(this.shippingCost);
+    if (this.shippingCost != 0) {
+      if (this.paymentMethod == 1) {
+        this.saveOrder();
+      } else if (this.paymentMethod == 2) {
+        let idUser = null;
+        if (this.user != null) {
+          idUser = this.user.id;
+        } else {
+          idUser = "null";
+        }
+        this.arrSanPham = this.checkCartDetailCustom
+          .map((any) => any.shoesdetailid)
+          .join("a");
+        this.shoesInCart = this.checkCartDetailCustom.map(
+          (any) => any.shoesdetailid
+        );
+        sessionStorage.setItem("shoesInCart", JSON.stringify(this.shoesInCart));
 
-      this.arrQuantity = this.checkCartDetailCustom
-        .map((any) => any.quantity)
-        .join("b");
-      this.payService
-        .createPayment(
-          this.totalPayment,
-          this.fullName,
-          this.phoneNumber,
-          this.emailAddress,
-          this.homeAddress,
-          this.shippingCost,
-          idUser,
-          this.arrSanPham,
-          this.arrQuantity
-        )
-        .subscribe((response) => {
-          window.location.href = response;
+        this.arrQuantity = this.checkCartDetailCustom
+          .map((any) => any.quantity)
+          .join("b");
+        this.payService
+          .createPayment(
+            this.totalPayment,
+            this.fullName,
+            this.phoneNumber,
+            this.emailAddress,
+            this.homeAddress,
+            this.shippingCost,
+            idUser,
+            this.arrSanPham,
+            this.arrQuantity
+          )
+          .subscribe((response) => {
+            window.location.href = response;
+          });
+      } else {
+        this.messageService.add({
+          severity: "info",
+          summary: "Wanning",
+          detail: "Bạn chưa chọn phương thức thanh toán.",
+          life: 3000,
         });
+      }
+    } else {
+      this.messageService.add({
+        severity: "Wanning",
+        summary: "Wanning",
+        detail: "Bạn chưa chọn phương thức giao hàng.",
+        life: 3000,
+      });
     }
   }
   getTotalPrice() {
