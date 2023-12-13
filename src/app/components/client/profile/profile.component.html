@@ -1,0 +1,62 @@
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="row" *ngIf="check == true">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="img">
+                                <img src="../../../assets/images/users/avatar-1.jpg" alt="">
+                            </div>
+                            <div class="chao"><h4>Xin chào {{user?.firstName || ' '}}</h4></div>
+                            <a href="/client/profile" class="account">
+                                <i class="pi pi-user"></i>
+                                <p>Thông tin tài khoản</p>
+                            </a>
+                            <a class="order" [routerLink]="'/client/user-order'">
+                                <i class="pi pi-book"></i>
+                                <p>Quản lý đơn hàng</p>
+                            </a>
+                            <a class="order" [routerLink]="'/client/user-order'">
+                                <i class="pi pi-book"></i>
+                                <p>Đổi mật khẩu</p>
+                            </a>
+                            <a routerLink="/client/login-customer" class="sign-out">
+                                <i class="pi pi-sign-out"></i>
+                                <p>Đăng xuất</p>
+                            </a>
+                        </div>
+                        <div class="col-9">
+                            <div><h2 class="title">Thông tin tài khoản</h2></div>
+                            <div class="row inf">
+                                <div class="col-2">
+                                    <div class="title-name">Họ và tên: </div>
+                                    <div class="title-email">Email: </div>
+                                    <div class="title-phone">SĐT: </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="name">{{ (user?.lastName || '') + ' ' + (user?.firstName || '') }}</div>
+                                    <div class="email">{{user?.email}}</div>
+                                    <div class="phone">{{user?.phone}}</div>
+                                </div>
+                                <div class="col-4">
+                                    <p-button label="CẬP NHẬT THÔNG TIN"></p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div *ngIf="check==false">
+                <div class="payment-failure">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 8rem"></i>
+                    <h1>Thất bại</h1>
+                    <p>Xin lỗi, bạn phải đăng nhập để xem trang này.</p>
+                    <p-button class="btn-login" label="ĐĂNG NHẬP" routerLink="/client/login-customer"></p-button>
+                  </div>
+            </div>
+        </div>
+    </div>
+</body>

@@ -99,6 +99,8 @@ import { FeedbackManagComponent } from "./components/feedback-manag/feedback-man
 import { ColorRemovedComponent } from "./components/color-removed/color-removed.component";
 import { SizeRemovedComponent } from "./components/size-removed/size-removed.component";
 import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
+import { ProfileComponent } from "./components/client/profile/profile.component";
+import { CodeForgotPasswordComponent } from './components/client/code-forgot-password/code-forgot-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -144,6 +146,8 @@ import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.
     ColorRemovedComponent,
     SizeRemovedComponent,
     BrandRemovedComponent,
+    ProfileComponent,
+    CodeForgotPasswordComponent,
   ],
   imports: [
     AppLayoutModule,

@@ -13,5 +13,8 @@ export interface CartDetailCustom {
   namesize: string;
   namecolor: String;
   nameshoes: String;
+  discountamount_1_2: number;
+  discountamount_3_4: number;
+  discountmethod: number;
   checkBox: boolean;
 }

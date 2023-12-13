@@ -1,4 +1,76 @@
-<div>
-    <h2>{{ emailData.subject }}</h2>
-    <div [innerHTML]="safeBodyContent"></div>
-</div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ - SPORT KICK</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: left; /* Thêm thuộc tính này để canh lề nội dung văn bản */
+        }
+        header {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .container {
+            /* Loại bỏ thuộc tính width và margin để nội dung không bị giới hạn ở giữa */
+            padding-left: 20px; /* Thêm padding trái để nội dung không sát quá cạnh */
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            color: #444;
+        }
+        footer {
+            background-color: #444;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Liên hệ với SPORT KICK</h1>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>Chúng Tôi Luôn Sẵn Sàng Lắng Nghe</h2>
+            <p>Tại SPORT KICK, chúng tôi cam kết cung cấp dịch vụ khách hàng xuất sắc và chúng tôi luôn sẵn lòng lắng nghe ý kiến từ bạn. Dưới đây là tất cả các cách bạn có thể liên lạc với chúng tôi:</p>
+            
+            <h3>Email</h3>
+            <p>Đối với bất kỳ yêu cầu hoặc thắc mắc nào, vui lòng gửi email cho chúng tôi tại: <a href="mailto:contact@sportkich.com">mailto:contact@sportkich.com</a>. Chúng tôi sẽ cố gắng phản hồi trong vòng 24 giờ làm việc.</p>
+            
+            <h3>Điện Thoại</h3>
+            <p>Nếu bạn cần trao đổi trực tiếp, hãy gọi cho chúng tôi qua số điện thoại: <a href="tel:+0867934811">0867934811</a>. Đội ngũ hỗ trợ của chúng tôi sẵn lòng giúp đỡ bạn từ 9:00 sáng đến 6:00 chiều, từ Thứ Hai đến Thứ Sáu.</p>
+            
+            <h3>Địa Chỉ</h3>
+            <p>Địa chỉ cửa hàng của chúng tôi: Số 1 Trịnh Văn Bô - Nam Từ Liêm - Hà Nội. Bạn có thể ghé qua cửa hàng của chúng tôi để xem các sản phẩm và nhận tư vấn trực tiếp từ 9:00 sáng đến 8:00 tối mỗi ngày.</p>
+            
+            <h3>Mạng Xã Hội</h3>
+            <p>Theo dõi chúng tôi trên các nền tảng mạng xã hội để cập nhật thông tin mới nhất, khuyến mãi, và các sự kiện đặc biệt. Tìm chúng tôi trên Facebook, Instagram, và Twitter tại @SportKick.</p>
+            
+            <h3>Phản Hồi và Góp Ý</h3>
+            <p>Chúng tôi luôn trân trọng mọi phản hồi và góp ý từ khách hàng để cải thiện dịch vụ. Nếu bạn có bất kỳ đề xuất nào, đừng ngần ngại chia sẻ với chúng tôi.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 SPORT KICK. Mọi quyền được bảo lưu.</p>
+    </footer>
+
+</body>
+</html>

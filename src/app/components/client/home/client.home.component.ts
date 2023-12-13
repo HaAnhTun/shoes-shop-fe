@@ -4,6 +4,8 @@ import { LoginService } from "src/app/service/login.service";
 import { Router } from "@angular/router";
 import { ShoesdetailService } from "src/app/service/shoesdetail.service";
 import { ShoesDetailCustom } from "src/app/model/ShoesDetailCustom";
+import { CartDetailService } from "src/app/service/cart-detail.service";
+import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
 
 @Component({
   selector: "app-client.home",
@@ -16,9 +18,16 @@ export class ClientHomeComponent implements OnInit {
     public layoutService: LayoutService,
     private loginService: LoginService,
     private router: Router,
-    private shoesdetailService: ShoesdetailService
+    private shoesdetailService: ShoesdetailService,
+    private cartDetailService: CartDetailService,
+    private cartDetailCustomerService: CartDetailCustomerService
   ) {}
   ngOnInit(): void {
+    if (sessionStorage.getItem("access_token") != null) {
+      this.cartDetailService.getCount().subscribe((Response) => {
+        this.cartDetailCustomerService.setData(Response);
+      });
+    }
     if (
       sessionStorage.getItem("access_token") == null &&
       sessionStorage.getItem("oathu2") != null
@@ -27,7 +36,9 @@ export class ClientHomeComponent implements OnInit {
         next: (body: any) => {
           if (body && body?.id_token) {
             sessionStorage.setItem("access_token", body?.id_token);
-            window.location.reload();
+            this.cartDetailService.getCount().subscribe((Response) => {
+              this.cartDetailCustomerService.setData(Response);
+            });
           }
         },
       });

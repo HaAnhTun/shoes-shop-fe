@@ -18,6 +18,8 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 })
 export class CartComponent implements OnInit {
   cartDetails: CartDetailCustom[] = [];
+  cartDetailsChange: CartDetailCustom[] = [];
+  cartDetailCustom: CartDetailCustom;
   cartDetail: CartDetail;
   tongTien: number = 0;
   cartDetailCustoms: any[] = [];
@@ -94,6 +96,7 @@ export class CartComponent implements OnInit {
           this.cartDetails
             .filter((c) => c.quantity > c.quantityShoesDetail)
             .forEach((c) => (c.status = 0));
+          this.cartDetails.forEach((c) => (c.checkBox = false));
           this.cartDetailCustomerService.setData("" + this.cartDetails.length);
         }
       }
@@ -320,7 +323,9 @@ export class CartComponent implements OnInit {
               severity: "warn",
               summary: "Thông báo",
               detail:
-                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng",
+                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng (số lượng tồn còn lại " +
+                c.quantityShoesDetail +
+                ")",
               life: 3000,
             })
           );
@@ -348,7 +353,7 @@ export class CartComponent implements OnInit {
             c.quantity % 1 === 0
         )
         .forEach((c) => (check = c.status = 1));
-      if (check) {
+      if (check != null) {
         this.cartDetails
           .filter((c) => c.checkBox === true)
           .map((c) => this.loadTotalPrice());
@@ -357,14 +362,6 @@ export class CartComponent implements OnInit {
           JSON.stringify(this.cartDetails)
         );
       } else {
-        let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
-        if (cartDetailCustoms) {
-          let datas = JSON.parse(cartDetailCustoms);
-          this.cartDetails = datas;
-          this.cartDetails
-            .filter((c) => c.quantity > c.quantityShoesDetail)
-            .forEach((c) => (c.status = 0));
-        }
         this.cartDetails
           .filter((c) => c.id === id && c.quantity > c.quantityShoesDetail)
           .map((c) =>
@@ -372,7 +369,9 @@ export class CartComponent implements OnInit {
               severity: "warn",
               summary: "Thông báo",
               detail:
-                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng",
+                "Số lượng đã vượt quá số lượng tồn không thể thay đổi số lượng (số lượng tồn còn lại " +
+                c.quantityShoesDetail +
+                ")",
               life: 3000,
             })
           );
@@ -388,6 +387,17 @@ export class CartComponent implements OnInit {
               life: 3000,
             })
           );
+        let cartDetailCustoms = sessionStorage.getItem("cartDetailCustoms");
+        if (cartDetailCustoms) {
+          let datas = JSON.parse(cartDetailCustoms);
+          this.cartDetailsChange = datas;
+          this.cartDetailsChange
+            .filter((c) => c.id === id)
+            .map((c) => (this.cartDetailCustom = c));
+          this.cartDetails
+            .filter((c) => c.id === id)
+            .map((c) => (c.quantity = this.cartDetailCustom.quantity));
+        }
       }
     }
   }
@@ -396,7 +406,19 @@ export class CartComponent implements OnInit {
     this.tongTien = 0;
     this.cartDetails
       .filter((c) => c.checkBox === true)
-      .map((c) => (this.tongTien = this.tongTien + c.price * c.quantity));
+      .map(
+        (c) =>
+          (this.tongTien =
+            c.discountmethod === 1
+              ? this.tongTien + (c.price - c.discountamount_1_2) * c.quantity
+              : c.discountmethod === 2
+              ? this.tongTien +
+                (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
+              : c.discountmethod === 3
+              ? this.tongTien + (c.price - c.discountamount_3_4) * c.quantity
+              : this.tongTien +
+                (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity)
+      );
   }
   checkQuanityAll() {
     if (sessionStorage.getItem("access_token") != null) {
@@ -526,7 +548,6 @@ export class CartComponent implements OnInit {
           "cartDetailCustoms",
           JSON.stringify(this.cartDetails)
         );
-        this.loadTotalPrice();
         this.messageService.add({
           severity: "warn",
           summary: "Thông báo",
@@ -542,7 +563,7 @@ export class CartComponent implements OnInit {
         .map(
           (c) =>
             (this.cartDetails = this.cartDetails.filter(
-              (item) => (check = item.id != c.id)
+              (item) => (checkDelete = item.id != c.id)
             ))
         );
       if (checkDelete != null) {
@@ -550,7 +571,6 @@ export class CartComponent implements OnInit {
           "cartDetailCustoms",
           JSON.stringify(this.cartDetails)
         );
-        this.loadTotalPrice();
         this.messageService.add({
           severity: "warn",
           summary: "Thông báo",
@@ -559,9 +579,13 @@ export class CartComponent implements OnInit {
           life: 5000,
         });
       }
+      this.loadTotalPrice();
     }
   }
   pay() {
+    if (sessionStorage.getItem("shoesDetailInOder") != null) {
+      sessionStorage.removeItem("shoesDetailInOder");
+    }
     let checkPay = false;
     this.cartDetails
       .filter((c) => c.checkBox === true)
@@ -579,6 +603,10 @@ export class CartComponent implements OnInit {
         .map((c) => this.cartDetailCustoms.push(c));
       this.cartDetailCustomerService.setCartDetailCustomerService(
         this.cartDetailCustoms
+      );
+      sessionStorage.setItem(
+        "shoesDetailInOder",
+        JSON.stringify(this.cartDetailCustoms)
       );
       this.router.navigate(["/client/pay"]);
     }

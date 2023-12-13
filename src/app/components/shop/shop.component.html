@@ -6,8 +6,8 @@
             <h3>Bộ lọc</h3>
             <div class="card flex justify-content-center">
                 <h5>Thương Hiệu</h5>
-                <p-selectButton [options]="brandOptions" [(ngModel)]="selectedBrand" optionLabel="label"
-                    (onOptionClick)="calle()" optionValue="value">
+                <p-selectButton [options]="brandOptions" [unselectable]="true" [(ngModel)]="selectedBrand"
+                    optionLabel="label" (onOptionClick)="fetchProducts()" optionValue="value">
                     <ng-template let-brand pTemplate="item">
                         <div class="custom-option">
                             <span>{{brand.label}}</span>
@@ -19,16 +19,16 @@
 
             <div class="card flex justify-content-center">
                 <h5>Size</h5>
-                <p-selectButton (onOptionClick)="calle()" [(options)]="paymentOptions" [(ngModel)]="selectedSizes"
-                    [multiple]="true" optionLabel="name" optionValue="value" #tablos>
+                <p-selectButton (onOptionClick)="fetchProducts()" [(options)]="paymentOptions"
+                    [(ngModel)]="selectedSizes" [multiple]="true" optionLabel="name" optionValue="value" #tablos>
                 </p-selectButton>
             </div>
             <div class="card flex justify-content-center">
                 <h5>Giá</h5>
                 <label for="blockspace" class="font-bold block mb-2">Giá từ {{rangeValues[0] | currency: 'VND'}} đến
                     {{rangeValues[1] | currency: 'VND'}}</label>
-                <p-slider [(ngModel)]="rangeValues" (onChange)="loge()" [step]="100000" [range]="true" [max]="100000000"
-                    [min]="0"></p-slider>
+                <p-slider [(ngModel)]="rangeValues" (onSlideEnd)="fetchProducts()" [step]="10000" [range]="true"
+                    [max]="10000000" [min]="0"></p-slider>
             </div>
 
         </div>
