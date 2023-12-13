@@ -23,6 +23,11 @@ export class ClientHomeComponent implements OnInit {
     private cartDetailCustomerService: CartDetailCustomerService
   ) {}
   ngOnInit(): void {
+    if (sessionStorage.getItem("access_token") != null) {
+      this.cartDetailService.getCount().subscribe((Response) => {
+        this.cartDetailCustomerService.setData(Response);
+      });
+    }
     if (
       sessionStorage.getItem("access_token") == null &&
       sessionStorage.getItem("oathu2") != null
