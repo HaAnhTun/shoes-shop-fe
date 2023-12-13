@@ -119,7 +119,7 @@ const routes: Routes = [
   { path: "shoes-categories", component: ShoesCategoryComponent },
   { path: "landing", component: LandingComponent },
   { path: "users", component: UserComponent },
-  { path: "nhap-ma", component: CodeForgotPasswordComponent },
+  { path: "change-password", component: CodeForgotPasswordComponent },
   //không được viết path bên dưới thằng **
   { path: "**", component: LoginComponent },
 ];
