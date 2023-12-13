@@ -31,7 +31,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
   shoeSizes: any[];
   selectedSizes!: any
   paymentOptions: any[] = [];
-  rangeValues: number[] = [0, 100000000];
+  rangeValues: number[] = [0, 10000000];
   selectedItems: any[] = [];
   sortField: string;
   brands: any[] = [];
@@ -96,10 +96,10 @@ export class ShopComponent implements OnInit, AfterViewInit {
   fetchProducts() {
     // Tạo đối tượng SearchSDsResponse để chuyển thành JSON
     const searchData = {
-      sizeIds: this.selectedSizes != null ? this.selectedSizes : [], // Thay thế bằng dữ liệu thực tế
-      brandId: this.selectedBrand ? this.selectedBrand : null, // Thay thế bằng dữ liệu thực tế
-      startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế
-      endPrice: this.rangeValues[1] // Thay thế bằng dữ liệu thực tế
+      sizeIds: this.selectedSizes != null ? this.selectedSizes : [], // Thay thế bằng dữ liệu thực tế hoặc để []
+      brandId: this.selectedBrand ? this.selectedBrand : null, // Thay thế bằng dữ liệu thực tế hoặc để null
+      startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế ví dụ 0
+      endPrice: this.rangeValues[1] // Thay thế bằng dữ liệu thực tế ví dụ 10000000000
     };
     // Gửi yêu cầu POST
     this.http.post<any>('http://localhost:8088/api/shoes-details/shop', searchData).subscribe(
@@ -112,6 +112,8 @@ export class ShopComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
+
 
 
 
