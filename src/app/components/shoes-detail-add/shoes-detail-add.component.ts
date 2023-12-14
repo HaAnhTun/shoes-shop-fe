@@ -215,10 +215,12 @@ export class ShoesDetailAddComponent implements OnInit {
       this.uploadedFiles.splice(index, 1);
     }
   }
-  selection(event: UploadEvent) {
-    for (let i = 0; i < event.files.length; i++) {
-      this.uploadedFiles.push(event.files[i]);
+  selection(files: File[]): void {
+    console.log(files.length);
+    if (files.length > 5) {
+      files.splice(5);
     }
+    this.uploadedFiles = files;
   }
 
   removeSelectedImageChild(event: FileRemoveEvent, produceImages: File[]) {
@@ -234,8 +236,9 @@ export class ShoesDetailAddComponent implements OnInit {
   }
 
   selectionChild(event: UploadEvent, produceImages: File[]) {
-    for (let i = 0; i < event.files.length; i++) {
+    for (let i = 0; produceImages.length < 5; i++) {
       produceImages.push(event.files[i]);
+      if (produceImages.length == 5) break;
     }
   }
 
@@ -321,10 +324,10 @@ export class ShoesDetailAddComponent implements OnInit {
     });
   }
 
-  generateShoeVariants(
+  async generateShoeVariants(
     selectedColors: any[],
     selectedSizes: any[]
-  ): ShoesDetail[] {
+  ) {
     this.http
       .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details")
       .subscribe((response) => {
@@ -349,12 +352,11 @@ export class ShoesDetailAddComponent implements OnInit {
           size: { id: size.id, name: size.name },
           images: [...this.uploadedFiles],
         };
-        let isCodeFound = this.shoesVariantsList.some(
-          (v) => v.code == variant.code
-        );
-        if (isCodeFound) {
+        const isCodeFound = await this.fetchProducts(shoes.id, brand.id, size.id, color.id);
+        console.log(isCodeFound);
+        if (isCodeFound && isCodeFound.id != null) {
           this.messageService.add({
-            severity: "warning",
+            severity: "warn",
             summary: "Exist",
             detail:
               "Variants " +
@@ -391,9 +393,22 @@ export class ShoesDetailAddComponent implements OnInit {
       }
     }
     console.log(variants);
-
     return variants;
   }
+
+  async fetchProducts(shid: any, brid: any, siid: any, clid: any) {
+    const productId = { shid: shid, brid: brid, siid: siid, clid: clid };
+    const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
+    // Make the HTTP request
+    try {
+      const response = await this.http.post<any>(apiUrl, productId).toPromise();
+      return response;
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+      return null;
+    }
+  }
+
 
   editProduct(product: ShoesDetail) {
     this.product = {};
@@ -405,11 +420,13 @@ export class ShoesDetailAddComponent implements OnInit {
     this.route.navigate(["admin/shoes-detail"]);
   }
 
-  showTable() {
+  async showTable() {
     if (this.formGroup.valid) {
       const selectedColors = this.formGroup?.get("color")?.value;
       const selectedSizes = this.formGroup?.get("size")?.value;
-      this.shoeVariants = this.generateShoeVariants(
+
+      // Sử dụng await để đợi kết quả từ generateShoeVariants
+      this.shoeVariants = await this.generateShoeVariants(
         selectedColors,
         selectedSizes
       );
@@ -425,6 +442,7 @@ export class ShoesDetailAddComponent implements OnInit {
       });
     }
   }
+
 
   deleteSelectedProducts() {
     this.confirmationService.confirm({

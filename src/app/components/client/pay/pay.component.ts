@@ -67,7 +67,7 @@ export class PayComponent implements OnInit {
         c.discountmethod === 1
           ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
           : c.discountmethod === 2
-          ? this.totalPrice +
+            ? this.totalPrice +
             (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
           : c.discountmethod === 3
           ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
@@ -100,6 +100,7 @@ export class PayComponent implements OnInit {
   }
 
   payment() {
+
     console.log(this.paymentMethod);
     console.log(this.shippingCost);
     if (this.shippingCost != 0) {

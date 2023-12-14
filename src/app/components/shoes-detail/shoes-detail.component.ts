@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { log } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { FileRemoveEvent } from 'primeng/fileupload';
 import { Table } from 'primeng/table';
 import { AppConstants } from 'src/app/app-constants';
 
@@ -64,6 +66,7 @@ export class ShoesDetailComponent {
 
   productForm: FormGroup;
   @ViewChild(Table) dt: Table;
+  uploadedFiles: any[] = [];
   constructor(private formBuilder: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService, private http: HttpClient, private route: Router) {
     this.productForm = this.formBuilder.group({
       id: [null, Validators.required],
@@ -103,8 +106,14 @@ export class ShoesDetailComponent {
     });
   }
 
+
+  clearSelectedFiles() {
+    this.uploadedFiles = [];
+  }
+
   ouput() {
     console.log(this.productForm.value);
+    console.log(this.uploadedFiles);
   }
 
   editProduct(productData: Product) {
@@ -149,6 +158,7 @@ export class ShoesDetailComponent {
   hideDialog() {
     this.productDialog = false;
     this.submitted = false;
+    this.uploadedFiles = [];
   }
 
   saveProduct() {
@@ -158,6 +168,10 @@ export class ShoesDetailComponent {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
+          const httpOptions = {
+            headers: new HttpHeaders({ enctype: "multipart/form-data" }),
+          };
+          const objectTest = new FormData();
           this.submitted = true;
           this.product.id = this.productForm.get('id')?.value;
           this.product.code = this.productForm.get('code')?.value;
@@ -172,25 +186,43 @@ export class ShoesDetailComponent {
           this.product.color = { id: this.product.color_id }
           this.product.size = { id: this.product.size_id }
           console.log(this.product);
-          this.http.put<any>(AppConstants.BASE_URL_API + '/api/shoes-details/' + this.product.id, this.product).subscribe(response => {
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã cập nhật', life: 3000 });
-            this.products.forEach(producty => {
-              if (producty.id === response.id) {
-                const sts = producty.status;
-                producty.tax = response.tax;
-                producty.description = response.description;
-                producty.quantity = response.quantity;
-                producty.import_price = response.import_price;
-                producty.price = response.price;
-                producty.status = response.status;
-                if (producty.status != sts)
-                  this.dt.filter(1, 'status', 'contains');
-              }
-            })
-          },
-            error => {
-              this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Lỗi cập nhật', life: 3000 });
-            });
+          let jsonBlob = new Blob([JSON.stringify(this.product)], {
+            type: "application/json",
+          });
+          objectTest.append(
+            "shoesDetailsDTO",
+            jsonBlob,
+            "shoesDetailsDTO.json"
+          );
+          this.uploadedFiles.forEach((image) => {
+            objectTest.append("images", image);
+          });
+          this.http
+            .put<any>(
+              "http://localhost:8088/api/shoes-details-image",
+              objectTest,
+              httpOptions
+            ).subscribe(response => {
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Đã cập nhật', life: 3000 });
+              this.products.forEach(producty => {
+                if (producty.id === response.id) {
+                  const sts = producty.status;
+                  producty.tax = response.tax;
+                  producty.description = response.description;
+                  producty.quantity = response.quantity;
+                  producty.import_price = response.import_price;
+                  producty.price = response.price;
+                  producty.status = response.status;
+                  if (producty.status != sts)
+                    this.dt.filter(1, 'status', 'contains');
+                  if (this.uploadedFiles.length > 0)
+                    producty.path = this.uploadedFiles[0].objectURL.changingThisBreaksApplicationSecurity;
+                }
+              })
+            },
+              error => {
+                this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Lỗi cập nhật', life: 3000 });
+              });
           console.log(this.product);
           this.productDialog = false;
           this.product = {};
@@ -280,5 +312,12 @@ export class ShoesDetailComponent {
     });
   }
 
+  selection(files: File[]): void {
+    console.log(files.length);
+    if (files.length > 5) {
+      files.splice(5);
+    }
+    this.uploadedFiles = files;
+  }
 
 }
