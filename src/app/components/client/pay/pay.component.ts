@@ -34,8 +34,9 @@ export class PayComponent implements OnInit {
   arrSanPham: string;
   arrQuantity: string;
   formOrder: any;
-  paymentMethod: number = 1;
+  paymentMethod: number = -1;
   shoesInCart: any;
+  checkAddress: boolean = true;
 
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
@@ -69,7 +70,7 @@ export class PayComponent implements OnInit {
         c.discountmethod === 1
           ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
           : c.discountmethod === 2
-          ? this.totalPrice +
+            ? this.totalPrice +
             (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
           : c.discountmethod === 3
           ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
@@ -90,52 +91,84 @@ export class PayComponent implements OnInit {
             console.log(this.user);
             this.fullName = this.user.lastName + " " + this.user.firstName;
             this.emailAddress = this.user.email;
+            this.phoneNumber = this.user.phone;
           }
         });
     }
+    console.log(this.checkCartDetailCustom);
   }
 
   updateShippingCost(cost: number) {
     this.tax = (this.totalPrice + this.shippingCost) * 0.08;
+    console.log(this.tax);
     this.totalPayment = this.totalPrice + this.shippingCost + this.tax; // Cập nhật tổng giá
   }
 
   payment() {
-    if (this.paymentMethod == 1) {
-      this.saveOrder();
+    console.log(this.homeAddress)
+    if (this.homeAddress == '') {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Cảnh báo",
+        detail: "Vui lòng nhập địa chỉ trước khi thanh toán.",
+        life: 3000,
+      });
     } else {
-      let idUser = null;
-      if (this.user != null) {
-        idUser = this.user.id;
-      } else {
-        idUser = "null";
-      }
-      this.arrSanPham = this.checkCartDetailCustom
-        .map((any) => any.shoesdetailid)
-        .join("a");
-      this.shoesInCart = this.checkCartDetailCustom.map(
-        (any) => any.shoesdetailid
-      );
-      sessionStorage.setItem("shoesInCart", JSON.stringify(this.shoesInCart));
+      if (this.shippingCost != 0) {
+        if (this.paymentMethod == 1) {
+          this.saveOrder();
+        } else if (this.paymentMethod == 2) {
+          let idUser = null;
+          if (this.user != null) {
+            idUser = this.user.id;
+          } else {
+            idUser = "null";
+          }
+          this.arrSanPham = this.checkCartDetailCustom
+            .map((any) => any.shoesdetailid)
+            .join("a");
+          this.shoesInCart = this.checkCartDetailCustom.map(
+            (any) => any.shoesdetailid
+          );
+          sessionStorage.setItem(
+            "shoesInCart",
+            JSON.stringify(this.shoesInCart)
+          );
 
-      this.arrQuantity = this.checkCartDetailCustom
-        .map((any) => any.quantity)
-        .join("b");
-      this.payService
-        .createPayment(
-          this.totalPayment,
-          this.fullName,
-          this.phoneNumber,
-          this.emailAddress,
-          this.homeAddress,
-          this.shippingCost,
-          idUser,
-          this.arrSanPham,
-          this.arrQuantity
-        )
-        .subscribe((response) => {
-          window.location.href = response;
+          this.arrQuantity = this.checkCartDetailCustom
+            .map((any) => any.quantity)
+            .join("b");
+          this.payService
+            .createPayment(
+              this.totalPayment,
+              this.fullName,
+              this.phoneNumber,
+              this.emailAddress,
+              this.homeAddress,
+              this.shippingCost,
+              idUser,
+              this.arrSanPham,
+              this.arrQuantity
+            )
+            .subscribe((response) => {
+              window.location.href = response;
+            });
+        } else {
+          this.messageService.add({
+            severity: "warn",
+            summary: "Cảnh báo",
+            detail: "Bạn chưa chọn phương thức thanh toán.",
+            life: 3000,
+          });
+        }
+      } else {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Cảnh báo",
+          detail: "Bạn chưa chọn phương thức giao hàng.",
+          life: 3000,
         });
+      }
     }
   }
 

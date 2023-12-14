@@ -9,7 +9,9 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./code-forgot-password.component.css']
 })
 export class CodeForgotPasswordComponent {
-  key: any
+  key: any;
+  newPassword: any;
+  keyAndPassword: any;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -17,12 +19,39 @@ export class CodeForgotPasswordComponent {
   ){}
 
   confirm(){
-    this.userService.checkActivationKey(this.key).subscribe(
+    this.userService.checkResetKey(this.key).subscribe(
       (res)=>{
-        console.log('ok')
+        console.log(res)
+        this.keyAndPassword = {
+          resetKey : this.key,
+          passwordHash: this.newPassword
+        }
+        if(res){
+          this.userService.newPassword(this.keyAndPassword).subscribe(
+            (data)=>{
+              console.log("data = ", data)
+            }
+          );
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Mã xác nhận đúng, bạn đã thay đổi mật khẩu thành công.",
+            life: 3000,
+          });
+  
+          setTimeout(()=>{
+            this.router.navigate(['/change-password'])
+          }, 3000)
+        }
       },
       (err)=>{
-        console.log('deo ok')
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Mã xác nhận k đúng, mời nhập lại.",
+          life: 3000,
+        });
+
       }
     )
   }

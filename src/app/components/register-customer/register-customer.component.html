@@ -31,6 +31,18 @@
                             Email không đúng định dạng</small>
                     </div>
                     <div class="input">
+                        <input class="email text" type="text" placeholder="SĐT" name="sdt" formControlName="phone">
+                        <small *ngIf="registionForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
+                            SĐT không được để trống.
+                          </small>
+                          <small *ngIf="registionForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
+                            SĐT chỉ được nhập số.
+                          </small>
+                          <small *ngIf="registionForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
+                            SĐT phải bắt đầu bằng 0.
+                          </small>
+                    </div>
+                    <div class="input">
                         <input class="username text" type="text" placeholder="Tài khoản" name="username" formControlName="login">
                         <small
                             *ngIf="registionForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">

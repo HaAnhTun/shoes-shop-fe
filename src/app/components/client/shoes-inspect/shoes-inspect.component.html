@@ -6,20 +6,16 @@
         <div class="flex flex-column w-2 justify-content-between">
           <img
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 border-primary ng-star-inserted"
-            [src]="shoesDetails.images[1]"
-          />
+            [src]="shoesDetails.images[1]" />
           <img
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
-            [src]="shoesDetails.images[2]"
-          />
+            [src]="shoesDetails.images[2]" />
           <img
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
-            [src]="shoesDetails.images[3]"
-          />
+            [src]="shoesDetails.images[3]" />
           <img
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
-            [src]="shoesDetails.images[4]"
-          /><!-- -->
+            [src]="shoesDetails.images[4]" /><!-- -->
         </div>
         <div class="pl-3 w-10">
           <img class="w-full border-round" [src]="shoesDetails.images[0]" />
@@ -33,37 +29,26 @@
       <div class="flex align-items-center justify-content-between mb-5">
         <span class="text-900 font-medium text-3xl block">{{
           shoesDetails.discount_method
-            ? shoesDetails.discount_method == 1 ||
-              shoesDetails.discount_method == 3
-              ? (shoesDetails.price - shoesDetails.discount_amount
-                | currency : "VND")
-              : (shoesDetails.price -
-                  (shoesDetails.discount_amount / 100) * shoesDetails.price
-                | currency : "VND")
-            : (shoesDetails.price | currency : "VND")
-        }}</span>
+          ? shoesDetails.discount_method == 1 ||
+          shoesDetails.discount_method == 3
+          ? (shoesDetails.price - shoesDetails.discount_amount
+          | currency : "VND")
+          : (shoesDetails.price -
+          (shoesDetails.discount_amount / 100) * shoesDetails.price
+          | currency : "VND")
+          : (shoesDetails.price | currency : "VND")
+          }}</span>
         <div class="flex align-items-center">
-          <span class="mr-3"
-            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
-            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
-            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
-            ><i class="pi pi-star-fill text-yellow-500 mr-1"></i
-            ><i class="pi pi-star text-700 mr-1"></i></span
-          ><span class="text-sm"
-            ><b class="text-900 mr-1">{{ feedbacks.length }}</b
-            ><span class="text-500"></span>reviews</span
-          >
+          <span class="mr-3">
+            <p-rating [(ngModel)]="shoesDetails.rating" [readonly]="false" [cancel]="false"></p-rating>
+          </span><span class="text-sm"><b class="text-900 mr-1">{{ feedbacks.length }}</b><span
+              class="text-500"></span>reviews</span>
         </div>
       </div>
       <div class="font-bold text-900 mb-3">Color</div>
       <div class="flex align-items-center mb-5">
-        <p-selectButton
-          [options]="colorOptions"
-          [(ngModel)]="selectedColor"
-          optionLabel="label"
-          (onChange)="onColorChange()"
-          optionValue="value"
-        >
+        <p-selectButton [options]="colorOptions" [(ngModel)]="selectedColor" optionLabel="label"
+          (onChange)="onColorChange()" optionValue="value">
           <ng-template let-color pTemplate="item">
             {{ color.name }}
           </ng-template>
@@ -71,21 +56,13 @@
       </div>
       <div class="mb-3 flex align-items-center justify-content-between">
         <span class="font-bold text-900">Size</span>
-        <a
-          tabindex="0"
-          (click)="showGuide()"
-          class="cursor-pointer text-600 text-sm flex align-items-center"
-          >Hướng dẫn chọn size <i class="ml-1 pi pi-angle-right"> </i>
+        <a tabindex="0" (click)="showGuide()" class="cursor-pointer text-600 text-sm flex align-items-center">Hướng dẫn
+          chọn size <i class="ml-1 pi pi-angle-right"> </i>
         </a>
       </div>
       <div class="grid grid-nogutter align-items-center mb-5">
-        <p-selectButton
-          [options]="sizeOptions"
-          [(ngModel)]="selectedsize"
-          optionLabel="label"
-          (onChange)="onSizeChange()"
-          optionValue="value"
-        >
+        <p-selectButton [options]="sizeOptions" [(ngModel)]="selectedsize" optionLabel="label"
+          (onChange)="onSizeChange()" optionValue="value">
           <ng-template let-size pTemplate="item">
             {{ size.name }}
           </ng-template>
@@ -93,45 +70,21 @@
       </div>
       <div class="font-bold text-900 mb-3">Quantity</div>
       <div class="formgrid grid">
-        <p-inputNumber
-          class-="col-6 sm:col-3"
-          min="1"
-          [showButtons]="true"
-          buttonLayout="horizontal"
-          [(ngModel)]="quantity"
-          inputId="horizontal"
-          spinnerMode="horizontal"
-          [step]="1"
-          [max]="shoesDetails.quantity"
-          decrementButtonClass="p-button-text"
-          incrementButtonClass="p-button-text"
-          incrementButtonIcon="pi pi-plus"
-          decrementButtonIcon="pi pi-minus"
-          (onInput)="onQuantityChange()"
-          (onBlur)="onQuantityChange()"
-        ></p-inputNumber>
+        <p-inputNumber class-="col-6 sm:col-3" min="1" [showButtons]="true" buttonLayout="horizontal"
+          [(ngModel)]="quantity" inputId="horizontal" spinnerMode="horizontal" [step]="1" [max]="shoesDetails.quantity"
+          decrementButtonClass="p-button-text" incrementButtonClass="p-button-text" incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus" (onInput)="onQuantityChange()"
+          (onBlur)="onQuantityChange()"></p-inputNumber>
         <div class="col-3">
-          <button
-            (click)="clickByNow()"
-            [disabled]="shoesDetails.quantity <= 0"
-            label="Add to Cart"
-            class="p-button"
-          >
+          <button (click)="clickByNow()" [disabled]="shoesDetails.quantity <= 0" label="Add to Cart" class="p-button">
             <span class="p-button-label">
-              {{ shoesDetails.quantity <= 0 ? "Hết hàng" : "Mua ngay" }}
-            </span>
+              {{ shoesDetails.quantity <= 0 ? "Hết hàng" : "Mua ngay" }} </span>
           </button>
         </div>
         <div class="col-4 sm:col-6">
-          <button
-            (click)="clickAddCart()"
-            [disabled]="shoesDetails.quantity <= 0"
-            label="Add to Cart"
-            class="p-button"
-          >
+          <button (click)="clickAddCart()" [disabled]="shoesDetails.quantity <= 0" label="Add to Cart" class="p-button">
             <span class="p-button-label">
-              {{ shoesDetails.quantity <= 0 ? "Hết hàng" : "Thêm vào giỏ" }}
-            </span>
+              {{ shoesDetails.quantity <= 0 ? "Hết hàng" : "Thêm vào giỏ" }} </span>
           </button>
         </div>
       </div>
@@ -174,30 +127,19 @@
           </ul>
         </div>
         <div class="col-12 lg:col-4">
-          <span class="text-900 block font-medium mb-3"
-            >Bảo dưỡng &amp; Bảo quản
+          <span class="text-900 block font-medium mb-3">Bảo dưỡng &amp; Bảo quản
           </span>
           <ul class="p-0 m-0 text-700 flex flex-wrap flex-column xl:flex-row">
-            <li
-              class="flex align-items-center white-space-nowrap w-10rem block mr-2 mb-3"
-            >
+            <li class="flex align-items-center white-space-nowrap w-10rem block mr-2 mb-3">
               <i class="pi pi-sun mr-2"></i><span>Không giặt tay</span>
             </li>
-            <li
-              class="flex align-items-center white-space-nowrap w-10rem block mb-3"
-            >
-              <i class="pi pi-times-circle mr-2"></i
-              ><span>Không giặt hóa chất</span>
+            <li class="flex align-items-center white-space-nowrap w-10rem block mb-3">
+              <i class="pi pi-times-circle mr-2"></i><span>Không giặt hóa chất</span>
             </li>
-            <li
-              class="flex align-items-center white-space-nowrap w-10rem block mb-3 mr-2"
-            >
-              <i class="pi pi-sliders-h mr-2"></i
-              ><span>Sấy nhiệt độ trung</span>
+            <li class="flex align-items-center white-space-nowrap w-10rem block mb-3 mr-2">
+              <i class="pi pi-sliders-h mr-2"></i><span>Sấy nhiệt độ trung</span>
             </li>
-            <li
-              class="flex align-items-center white-space-nowrap w-10rem block mb-3"
-            >
+            <li class="flex align-items-center white-space-nowrap w-10rem block mb-3">
               <i class="pi pi-minus-circle mr-2"></i><span>Giặt khô</span>
             </li>
           </ul>
@@ -213,18 +155,9 @@
           <p-dataView #dv [value]="feedbacks" [rows]="5" [paginator]="true">
             <ng-template let-feedback pTemplate="listItem">
               <div class="col-12">
-                <div
-                  class="flex flex-column xl:flex-row xl:align-items-start p-1 gap-1"
-                >
-                  <span class="text-600 font-medium"
-                    >{{ feedback.name }}, {{ feedback.created_date }}</span
-                  >
-                  <p-rating
-                    [(ngModel)]="feedback.rate"
-                    readonly="true"
-                    [cancel]="false"
-                    stars="5"
-                  ></p-rating>
+                <div class="flex flex-column xl:flex-row xl:align-items-start p-1 gap-1">
+                  <span class="text-600 font-medium">{{ feedback.name }}, {{ feedback.created_date }}</span>
+                  <p-rating [(ngModel)]="feedback.rate" readonly="true" [cancel]="false" stars="5"></p-rating>
                   <div class="text-700 font-medium text-xl my-1">
                     {{ feedback.comment }}
                   </div>
@@ -239,44 +172,21 @@
               <span class="p-text-bold">Viết Đánh Giá</span>
             </ng-template>
             <ng-template pTemplate="content">
-              <form
-                [formGroup]="feedbackForm"
-                (ngSubmit)="submitFeedback()"
-                class="p-fluid"
-              >
+              <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()" class="p-fluid">
                 <div class="field">
                   <label for="comment">Bình luận:</label>
-                  <textarea
-                    rows="5"
-                    formControlName="comment"
-                    class="form-control"
-                  ></textarea>
-                  <small
-                    *ngIf="
+                  <textarea rows="5" formControlName="comment" class="form-control"></textarea>
+                  <small *ngIf="
                       feedbackForm.controls.comment.invalid &&
                       feedbackForm.controls.comment.touched
-                    "
-                    class="p-error"
-                    >Bình luận là bắt buộc.</small
-                  >
+                    " class="p-error">Bình luận là bắt buộc.</small>
                 </div>
-                <p-rating
-                  formControlName="rate"
-                  [cancel]="false"
-                  stars="5"
-                ></p-rating>
-                <small
-                  *ngIf="
+                <p-rating formControlName="rate" [cancel]="false" stars="5"></p-rating>
+                <small *ngIf="
                     feedbackForm.controls.rate.invalid &&
                     feedbackForm.controls.rate.touched
-                  "
-                  class="p-error"
-                  >Rate là bắt buộc.</small
-                >
-                <button
-                  type="submit"
-                  class="p-button p-component p-button-primary mt-2"
-                >
+                  " class="p-error">Rate là bắt buộc.</small>
+                <button type="submit" class="p-button p-component p-button-primary mt-2">
                   Gửi Đánh Giá
                 </button>
               </form>
@@ -325,9 +235,7 @@
           </ul>
         </div>
         <div class="col-12 md:col-6">
-          <span class="text-900 block font-medium mb-3"
-            >Chính sách đổi trả</span
-          >
+          <span class="text-900 block font-medium mb-3">Chính sách đổi trả</span>
           <p class="line-height-3 text-700 p-0 m-0">
             * Thời gian đổi trả hàng: - Đổi hàng: Trong vòng 07 ngày kể từ ngày
             khách hàng nhận được sản phẩm. - Trả hàng: Trong vòng 03 ngày kể từ
@@ -339,14 +247,8 @@
     </p-tabPanel>
   </p-tabView>
 
-  <p-dialog
-    header="Hướng Dẫn Chọn Kích Thước Giày"
-    [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '50vw' }"
-    [draggable]="false"
-    [resizable]="false"
-  >
+  <p-dialog header="Hướng Dẫn Chọn Kích Thước Giày" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }"
+    [draggable]="false" [resizable]="false">
     <div class="m-0">
       <ol>
         <li>

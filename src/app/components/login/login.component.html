@@ -6,7 +6,7 @@
       </div>
 
       <form class="login100-form validate-form" #loginForm="ngForm">
-        <div *ngIf="isValid; then noMsg; else errorMsg"></div>
+        <div *ngIf="loginForm.form.valid; then noMsg; else errorMsg"></div>
 
         <ng-template class="login100-form-title" #noMsg>
           <span class="login100-form-title">

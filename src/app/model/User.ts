@@ -7,6 +7,7 @@ export interface User extends BaseModel {
     firstName: string;
     lastName: string;
     email: string;
+    phone: string;
     imageUrl: string;
     activated: boolean;
     authorities: string[];

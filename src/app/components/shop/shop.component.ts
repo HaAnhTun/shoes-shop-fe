@@ -113,6 +113,12 @@ export class ShopComponent implements OnInit, AfterViewInit {
     );
   }
 
+  clearFilter() {
+    this.selectedSizes = [];
+    this.selectedBrand = null;
+    this.fetchProducts();
+  }
+
 
 
 
