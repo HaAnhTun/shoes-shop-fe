@@ -28,7 +28,17 @@ export class RegisterCustomerComponent{
       login: ['', Validators.required, [this.duplicateLogin()]],
       passwordHash: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]]
+      email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]+$/),
+        ],
+        [
+          this.asyncValidateFirstDigit.bind(this)
+        ]
+      ],
     }, {
       validator: this.mustMatch('passwordHash', 'confirmPassword')
     });
@@ -37,10 +47,12 @@ export class RegisterCustomerComponent{
   registion() {
     const user = this.registionForm.value;
     console.log(this.registionForm.value);
+    console.log(user)
     if (
       user.confirmPassword === user.passwordHash &&
       user.passwordHash !== null
     ) {
+      
       this.http
         .post("http://localhost:8088/api/register", user).subscribe(
           response => {
@@ -128,5 +140,15 @@ export class RegisterCustomerComponent{
         catchError(() => of(null))
       );
     };
+  }
+
+  asyncValidateFirstDigit(control: AbstractControl): Observable<ValidationErrors | null> {
+    const value = control.value as string;
+
+    if (value && value.charAt(0) !== '0') {
+      return of({ invalidFirstDigit: true });
+    }
+
+    return of(null);
   }
 }

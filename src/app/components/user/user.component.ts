@@ -38,6 +38,14 @@ export class UserComponent implements OnInit {
       { label: 'Admin', value: 'ROLE_ADMIN' }
     ]
 
+    this.status = [
+      {code: 0, name: "Chờ xác nhận"},
+      {code: 1, name: "Chờ giao"},
+      {code: 2, name: "Đang giao"},
+      {code: 3, name: "Hoàn thành"},
+      {code: 4, name: "Chờ thanh toán"},
+      {code: -1, name: "Hủy"},
+    ]
     this.userForm = this.formBuilder.group({
       id: '',
       firstName: ['', Validators.required],
@@ -45,8 +53,34 @@ export class UserComponent implements OnInit {
       login: ['', Validators.required, [this.duplicateLogin()]],
       passwordHash: ['', Validators.required],
       email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]+$/),
+        ],
+        [
+          this.asyncValidateFirstDigit.bind(this)
+        ]
+      ],
       authorities: ['', Validators.required],
     })
+  }
+
+
+  asyncValidateFirstDigit(control: AbstractControl): Observable<ValidationErrors | null> {
+    const value = control.value as string;
+
+    if (value && value.charAt(0) !== '0') {
+      return of({ invalidFirstDigit: true });
+    }
+
+    return of(null);
+  }
+
+  getStatusName(code: number): string {
+    const statusObj = this.status.find(s => s.code === code);
+    return statusObj ? statusObj.name : 'Không xác định';
   }
 
   ngOnInit() {
@@ -88,15 +122,16 @@ export class UserComponent implements OnInit {
       "firstName": this.userForm.get('firstName')?.value,
       "lastName": this.userForm.get('lastName')?.value,
       "email": this.userForm.get('email')?.value,
+      "phone": this.userForm.get('phone')?.value,
       "imageUrl": this.userForm.get('imageUrl')?.value,
       "authorities": this.getRoleUser()
     }
     // Kiểm tra các trường bắt buộc
-    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.authorities) {
+    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.phone || !newUser.authorities) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'User Create Error',
+        detail: 'Thêm mới người dùng thất bại',
         life: 3000
       });
       return;
@@ -112,7 +147,7 @@ export class UserComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
-            detail: 'User Create',
+            detail: 'Thêm mới người dùng thành công',
             life: 3000
           });
 
@@ -124,7 +159,7 @@ export class UserComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'User Create Error',
+            detail: 'Thêm mới người dùng thất bại',
             life: 3000
           });
         }
@@ -139,7 +174,7 @@ export class UserComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
-            detail: 'User Update',
+            detail: 'Người dùng đã được cập nhật',
             life: 3000
           });
 
@@ -150,7 +185,7 @@ export class UserComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'User Update Error',
+            detail: 'Lỗi khi cập nhật người dùng',
             life: 3000
           });
         }
@@ -161,7 +196,7 @@ export class UserComponent implements OnInit {
 
   deleteUser(user: User) {
     this.confirmationService.confirm({
-      message: 'Are you want to delete the selected user',
+      message: 'Bạn muốn xóa người dùng đang chọn?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -170,7 +205,7 @@ export class UserComponent implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
-              detail: 'User Deleted',
+              detail: 'Đã xóa người dùng',
               life: 3000
             });
 
@@ -180,7 +215,7 @@ export class UserComponent implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'ERROR',
-              detail: 'User Delete Error',
+              detail: 'Xóa người dùng lỗi',
               life: 3000
             });
           }
@@ -200,6 +235,7 @@ export class UserComponent implements OnInit {
       login: user.login,
       passwordHash: user.passwordHash,
       email: user.email,
+      phone: user.phone,
       authorities: user.authorities[0] == 'ROLE_USER' ? { label: 'User', value: 'ROLE_USER' } : { label: 'Admin', value: 'ROLE_ADMIN' }
     });
 

@@ -161,3 +161,6 @@ body {
   /* Ví dụ, cột hình ảnh */
   width: 110px; /* Đặt chiều rộng cố định cho cột hình ảnh */
 }
+small{
+  color: red;
+}
