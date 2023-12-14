@@ -19,7 +19,7 @@ export class CartDetailService {
   }
 
   getAllCartDetailPath() {
-    return this.http.get<any>(this.apiUrl + "allpath", {
+    return this.http.get<any>(this.apiUrl + "allCartDetail", {
       withCredentials: true,
     });
   }

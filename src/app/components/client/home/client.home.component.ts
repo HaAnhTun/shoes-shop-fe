@@ -14,6 +14,8 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 })
 export class ClientHomeComponent implements OnInit {
   shoesDetailCustom: ShoesDetailCustom[];
+  shoesDetailCustomNewDisCount: ShoesDetailCustom[];
+  images: any[] | undefined;
   constructor(
     public layoutService: LayoutService,
     private loginService: LoginService,
@@ -23,6 +25,10 @@ export class ClientHomeComponent implements OnInit {
     private cartDetailCustomerService: CartDetailCustomerService
   ) {}
   ngOnInit(): void {
+    this.images = [
+      "../../../../assets/images/sale_winter.png",
+      "../../../../assets/images/sale.png",
+    ];
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getCount().subscribe((Response) => {
         this.cartDetailCustomerService.setData(Response);
@@ -44,8 +50,14 @@ export class ClientHomeComponent implements OnInit {
       });
     }
     this.shoesdetailService.getNewShoesDetail().subscribe((response) => {
+      console.log(response);
       this.shoesDetailCustom = response;
     });
+    this.shoesdetailService
+      .getNewDiscountShoesDetail()
+      .subscribe((response) => {
+        this.shoesDetailCustomNewDisCount = response;
+      });
   }
 
   shoesDetail(shoesDetail: ShoesDetailCustom) {
