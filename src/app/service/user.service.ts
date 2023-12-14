@@ -51,4 +51,24 @@ export class UserService {
   usernameExist(login : any):Observable<any>{
     return this.http.get(this.baseUrl + '/username-exist/' + login);
   }
+
+  checkEmail(email:any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + '/account/check', email, {
+      withCredentials: true,
+    });
+  }
+  changePassword(email:any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + '/account/reset-password/init', email, {
+      withCredentials: true,
+    });
+  }
+  checkResetKey(key:any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + '/account/checkResetKey', key, {
+      withCredentials: true,
+    });
+  }
+
+  newPassword(keyAndPassword: any):Observable<any>{
+    return this.http.post<any>(this.baseUrl + "/account/reset-password/finish", keyAndPassword);
+  }
 }

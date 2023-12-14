@@ -33,7 +33,8 @@ export class PayComponent implements OnInit {
   arrSanPham: string;
   arrQuantity: string;
   formOrder: any;
-  paymentMethod: number = 1;
+  paymentMethod: number = -1;
+  shoesInCart: any;
 
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
@@ -51,6 +52,16 @@ export class PayComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (
+      this.checkCartDetailCustom.length === 0 &&
+      sessionStorage.getItem("shoesDetailInOder") != null
+    ) {
+      let cartDetailCustoms = sessionStorage.getItem("shoesDetailInOder");
+      if (cartDetailCustoms) {
+        let datas = JSON.parse(cartDetailCustoms);
+        this.checkCartDetailCustom = datas;
+      }
+    }
     this.checkCartDetailCustom.map((c) => {
       this.totalPrice =
         c.discountmethod === 1
@@ -58,10 +69,12 @@ export class PayComponent implements OnInit {
           : c.discountmethod === 2
             ? this.totalPrice +
             (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
-            : c.discountmethod === 3
-              ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
-              : this.totalPrice +
-              (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity;
+          : c.discountmethod === 3
+          ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
+          : c.discount_amount === 4
+          ? this.totalPrice +
+            (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity
+          : this.totalPrice + c.price * c.quantity;
     });
     this.tax = this.totalPrice * 0.08;
     this.totalPayment = this.totalPrice + this.tax;
@@ -78,6 +91,7 @@ export class PayComponent implements OnInit {
           }
         });
     }
+    console.log(this.checkCartDetailCustom);
   }
 
   updateShippingCost(cost: number) {
@@ -86,36 +100,60 @@ export class PayComponent implements OnInit {
   }
 
   payment() {
-    console.log(this.totalPayment);
 
-    if (this.paymentMethod == 1) {
-      this.saveOrder();
-    } else {
-      let idUser = null;
-      if (this.user != null) {
-        idUser = this.user.id;
-      }
-      this.arrSanPham = this.checkCartDetailCustom
-        .map((any) => any.shoesdetailid)
-        .join("a");
-      this.arrQuantity = this.checkCartDetailCustom
-        .map((any) => any.quantity)
-        .join("b");
-      this.payService
-        .createPayment(
-          Math.round(this.totalPayment),
-          this.fullName,
-          this.phoneNumber,
-          this.emailAddress,
-          this.homeAddress,
-          this.shippingCost,
-          idUser,
-          this.arrSanPham,
-          this.arrQuantity
-        )
-        .subscribe((response) => {
-          window.location.href = response;
+    console.log(this.paymentMethod);
+    console.log(this.shippingCost);
+    if (this.shippingCost != 0) {
+      if (this.paymentMethod == 1) {
+        this.saveOrder();
+      } else if (this.paymentMethod == 2) {
+        let idUser = null;
+        if (this.user != null) {
+          idUser = this.user.id;
+        } else {
+          idUser = "null";
+        }
+        this.arrSanPham = this.checkCartDetailCustom
+          .map((any) => any.shoesdetailid)
+          .join("a");
+        this.shoesInCart = this.checkCartDetailCustom.map(
+          (any) => any.shoesdetailid
+        );
+        sessionStorage.setItem("shoesInCart", JSON.stringify(this.shoesInCart));
+
+        this.arrQuantity = this.checkCartDetailCustom
+          .map((any) => any.quantity)
+          .join("b");
+        this.payService
+          .createPayment(
+            this.totalPayment,
+            this.fullName,
+            this.phoneNumber,
+            this.emailAddress,
+            this.homeAddress,
+            this.shippingCost,
+            idUser,
+            this.arrSanPham,
+            this.arrQuantity
+          )
+          .subscribe((response) => {
+            window.location.href = response;
+          });
+      } else {
+        this.messageService.add({
+          severity: "info",
+          summary: "Wanning",
+          detail: "Bạn chưa chọn phương thức thanh toán.",
+          life: 3000,
         });
+      }
+    } else {
+      this.messageService.add({
+        severity: "Wanning",
+        summary: "Wanning",
+        detail: "Bạn chưa chọn phương thức giao hàng.",
+        life: 3000,
+      });
     }
   }
   getTotalPrice() {
