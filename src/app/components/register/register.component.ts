@@ -28,7 +28,17 @@ export class RegisterComponent{
       login: ['', Validators.required, [this.duplicateLogin()]],
       passwordHash: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]]
+      email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]+$/),
+        ],
+        [
+          this.asyncValidateFirstDigit.bind(this)
+        ]
+      ],
     }, {
       validator: this.mustMatch('passwordHash', 'confirmPassword')
     });
@@ -129,4 +139,15 @@ export class RegisterComponent{
       );
     };
   }
+
+  asyncValidateFirstDigit(control: AbstractControl): Observable<ValidationErrors | null> {
+    const value = control.value as string;
+
+    if (value && value.charAt(0) !== '0') {
+      return of({ invalidFirstDigit: true });
+    }
+
+    return of(null);
+  }
+
 }
