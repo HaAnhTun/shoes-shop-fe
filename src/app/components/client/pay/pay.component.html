@@ -102,19 +102,33 @@
             </td>
             <td>
               <div>
-                <span *ngIf="cartDetails.discountmethod === null">{{ cartDetails.price }} đ</span>
-                <span [ngClass]="{
+                <span *ngIf="cartDetails.discountmethod === null">{{
+                  cartDetails.price | currency : "VND" : "symbol" : "1.0-0"
+                }}</span>
+                <span
+                  [ngClass]="{
                     'text-decoration-line-through': cartDetails.discountmethod,
                     'text-secondary': cartDetails.discountmethod
-                  }" *ngIf="cartDetails.discountmethod != null">{{ cartDetails.price }} đ</span>
+                  }"
+                  *ngIf="cartDetails.discountmethod != null"
+                  >{{
+                    cartDetails.price | currency : "VND" : "symbol" : "1.0-0"
+                  }}</span
+                >
               </div>
               <div *ngIf="
                   cartDetails.discountmethod === 1 ||
                   cartDetails.discountmethod === 3
                 ">
                 Giá sau khuyến mãi
-                <span *ngIf="cartDetails.discountmethod === 1">{{ cartDetails.discountamount_1_2 }}đ</span>
-                <span *ngIf="cartDetails.discountmethod === 3">{{ cartDetails.discountamount_3_4 }}đ</span>
+                <span *ngIf="cartDetails.discountmethod === 1">{{
+                  cartDetails.discountamount_1_2
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}</span>
+                <span *ngIf="cartDetails.discountmethod === 3">{{
+                  cartDetails.discountamount_3_4
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}</span>
               </div>
               <div *ngIf="
                   cartDetails.discountmethod === 2 ||
@@ -126,24 +140,30 @@
               </div>
               <div *ngIf="cartDetails.discountmethod != null">
                 <span *ngIf="cartDetails.discountmethod === 1">
-                  {{ cartDetails.price - cartDetails.discountamount_1_2 }} đ
+                  {{
+                    cartDetails.price - cartDetails.discountamount_1_2
+                      | currency : "VND" : "symbol" : "1.0-0"
+                  }}
                 </span>
                 <span *ngIf="cartDetails.discountmethod === 2">
                   {{
-                  cartDetails.price -
-                  (cartDetails.price * cartDetails.discountamount_1_2) / 100
+                    cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_1_2) / 100
+                      | currency : "VND" : "symbol" : "1.0-0"
                   }}
-                  đ
                 </span>
                 <span *ngIf="cartDetails.discountmethod === 3">
-                  {{ cartDetails.price - cartDetails.discountamount_3_4 }} đ
+                  {{
+                    cartDetails.price - cartDetails.discountamount_3_4
+                      | currency : "VND" : "symbol" : "1.0-0"
+                  }}
                 </span>
                 <span *ngIf="cartDetails.discountmethod === 4">
                   {{
-                  cartDetails.price -
-                  (cartDetails.price * cartDetails.discountamount_3_4) / 100
+                    cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_3_4) / 100
+                      | currency : "VND" : "symbol" : "1.0-0"
                   }}
-                  đ
                 </span>
               </div>
             </td>
@@ -152,41 +172,43 @@
             </td>
             <td>
               <div>
-                <span *ngIf="cartDetails.discountmethod === null">{{ cartDetails.price * cartDetails.quantity }}
-                  đ</span>
+                <span *ngIf="cartDetails.discountmethod === null">{{
+                  cartDetails.price * cartDetails.quantity
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}</span>
               </div>
               <div *ngIf="cartDetails.discountmethod != null">
                 <span *ngIf="cartDetails.discountmethod === 1">
                   {{
-                  (cartDetails.price - cartDetails.discountamount_1_2) *
-                  cartDetails.quantity
+                    (cartDetails.price - cartDetails.discountamount_1_2) *
+                      cartDetails.quantity
+                      | currency : "VND" : "symbol" : "1.0-0"
                   }}
-                  đ
                 </span>
                 <span *ngIf="cartDetails.discountmethod === 2">
                   {{
-                  (cartDetails.price -
-                  (cartDetails.price * cartDetails.discountamount_1_2) /
-                  100) *
-                  cartDetails.quantity
+                    (cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_1_2) /
+                        100) *
+                      cartDetails.quantity
+                      | currency : "VND" : "symbol" : "1.0-0"
                   }}
-                  đ
                 </span>
                 <span *ngIf="cartDetails.discountmethod === 3">
                   {{
-                  (cartDetails.price - cartDetails.discountamount_3_4) *
-                  cartDetails.quantity
+                    (cartDetails.price - cartDetails.discountamount_3_4) *
+                      cartDetails.quantity
+                      | currency : "VND" : "symbol" : "1.0-0"
                   }}
-                  đ
                 </span>
                 <span *ngIf="cartDetails.discountmethod === 4">
                   {{
-                  (cartDetails.price -
-                  (cartDetails.price * cartDetails.discountamount_3_4) /
-                  100) *
-                  cartDetails.quantity
+                    (cartDetails.price -
+                      (cartDetails.price * cartDetails.discountamount_3_4) /
+                        100) *
+                      cartDetails.quantity
+                      | currency : "VND" : "symbol" : "1.0-0"
                   }}
-                  đ
                 </span>
               </div>
             </td>
@@ -205,8 +227,20 @@
         </div>
       </div>
     </div>
-
-    <button type="button" class="confirm-button" (click)="payment()">
+    <button
+      type="button"
+      class="confirm-button"
+      style="float: left"
+      (click)="cancel()"
+    >
+      Hủy
+    </button>
+    <button
+      type="button"
+      class="confirm-button"
+      style="margin-top: -3vw"
+      (click)="payment()"
+    >
       Xác Nhận
     </button>
   </div>

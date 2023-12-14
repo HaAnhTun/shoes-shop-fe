@@ -1,9 +1,13 @@
-<p-image
-  src="../../../../assets/images/slide_show.jpg"
-  alt="Image"
-  width="100%"
-  height="500"
-></p-image>
+<p-galleria
+  [(value)]="images"
+  [showIndicators]="true"
+  [showThumbnails]="false"
+  [containerStyle]="{ 'max-width': '1580px' }"
+>
+  <ng-template pTemplate="item" let-item>
+    <img [src]="item" style="width: 100%; display: block; height: 30vw" />
+  </ng-template>
+</p-galleria>
 <div style="height: 12vw; background-color: #f0f0f0">
   <div class="container">
     <div class="row" style="padding: 2vw">
@@ -46,6 +50,90 @@
       *ngFor="let shoes of shoesDetailCustom"
       style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw"
     >
+      <p-card class="shoesNew" header="{{ shoes.name }}">
+        <ng-template pTemplate="header">
+          <img
+            (click)="shoesDetail(shoes)"
+            [alt]="shoes.name"
+            [src]="shoes.path"
+            style="height: 13vw"
+          />
+        </ng-template>
+        <div style="font-size: larger; font-weight: 500">
+          <div>
+            <span *ngIf="shoes.discountmethod === null">{{
+              shoes.price | currency : "VND" : "symbol" : "1.0-0"
+            }}</span>
+            <span
+              [ngClass]="{
+                'text-decoration-line-through': shoes.discountmethod,
+                'text-secondary': shoes.discountmethod
+              }"
+              *ngIf="shoes.discountmethod != null"
+              >{{ shoes.price | currency : "VND" : "symbol" : "1.0-0" }}</span
+            >
+          </div>
+          <div *ngIf="shoes.discountmethod != null">
+            khuyến mãi
+            <span *ngIf="shoes.discountmethod === 1">{{
+              shoes.discountamount_1_2 | currency : "VND" : "symbol" : "1.0-0"
+            }}</span>
+            <span *ngIf="shoes.discountmethod === 3">{{
+              shoes.discountamount_3_4 | currency : "VND" : "symbol" : "1.0-0"
+            }}</span>
+            <span *ngIf="shoes.discountmethod === 2"
+              >{{ shoes.discountamount_1_2 }}%</span
+            >
+            <span *ngIf="shoes.discountmethod === 4"
+              >{{ shoes.discountamount_3_4 }}%</span
+            >
+            <div *ngIf="shoes.discountmethod != null">
+              <span *ngIf="shoes.discountmethod === 1">
+                {{
+                  shoes.price - shoes.discountamount_1_2
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}
+              </span>
+              <span *ngIf="shoes.discountmethod === 2">
+                {{
+                  shoes.price - (shoes.price * shoes.discountamount_1_2) / 100
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}
+              </span>
+              <span *ngIf="shoes.discountmethod === 3">
+                {{
+                  shoes.price - shoes.discountamount_3_4
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}
+              </span>
+              <span *ngIf="shoes.discountmethod === 4">
+                {{
+                  shoes.price - (shoes.price * shoes.discountamount_3_4) / 100
+                    | currency : "VND" : "symbol" : "1.0-0"
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div style="font-size: x-large; font-weight: 700; margin-top: 4vw">
+    SẢN PHẨM KHUYẾN MÃI
+  </div>
+  <div
+    style="
+      display: grid;
+      grid-template-columns: 20% 20% 20% 20% 20%;
+      margin-top: 3vw;
+    "
+  >
+    <div
+      *ngFor="let shoes of shoesDetailCustomNewDisCount"
+      style="margin-right: 1vw; margin-left: 1vw; margin-bottom: 3vw"
+    >
       <p-card header="{{ shoes.name }}">
         <ng-template pTemplate="header">
           <img
@@ -55,7 +143,55 @@
             style="height: 13vw"
           />
         </ng-template>
-        <p style="font-size: larger; font-weight: 500">{{ shoes.price }}đ</p>
+        <div style="font-size: larger; font-weight: 500">
+          <div
+            [ngClass]="{
+              'text-decoration-line-through': shoes.discountmethod,
+              'text-secondary': shoes.discountmethod
+            }"
+          >
+            {{ shoes.price | currency : "VND" : "symbol" : "1.0-0" }}
+          </div>
+          Khuyến mãi
+          <span *ngIf="shoes.discountmethod === 1">{{
+            shoes.discountamount_1_2 | currency : "VND" : "symbol" : "1.0-0"
+          }}</span>
+          <span *ngIf="shoes.discountmethod === 3">{{
+            shoes.discountamount_3_4 | currency : "VND" : "symbol" : "1.0-0"
+          }}</span>
+          <span *ngIf="shoes.discountmethod === 2"
+            >{{ shoes.discountamount_1_2 }}%</span
+          >
+          <span *ngIf="shoes.discountmethod === 4"
+            >{{ shoes.discountamount_3_4 }}%</span
+          >
+          <div>
+            <span *ngIf="shoes.discountmethod === 1">
+              {{
+                shoes.price - shoes.discountamount_1_2
+                  | currency : "VND" : "symbol" : "1.0-0"
+              }}
+            </span>
+            <span *ngIf="shoes.discountmethod === 2">
+              {{
+                shoes.price - (shoes.price * shoes.discountamount_1_2) / 100
+                  | currency : "VND" : "symbol" : "1.0-0"
+              }}
+            </span>
+            <span *ngIf="shoes.discountmethod === 3">
+              {{
+                shoes.price - shoes.discountamount_3_4
+                  | currency : "VND" : "symbol" : "1.0-0"
+              }}
+            </span>
+            <span *ngIf="shoes.discountmethod === 4">
+              {{
+                shoes.price - (shoes.price * shoes.discountamount_3_4) / 100
+                  | currency : "VND" : "symbol" : "1.0-0"
+              }}
+            </span>
+          </div>
+        </div>
       </p-card>
     </div>
   </div>
