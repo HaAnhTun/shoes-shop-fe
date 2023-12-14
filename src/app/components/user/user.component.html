@@ -4,25 +4,25 @@
         <div class="add-user">
             <div type="button" (click)="openUserDal()" class="add-button">
                 <i class="pi pi-plus"></i>
-                <div class="add-text">Thêm mới</div>
+                <div class="add-text">Tạo mới</div>
             </div>
             <p-dialog header="Chi tiết người dùng" [(visible)]="userDialog" [modal]="true" styleClass="container-fuild"
                 [draggable]="false" [resizable]="true">
                 <form [formGroup]="userForm" (submit)="addUser()">
                     <div class="group-input">
-                        <div class="title">FirstName</div>
+                        <div class="title">Tên</div>
                         <input class="input100" type="text" name="firstName" formControlName="firstName">
                         <small
                             *ngIf="userForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">
-                            FirstName is required.
+                            Tên không được để trống.
                         </small>
                     </div>
                     <div class="group-input">
-                        <div class="title">LastName</div>
+                        <div class="title">Họ</div>
                         <input class="input100" type="text" name="lastName" formControlName="lastName">
                         <small
                             *ngIf="userForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">
-                            LastName is required.
+                            Họ không được để trống.
                         </small>
                     </div>
                     <div class="group-input">
@@ -30,37 +30,49 @@
                         <input class="input100" type="text" name="gmail" formControlName="email">
                         <small
                             *ngIf="userForm.get('email')?.hasError('required') && isFormControlInvalidAndTouched('email')">
-                            Gmail is required.
+                            Gmail không được để trống.
                         </small>
                         <small
                             *ngIf="userForm.get('email')?.hasError('email') && isFormControlInvalidAndTouched('email')">
-                            Gmail does not match form
+                            Gmail không đúng định dạng.
                         </small>
                         <small
                         *ngIf="userForm.get('email')?.hasError('duplicateEmail') && isFormControlInvalidAndTouched('email')">
-                        Email is duplicate</small>
+                        Email đã tồn tại.</small>
+                    </div>
+                    <div class="group-input">
+                        <div class="title">SĐT</div>
+                        <input class="input100" type="text" name="phone" formControlName="phone">
+                        <small *ngIf="userForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
+                            SĐT không được để trống.
+                          </small>
+                          <small *ngIf="userForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
+                            SĐT chỉ được nhập số.
+                          </small>
+                          <small *ngIf="userForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
+                            SĐT phải bắt đầu bằng 0.
+                          </small>
                     </div>
                     <div class="group-input">
                         <div class="title">Tài khoản</div>
                         <input class="input100" type="text" name="username" formControlName="login">
                         <small
                             *ngIf="userForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">
-                            Username is required.
+                            Tài khoản không được để trống.
                         </small>
                         <small
-                        *ngIf="userForm.get('login')?.hasError('duplicateLogin') && isFormControlInvalidAndTouched('login')">Username
-                        is duplicate</small>
+                        *ngIf="userForm.get('login')?.hasError('duplicateLogin') && isFormControlInvalidAndTouched('login')">Tài khoản đã tồn tại</small>
                     </div>
                     <div class="group-input" *ngIf="showPassword">
                         <div class="title">Mật khẩu</div>
                         <input class="input100" type="password" name="password" formControlName="passwordHash">
                         <small
                             *ngIf="userForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">
-                            Password is required.
+                            Mật khẩu không được để trống.
                         </small>
                     </div>
                     <div class="group-input">
-                        <div class="title">Role</div>
+                        <div class="title">Chức vụ</div>
                         <span class="p-float-label">
                             <p-autoComplete showClear="true" showEmptyMessage="true" required="true" class="p-fluid"
                                 id="float-input-color" [dropdown]="true" (completeMethod)="filterList($event)"
@@ -69,7 +81,7 @@
                         </span>
                         <small
                             *ngIf="userForm.get('authorities')?.hasError('required') && isFormControlInvalidAndTouched('authorities')">
-                            Role is required.
+                            Chức vụ không được để trống.
                         </small>
                     </div>
                     <div class="button">
@@ -143,17 +155,20 @@
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-user>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="9">
                             <div class="p-3">
                                 <p-table [value]="orderData[user.id]" dataKey="id" [rows]="5" [paginator]="true"
                                     [tableStyle]="{ 'min-width': '60rem' }">
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th pSortableColumn="code">
-                                                <div class="th">Ma <p-sortIcon field="code"></p-sortIcon></div>
+                                                <div class="th">Mã <p-sortIcon field="code"></p-sortIcon></div>
                                             </th>
                                             <th pSortableColumn="receivedBy">
                                                 <div class="th">Người nhận<p-sortIcon field="receivedBy"></p-sortIcon></div>
+                                            </th>
+                                            <th pSortableColumn="receivedBy">
+                                                <div class="th">Số điện thoại<p-sortIcon field="receivedBy"></p-sortIcon></div>
                                             </th>
                                             <th pSortableColumn="createdDate">
                                                 <div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div>
@@ -167,18 +182,17 @@
                                             <th pSortableColumn="status">
                                                 <div class="th">Trạng thái <p-sortIcon field="status"></p-sortIcon></div>
                                             </th>
-                                            <th style="width: 4rem"></th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-order>
                                         <tr>
                                             <td>{{ order.code }}</td>
                                             <td>{{ order.receivedBy }}</td>
+                                            <td>{{ order.phone }}</td>
                                             <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
                                             <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
                                             <td>{{ order.totalPrice | currency:'VND' }}</td>
-                                            <td>{{ order.status }}</td>
-                                            <td><p-button type="button" icon="pi pi-plus"></p-button></td>
+                                            <td>{{ getStatusName(order.status) }}</td>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="emptymessage">
