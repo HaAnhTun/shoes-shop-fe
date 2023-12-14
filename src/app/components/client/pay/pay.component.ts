@@ -12,6 +12,7 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 import { OrderService } from "src/app/service/order.service";
 import { PayService } from "src/app/service/pay.service";
 import { UserDataService } from "src/app/service/user-data.service";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-pay",
@@ -34,7 +35,7 @@ export class PayComponent implements OnInit {
   arrQuantity: string;
   formOrder: any;
   paymentMethod: number = 1;
-  shoesInCart: any
+  shoesInCart: any;
 
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
@@ -45,7 +46,8 @@ export class PayComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private orderService: OrderService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private location: Location
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
@@ -91,7 +93,6 @@ export class PayComponent implements OnInit {
           }
         });
     }
-    console.log(this.checkCartDetailCustom)
   }
 
   updateShippingCost(cost: number) {
@@ -106,19 +107,16 @@ export class PayComponent implements OnInit {
       let idUser = null;
       if (this.user != null) {
         idUser = this.user.id;
-      }else {
-        idUser = 'null'
+      } else {
+        idUser = "null";
       }
       this.arrSanPham = this.checkCartDetailCustom
         .map((any) => any.shoesdetailid)
         .join("a");
-      this.shoesInCart = this.checkCartDetailCustom.map((any) => any.shoesdetailid);
-      sessionStorage.setItem(
-        "shoesInCart",
-        JSON.stringify(
-          this.shoesInCart
-        )
+      this.shoesInCart = this.checkCartDetailCustom.map(
+        (any) => any.shoesdetailid
       );
+      sessionStorage.setItem("shoesInCart", JSON.stringify(this.shoesInCart));
 
       this.arrQuantity = this.checkCartDetailCustom
         .map((any) => any.quantity)
@@ -139,6 +137,10 @@ export class PayComponent implements OnInit {
           window.location.href = response;
         });
     }
+  }
+
+  cancel() {
+    this.location.back();
   }
   getTotalPrice() {
     let totalPrice = 0;
