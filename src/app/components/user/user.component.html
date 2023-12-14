@@ -4,7 +4,7 @@
         <div class="add-user">
             <div type="button" (click)="openUserDal()" class="add-button">
                 <i class="pi pi-plus"></i>
-                <div class="add-text">New User</div>
+                <div class="add-text">Thêm mới</div>
             </div>
             <p-dialog header="Chi tiết người dùng" [(visible)]="userDialog" [modal]="true" styleClass="container-fuild"
                 [draggable]="false" [resizable]="true">
@@ -98,20 +98,20 @@
                     <tr>
                         <th style="width: 5rem"></th>
                         <th pSortableColumn="firstName">
-                            <div class="th">name<p-sortIcon field="firstName"></p-sortIcon></div>
+                            <div class="th">Tên<p-sortIcon field="firstName"></p-sortIcon></div>
                         </th>
-                        <th>Image</th>
+                        <th>Ảnh</th>
                         <th pSortableColumn="email">
                             <div class="th">Email<p-sortIcon field="email"></p-sortIcon></div>
                         </th>
                         <th pSortableColumn="login">
-                            <div class="th">Username<p-sortIcon field="login"></p-sortIcon></div>
+                            <div class="th">Tên đăng nhập<p-sortIcon field="login"></p-sortIcon></div>
                         </th>
                         <th pSortableColumn="createdBy">
-                            <div class="th">CreatedBy <p-sortIcon field="createdBy"></p-sortIcon></div>
+                            <div class="th">Người tạo <p-sortIcon field="createdBy"></p-sortIcon></div>
                         </th>
                         <th pSortableColumn="createdDate">
-                            <div class="th">CreatedDate <p-sortIcon field="createdDate"></p-sortIcon></div>
+                            <div class="th">Ngày tạo <p-sortIcon field="createdDate"></p-sortIcon></div>
                         </th>
                         <th></th>
                     </tr>

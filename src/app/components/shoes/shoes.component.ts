@@ -119,12 +119,12 @@ export class ShoesComponent implements OnInit {
     // Kiểm tra xem danh sách Shoes có phần tử không
     if (this.Shoes.length > 0) {
       // Tìm độ dài của danh sách và tạo mã code mới
-      const newCode = 'SZ' + (this.Shoes.length + 1).toString().padStart(3, '0');
+      const newCode = 'SP' + (this.Shoes.length + 1).toString().padStart(3, '0');
       // Đặt giá trị mã code mới vào newShoes.code
       this.newShoes.code = newCode;
     } else {
       // Nếu danh sách Shoes rỗng, sử dụng giá trị mặc định
-      this.newShoes.code = 'SZ001';
+      this.newShoes.code = 'SP001';
     }
   }
   
