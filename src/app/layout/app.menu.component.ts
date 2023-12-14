@@ -18,7 +18,7 @@ export class AppMenuComponent implements OnInit {
         label: "Dashboard",
         items: [
           {
-            label: "Dashboard",
+            label: "Thống kê",
             icon: "pi pi-fw pi-home",
             routerLink: ["/admin"],
           },
@@ -63,7 +63,7 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-tag",
             items: [
               {
-                label: "Categories (testing)",
+                label: "Phân loại",
                 icon: "pi pi-fw pi-sign-in",
                 routerLink: ["/admin/shoes-category"],
               },
