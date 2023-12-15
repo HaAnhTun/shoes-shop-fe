@@ -39,12 +39,12 @@ export class UserComponent implements OnInit {
     ]
 
     this.status = [
-      {code: 0, name: "Chờ xác nhận"},
-      {code: 1, name: "Chờ giao"},
-      {code: 2, name: "Đang giao"},
-      {code: 3, name: "Hoàn thành"},
-      {code: 4, name: "Chờ thanh toán"},
-      {code: -1, name: "Hủy"},
+      { code: 0, name: "Chờ xác nhận" },
+      { code: 1, name: "Chờ giao" },
+      { code: 2, name: "Đang giao" },
+      { code: 3, name: "Hoàn thành" },
+      { code: 4, name: "Chờ thanh toán" },
+      { code: -1, name: "Hủy" },
     ]
     this.userForm = this.formBuilder.group({
       id: '',
