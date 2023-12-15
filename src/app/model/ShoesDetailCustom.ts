@@ -6,4 +6,7 @@ export interface ShoesDetailCustom {
   idsz: number;
   idc: number;
   idb: number;
+  discountamount_1_2: number;
+  discountamount_3_4: number;
+  discountmethod: number;
 }
