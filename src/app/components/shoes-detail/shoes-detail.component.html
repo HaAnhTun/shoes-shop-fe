@@ -95,7 +95,8 @@
 	<ng-template pTemplate="content">
 		<form [formGroup]="productForm">
 			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-4 lg:mb-1">
+				<div class="col-12 mt-2 lg:col-4 lg:mb-1">
+					<label for="p-float">Giá mua</label>
 					<p-inputNumber id="p-float" placeholder="Giá Nhập" formControlName="import_price"
 						inputId="currency-vn" mode="currency" currency="VND" styleClass="w-full" ocale="vi-VN"
 						max="999999999" [class.ng-invalid]="isFormControlInvalidAndTouched('import_price')"
@@ -104,8 +105,10 @@
 .get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('import_price')">
 						Hãy nhập giá thu.
 					</small>
+
 				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-1">
+				<div class="col-12 mt-2 lg:col-4 lg:mb-1">
+					<label for="p-flat">Giá bán</label>
 					<p-inputNumber id="p-float" placeholder="Giá Bán" formControlName="price" inputId="currency-vn"
 						mode="currency" currency="VND" styleClass="w-full" locale="vi-VN" max="999999999"
 						[class.ng-invalid]="isFormControlInvalidAndTouched('price')"
@@ -115,7 +118,8 @@
 						Hãy nhập giá bán.
 					</small>
 				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-1">
+				<div class="col-12 mt-2 lg:col-4 lg:mb-1">
+					<label for="p-float">Thuế</label>
 					<p-inputNumber id="p-float" placeholder="Thuế" formControlName="tax" inputId="currency-vn"
 						mode="currency" currency="VND" locale="vi-VN" max="999999999"
 						[class.ng-invalid]="isFormControlInvalidAndTouched('tax')"

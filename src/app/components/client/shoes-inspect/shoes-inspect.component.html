@@ -158,8 +158,8 @@
                 <div class="flex flex-column xl:flex-row xl:align-items-start p-1 gap-1">
                   <span class="text-600 font-medium">{{ feedback.name }}, {{ feedback.created_date }}</span>
                   <p-rating [(ngModel)]="feedback.rate" readonly="true" [cancel]="false" stars="5"></p-rating>
-                  <div class="text-700 font-medium text-xl my-1">
-                    {{ feedback.comment }}
+                  <div class="text-700 flex-wrap font-medium text-xl my-1 ">
+                    <p class="comment-container"> {{ feedback.comment }}</p>
                   </div>
                 </div>
               </div>

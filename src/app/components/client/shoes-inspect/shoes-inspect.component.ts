@@ -250,11 +250,11 @@ export class ShoesInspectComponent {
             .filter((c) => c.shoesDetails.id === this.shoesDetails.id)
             .forEach(
               (c) =>
-                (this.check = this.cartDetailService
-                  .updateQuanity(c.id, this.quantity)
-                  .subscribe(() => {
-                    this.router.navigate(["/client/cart"]);
-                  }))
+              (this.check = this.cartDetailService
+                .updateQuanity(c.id, this.quantity)
+                .subscribe(() => {
+                  this.router.navigate(["/client/cart"]);
+                }))
             );
           if (this.check === null) {
             this.CartDetailSave.status = 1;
@@ -363,8 +363,11 @@ export class ShoesInspectComponent {
       status: 0,
     });
     if (this.feedbackForm.valid) {
+      const params = new HttpParams()
+        .set('brandId', this.shoesDetails.brand_id)
+        .set('shoesId', this.shoesDetails.shoes_id);
       this.http
-        .post("http://localhost:8088/api/feed-backs", this.feedbackForm.value)
+        .post("http://localhost:8088/api/feed-backs", this.feedbackForm.value, { params })
         .subscribe({
           next: (response) => {
             console.log("Feedback submitted", response);

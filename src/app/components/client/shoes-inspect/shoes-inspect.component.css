@@ -10,3 +10,8 @@
   background-color: #ffffff; /* Màu nền trắng */
   color: #000000; /* Màu chữ đen */
 }
+.comment-container {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
