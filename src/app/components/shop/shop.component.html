@@ -15,8 +15,6 @@
                     </ng-template>
                 </p-selectButton>
             </div>
-
-
             <div class="card flex justify-content-center">
                 <h5>Size</h5>
                 <p-selectButton (onOptionClick)="fetchProducts()" [(options)]="paymentOptions"
@@ -30,7 +28,9 @@
                 <p-slider [(ngModel)]="rangeValues" (onSlideEnd)="fetchProducts()" [step]="10000" [range]="true"
                     [max]="10000000" [min]="0"></p-slider>
             </div>
-
+            <div class="card flex justify-content-center">
+                <p-button label="Xóa lọc" [outlined]="true" (onClick)="clearFilter()"></p-button>
+            </div>
         </div>
     </div>
     <!--Data-->
@@ -88,8 +88,7 @@
             </ng-template>
             <ng-template let-product pTemplate="gridItem">
                 <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
-                    <div class="p-4 border-1 surface-border surface-card border-round "
-                        (click)="navigateToRoute(product)">
+                    <div class="p-4 border-1 surface-border surface-card border-round ">
                         <div class="flex flex-wrap gap-2">
                             <span class="flex align-items-center gap-2">
                                 <i class="pi pi-tag"></i>
@@ -98,11 +97,10 @@
                             <p-tag [value]="product.quantity >=10 ? 'Còn Hàng': 'Còn ít'"
                                 [severity]="product.quantity >=10 ? 'success':'danger'"></p-tag>
                         </div>
-
                         <div class="flex flex-column align-items-center gap-3 py-5 cursor-pointer">
-                            <img class=" shadow-2 border-round w-20rem h-20rem" [src]=product.path
-                                [alt]="product.name" />
-                            <div class="text-2xl font-bold">{{ product.name }}</div>
+                            <img class=" shadow-2 border-round w-20rem h-20rem" (click)="navigateToRoute(product)"
+                                [src]=product.path [alt]="product.name" />
+                            <div class="text-2xl font-bold" (click)="navigateToRoute(product)">{{ product.name }}</div>
                             <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                         </div>
                         <div class="flex align-items-center justify-content-between">

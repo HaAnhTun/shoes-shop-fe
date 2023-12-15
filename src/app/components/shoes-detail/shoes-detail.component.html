@@ -1,195 +1,198 @@
 <div class="card">
-    <p-toast></p-toast>
-    <p-toolbar styleClass="mb-4 gap-2">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
-                (click)="openNew()"></button>
-            <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
-                (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
-        </ng-template>
+	<p-toast></p-toast>
+	<p-toolbar styleClass="mb-4 gap-2">
+		<ng-template pTemplate="left">
+			<button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+				(click)="openNew()"></button>
+			<button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger"
+				(click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
+		</ng-template>
 
-        <ng-template pTemplate="right">
+		<ng-template pTemplate="right">
 
-        </ng-template>
-    </p-toolbar>
+		</ng-template>
+	</p-toolbar>
 
-    <p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
-        [globalFilterFields]="['shoes.name', 'code']" [tableStyle]="{ 'min-width': '75rem' }"
-        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id" [filter]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
-                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                    <p-dropdown [ngModel]="1" [options]="statuses" (onChange)="filter($event.value)"
-                        placeholder="Tất cả" [showClear]="true">
-                        <ng-template let-option pTemplate="item">
-                            <p-tag [value]="option.label" [severity]="getSeverityProduct(option.value)"></p-tag>
-                        </ng-template>
-                    </p-dropdown>
-                </ng-template>
-            </p-columnFilter>
-            <br>
-            <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Chi Tiết Sản Phẩm</h5>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                        placeholder="Nhập tên sản phẩm..." />
-                </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 4rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th>Image</th>
-                <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
-                <th pSortableColumn="shoes.name" style="min-width:15rem">Tên Sản Phẩm <p-sortIcon
-                        field="shoes.name"></p-sortIcon>
-                </th>
-                <th pSortableColumn="tax" style="min-width:10rem">Thuế <p-sortIcon field="tax"></p-sortIcon>
-                <th pSortableColumn="import_price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
-                        field="import_price"></p-sortIcon>
-                <th pSortableColumn="price" style="min-width:10rem">Giá Bán(VNĐ) <p-sortIcon field="price"></p-sortIcon>
-                <th pSortableColumn="quantity" style="min-width:10rem">Số Lượng(đôi) <p-sortIcon
-                        field="quantity"></p-sortIcon>
-                <th pSortableColumn="status" style="min-width:10rem">Trạng Thái<p-sortIcon field="status"></p-sortIcon>
-                </th>
-
-                <th>Action</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                </td>
-                <td><img [src]="product.path" [alt]="product.name" width="50" class="shadow-4" /></td>
-                <td>{{ product.code }}</td>
-                <td>{{ product.name +'[' + product.color_name + '-' + product.size_name +']' }}</td>
-                <td>{{ product.tax }}</td>
-                <td>{{ product.import_price }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>
-                    <p-tag [value]="product.status == 1 ? 'Khả dụng' : 'Không khả dụng'"
-                        [severity]="getSeverityProduct(product.status)">
-                    </p-tag>
-                </td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                        (click)="editProduct(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                        (click)="deleteProduct(product)"></button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">Tổng cộng có {{ products ?
-                products.length : 0 }} sản phẩm.</div>
-        </ng-template>
-    </p-table>
+	<p-table #dt [value]="products" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]"
+		[globalFilterFields]="['name', 'code']" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts"
+		[rowHover]="true" dataKey="id" [filter]="true"
+		currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+		<ng-template pTemplate="caption">
+			<p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+				<ng-template pTemplate="filter" let-value let-filter="filterCallback">
+					<p-dropdown [ngModel]="1" [options]="statuses" (onChange)="filter($event.value)"
+						placeholder="Tất cả" [showClear]="true">
+						<ng-template let-option pTemplate="item">
+							<p-tag [value]="option.label" [severity]="getSeverityProduct(option.value)"></p-tag>
+						</ng-template>
+					</p-dropdown>
+				</ng-template>
+			</p-columnFilter>
+			<br>
+			<div class="flex align-items-center justify-content-between">
+				<h5 class="m-0">Chi Tiết Sản Phẩm</h5>
+				<span class="p-input-icon-left">
+					<i class="pi pi-search"></i>
+					<input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+						placeholder="Nhập tên sản phẩm..." />
+				</span>
+			</div>
+		</ng-template>
+		<ng-template pTemplate="header">
+			<tr>
+				<th style="width: 4rem">
+					<p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+				</th>
+				<th>Ảnh</th>
+				<th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
+				<th pSortableColumn="name" style="min-width:15rem">Tên Sản Phẩm <p-sortIcon field="name"></p-sortIcon>
+				</th>
+				<th pSortableColumn="tax" style="min-width:10rem">Thuế <p-sortIcon field="tax"></p-sortIcon>
+				<th pSortableColumn="import_price" style="min-width:10rem">Giá Nhập(VNĐ) <p-sortIcon
+						field="import_price"></p-sortIcon>
+				<th pSortableColumn="price" style="min-width:10rem">Giá Bán(VNĐ) <p-sortIcon field="price"></p-sortIcon>
+				<th pSortableColumn="quantity" style="min-width:10rem">Số Lượng(đôi) <p-sortIcon
+						field="quantity"></p-sortIcon>
+				<th pSortableColumn="status" style="min-width:10rem">Trạng Thái<p-sortIcon field="status"></p-sortIcon>
+				</th>
+				<th>Action</th>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-product>
+			<tr>
+				<td>
+					<p-tableCheckbox [value]="product"></p-tableCheckbox>
+				</td>
+				<td><img [src]="product.path" [alt]="product.name" width="50" class="shadow-4" /></td>
+				<td>{{ product.code }}</td>
+				<td>{{ product.name +'[' + product.color_name + '-' + product.size_name +']' }}</td>
+				<td>{{ product.tax }}</td>
+				<td>{{ product.import_price }}</td>
+				<td>{{ product.price }}</td>
+				<td>{{ product.quantity }}</td>
+				<td>
+					<p-tag [value]="product.status == 1 ? 'Khả dụng' : 'Không khả dụng'"
+						[severity]="getSeverityProduct(product.status)">
+					</p-tag>
+				</td>
+				<td>
+					<button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+						(click)="editProduct(product)"></button>
+					<button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+						(click)="deleteProduct(product)"></button>
+				</td>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="summary">
+			<div class="flex align-items-center justify-content-between">Tổng cộng có {{ products ?
+				products.length : 0 }} sản phẩm.</div>
+		</ng-template>
+	</p-table>
 </div>
 <p-dialog [(visible)]="productDialog" [style]="{ width: '600px' }" header="Product Details" [modal]="true"
-    styleClass="p-fluid">
+	styleClass="p-fluid">
 
-    <ng-template pTemplate="content">
-        <form [formGroup]="productForm">
-            <div class="grid formgrid">
-                <div class="col-12 mb-2 lg:col-4 lg:mb-1">
-                    <p-inputNumber id="p-float" placeholder="Giá Nhập" formControlName="import_price"
-                        inputId="currency-vn" mode="currency" currency="VND" styleClass="w-full" ocale="vi-VN"
-                        max="999999999" [class.ng-invalid]="isFormControlInvalidAndTouched('import_price')"
-                        [class.ng-dirty]="isFormControlInvalidAndTouched('import_price')"> </p-inputNumber>
-                    <small class="p-error" *ngIf="  productForm
+	<ng-template pTemplate="content">
+		<form [formGroup]="productForm">
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-4 lg:mb-1">
+					<p-inputNumber id="p-float" placeholder="Giá Nhập" formControlName="import_price"
+						inputId="currency-vn" mode="currency" currency="VND" styleClass="w-full" ocale="vi-VN"
+						max="999999999" [class.ng-invalid]="isFormControlInvalidAndTouched('import_price')"
+						[class.ng-dirty]="isFormControlInvalidAndTouched('import_price')"> </p-inputNumber>
+					<small class="p-error" *ngIf="  productForm
 .get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('import_price')">
-                        Hãy nhập giá thu.
-                    </small>
-                </div>
-                <div class="col-12 mb-2 lg:col-4 lg:mb-1">
-                    <p-inputNumber id="p-float" placeholder="Giá Bán" formControlName="price" inputId="currency-vn"
-                        mode="currency" currency="VND" styleClass="w-full" locale="vi-VN" max="999999999"
-                        [class.ng-invalid]="isFormControlInvalidAndTouched('price')"
-                        [class.ng-dirty]="isFormControlInvalidAndTouched('price')">> </p-inputNumber>
-                    <small class="p-error" *ngIf="  productForm
+						Hãy nhập giá thu.
+					</small>
+				</div>
+				<div class="col-12 mb-2 lg:col-4 lg:mb-1">
+					<p-inputNumber id="p-float" placeholder="Giá Bán" formControlName="price" inputId="currency-vn"
+						mode="currency" currency="VND" styleClass="w-full" locale="vi-VN" max="999999999"
+						[class.ng-invalid]="isFormControlInvalidAndTouched('price')"
+						[class.ng-dirty]="isFormControlInvalidAndTouched('price')">> </p-inputNumber>
+					<small class="p-error" *ngIf="  productForm
 .get('price')?.hasError('required') && isFormControlInvalidAndTouched('price')">
-                        Hãy nhập giá bán.
-                    </small>
-                </div>
-                <div class="col-12 mb-2 lg:col-4 lg:mb-1">
-                    <p-inputNumber id="p-float" placeholder="Thuế" formControlName="tax" inputId="currency-vn"
-                        mode="currency" currency="VND" locale="vi-VN" max="999999999"
-                        [class.ng-invalid]="isFormControlInvalidAndTouched('tax')"
-                        [class.ng-dirty]="isFormControlInvalidAndTouched('tax')">> </p-inputNumber>
-                    <small class="p-error" *ngIf="  productForm
+						Hãy nhập giá bán.
+					</small>
+				</div>
+				<div class="col-12 mb-2 lg:col-4 lg:mb-1">
+					<p-inputNumber id="p-float" placeholder="Thuế" formControlName="tax" inputId="currency-vn"
+						mode="currency" currency="VND" locale="vi-VN" max="999999999"
+						[class.ng-invalid]="isFormControlInvalidAndTouched('tax')"
+						[class.ng-dirty]="isFormControlInvalidAndTouched('tax')">> </p-inputNumber>
+					<small class="p-error" *ngIf="  productForm
 .get('import_price')?.hasError('required') && isFormControlInvalidAndTouched('tax')">
-                        Hãy nhập thuế.
-                    </small>
-                </div>
-            </div>
-            <br>
-            <div class="p-formgrid grid">
-                <div class="field col">
-                    <label htmlFor="email2">số lượng</label>
-                    <p-inputNumber id="p-float" formControlName="quantity"
-                        [class.ng-invalid]="isFormControlInvalidAndTouched('quantity')"
-                        [class.ng-dirty]="isFormControlInvalidAndTouched('quantity')" inputId="currency-vn"
-                        max="999999">
-                    </p-inputNumber>
-                    <small class="p-error"
-                        *ngIf="productForm.get('quantity')?.hasError('required') && isFormControlInvalidAndTouched('quantity')">
-                        Hãy nhập số lượng.
-                    </small>
-                </div>
-                <div class="field col">
-                    <label htmlFor="name2">Hiển thị</label>
-                    <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                        <p-inputSwitch Switch [ngModel]="product.status === 1 ? true : false"
-                            [ngModelOptions]="{standalone: true}" (onChange)="ouput();"
-                            (ngModelChange)=" productForm.get('status').setValue($event ? 1 : 0)"></p-inputSwitch>
-                    </div>
-                </div>
-            </div>
-            <div class="p-formgrid grid">
-                <div class="field col">
-                    <label htmlFor="name2">Người sửa gần đây</label>
-                    <input pInputText disabled id="name2" [value]="product.lastModifiedBy" type="text" />
-                </div>
-                <div class="field col">
-                    <label htmlFor="email1">Ngày sửa</label>
-                    <input pInputText disabled id="email1" [value]="product.lastModifiedDate" type="text" />
-                </div>
-            </div>
-            <div class="p-formgrid grid">
-                <div class="field col">
-                    <label htmlFor="name2">Người tạo</label>
-                    <input pInputText disabled id="name2" [value]="product.createdBy" type="text" />
-                </div>
-                <div class="field col">
-                    <label htmlFor="email2">ngày tạo</label>
-                    <input pInputText disabled id="email2" [value]="product.createdDate" type="text" />
-                </div>
-            </div>
-            <span class="p-float-label">
-                <textarea id="float-input-summary" formControlName="description" maxlength="255" pInputTextarea
-                    [class.ng-invalid]="isFormControlInvalidAndTouched('description')"
-                    [class.ng-dirty]="isFormControlInvalidAndTouched('description')"></textarea>
-                <label for="float-input-summary">Description</label>
-            </span>
-            <small class="p-error"
-                *ngIf="productForm.get('description')?.hasError('required') && isFormControlInvalidAndTouched('description')">
-                description is required.
-            </small>
-        </form>
-    </ng-template>
+						Hãy nhập thuế.
+					</small>
+				</div>
+			</div>
+			<br>
+			<div class="p-formgrid grid">
+				<div class="field col">
+					<label htmlFor="email2">số lượng</label>
+					<p-inputNumber id="p-float" formControlName="quantity"
+						[class.ng-invalid]="isFormControlInvalidAndTouched('quantity')"
+						[class.ng-dirty]="isFormControlInvalidAndTouched('quantity')" inputId="currency-vn"
+						max="999999">
+					</p-inputNumber>
+					<small class="p-error"
+						*ngIf="productForm.get('quantity')?.hasError('required') && isFormControlInvalidAndTouched('quantity')">
+						Hãy nhập số lượng.
+					</small>
+				</div>
+				<div class="field col">
+					<label htmlFor="name2">Hiển thị</label>
+					<div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+						<p-inputSwitch Switch [ngModel]="product.status === 1 ? true : false"
+							[ngModelOptions]="{standalone: true}" (onChange)="ouput();"
+							(ngModelChange)=" productForm.get('status').setValue($event ? 1 : 0)"></p-inputSwitch>
+					</div>
+				</div>
+			</div>
+			<div class="p-formgrid grid">
+				<div class="field col">
+					<label htmlFor="name2">Người sửa gần đây</label>
+					<input pInputText disabled id="name2" [value]="product.last_modified_by" type="text" />
+				</div>
+				<div class="field col">
+					<label htmlFor="email1">Ngày sửa</label>
+					<input pInputText disabled id="email1" [value]="product.last_modified_date" type="text" />
+				</div>
+			</div>
+			<div class="p-formgrid grid">
+				<div class="field col">
+					<label htmlFor="name2">Người tạo</label>
+					<input pInputText disabled id="name2" [value]="product.created_by" type="text" />
+				</div>
+				<div class="field col">
+					<label htmlFor="email2">ngày tạo</label>
+					<input pInputText disabled id="email2" [value]="product.created_date" type="text" />
+				</div>
+			</div>
+			<span class="p-float-label">
+				<textarea id="float-input-summary" formControlName="description" maxlength="255" pInputTextarea
+					[class.ng-invalid]="isFormControlInvalidAndTouched('description')"
+					[class.ng-dirty]="isFormControlInvalidAndTouched('description')"></textarea>
+				<label for="float-input-summary">Description</label>
+			</span>
+			<small class="p-error"
+				*ngIf="productForm.get('description')?.hasError('required') && isFormControlInvalidAndTouched('description')">
+				Hãy nhập mô tả.
+			</small>
+			<li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+				<div class="text-500 w-2 md:w-2 font-medium">Ảnh</div>
+				<p-fileUpload #fileUpload name="objectTest" [showUploadButton]="false" customUpload="true"
+					(onSelect)="selection(fileUpload.files)" [fileLimit]="5" [multiple]="true" accept="image/*"
+					maxFileSize="10000000" (onClear)="clearSelectedFiles()">
+				</p-fileUpload>
+			</li>
+		</form>
+	</ng-template>
 
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
-    </ng-template>
-
-
+	<ng-template pTemplate="footer">
+		<button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+		<button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+	</ng-template>
 </p-dialog>
 
 

@@ -51,33 +51,26 @@
             <a [routerLink]="'/client/contact'" class="nav-link">Liên hệ</a>
           </li>
         </ul>
-        <!-- <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> -->
       </div>
     </div>
   </nav>
   <div #topbarmenu class="layout-topbar-menu">
-    <div class="hinh-tron" [routerLink]="'/client/cart'">
-      <button class="p-link layout-topbar-button">
-        <i class="pi pi-shopping-cart"></i>
-        <span>giỏi hàng</span>
-      </button>
+    <div
+      class="hinh-tron"
+      [routerLink]="'/client/cart'"
+      style="cursor: pointer"
+    >
+      <i
+        class="pi pi-shopping-cart"
+        style="font-size: 2rem; margin-top: 0.5vw; margin-left: 0.5vw"
+      ></i>
     </div>
     <p-badge [value]="quanity" severity="success"></p-badge>
-    <button
-      style="margin-left: 4vw; margin-right: 3vw"
-      class="p-link layout-topbar-button"
+    <div
+      style="margin-left: 4vw; margin-right: 3vw; height: 3vw; cursor: pointer"
       [routerLink]="'/client/profile'"
     >
-      <i class="pi pi-user"></i>
-      <span>trang cá nhân</span>
-    </button>
+      <i class="pi pi-user" style="font-size: 2rem; margin-top: 0.5vw"></i>
+    </div>
   </div>
 </div>

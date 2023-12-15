@@ -47,7 +47,7 @@
           </td>
           <td>{{ order.code }}</td>
           <td>
-            {{ order.totalPrice | currency : "VND" }}
+            {{ order.totalPrice }}đ
           </td>
           <td>
             {{ order.createdDate | date : "dd-MM-yyyy" }}
@@ -132,13 +132,6 @@
 </div>
 </td>
 </tr>
-</ng-template>
-<ng-template pTemplate="summary">
-  <div style="text-align: right">
-    <p-button label="Hủy" styleClass="p-button-outlined" *ngIf="
-                  checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
-                "></p-button>
-  </div>
 </ng-template>
 </p-table>
 </ng-container>

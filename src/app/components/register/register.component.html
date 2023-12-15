@@ -39,6 +39,22 @@
                         Email không đúng định dạng</small>
                 </div>
                 <div class="group-input">
+                    <div class="title">SĐT</div>
+                    <input class="input100" type="text" name="phone" formControlName="phone">
+                    <small
+                        *ngIf="registionForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
+                        SĐT không được để trống.
+                    </small>
+                    <small
+                        *ngIf="registionForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
+                        SĐT chỉ được nhập số.
+                    </small>
+                    <small
+                        *ngIf="registionForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
+                        SĐT phải bắt đầu bằng 0.
+                    </small>
+                </div>
+                <div class="group-input">
                     <div class="title">Tài khoản</div>
                     <input class="input100" type="text" name="username" formControlName="login">
                     <small
@@ -68,7 +84,7 @@
                     <small
                         *ngIf="registionForm.get('confirmPassword')?.hasError('required') && isFormControlInvalidAndTouched('confirmPassword')">
                         Hãy nhập lại mật khẩu
-                        </small>
+                    </small>
                     <small
                         *ngIf="registionForm.get('confirmPassword')?.hasError('mustMatch') && isFormControlInvalidAndTouched('confirmPassword')">
                         Không trùng với mật khẩu

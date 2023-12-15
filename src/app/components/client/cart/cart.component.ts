@@ -403,6 +403,7 @@ export class CartComponent implements OnInit {
   }
 
   loadTotalPrice() {
+    console.log(this.cartDetails);
     this.tongTien = 0;
     this.cartDetails
       .filter((c) => c.checkBox === true)
@@ -416,8 +417,10 @@ export class CartComponent implements OnInit {
                 (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
               : c.discountmethod === 3
               ? this.tongTien + (c.price - c.discountamount_3_4) * c.quantity
-              : this.tongTien +
-                (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity)
+              : c.discountmethod === 4
+              ? this.tongTien +
+                (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity
+              : this.tongTien + c.price * c.quantity)
       );
   }
   checkQuanityAll() {

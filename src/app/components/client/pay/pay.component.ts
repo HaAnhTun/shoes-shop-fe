@@ -12,6 +12,7 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 import { OrderService } from "src/app/service/order.service";
 import { PayService } from "src/app/service/pay.service";
 import { UserDataService } from "src/app/service/user-data.service";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-pay",
@@ -35,6 +36,7 @@ export class PayComponent implements OnInit {
   formOrder: any;
   paymentMethod: number = -1;
   shoesInCart: any;
+  checkAddress: boolean = true;
 
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
@@ -45,7 +47,8 @@ export class PayComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private orderService: OrderService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private location: Location
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
@@ -67,7 +70,7 @@ export class PayComponent implements OnInit {
         c.discountmethod === 1
           ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
           : c.discountmethod === 2
-          ? this.totalPrice +
+            ? this.totalPrice +
             (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
           : c.discountmethod === 3
           ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
@@ -88,6 +91,7 @@ export class PayComponent implements OnInit {
             console.log(this.user);
             this.fullName = this.user.lastName + " " + this.user.firstName;
             this.emailAddress = this.user.email;
+            this.phoneNumber = this.user.phone;
           }
         });
     }
@@ -96,64 +100,80 @@ export class PayComponent implements OnInit {
 
   updateShippingCost(cost: number) {
     this.tax = (this.totalPrice + this.shippingCost) * 0.08;
+    console.log(this.tax);
     this.totalPayment = this.totalPrice + this.shippingCost + this.tax; // Cập nhật tổng giá
   }
 
   payment() {
-    console.log(this.paymentMethod);
-    console.log(this.shippingCost);
-    if (this.shippingCost != 0) {
-      if (this.paymentMethod == 1) {
-        this.saveOrder();
-      } else if (this.paymentMethod == 2) {
-        let idUser = null;
-        if (this.user != null) {
-          idUser = this.user.id;
-        } else {
-          idUser = "null";
-        }
-        this.arrSanPham = this.checkCartDetailCustom
-          .map((any) => any.shoesdetailid)
-          .join("a");
-        this.shoesInCart = this.checkCartDetailCustom.map(
-          (any) => any.shoesdetailid
-        );
-        sessionStorage.setItem("shoesInCart", JSON.stringify(this.shoesInCart));
+    console.log(this.homeAddress)
+    if (this.homeAddress == '') {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Cảnh báo",
+        detail: "Vui lòng nhập địa chỉ trước khi thanh toán.",
+        life: 3000,
+      });
+    } else {
+      if (this.shippingCost != 0) {
+        if (this.paymentMethod == 1) {
+          this.saveOrder();
+        } else if (this.paymentMethod == 2) {
+          let idUser = null;
+          if (this.user != null) {
+            idUser = this.user.id;
+          } else {
+            idUser = "null";
+          }
+          this.arrSanPham = this.checkCartDetailCustom
+            .map((any) => any.shoesdetailid)
+            .join("a");
+          this.shoesInCart = this.checkCartDetailCustom.map(
+            (any) => any.shoesdetailid
+          );
+          sessionStorage.setItem(
+            "shoesInCart",
+            JSON.stringify(this.shoesInCart)
+          );
 
-        this.arrQuantity = this.checkCartDetailCustom
-          .map((any) => any.quantity)
-          .join("b");
-        this.payService
-          .createPayment(
-            this.totalPayment,
-            this.fullName,
-            this.phoneNumber,
-            this.emailAddress,
-            this.homeAddress,
-            this.shippingCost,
-            idUser,
-            this.arrSanPham,
-            this.arrQuantity
-          )
-          .subscribe((response) => {
-            window.location.href = response;
+          this.arrQuantity = this.checkCartDetailCustom
+            .map((any) => any.quantity)
+            .join("b");
+          this.payService
+            .createPayment(
+              this.totalPayment,
+              this.fullName,
+              this.phoneNumber,
+              this.emailAddress,
+              this.homeAddress,
+              this.shippingCost,
+              idUser,
+              this.arrSanPham,
+              this.arrQuantity
+            )
+            .subscribe((response) => {
+              window.location.href = response;
+            });
+        } else {
+          this.messageService.add({
+            severity: "warn",
+            summary: "Cảnh báo",
+            detail: "Bạn chưa chọn phương thức thanh toán.",
+            life: 3000,
           });
+        }
       } else {
         this.messageService.add({
-          severity: "info",
-          summary: "Wanning",
-          detail: "Bạn chưa chọn phương thức thanh toán.",
+          severity: "warn",
+          summary: "Cảnh báo",
+          detail: "Bạn chưa chọn phương thức giao hàng.",
           life: 3000,
         });
       }
-    } else {
-      this.messageService.add({
-        severity: "Wanning",
-        summary: "Wanning",
-        detail: "Bạn chưa chọn phương thức giao hàng.",
-        life: 3000,
-      });
     }
+  }
+
+  cancel() {
+    this.location.back();
   }
   getTotalPrice() {
     let totalPrice = 0;
