@@ -124,7 +124,7 @@ export class OderComponent implements OnInit {
       { code: 2, name: "Đang giao", quantity: 0 },
       { code: 3, name: "Hoàn thành", quantity: 0 },
       { code: -1, name: "Hủy", quantity: 0 },
-      { code: 4, name: "Chờ thanh toán", quantity: 0 },
+      { code: 4, name: "Đổi trả hàng", quantity: 0 },
     ];
     this.listPayment = [
       { code: 0, name: "Tiền mặt" },
@@ -226,8 +226,8 @@ export class OderComponent implements OnInit {
       this.orderSearchReqDTO.status = -1;
       this.checkOne = true;
       this.check = false;
-    } else if (label.startsWith("Chờ thanh toán")) {
-      this.checkString = "Chờ thanh toán";
+    } else if (label.startsWith("Đổi trả hàng")) {
+      this.checkString = "Đổi trả hàng";
       this.orderSearchReqDTO.status = 4;
       this.check = true;
       this.checkOne = false;
