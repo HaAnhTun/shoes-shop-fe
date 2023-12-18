@@ -29,6 +29,7 @@ export class RegisterCustomerComponent{
       passwordHash: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]],
+      dob: [''],
       phone: [
         '',
         [

@@ -5,14 +5,16 @@
                 <p class="title-register">Đăng ký</p>
                 <form class="group" [formGroup]="registionForm" (ngSubmit)="registion()">
                     <div class="input">
-                        <input class="firstname text" type="text" placeholder="Tên" name="firstName" formControlName="firstName">
+                        <input class="firstname text" type="text" placeholder="Tên" name="firstName"
+                            formControlName="firstName">
                         <small
                             *ngIf="registionForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">
                             Hãy nhập tên
                         </small>
                     </div>
                     <div class="input">
-                        <input class="lastname text" type="text" placeholder="Họ" name="lastName" formControlName="lastName">
+                        <input class="lastname text" type="text" placeholder="Họ" name="lastName"
+                            formControlName="lastName">
                         <small
                             *ngIf="registionForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">
                             Hãy nhập họ
@@ -32,18 +34,29 @@
                     </div>
                     <div class="input">
                         <input class="email text" type="text" placeholder="SĐT" name="sdt" formControlName="phone">
-                        <small *ngIf="registionForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
+                        <small
+                            *ngIf="registionForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
                             SĐT không được để trống.
-                          </small>
-                          <small *ngIf="registionForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
+                        </small>
+                        <small
+                            *ngIf="registionForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
                             SĐT chỉ được nhập số.
-                          </small>
-                          <small *ngIf="registionForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
+                        </small>
+                        <small
+                            *ngIf="registionForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
                             SĐT phải bắt đầu bằng 0.
-                          </small>
+                        </small>
                     </div>
                     <div class="input">
-                        <input class="username text" type="text" placeholder="Tài khoản" name="username" formControlName="login">
+                        <input type="date" class="dob text" aria-describedby="emailHelp"
+                            formControlName="dob" required="" />
+                        <small *ngIf="registionForm.get('dob')?.hasError('required') &&isFormControlInvalidAndTouched('dob')">
+                            Ngày sinh không được để trống.
+                        </small>
+                    </div>
+                    <div class="input">
+                        <input class="username text" type="text" placeholder="Tài khoản" name="username"
+                            formControlName="login">
                         <small
                             *ngIf="registionForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">
                             Hãy nhập tài khoản
@@ -54,7 +67,8 @@
                         </small>
                     </div>
                     <div class="input">
-                        <input class="password text" type="password" placeholder="Mật khẩu" name="password" formControlName="passwordHash">
+                        <input class="password text" type="password" placeholder="Mật khẩu" name="password"
+                            formControlName="passwordHash">
                         <small
                             *ngIf="registionForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">
                             Hãy nhập mật khẩu
@@ -65,11 +79,12 @@
                         </small>
                     </div>
                     <div class="input">
-                        <input class="confirm text" type="password" placeholder="Nhập lại mật khẩu" name="confirmPassword" formControlName="confirmPassword">
+                        <input class="confirm text" type="password" placeholder="Nhập lại mật khẩu"
+                            name="confirmPassword" formControlName="confirmPassword">
                         <small
                             *ngIf="registionForm.get('confirmPassword')?.hasError('required') && isFormControlInvalidAndTouched('confirmPassword')">
                             Hãy nhập lại mật khẩu
-                            </small>
+                        </small>
                         <small
                             *ngIf="registionForm.get('confirmPassword')?.hasError('mustMatch') && isFormControlInvalidAndTouched('confirmPassword')">
                             Không trùng với mật khẩu
@@ -91,11 +106,11 @@
                     <div class="group">
                         <p class="title-label">ShoesStore Nhận thưởng ngay hôm nay.</p>
                         <p>Là thành viên của ShoesStore, bạn sẽ nhận được phần thưởng khi làm những gì bạn yêu thích.
-                             Đăng ký ngay hôm nay và nhận ngay quyền truy cập vào các lợi ích này:</p>
+                            Đăng ký ngay hôm nay và nhận ngay quyền truy cập vào các lợi ích này:</p>
                         <div>
                             <ul>
-                                <li>Miễn phí vận chuyển</li>
-                                <li>Giảm giá 10% cho đơn hàng đầu tiên</li>
+                                <li>Giao hàng toàn quốc</li>
+                                <li>Mua sắm thỏa thích</li>
                             </ul>
                         </div>
                         <p>Tham gia ngay để nhận những ưu đãi hấp dẫn.​</p>
@@ -108,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </body>
