@@ -1,248 +1,264 @@
 <body>
   <div class="container">
-    <!-- Tùy Chọn Thanh Toán -->
-    <!-- <div class="section payment-options">
-            <h2>Tùy Chọn Thanh Toán</h2>
-            <form>
-                <label><input type="radio" name="payment-option" value="login"> Đăng nhập</label><br>
-                <label><input type="radio" name="payment-option" value="register"> Đăng ký</label><br>
-                <label><input type="radio" name="payment-option" value="guest" checked> Thanh toán</label>
-            </form>
-        </div> -->
+    <form class="delivery-form">
+      <div class="row">
 
-    <!-- Thông Tin Giao Hàng -->
-    <div class="section delivery-info">
-      <h2>Thông Tin Giao Hàng</h2>
-      <form class="delivery-form">
-        <div class="form-group">
-          <label for="fullName">Họ và tên:</label>
-          <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên của bạn"
-            [(ngModel)]="fullName" />
-        </div>
-        <div class="form-group">
-          <label for="phoneNumber">Điện thoại:</label>
-          <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại"
-            [(ngModel)]="phoneNumber" />
-        </div>
-        <div class="form-group">
-          <label for="emailAddress">Email (nếu có):</label>
-          <input type="email" id="emailAddress" name="emailAddress" placeholder="Nhập email"
-            [(ngModel)]="emailAddress" />
-        </div>
-        <div class="form-group">
-          <label for="homeAddress">Địa chỉ:</label>
-          <textarea id="homeAddress" name="homeAddress" rows="4" placeholder="Nhập địa chỉ giao hàng"
-            [(ngModel)]="homeAddress"></textarea>
-        </div>
-        <!-- Phương Thức Thanh Toán -->
-        <div class="section payment-method">
-          <h2>Phương Thức Thanh Toán</h2>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment-method" value="2" [(ngModel)]="paymentMethod"
-              id="flexRadioDefault1" />
-            <label class="form-check-label" for="flexRadioDefault1">
-              Thanh toán trực tuyến với VNPay
-            </label>
+        <div class="col-5">
+          <div class="section delivery-info">
+            <h2>Thông Tin Giao Hàng</h2>
+
+            <div class="form-group">
+              <label for="fullName">Họ và tên:</label>
+              <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên của bạn"
+                [(ngModel)]="fullName" />
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Điện thoại:</label>
+              <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại"
+                [(ngModel)]="phoneNumber" />
+            </div>
+            <div class="form-group">
+              <label for="emailAddress">Email (nếu có):</label>
+              <input type="email" id="emailAddress" name="emailAddress" placeholder="Nhập email"
+                [(ngModel)]="emailAddress" />
+            </div>
+            <!-- <div class="form-group">
+              <label for="homeAddress">Địa chỉ:</label>
+              <textarea id="homeAddress" name="homeAddress" rows="4" placeholder="Nhập địa chỉ giao hàng"
+                [(ngModel)]="homeAddress"></textarea>
+            </div> -->
+           
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment-method" value="1" id="flexRadioDefault2"
-              [(ngModel)]="paymentMethod" />
-            <label class="form-check-label" for="flexRadioDefault2">
-              Thanh toán khi nhận hàng
-            </label>
+          <div class="section address">
+            <h4>Địa chỉ nhận hàng</h4>
+            <div>
+              <label for="province">Tỉnh - thành phố</label>
+              <p-autoComplete name="province" showClear="true" showEmptyMessage="true" unique="true"
+                [(ngModel)]="selectedProvince" [dropdown]="true" [suggestions]="filteredProvinces"
+                (completeMethod)="filterProvine($event)" (onSelect)="getDistrict($event)"
+                field="province_name" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+              </p-autoComplete>
+            </div>
+            <div>
+              <label for="district">Quận - Huyện</label>
+              <p-autoComplete name="district" showClear="true" showEmptyMessage="true" unique="true"
+                [(ngModel)]="selectedDistrict" [dropdown]="true" [suggestions]="filteredDistricts"
+                (completeMethod)="filterDistrict($event)" (onSelect)="getWard($event)"
+                field="district_name" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+              </p-autoComplete>
+            </div>
+            <div>
+              <label for="ward">Xã - Phường</label>
+              <p-autoComplete name="ward" showClear="true" showEmptyMessage="true" unique="true"
+                [(ngModel)]="selectedWard" [dropdown]="true" [suggestions]="filteredWard"
+                (completeMethod)="filterWard($event)" (onSelect)="changeWard($event)" field="ward_name"
+                [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+              </p-autoComplete>
+            </div>
+            <label for="homeAddress">Địa chỉ:</label>
+            <textarea id="homeAddress" name="homeAddress" rows="4" placeholder="Nhập địa chi tiết"
+              [(ngModel)]="homeAddress"></textarea>
           </div>
         </div>
-      </form>
-    </div>
 
-    <!-- Phương Thức Giao Hàng -->
-    <div class="section shipping-method">
-      <h2>Phương Thức Giao Hàng</h2>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" [value]="25000"
-          [(ngModel)]="shippingCost" (change)="updateShippingCost(25000)" />
-        <label class="form-check-label" for="flexRadioDefault1">
-          Ship nhanh - 25.000đ
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" [value]="50000"
-          [(ngModel)]="shippingCost" (change)="updateShippingCost(50000)" />
-        <label class="form-check-label" for="flexRadioDefault2">
-          Ship hỏa tốc - 50.000đ
-        </label>
-      </div>
-    </div>
-
-    <!-- Thông Tin Sản Phẩm -->
-    <div class="section order-summary">
-      <h2>Thông Tin Sản Phẩm</h2>
-      <p-table #dt [value]="checkCartDetailCustom" [rows]="5" [paginator]="false"
-        [tableStyle]="{ 'min-width': '25rem' }" [rowHover]="true" dataKey="id">
-        <ng-template pTemplate="header">
-          <tr class="headerTable">
-            <th style="width: 10rem">Hình ảnh</th>
-            <th style="width: 20rem">Sản phẩm</th>
-            <th style="width: 25rem">Giá</th>
-            <th style="width: 5rem">Số lượng</th>
-            <th style="width: 15rem">Giảm giá</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-cartDetails>
-          <tr class="bodyTable">
-            <td>
-              <img [src]="cartDetails.path" [alt]="" width="100" height="100" class="shadow-4" />
-            </td>
-            <td>
-              Tên sản phẩm: {{ cartDetails.nameshoes }}
-              <div>
-                Size:{{ cartDetails.namesize
-                }}<span style="margin-left: 0.5vw">Color:{{ cartDetails.namecolor }}</span>
+        <div class="col-7">
+          <!-- Phương Thức Giao Hàng -->
+          <div class="section shipping-method">
+            <div class="row">
+              <div class="col-5">
+                <h4>Phương Thức Thanh Toán</h4>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="payment-method" value="2"
+                    [(ngModel)]="paymentMethod" id="flexRadioDefault1" />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Thanh toán trực tuyến với VNPay
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="payment-method" value="1" id="flexRadioDefault2"
+                    [(ngModel)]="paymentMethod" />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Thanh toán khi nhận hàng
+                  </label>
+                </div>
               </div>
-            </td>
-            <td>
-              <div>
-                <span *ngIf="cartDetails.discountmethod === null">{{
-                  cartDetails.price | currency : "VND" : "symbol" : "1.0-0"
-                }}</span>
-                <span
-                  [ngClass]="{
+              <div class="col-2"></div>
+              <div class="col-5">
+                <h4>Phương Thức Giao Hàng</h4>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                    [value]="25000" [(ngModel)]="shippingCost" (change)="updateShippingCost(25000)" />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Ship nhanh - 25.000đ
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                    [value]="50000" [(ngModel)]="shippingCost" (change)="updateShippingCost(50000)" />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Ship hỏa tốc - 50.000đ
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông Tin Sản Phẩm -->
+          <div class="section order-summary">
+            <h2>Thông Tin Sản Phẩm</h2>
+            <p-table #dt [value]="checkCartDetailCustom" [rows]="5" [paginator]="false"
+              [tableStyle]="{ 'min-width': '25rem' }" [rowHover]="true" dataKey="id">
+              <ng-template pTemplate="header">
+                <tr class="headerTable">
+                  <th style="width: 10rem">Hình ảnh</th>
+                  <th style="width: 20rem">Sản phẩm</th>
+                  <th style="width: 25rem">Giá</th>
+                  <th style="width: 5rem">Số lượng</th>
+                  <th style="width: 15rem">Giảm giá</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-cartDetails>
+                <tr class="bodyTable">
+                  <td>
+                    <img [src]="cartDetails.path" [alt]="" width="100" height="100" class="shadow-4" />
+                  </td>
+                  <td>
+                    Tên sản phẩm: {{ cartDetails.nameshoes }}
+                    <div>
+                      Size:{{ cartDetails.namesize
+                      }}<span style="margin-left: 0.5vw">Color:{{ cartDetails.namecolor }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <span *ngIf="cartDetails.discountmethod === null">{{
+                        cartDetails.price | currency : "VND" : "symbol" : "1.0-0"
+                        }}</span>
+                      <span [ngClass]="{
                     'text-decoration-line-through': cartDetails.discountmethod,
                     'text-secondary': cartDetails.discountmethod
-                  }"
-                  *ngIf="cartDetails.discountmethod != null"
-                  >{{
-                    cartDetails.price | currency : "VND" : "symbol" : "1.0-0"
-                  }}</span
-                >
-              </div>
-              <div *ngIf="
+                  }" *ngIf="cartDetails.discountmethod != null">{{
+                        cartDetails.price | currency : "VND" : "symbol" : "1.0-0"
+                        }}</span>
+                    </div>
+                    <div *ngIf="
                   cartDetails.discountmethod === 1 ||
                   cartDetails.discountmethod === 3
                 ">
-                Giá sau khuyến mãi
-                <span *ngIf="cartDetails.discountmethod === 1">{{
-                  cartDetails.discountamount_1_2
-                    | currency : "VND" : "symbol" : "1.0-0"
-                }}</span>
-                <span *ngIf="cartDetails.discountmethod === 3">{{
-                  cartDetails.discountamount_3_4
-                    | currency : "VND" : "symbol" : "1.0-0"
-                }}</span>
-              </div>
-              <div *ngIf="
+                      Giá sau khuyến mãi
+                      <span *ngIf="cartDetails.discountmethod === 1">{{
+                        cartDetails.discountamount_1_2
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}</span>
+                      <span *ngIf="cartDetails.discountmethod === 3">{{
+                        cartDetails.discountamount_3_4
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}</span>
+                    </div>
+                    <div *ngIf="
                   cartDetails.discountmethod === 2 ||
                   cartDetails.discountmethod === 4
                 ">
-                Giá sau khuyến mãi
-                <span *ngIf="cartDetails.discountmethod === 2">{{ cartDetails.discountamount_1_2 }}%</span>
-                <span *ngIf="cartDetails.discountmethod === 4">{{ cartDetails.discountamount_3_4 }}%</span>
-              </div>
-              <div *ngIf="cartDetails.discountmethod != null">
-                <span *ngIf="cartDetails.discountmethod === 1">
-                  {{
-                    cartDetails.price - cartDetails.discountamount_1_2
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-                <span *ngIf="cartDetails.discountmethod === 2">
-                  {{
-                    cartDetails.price -
-                      (cartDetails.price * cartDetails.discountamount_1_2) / 100
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-                <span *ngIf="cartDetails.discountmethod === 3">
-                  {{
-                    cartDetails.price - cartDetails.discountamount_3_4
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-                <span *ngIf="cartDetails.discountmethod === 4">
-                  {{
-                    cartDetails.price -
-                      (cartDetails.price * cartDetails.discountamount_3_4) / 100
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-              </div>
-            </td>
-            <td>
-              {{ cartDetails.quantity }}
-            </td>
-            <td>
-              <div>
-                <span *ngIf="cartDetails.discountmethod === null">{{
-                  cartDetails.price * cartDetails.quantity
-                    | currency : "VND" : "symbol" : "1.0-0"
-                }}</span>
-              </div>
-              <div *ngIf="cartDetails.discountmethod != null">
-                <span *ngIf="cartDetails.discountmethod === 1">
-                  {{
-                    (cartDetails.price - cartDetails.discountamount_1_2) *
-                      cartDetails.quantity
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-                <span *ngIf="cartDetails.discountmethod === 2">
-                  {{
-                    (cartDetails.price -
-                      (cartDetails.price * cartDetails.discountamount_1_2) /
+                      Giá sau khuyến mãi
+                      <span *ngIf="cartDetails.discountmethod === 2">{{ cartDetails.discountamount_1_2 }}%</span>
+                      <span *ngIf="cartDetails.discountmethod === 4">{{ cartDetails.discountamount_3_4 }}%</span>
+                    </div>
+                    <div *ngIf="cartDetails.discountmethod != null">
+                      <span *ngIf="cartDetails.discountmethod === 1">
+                        {{
+                        cartDetails.price - cartDetails.discountamount_1_2
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                      <span *ngIf="cartDetails.discountmethod === 2">
+                        {{
+                        cartDetails.price -
+                        (cartDetails.price * cartDetails.discountamount_1_2) / 100
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                      <span *ngIf="cartDetails.discountmethod === 3">
+                        {{
+                        cartDetails.price - cartDetails.discountamount_3_4
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                      <span *ngIf="cartDetails.discountmethod === 4">
+                        {{
+                        cartDetails.price -
+                        (cartDetails.price * cartDetails.discountamount_3_4) / 100
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    {{ cartDetails.quantity }}
+                  </td>
+                  <td>
+                    <div>
+                      <span *ngIf="cartDetails.discountmethod === null">{{
+                        cartDetails.price * cartDetails.quantity
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}</span>
+                    </div>
+                    <div *ngIf="cartDetails.discountmethod != null">
+                      <span *ngIf="cartDetails.discountmethod === 1">
+                        {{
+                        (cartDetails.price - cartDetails.discountamount_1_2) *
+                        cartDetails.quantity
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                      <span *ngIf="cartDetails.discountmethod === 2">
+                        {{
+                        (cartDetails.price -
+                        (cartDetails.price * cartDetails.discountamount_1_2) /
                         100) *
-                      cartDetails.quantity
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-                <span *ngIf="cartDetails.discountmethod === 3">
-                  {{
-                    (cartDetails.price - cartDetails.discountamount_3_4) *
-                      cartDetails.quantity
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-                <span *ngIf="cartDetails.discountmethod === 4">
-                  {{
-                    (cartDetails.price -
-                      (cartDetails.price * cartDetails.discountamount_3_4) /
+                        cartDetails.quantity
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                      <span *ngIf="cartDetails.discountmethod === 3">
+                        {{
+                        (cartDetails.price - cartDetails.discountamount_3_4) *
+                        cartDetails.quantity
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                      <span *ngIf="cartDetails.discountmethod === 4">
+                        {{
+                        (cartDetails.price -
+                        (cartDetails.price * cartDetails.discountamount_3_4) /
                         100) *
-                      cartDetails.quantity
-                      | currency : "VND" : "symbol" : "1.0-0"
-                  }}
-                </span>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+                        cartDetails.quantity
+                        | currency : "VND" : "symbol" : "1.0-0"
+                        }}
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
 
-    <div class="section order-summary">
-      <div style="margin-top: 1vw">
-        <div>Tổng giá: {{ totalPrice | currency : 'VND'}}</div>
-        <div>Thuế: {{ this.tax | currency : 'VND' }}</div>
-        <div>phí ship: {{ shippingCost }}</div>
-        <div>
-          Tổng tiền cần thanh toán: {{ totalPayment | currency : 'VND' }}
+          <div class="section order-summary">
+            <div style="margin-top: 1vw">
+              <div>Tổng giá: {{ totalPrice | currency : 'VND'}}</div>
+              <div>Thuế: {{ this.tax | currency : 'VND' }}</div>
+              <div>phí ship: {{ shippingCost }}</div>
+              <div>
+                Tổng tiền cần thanh toán: {{ totalPayment | currency : 'VND' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <button type="button" class="confirm-button" (click)="cancel()">Hủy</button>
+          <button type="button" class="confirm-button" (click)="payment()">Xác Nhận</button>
         </div>
       </div>
-    </div>
-    <button
-      type="button"
-      class="confirm-button"
-      style="float: left"
-      (click)="cancel()"
-    >
-      Hủy
-    </button>
-    <button
-      type="button"
-      class="confirm-button"
-      style="margin-top: -3vw"
-      (click)="payment()"
-    >
-      Xác Nhận
-    </button>
+    </form>
   </div>
   <div class="dialog">
     <p-toast></p-toast>

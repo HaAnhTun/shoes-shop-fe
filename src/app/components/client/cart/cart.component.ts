@@ -101,8 +101,10 @@ export class CartComponent implements OnInit {
         }
       }
     }
+    console.log(this.cartDetails)
   }
   addQuanity(id: number) {
+    console.log(this.cartDetails)
     if (sessionStorage.getItem("access_token") != null) {
       let check = null;
       this.cartDetails
