@@ -15,6 +15,9 @@ export class PayService {
     phone: string,
     email: string,
     address: string,
+    province: number,
+    district: number,
+    ward: number,
     shipPrice: number,
     idOwner: number,
     arrSanPham: string,
@@ -26,6 +29,9 @@ export class PayService {
     .set('phone', phone)
     .set('email', email)
     .set('address', address)
+    .set('province', province.toString())
+    .set('district', district.toString())
+    .set('ward', ward.toString())
     .set('shipPrice', shipPrice.toString())
     .set('idOwner', idOwner)
     .set('arrSanPham', arrSanPham)

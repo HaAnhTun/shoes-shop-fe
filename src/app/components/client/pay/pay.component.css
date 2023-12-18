@@ -24,8 +24,6 @@ body {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  max-width: 800px;
-  margin: auto;
 }
 
 .section {
@@ -163,4 +161,13 @@ body {
 }
 small{
   color: red;
+}
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Các phần tử con sẽ được căn về bên phải */
+}
+
+.confirm-button {
+  /* Thêm các style cần thiết cho nút */
+  margin-left: 30px;
 }

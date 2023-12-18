@@ -95,7 +95,8 @@
         </div>
         <div class="card">
             <p-table [value]="user" dataKey="login" [rows]="5" [paginator]="true"
-                [tableStyle]="{ 'min-width': '60rem' }" [rowsPerPageOptions]="[5, 10, 25, 50]">
+                [tableStyle]="{ 'min-width': '60rem' }" [rowsPerPageOptions]="[5, 10, 25, 50]"
+                 [globalFilterFields]="['firstName', 'email', 'login']" [filter]="true" #dt>
                 <ng-template pTemplate="caption">
                     <div class="flex align-items-center justify-content-between">
                         <h5 class="m-0">Manage Users</h5>

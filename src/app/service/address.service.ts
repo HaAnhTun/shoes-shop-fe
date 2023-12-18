@@ -5,9 +5,9 @@ import { HttpClient } from "@angular/common/http";
 })
 export class AddressService {
   constructor(private http: HttpClient) {}
-  baseAddress = "https://provinces.open-api.vn/api";
+  baseAddress = "https://vapi.vnappmob.com/api";
   public getProvines() {
-    return this.http.get<any>(this.baseAddress + "/p/");
+    return this.http.get<any>(this.baseAddress + "/province/");
   }
   public getDistrict(code: number) {
     return this.http.get<any>(this.baseAddress + "/p/" + code + "?depth=2");
@@ -19,9 +19,9 @@ export class AddressService {
     return this.http.get<any>(this.baseAddress + "/p/" + code);
   }
   public getDistrict1(code: number) {
-    return this.http.get<any>(this.baseAddress + "/d/" + code);
+    return this.http.get<any>(this.baseAddress + "/province/district/" + code);
   }
   public getWard(code: number) {
-    return this.http.get<any>(this.baseAddress + "/w/" + code);
+    return this.http.get<any>(this.baseAddress + "/province/ward/" + code);
   }
 }

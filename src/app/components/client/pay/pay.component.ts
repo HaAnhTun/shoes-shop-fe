@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {
   ConfirmEventType,
   ConfirmationService,
@@ -13,7 +13,12 @@ import { OrderService } from "src/app/service/order.service";
 import { PayService } from "src/app/service/pay.service";
 import { UserDataService } from "src/app/service/user-data.service";
 import { Location } from "@angular/common";
+import { AddressService } from "src/app/service/address.service";
 
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 @Component({
   selector: "app-pay",
   templateUrl: "./pay.component.html",
@@ -38,6 +43,23 @@ export class PayComponent implements OnInit {
   shoesInCart: any;
   checkAddress: boolean = true;
 
+  selectedProvince: any;
+  selectedDistrict: any;
+  selectedWard: any;
+  filteredProvinces: any[] = [];
+  filteredDistricts: any[] = [];
+  filteredWard: any[] = [];
+
+  provines: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+
+  province: any;
+  district: any;
+  ward: any;
+
+  orderId: number;
+
   constructor(
     private cartDetailCustomerService: CartDetailCustomerService,
     private payService: PayService,
@@ -48,10 +70,14 @@ export class PayComponent implements OnInit {
     private router: Router,
     private orderService: OrderService,
     private userDataService: UserDataService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute,
+    private addressService: AddressService
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
+      this.orderId = Number(this.route.snapshot.paramMap.get("id"));
+    
   }
 
   ngOnInit() {
@@ -95,6 +121,9 @@ export class PayComponent implements OnInit {
           }
         });
     }
+    this.addressService.getProvines().subscribe((res) => {
+      this.provines = res.results;
+    });
     console.log(this.checkCartDetailCustom);
   }
 
@@ -106,7 +135,7 @@ export class PayComponent implements OnInit {
 
   payment() {
     console.log(this.homeAddress)
-    if (this.homeAddress == '') {
+    if (this.homeAddress == '' || this.province == null || this.district == null || this.ward == null) {
       this.messageService.add({
         severity: "warn",
         summary: "Cảnh báo",
@@ -145,6 +174,9 @@ export class PayComponent implements OnInit {
               this.phoneNumber,
               this.emailAddress,
               this.homeAddress,
+              this.province.province_id,
+              this.district.district_id,
+              this.ward.ward_id,
               this.shippingCost,
               idUser,
               this.arrSanPham,
@@ -233,5 +265,62 @@ export class PayComponent implements OnInit {
         });
       }
     );
+  }
+
+  filterProvine(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.provines as any[]).length; i++) {
+        let provine = (this.provines as any[])[i];
+        if (provine.province_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(provine);
+        }
+    }
+
+    this.filteredProvinces = filtered;
+  }
+
+  filterDistrict(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < (this.districts as any[]).length; i++) {
+        let district = (this.districts as any[])[i];
+        if (district.district_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(district);
+        }
+    }
+    this.filteredDistricts = filtered;
+  }
+
+  filterWard(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+    console.log(this.wards)
+    for (let i = 0; i < (this.wards as any[]).length; i++) {
+        let ward = (this.wards as any[])[i];
+        if (ward.ward_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(ward);
+        }
+    }
+    this.filteredWard = filtered;
+  }
+
+  changeWard(event: any){
+    this.ward = event;
+  }
+
+  getDistrict(event: any) {
+    this.province = event;
+    this.addressService.getDistrict1(event.province_id).subscribe((res) => {
+      this.districts = res.results;
+      console.log(this.districts)
+    });
+  }
+  getWard(event: any) {
+    this.district = event;
+    this.addressService.getWard(event.district_id).subscribe((res) => {
+      this.wards = res.results;
+    });
   }
 }
