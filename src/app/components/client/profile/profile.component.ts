@@ -11,6 +11,7 @@ import { UserService } from 'src/app/service/user.service';
 export class ProfileComponent implements OnInit{
   user: any;
   check: boolean = true;
+  visible: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -25,6 +26,10 @@ export class ProfileComponent implements OnInit{
       this.check = false;
     }
     
+  }
+
+  showDialog() {
+    this.visible = true;
   }
 
   getAccount() {

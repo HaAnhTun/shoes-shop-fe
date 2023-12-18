@@ -123,14 +123,19 @@ export class AppMenuComponent implements OnInit {
         label: "Khách hàng",
         items: [
           {
-            label: "Khách Hàng",
-            icon: "pi pi-fw pi-users",
-            routerLink: ["/admin/users"],
-          },
-          {
             label: "Quản lý đánh giá",
             icon: "pi pi-fw pi-users",
             routerLink: ["/admin/feedback"],
+          },
+        ],
+      },
+      {
+        label: "Tài khoản",
+        items: [
+          {
+            label: "Tài khoản",
+            icon: "pi pi-fw pi-users",
+            routerLink: ["/admin/users"],
           },
         ],
       },
