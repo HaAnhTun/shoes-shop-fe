@@ -88,7 +88,7 @@
             </ng-template>
             <ng-template let-product pTemplate="gridItem">
                 <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
-                    <div class="p-4 border-1 surface-border surface-card border-round ">
+                    <div class="card-hover-effect p-4 border-1 surface-border surface-card border-round ">
                         <div class="flex flex-wrap gap-2">
                             <span class="flex align-items-center gap-2">
                                 <i class="pi pi-tag"></i>
@@ -98,24 +98,23 @@
                                 [severity]="product.quantity >=10 ? 'success':'danger'"></p-tag>
                         </div>
                         <div class="flex flex-column align-items-center gap-3 py-5 cursor-pointer">
-                            <img class=" shadow-2 border-round w-20rem h-20rem" (click)="navigateToRoute(product)"
-                                [src]=product.path [alt]="product.name" />
+                            <img class="image-hover-effect shadow-2 border-round w-20rem h-20rem"
+                                (click)="navigateToRoute(product)" [src]=product.path [alt]="product.name" />
                             <div class="text-2xl font-bold" (click)="navigateToRoute(product)">{{ product.name }}</div>
                             <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                         </div>
-                        <div class="flex align-items-center justify-content-between">
-                            <span class="text-2xl font-semibold"
+                        <div class="flex align-items-center justify-content-center">
+                            <span class="text-2xl font-semibold original-price"
                                 [ngClass]="{'text-decoration-line-through': product.discount_method, 'text-secondary': product.discount_method}">
                                 {{product.price | currency : 'VND' }}
                             </span>
-                            <span class="text-2xl font-semibold" *ngIf="product.discount_method">{{
-                                (product.discount_method == 1 ||
-                                product.discount_method == 3
+                            <span class="text-2xl font-semibold discount-price" *ngIf="product.discount_method">
+                                {{
+                                (product.discount_method == 1 || product.discount_method == 3
                                 ? product.price - product.discount_amount
-                                : product.price -
-                                (product.discount_amount / 100) * product.price)
-                                | currency : 'VND' }}</span>
-                            <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"></button>
+                                : product.price - (product.discount_amount / 100) * product.price)
+                                | currency : 'VND' }}
+                            </span>
                         </div>
                     </div>
                 </div>

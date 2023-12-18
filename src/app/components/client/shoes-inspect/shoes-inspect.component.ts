@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Route, Router } from "@angular/router";
 import { CartDetailService } from "src/app/service/cart-detail.service";
 import { CartDetailSave } from "src/app/model/AddCartDetail";
@@ -43,6 +43,7 @@ export interface ShoesDetail {
   selector: "app-shoes-inspect",
   templateUrl: "./shoes-inspect.component.html",
   styleUrls: ["./shoes-inspect.component.css"],
+  encapsulation: ViewEncapsulation.None  // Use to disable CSS Encapsulation for this component
 })
 export class ShoesInspectComponent {
   CartDetailSave: CartDetailSave = {};

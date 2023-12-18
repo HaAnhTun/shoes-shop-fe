@@ -4,21 +4,21 @@
     <div class="col-6 mb:col-6">
       <div class="flex">
         <div class="flex flex-column w-2 justify-content-between">
-          <img
+          <p-image width="120" preview="true"
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 border-primary ng-star-inserted"
             [src]="shoesDetails.images[1]" />
-          <img
+          <p-image width="120" preview="true"
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
             [src]="shoesDetails.images[2]" />
-          <img
+          <p-image width="120" preview="true"
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
             [src]="shoesDetails.images[3]" />
-          <img
+          <p-image width="120" preview="true"
             class="w-full cursor-pointer border-2 border-round border-transparent transition-colors transition-duration-150 ng-star-inserted"
             [src]="shoesDetails.images[4]" /><!-- -->
         </div>
         <div class="pl-3 w-10">
-          <img class="w-full border-round" [src]="shoesDetails.images[0]" />
+          <p-image class="w-full border-round" [src]="shoesDetails.images[0]" width="600px" preview="true" />
         </div>
       </div>
     </div>
@@ -69,13 +69,14 @@
         </p-selectButton>
       </div>
       <div class="font-bold text-900 mb-3">Quantity</div>
-      <div class="formgrid grid">
-        <p-inputNumber class-="col-6 sm:col-3" min="1" [showButtons]="true" buttonLayout="horizontal"
-          [(ngModel)]="quantity" inputId="horizontal" spinnerMode="horizontal" [step]="1" [max]="shoesDetails.quantity"
-          decrementButtonClass="p-button-text" incrementButtonClass="p-button-text" incrementButtonIcon="pi pi-plus"
-          decrementButtonIcon="pi pi-minus" (onInput)="onQuantityChange()"
-          (onBlur)="onQuantityChange()"></p-inputNumber>
-        <div class="col-3">
+
+      <p-inputNumber min="1" class="w-max" inputStyle="width:50px" [style]="{'width': '4rem'}" [showButtons]="true"
+        buttonLayout="horizontal" [(ngModel)]="quantity" inputId="vertical" spinnerMode="horizontal" [step]="1"
+        [max]="shoesDetails.quantity" decrementButtonClass="p-button-text" incrementButtonClass="p-button-text"
+        incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" (onInput)="onQuantityChange()"
+        (onBlur)="onQuantityChange()"></p-inputNumber>
+      <div class="formgrid grid mt-5">
+        <div class="col-3 mx-0">
           <button (click)="clickByNow()" [disabled]="shoesDetails.quantity <= 0" label="Add to Cart" class="p-button">
             <span class="p-button-label">
               {{ shoesDetails.quantity <= 0 ? "Hết hàng" : "Mua ngay" }} </span>
@@ -95,7 +96,7 @@
       <div class="text-900 font-medium text-3xl mb-4 mt-2">
         Chi tiết sản phẩm
       </div>
-      <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4">
+      <p class="line-height-3 text-700 p-0 mx-0 mt-0 mb-4 comment-container">
         {{ shoesDetails.description }}
       </p>
       <div class="grid">
@@ -108,22 +109,6 @@
             <li class="mb-2">Thiết kế độc đáo và sang trọng</li>
             <li class="mb-2">Phù hợp với nhiều dịp sử dụng</li>
             <li>Chất lượng cao, bền bỉ theo thời gian</li>
-          </ul>
-        </div>
-        <div class="col-12 lg:col-4">
-          <span class="text-900 block font-medium mb-3">Kích cỡ</span>
-          <ul class="list-none p-0 m-0 text-700 mb-4">
-            <li class="mb-3">
-              <span class="font-medium">Leo vel:</span> Egestas congue.
-            </li>
-            <li class="mb-3">
-              <span class="font-medium">Sociis natoque:</span> Parturient montes
-              nascetur.
-            </li>
-            <li>
-              <span class="font-medium">Suspendisse in:</span> Purus sit amet
-              volutpat.
-            </li>
           </ul>
         </div>
         <div class="col-12 lg:col-4">
@@ -152,14 +137,16 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <p-dataView #dv [value]="feedbacks" [rows]="5" [paginator]="true">
+          <p-dataView #dv [value]="feedbacks" [rows]="5" [paginator]="true" emptyMessage="Chưa có bình luận">
             <ng-template let-feedback pTemplate="listItem">
               <div class="col-12">
                 <div class="flex flex-column xl:flex-row xl:align-items-start p-1 gap-1">
                   <span class="text-600 font-medium">{{ feedback.name }}, {{ feedback.created_date }}</span>
                   <p-rating [(ngModel)]="feedback.rate" readonly="true" [cancel]="false" stars="5"></p-rating>
-                  <div class="text-700 flex-wrap font-medium text-xl my-1 ">
-                    <p class="comment-container"> {{ feedback.comment }}</p>
+                  <div class="text-700 flex-wrap font-medium text-xl my-1">
+                    <p class="comment-container">
+                      {{ feedback.comment }}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -194,8 +181,13 @@
           </p-inplace>
           <div *ngIf="!user">
             <!-- Hiển thị thông báo nếu chưa đăng nhập -->
-            Vui lòng đăng nhập để viết đánh giá.
-            <button>login</button>
+            <div class="flex overflow-hidden">
+              <div class="flex flex-wrap align-items-center justify-content-center">
+                <p class="font-italic border-round border-1 surface-overlay p-4">Vui lòng đăng nhập để viết đánh giá.
+                  <p-button label="Login" [rounded]="true" routerLink="/client/login-customer"></p-button>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

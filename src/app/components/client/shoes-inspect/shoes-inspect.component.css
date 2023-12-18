@@ -15,3 +15,6 @@
   overflow-wrap: break-word;
   word-break: break-all;
 }
+.p-input-number-input {
+  width: 30px; /* Set the width to 100px */
+}
