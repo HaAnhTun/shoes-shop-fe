@@ -127,7 +127,7 @@
                 <div class="form-group">
                   <label for="categoryCode">Ngày hiệu lực</label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     class="form-control"
                     id="discountName"
                     aria-describedby="emailHelp"
@@ -149,7 +149,7 @@
                 <div class="form-group">
                   <label for="categoryCode">Ngày hết hiệu lực</label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     class="form-control"
                     id="discountName"
                     aria-describedby="emailHelp"
@@ -217,12 +217,23 @@
                           <tr>
                             <td>
                               <p-tableCheckbox
+                                [disabled]="shoes.discoutnMethod"
                                 [value]="shoes"
                               ></p-tableCheckbox>
                             </td>
                             <td>{{ shoes.shoesCode }}</td>
-                            <td>{{ shoes.name }}</td>
-                            <td>{{ shoes.brandName }}</td>
+                            <td>
+                              {{ shoes.name }}
+                              <span
+                                *ngIf="shoes.discountMethod"
+                                style="margin-bottom: 15px"
+                              >
+                                <p-badge value="salling"></p-badge>
+                              </span>
+                            </td>
+                            <td>
+                              {{ shoes.brandName }}
+                            </td>
                             <td>{{ shoes.price | currency : "VND" }}</td>
                           </tr>
                         </ng-template>

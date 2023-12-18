@@ -3,11 +3,17 @@
 
   <ul class="nav nav-tabs" role="tablist">
     <li *ngFor="let item of listMenuItems" class="nav-item" role="presentation" style="width: 16.66%; cursor: pointer">
-      <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
-        style="display: flex; align-items: center; justify-content: center; height: 50px;"
-        (click)="clickListOder(item.name)" [class]="checkString == item.name ? 'text-primaryy' : ''">
-        {{ item.name }}
-      </a>
+      <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1" style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+          " (click)="clickListOder(item.name)" [class]="checkString == item.name ? 'text-primaryyy' : ''">
+          {{ item.name }}
+          <span style="margin-bottom: 15px">
+            <p-badge [value]="item.quantity"></p-badge>
+          </span>
+        </a>
     </li>
   </ul>
 
