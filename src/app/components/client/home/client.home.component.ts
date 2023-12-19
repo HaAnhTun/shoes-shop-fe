@@ -59,7 +59,6 @@ export class ClientHomeComponent implements OnInit {
         this.shoesDetailCustomNewDisCount = response;
       });
     this.shoesdetailService.getBestSellerShoesDetail().subscribe((response) => {
-      console.log(response);
       this.shoesDetailBestSeller = response;
     });
   }
