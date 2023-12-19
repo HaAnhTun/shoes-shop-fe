@@ -10,14 +10,18 @@
     font-family: SemiBold;
 }
 .input{
-    width: 475px;
-    height: 48px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 input{
-    width: 475px;
+    width: 100%;
     height: 48px;
     border-radius: 9px;
+}
+.address{
+    height: 69px;
+}
+.col-4{
+    margin-top: 10px;
 }
 .button{
     margin-top: 20px;
@@ -95,3 +99,6 @@ input{
 small{
     color: red;
 }
+.custom-autocomplete {
+    height: 48px;
+  }

@@ -15,10 +15,6 @@ import { UserDataService } from "src/app/service/user-data.service";
 import { Location } from "@angular/common";
 import { AddressService } from "src/app/service/address.service";
 
-interface AutoCompleteCompleteEvent {
-  originalEvent: Event;
-  query: string;
-}
 @Component({
   selector: "app-pay",
   templateUrl: "./pay.component.html",
@@ -267,7 +263,7 @@ export class PayComponent implements OnInit {
     );
   }
 
-  filterProvine(event: AutoCompleteCompleteEvent) {
+  filterProvine(event: any) {
     let filtered: any[] = [];
     let query = event.query;
 
