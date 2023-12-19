@@ -76,8 +76,7 @@ export class PayComponent implements OnInit {
   ) {
     this.checkCartDetailCustom =
       this.cartDetailCustomerService.getCartDetailCustomerService();
-      this.orderId = Number(this.route.snapshot.paramMap.get("id"));
-    
+    this.orderId = Number(this.route.snapshot.paramMap.get("id"));
   }
 
   ngOnInit() {
@@ -96,7 +95,7 @@ export class PayComponent implements OnInit {
         c.discountmethod === 1
           ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
           : c.discountmethod === 2
-            ? this.totalPrice +
+          ? this.totalPrice +
             (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
           : c.discountmethod === 3
           ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
@@ -134,8 +133,13 @@ export class PayComponent implements OnInit {
   }
 
   payment() {
-    console.log(this.homeAddress)
-    if (this.homeAddress == '' || this.province == null || this.district == null || this.ward == null) {
+    console.log(this.homeAddress);
+    if (
+      this.homeAddress == "" ||
+      this.province == null ||
+      this.district == null ||
+      this.ward == null
+    ) {
       this.messageService.add({
         severity: "warn",
         summary: "Cảnh báo",
@@ -235,6 +239,7 @@ export class PayComponent implements OnInit {
       phone: this.phoneNumber,
       address: this.homeAddress,
       paymentMethod: this.paymentMethod,
+      mailAddress: this.emailAddress,
       paymentStatus: 2,
       totalPrice: this.getTotalPrice(),
       status: 1,
@@ -272,10 +277,12 @@ export class PayComponent implements OnInit {
     let query = event.query;
 
     for (let i = 0; i < (this.provines as any[]).length; i++) {
-        let provine = (this.provines as any[])[i];
-        if (provine.province_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filtered.push(provine);
-        }
+      let provine = (this.provines as any[])[i];
+      if (
+        provine.province_name.toLowerCase().indexOf(query.toLowerCase()) == 0
+      ) {
+        filtered.push(provine);
+      }
     }
 
     this.filteredProvinces = filtered;
@@ -285,10 +292,12 @@ export class PayComponent implements OnInit {
     let filtered: any[] = [];
     let query = event.query;
     for (let i = 0; i < (this.districts as any[]).length; i++) {
-        let district = (this.districts as any[])[i];
-        if (district.district_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filtered.push(district);
-        }
+      let district = (this.districts as any[])[i];
+      if (
+        district.district_name.toLowerCase().indexOf(query.toLowerCase()) == 0
+      ) {
+        filtered.push(district);
+      }
     }
     this.filteredDistricts = filtered;
   }
@@ -296,17 +305,17 @@ export class PayComponent implements OnInit {
   filterWard(event: any) {
     let filtered: any[] = [];
     let query = event.query;
-    console.log(this.wards)
+    console.log(this.wards);
     for (let i = 0; i < (this.wards as any[]).length; i++) {
-        let ward = (this.wards as any[])[i];
-        if (ward.ward_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-            filtered.push(ward);
-        }
+      let ward = (this.wards as any[])[i];
+      if (ward.ward_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(ward);
+      }
     }
     this.filteredWard = filtered;
   }
 
-  changeWard(event: any){
+  changeWard(event: any) {
     this.ward = event;
   }
 
@@ -314,7 +323,7 @@ export class PayComponent implements OnInit {
     this.province = event;
     this.addressService.getDistrict1(event.province_id).subscribe((res) => {
       this.districts = res.results;
-      console.log(this.districts)
+      console.log(this.districts);
     });
   }
   getWard(event: any) {
