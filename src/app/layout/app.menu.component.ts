@@ -10,7 +10,7 @@ import { LayoutService } from "./service/app.layout.service";
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) {}
+  constructor(public layoutService: LayoutService) { }
 
   ngOnInit() {
     this.model = [
@@ -55,17 +55,6 @@ export class AppMenuComponent implements OnInit {
                 label: "Chi Tiết Sản Phẩm",
                 icon: "pi pi-fw pi-inbox",
                 routerLink: ["/admin/shoes-detail"],
-              },
-            ],
-          },
-          {
-            label: "Phân loại sản phẩm",
-            icon: "pi pi-fw pi-tag",
-            items: [
-              {
-                label: "Phân loại",
-                icon: "pi pi-fw pi-sign-in",
-                routerLink: ["/admin/shoes-category"],
               },
             ],
           },

@@ -25,7 +25,7 @@
                 <h5>Giá</h5>
                 <label for="blockspace" class="font-bold block mb-2">Giá từ {{rangeValues[0] | currency: 'VND'}} đến
                     {{rangeValues[1] | currency: 'VND'}}</label>
-                <p-slider [(ngModel)]="rangeValues" (onSlideEnd)="fetchProducts()" [step]="10000" [range]="true"
+                <p-slider #sl [(ngModel)]="rangeValues" (onSlideEnd)="fetchProducts()" [step]="10000" [range]="true"
                     [max]="10000000" [min]="0"></p-slider>
             </div>
             <div class="card flex justify-content-center">

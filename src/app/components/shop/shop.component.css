@@ -4,7 +4,7 @@
 @import "../../../../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
 
 .card-hover-effect {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
 .card-hover-effect:hover {
@@ -12,11 +12,11 @@
   transform: translateY(-5px);
 }
 .image-hover-effect {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .image-hover-effect:hover {
-  transform: scale(1.05); /* Slightly increase the size */
+  transform: scale(1.1); /* Slightly increase the size */
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Increase shadow for depth */
 }
 

@@ -46,6 +46,10 @@ export interface ShoesDetail {
   encapsulation: ViewEncapsulation.None  // Use to disable CSS Encapsulation for this component
 })
 export class ShoesInspectComponent {
+  get imageSrc() {
+    const imageWith800x800 = this.shoesDetails.images.find((img: string) => img.includes('800x800'));
+    return imageWith800x800 || this.shoesDetails.images[0];
+  }
   CartDetailSave: CartDetailSave = {};
   cartDetails: CartDetail[];
   cartDetailCustoms: CartDetailCustom[] = [];
@@ -171,6 +175,7 @@ export class ShoesInspectComponent {
   }
 
   fetchProductDetails() {
+    this.quantity = 1
     const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
     // Make the HTTP request
     this.http.post<any>(apiUrl, this.productId).subscribe(
