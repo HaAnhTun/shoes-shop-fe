@@ -1,139 +1,89 @@
 <div class="grid">
-  <!-- Sidebar for product filters -->
-  <div class="col-3 card">
-    <!--filter options and controls -->
-    <div class="surface-card">
-      <h3>Bộ lọc</h3>
-      <div class="card flex justify-content-center">
-        <h5>Thương Hiệu</h5>
-        <p-selectButton
-          [options]="brandOptions"
-          [unselectable]="true"
-          [(ngModel)]="selectedBrand"
-          optionLabel="label"
-          (onOptionClick)="fetchProducts()"
-          optionValue="value"
-        >
-          <ng-template let-brand pTemplate="item">
-            <div class="custom-option">
-              <span>{{ brand.label }}</span>
+    <!-- Sidebar for product filters -->
+    <div class="col-3 card">
+        <!--filter options and controls -->
+        <div class="surface-card">
+            <h3>Bộ lọc</h3>
+            <div class="card flex justify-content-center">
+                <h5>Thương Hiệu</h5>
+                <p-selectButton [options]="brandOptions" [unselectable]="true" [(ngModel)]="selectedBrand"
+                    optionLabel="label" (onOptionClick)="fetchProducts()" optionValue="value">
+                    <ng-template let-brand pTemplate="item">
+                        <div class="custom-option">
+                            <span>{{brand.label}}</span>
+                        </div>
+                    </ng-template>
+                </p-selectButton>
             </div>
-          </ng-template>
-        </p-selectButton>
-      </div>
-      <div class="card flex justify-content-center">
-        <h5>Size</h5>
-        <p-selectButton
-          (onOptionClick)="fetchProducts()"
-          [(options)]="paymentOptions"
-          [(ngModel)]="selectedSizes"
-          [multiple]="true"
-          optionLabel="name"
-          optionValue="value"
-          #tablos
-        >
-        </p-selectButton>
-      </div>
-      <div class="card flex justify-content-center">
-        <h5>Giá</h5>
-        <label for="blockspace" class="font-bold block mb-2"
-          >Giá từ {{ rangeValues[0] | currency : "VND" }} đến
-          {{ rangeValues[1] | currency : "VND" }}</label
-        >
-        <p-slider
-          [(ngModel)]="rangeValues"
-          (onSlideEnd)="fetchProducts()"
-          [step]="10000"
-          [range]="true"
-          [max]="10000000"
-          [min]="0"
-        ></p-slider>
-      </div>
-      <div class="card flex justify-content-center">
-        <p-button
-          label="Xóa lọc"
-          [outlined]="true"
-          (onClick)="clearFilter()"
-        ></p-button>
-      </div>
-    </div>
-  </div>
-  <!--Data-->
-  <div class="col-9">
-    <p-dataView
-      [paginator]="true"
-      [rowsPerPageOptions]="[12, 24, 36]"
-      #dv
-      [value]="products"
-      [sortField]="sortField"
-      [sortOrder]="sortOrder"
-      filterBy="name"
-      currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm"
-      [showCurrentPageReport]="true"
-      [layout]="layout"
-    >
-      <ng-template pTemplate="header">
-        <div class="flex flex-column md:flex-row md:justify-content-between">
-          <p-dropdown
-            [options]="sortOptions"
-            [(ngModel)]="sortKey"
-            placeholder="Sắp xếp theo"
-            (onChange)="onSortChange($event)"
-            styleClass="mb-2 md:mb-0"
-          ></p-dropdown>
-          <span class="p-input-icon-left mb-2 md:mb-0">
-            <i class="pi pi-search"></i>
-            <input
-              pInputText
-              type="text"
-              (input)="dv.filter($event.target.value, 'contains')"
-              placeholder="Nhập tên sản phẩm..."
-            />
-          </span>
-          <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
+            <div class="card flex justify-content-center">
+                <h5>Size</h5>
+                <p-selectButton (onOptionClick)="fetchProducts()" [(options)]="paymentOptions"
+                    [(ngModel)]="selectedSizes" [multiple]="true" optionLabel="name" optionValue="value" #tablos>
+                </p-selectButton>
+            </div>
+            <div class="card flex justify-content-center">
+                <h5>Giá</h5>
+                <label for="blockspace" class="font-bold block mb-2">Giá từ {{rangeValues[0] | currency: 'VND'}} đến
+                    {{rangeValues[1] | currency: 'VND'}}</label>
+                <p-slider #sl [(ngModel)]="rangeValues" (onSlideEnd)="fetchProducts()" [step]="10000" [range]="true"
+                    [max]="10000000" [min]="0"></p-slider>
+            </div>
+            <div class="card flex justify-content-center">
+                <p-button label="Xóa lọc" [outlined]="true" (onClick)="clearFilter()"></p-button>
+            </div>
         </div>
-        <div class="flex justify-content-end"></div>
-      </ng-template>
-      <ng-template let-product pTemplate="listItem">
-        <div class="col-12">
-          <div
-            class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
-          >
-            <a
-              [routerLink]="['/client/shoes-detail', product.id]"
-              class="cursor-pointer"
-            >
-              <img
-                class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-                [src]="product.path"
-                [alt]="product.name"
-              />
-              <div
-                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
-              >
-                <div
-                  class="flex flex-column align-items-center sm:align-items-start gap-3"
-                >
-                  <div class="text-2xl font-bold text-900">
-                    {{ product.name }}
-                  </div>
-                  <p-rating
-                    [(ngModel)]="product.rating"
-                    [readonly]="false"
-                    [cancel]="false"
-                  ></p-rating>
-                  <div class="flex flex-wrap gap-2">
-                    <span class="flex align-items-center gap-2">
-                      <i class="pi pi-tag"></i>
-                      <span class="font-semibold">{{
-                        product.discount_name
-                      }}</span>
+    </div>
+    <!--Data-->
+    <div class="col-9">
+        <p-dataView [paginator]="true" [rowsPerPageOptions]="[12, 24, 36]" #dv [value]="products"
+            [sortField]="sortField" [sortOrder]="sortOrder" filterBy="name"
+            currentPageReportTemplate="Hiển thị từ {first} đến {last} trong {totalRecords} sản phẩm"
+            [showCurrentPageReport]="true" [layout]="layout">
+            <ng-template pTemplate="header">
+                <div class="flex flex-column md:flex-row md:justify-content-between">
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sắp xếp theo"
+                        (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+                    <span class="p-input-icon-left mb-2 md:mb-0">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dv.filter($event.target.value, 'contains')"
+                            placeholder="Nhập tên sản phẩm..." />
                     </span>
-                    <p-tag
-                      [value]="product.quantity >= 10 ? 'Còn Hàng' : 'Còn ít'"
-                      [severity]="product.quantity >= 10 ? 'success' : 'danger'"
-                    ></p-tag>
-                  </div>
+                    <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
+                </div>
+                <div class="flex justify-content-end">
+
+                </div>
+            </ng-template>
+            <ng-template let-product pTemplate="listItem">
+                <div class="col-12">
+                    <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                        <a [routerLink]="['/client/shoes-detail', product.id]" class="cursor-pointer">
+                            <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round "
+                                [src]=product.path [alt]="product.name" />
+                            <div
+                                class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-2xl font-bold text-900">{{ product.name }}</div>
+                                    <p-rating [(ngModel)]="product.rating" [readonly]="false"
+                                        [cancel]="false"></p-rating>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-tag"></i>
+                                            <span class="font-semibold">{{product.discount_name}}</span>
+                                        </span>
+                                        <p-tag [value]="product.quantity >=10 ? 'Còn Hàng': 'Còn ít'"
+                                            [severity]="product.quantity >=10 ? 'success':'danger'"></p-tag>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="text-2xl font-semibold">{{ '$' + product.price }}</span>
+                                    <button pButton icon="pi pi-shopping-cart"
+                                        class="md:align-self-end mb-2 p-button-rounded"
+                                        [disabled]="!product.inStock"></button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </ng-template>
             <ng-template let-product pTemplate="gridItem">
@@ -168,75 +118,7 @@
                         </div>
                     </div>
                 </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template let-product pTemplate="gridItem">
-        <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
-          <div class="p-4 border-1 surface-border surface-card border-round">
-            <div class="flex flex-wrap gap-2">
-              <span class="flex align-items-center gap-2">
-                <i class="pi pi-tag"></i>
-                <span class="font-semibold">{{ product.discount_name }}</span>
-              </span>
-              <p-tag
-                [value]="product.quantity >= 10 ? 'Còn Hàng' : 'Còn ít'"
-                [severity]="product.quantity >= 10 ? 'success' : 'danger'"
-              ></p-tag>
-            </div>
-            <div
-              class="flex flex-column align-items-center gap-3 py-5 cursor-pointer"
-            >
-              <img
-                class="shadow-2 border-round w-20rem h-20rem"
-                (click)="navigateToRoute(product)"
-                [src]="product.path"
-                [alt]="product.name"
-              />
-              <div
-                class="text-2xl font-bold"
-                (click)="navigateToRoute(product)"
-              >
-                {{ product.name }}
-              </div>
-              <p-rating
-                [ngModel]="product.rating"
-                [readonly]="true"
-                [cancel]="false"
-              ></p-rating>
-            </div>
-            <div class="flex align-items-center justify-content-between">
-              <span
-                class="text-2xl font-semibold"
-                [ngClass]="{
-                  'text-decoration-line-through': product.discount_method,
-                  'text-secondary': product.discount_method
-                }"
-              >
-                {{ product.price | currency : "VND" }}
-              </span>
-              <span
-                class="text-2xl font-semibold"
-                *ngIf="product.discount_method"
-                >{{
-                  (product.discount_method == 1 || product.discount_method == 3
-                    ? product.price - product.discount_amount
-                    : product.price -
-                      (product.discount_amount / 100) * product.price
-                  ) | currency : "VND"
-                }}</span
-              >
-              <button
-                pButton
-                icon="pi pi-shopping-cart"
-                class="p-button-rounded"
-              ></button>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </p-dataView>
-  </div>
+            </ng-template>
+        </p-dataView>
+    </div>
 </div>
