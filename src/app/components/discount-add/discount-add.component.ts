@@ -1,4 +1,5 @@
 import { DatePipe } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import {
   FormArray,
@@ -13,6 +14,8 @@ import {
   ConfirmationService,
   MessageService,
 } from "primeng/api";
+import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
+import { AppConstants } from "src/app/app-constants";
 import { Discount } from "src/app/model/Discount";
 import { DiscountShoesDetails } from "src/app/model/DiscountShoesDetails";
 import { Product } from "src/app/model/Product";
@@ -32,7 +35,8 @@ export class DiscountAddComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
   idDiscount: number | null;
   shoesDetailsDialog: boolean = false;
@@ -42,6 +46,12 @@ export class DiscountAddComponent implements OnInit {
   discount: Discount;
   product: Product | null;
   enable: boolean = false;
+  brandOptions: any[] = [];
+  selectedBrand: any;
+  filteredCountries: any[] = [];
+  rangeValues: number[] = [0, 10000000];
+  brands: any[] = [];
+  currentBrands: any;
   discountShoesDetails: DiscountShoesDetails = {
     shoesDetails: {
       id: 0,
@@ -72,6 +82,16 @@ export class DiscountAddComponent implements OnInit {
     this.productService.getProducts().subscribe((response) => {
       this.shoesDetails = response;
     });
+    this.http
+      .get<any>(AppConstants.BASE_URL_API + "/api/brands")
+      .subscribe((response) => {
+        this.brands = response;
+        this.brands.forEach((brand) =>
+          this.brandOptions.push({ name: brand.name, value: brand.id })
+        );
+        this.selectedBrand = null;
+        console.log(this.brandOptions);
+      });
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.idDiscount = Number(params.get("id"));
     });
@@ -104,9 +124,49 @@ export class DiscountAddComponent implements OnInit {
       { id: 4, name: "Giảm % cho từng giày" },
     ];
   }
+  fetchProducts() {
+    if (this.currentBrands == this.selectedBrand) {
+      this.selectedBrand = null;
+    } else {
+      this.currentBrands = this.selectedBrand;
+    }
+    const searchData = {
+      sizeIds: [], // Thay thế bằng dữ liệu thực tế hoặc để []
+      brandId: this.selectedBrand ? this.selectedBrand : null, // Thay thế bằng dữ liệu thực tế hoặc để null
+      startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế ví dụ 0
+      endPrice: this.rangeValues[1], // Thay thế bằng dữ liệu thực tế ví dụ 10000000000
+    };
+    // Tạo đối tượng SearchSDsResponse để chuyển thành JSON
+
+    // Gửi yêu cầu POST
+    this.http
+      .post<any>("http://localhost:8088/api/shoes-details/shop", searchData)
+      .subscribe(
+        (data) => {
+          this.shoesDetails = data;
+          console.log(data);
+        },
+        (error) => {
+          console.error("Error fetching products:", error);
+        }
+      );
+  }
   updateVisibility() {
     this.enable = false;
     setTimeout(() => (this.enable = true), 500);
+  }
+  filterCountry(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.brandOptions as any[]).length; i++) {
+      let country = (this.brandOptions as any[])[i];
+      if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(country);
+      }
+    }
+
+    this.filteredCountries = filtered;
   }
   openShoesDetailsDialog() {
     this.selectedShoes = [];
@@ -132,15 +192,17 @@ export class DiscountAddComponent implements OnInit {
     if (check) {
       // Add the custom validator when the field is visible
       this.formDiscount
-        .get("discountMethod")
-        ?.setValidators([Validators.required]);
+        .get("discountAmount")
+        ?.setValidators(Validators.required);
     } else {
+      this.formDiscount.get("discout");
       // Remove the custom validator when the field is not visible
-      this.formDiscount.get("discountMethod")?.clearValidators();
+      this.formDiscount.get("discountAmount")?.clearValidators();
+      this.formDiscount.get("discountAmount")?.updateValueAndValidity();
     }
 
     // Update the validation status
-    this.formDiscount.get("discountMethod")?.updateValueAndValidity();
+    this.formDiscount.get("discountAmount")?.updateValueAndValidity();
     this.formDiscount.updateValueAndValidity();
   }
 
