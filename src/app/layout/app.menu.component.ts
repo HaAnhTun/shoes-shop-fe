@@ -47,18 +47,24 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-table",
             items: [
               {
+                label: "Chi Tiết Sản Phẩm",
+                icon: "pi pi-fw pi-inbox",
+                routerLink: ["/admin/shoes-detail"],
+              },
+            ],
+          },
+          {
+            label: "Giày",
+            icon: "pi pi-fw pi-server",
+            items: [
+              {
                 label: "Giày",
                 icon: "pi pi-fw pi-table",
                 routerLink: ["/admin/shoes"],
               },
               {
-                label: "Chi Tiết Sản Phẩm",
-                icon: "pi pi-fw pi-inbox",
-                routerLink: ["/admin/shoes-detail"],
-              },
-              {
                 label: "Giày đã xóa",
-                icon: "pi pi-fw pi-table",
+                icon: "pi pi-fw pi-circle-fill",
                 routerLink: ["/admin/removedShoes"],
               },
             ],

@@ -5,7 +5,8 @@ import { Order } from 'src/app/model/Order';
 import { User } from 'src/app/model/User';
 import { UserService } from 'src/app/service/user.service';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
-import { Observable, of, map, catchError } from 'rxjs';
+import { Observable, of, map, catchError, forkJoin } from 'rxjs';
+import { AddressService } from 'src/app/service/address.service';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -27,11 +28,24 @@ export class UserComponent implements OnInit {
   showPassword: boolean = true;
 
   userDialog: boolean = false;
+
+  filteredProvinces: any[] = [];
+  filteredDistricts: any[] = [];
+  filteredWard: any[] = [];
+
+  provines: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+
+  province: any;
+  district: any;
+  ward: any;
   constructor(
     private userService: UserService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private addressService: AddressService
   ) {
     this.role = [
       { label: 'User', value: 'ROLE_USER' },
@@ -51,8 +65,12 @@ export class UserComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       login: ['', Validators.required, [this.duplicateLogin()]],
-      passwordHash: ['', Validators.required],
+      passwordHash: ['', [Validators.required, Validators.minLength(6)]],
       email: ['', [Validators.required, Validators.email], [this.duplicateEmail()]],
+      dob: [''],
+      selectedProvince: [''],
+      selectedDistrict: [''],
+      selectedWard: [''],
       phone: [
         '',
         [
@@ -85,6 +103,9 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUser();
+    this.addressService.getProvines().subscribe((res) => {
+      this.provines = res.results;
+    });
   }
 
   getAllUser() {
@@ -106,7 +127,15 @@ export class UserComponent implements OnInit {
   getRoleUser(): string[] {
     let listString: string[] = []
     const listAny = this.userForm.get('authorities')?.value
-    console.log(listAny)
+    if(listAny == null){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Thêm mới người dùng thất bại',
+        life: 3000
+      });
+      return [];
+    }
     // listAny.forEach((element: { label: string, value: string; }) => {
     listString.push(listAny.value)
     // });
@@ -115,6 +144,9 @@ export class UserComponent implements OnInit {
 
   addUser() {
     // const newUser = { ...this.userForm.value };
+    let province = this.userForm.get('selectedProvince')?.value;
+    let district = this.userForm.get('selectedDistrict')?.value;
+    let ward = this.userForm.get('selectedWard')?.value;
     const newUser = {
       "id": this.userForm.get('id')?.value,
       "login": this.userForm.get('login')?.value,
@@ -124,10 +156,12 @@ export class UserComponent implements OnInit {
       "email": this.userForm.get('email')?.value,
       "phone": this.userForm.get('phone')?.value,
       "imageUrl": this.userForm.get('imageUrl')?.value,
-      "authorities": this.getRoleUser()
+      "authorities": this.getRoleUser(),
+      "dob": this.userForm.get('dob')?.value,
+      "address": province.province_name + '-' + district.district_name + '-' + ward.ward_name,
     }
     // Kiểm tra các trường bắt buộc
-    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.phone || !newUser.authorities) {
+    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.phone || !newUser.authorities || !newUser.address) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -201,7 +235,7 @@ export class UserComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.userService.delete(user).subscribe(
-          reposive => {
+          () => {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
@@ -211,7 +245,7 @@ export class UserComponent implements OnInit {
 
             this.ngOnInit()
           },
-          error => {
+          () => {
             this.messageService.add({
               severity: 'error',
               summary: 'ERROR',
@@ -236,7 +270,8 @@ export class UserComponent implements OnInit {
       passwordHash: user.passwordHash,
       email: user.email,
       phone: user.phone,
-      authorities: user.authorities[0] == 'ROLE_USER' ? { label: 'User', value: 'ROLE_USER' } : { label: 'Admin', value: 'ROLE_ADMIN' }
+      authorities: user.authorities[0] == 'ROLE_USER' ? { label: 'User', value: 'ROLE_USER' } : { label: 'Admin', value: 'ROLE_ADMIN' },
+      dob: user.dob,
     });
 
   }
@@ -244,10 +279,84 @@ export class UserComponent implements OnInit {
   getOrder(user: User) {
     this.userService.getOrderById(user.id).subscribe(
       (response) => {
-        this.orderData[user.id] = response
+        let observablesProvince: Observable<any>[] = [];
+        let observablesDistrict: Observable<any>[] = [];
+        let observablesWard: Observable<any>[] = [];
+  
+        for (let i = 0; i < response.length; i++) {
+          observablesProvince.push(
+            this.addressService.getProvines().pipe(
+              map((res) => {
+                let listProvinces = res.results;
+                for (let j = 0; j < listProvinces.length; j++) {
+                  if (listProvinces[j].province_id == response[i].userAddress.province) {
+                    return listProvinces[j];
+                  }
+                }
+              })
+            )
+          );
+          observablesDistrict.push(
+            this.addressService.getDistrict1(response[i].userAddress.province).pipe(
+              map((res) => {
+                let listDistrict = res.results;
+                for (let j = 0; j < listDistrict.length; j++) {
+                  if (listDistrict[j].district_id == response[i].userAddress.district) {
+                    return listDistrict[j];
+                  }
+                }
+              })
+            )
+          );
+  
+          observablesWard.push(
+            this.addressService.getWard(response[i].userAddress.district).pipe(
+              map((res) => {
+                let listWard = res.results;
+                for (let j = 0; j < listWard.length; j++) {
+                  if (listWard[j].ward_id == response[i].userAddress.ward) {
+                    return listWard[j];
+                  }
+                }
+              })
+            )
+          );
+        }
+  
+        forkJoin(observablesProvince).subscribe((provinces) => {
+          for (let i = 0; i < response.length; i++) {
+            let province: any = provinces[i];
+            if (province) {
+              response[i].userAddress.provinceName = province?.province_name;
+            }
+          }
+        });
+
+        forkJoin(observablesDistrict).subscribe((districts) => {
+          for (let i = 0; i < response.length; i++) {
+            let district: any = districts[i];
+            if (district) {
+              response[i].userAddress.districtName = district?.district_name;
+            }
+          }
+        });
+
+        forkJoin(observablesWard).subscribe((wards) => {
+          for (let i = 0; i < response.length; i++) {
+            let ward: any = wards[i];
+            if (ward) {
+              response[i].userAddress.wardName = ward?.ward_name;
+            }
+          }
+        });
+        this.orderData[user.id] = response;
+        console.log(response)
       }
-    )
+    );
   }
+  
+  
+  
 
   openUserDal() {
     this.userForm.reset();
@@ -316,4 +425,61 @@ export class UserComponent implements OnInit {
       );
     };
   }
+
+  filterProvine(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.provines as any[]).length; i++) {
+        let provine = (this.provines as any[])[i];
+        if (provine.province_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(provine);
+        }
+    }
+    this.filteredProvinces = filtered;
+  }
+
+  filterDistrict(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < (this.districts as any[]).length; i++) {
+        let district = (this.districts as any[])[i];
+        if (district.district_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(district);
+        }
+    }
+    this.filteredDistricts = filtered;
+  }
+
+  filterWard(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+    console.log(this.wards)
+    for (let i = 0; i < (this.wards as any[]).length; i++) {
+        let ward = (this.wards as any[])[i];
+        if (ward.ward_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(ward);
+        }
+    }
+    this.filteredWard = filtered;
+  }
+
+  changeWard(event: any){
+    this.ward = event;
+  }
+
+  getDistrict(event: any) {
+    this.province = event;
+    this.addressService.getDistrict1(event.province_id).subscribe((res) => {
+      this.districts = res.results;
+      console.log(event)
+    });
+  }
+  getWard(event: any) {
+    this.district = event;
+    this.addressService.getWard(event.district_id).subscribe((res) => {
+      this.wards = res.results;
+    });
+  }
 }
+
