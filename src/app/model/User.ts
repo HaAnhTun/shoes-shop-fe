@@ -11,4 +11,6 @@ export interface User extends BaseModel {
     imageUrl: string;
     activated: boolean;
     authorities: string[];
+    address: string;
+    dob: string;
 }

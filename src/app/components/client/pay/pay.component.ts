@@ -15,10 +15,6 @@ import { UserDataService } from "src/app/service/user-data.service";
 import { Location } from "@angular/common";
 import { AddressService } from "src/app/service/address.service";
 
-interface AutoCompleteCompleteEvent {
-  originalEvent: Event;
-  query: string;
-}
 @Component({
   selector: "app-pay",
   templateUrl: "./pay.component.html",
@@ -104,8 +100,7 @@ export class PayComponent implements OnInit {
             (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity
           : this.totalPrice + c.price * c.quantity;
     });
-    this.tax = this.totalPrice * 0.08;
-    this.totalPayment = this.totalPrice + this.tax;
+    this.totalPayment = this.totalPrice;
     if (sessionStorage.getItem("access_token") != null) {
       this.http
         .get("http://localhost:8088/api/account")
@@ -126,9 +121,9 @@ export class PayComponent implements OnInit {
   }
 
   updateShippingCost(cost: number) {
-    this.tax = (this.totalPrice + this.shippingCost) * 0.08;
+    this.tax = (this.totalPrice + this.shippingCost);
     console.log(this.tax);
-    this.totalPayment = this.totalPrice + this.shippingCost + this.tax; // Cập nhật tổng giá
+    this.totalPayment = this.totalPrice + this.shippingCost; // Cập nhật tổng giá
   }
 
   payment() {
@@ -271,7 +266,7 @@ export class PayComponent implements OnInit {
     );
   }
 
-  filterProvine(event: AutoCompleteCompleteEvent) {
+  filterProvine(event: any) {
     let filtered: any[] = [];
     let query = event.query;
 

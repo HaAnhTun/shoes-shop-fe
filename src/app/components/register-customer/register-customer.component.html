@@ -1,25 +1,30 @@
 <body class="body">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-5">
-                <p class="title-register">Đăng ký</p>
-                <form class="group" [formGroup]="registionForm" (ngSubmit)="registion()">
+        <form class="group" [formGroup]="registionForm" (ngSubmit)="registion()">
+            <p class="title-register">Đăng ký</p>
+            <div class="row">
+                <div class="col-6">
                     <div class="input">
-                        <input class="firstname text" type="text" placeholder="Tên" name="firstName" formControlName="firstName">
+                        <label for="firstName">Tên</label>
+                        <input class="firstname text" type="text" placeholder="Nhập Tên" name="firstName"
+                            formControlName="firstName">
                         <small
                             *ngIf="registionForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">
                             Hãy nhập tên
                         </small>
                     </div>
                     <div class="input">
-                        <input class="lastname text" type="text" placeholder="Họ" name="lastName" formControlName="lastName">
+                        <label for="lastName">Họ</label>
+                        <input class="lastname text" type="text" placeholder="Nhập Họ" name="lastName"
+                            formControlName="lastName">
                         <small
                             *ngIf="registionForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">
                             Hãy nhập họ
                         </small>
                     </div>
                     <div class="input">
-                        <input class="email text" type="text" placeholder="Email" name="email" formControlName="email">
+                        <label for="email">Email</label>
+                        <input class="email text" type="text" placeholder="Nhập Email" name="email" formControlName="email">
                         <small
                             *ngIf="registionForm.get('email')?.hasError('required') && isFormControlInvalidAndTouched('email')">
                             Hãy nhập email</small>
@@ -30,20 +35,64 @@
                             *ngIf="registionForm.get('email')?.hasError('email') && isFormControlInvalidAndTouched('email')">
                             Email không đúng định dạng</small>
                     </div>
+                    <div class="row address">
+                        <div class="col-4">
+                            <label for="province">Tỉnh - thành phố</label>
+                            <p-autoComplete class="custom-autocomplete" name="province" showClear="true" showEmptyMessage="true" unique="true"
+                                formControlName="selectedProvince" [dropdown]="true" [suggestions]="filteredProvinces"
+                                (completeMethod)="filterProvine($event)" (onSelect)="getDistrict($event)"
+                                field="province_name" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                            </p-autoComplete>
+                        </div>
+                        <div class="col-4">
+                            <label for="district">Quận - Huyện</label>
+                            <p-autoComplete name="district" showClear="true" showEmptyMessage="true" unique="true"
+                            formControlName="selectedDistrict" [dropdown]="true" [suggestions]="filteredDistricts"
+                                (completeMethod)="filterDistrict($event)" (onSelect)="getWard($event)" field="district_name"
+                                [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                            </p-autoComplete>
+                        </div>
+                        <div class="col-4">
+                            <label for="ward">Xã - Phường - Thị trấn</label>
+                            <p-autoComplete name="ward" showClear="true" showEmptyMessage="true" unique="true"
+                            formControlName="selectedWard" [dropdown]="true" [suggestions]="filteredWard"
+                                (completeMethod)="filterWard($event)" (onSelect)="changeWard($event)" field="ward_name"
+                                [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
                     <div class="input">
-                        <input class="email text" type="text" placeholder="SĐT" name="sdt" formControlName="phone">
-                        <small *ngIf="registionForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
+                        <label for="sdt">Số điện thoại</label>
+                        <input class="email text" type="text" placeholder="Nhập số điện thoại" name="sdt" formControlName="phone">
+                        <small
+                            *ngIf="registionForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
                             SĐT không được để trống.
-                          </small>
-                          <small *ngIf="registionForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
+                        </small>
+                        <small
+                            *ngIf="registionForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
                             SĐT chỉ được nhập số.
-                          </small>
-                          <small *ngIf="registionForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
+                        </small>
+                        <small
+                            *ngIf="registionForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
                             SĐT phải bắt đầu bằng 0.
-                          </small>
+                        </small>
                     </div>
                     <div class="input">
-                        <input class="username text" type="text" placeholder="Tài khoản" name="username" formControlName="login">
+                        <label for="dob">Ngày sinh</label>
+                        <input type="date" class="dob text" aria-describedby="emailHelp" formControlName="dob"
+                            required="" />
+                        <small
+                            *ngIf="registionForm.get('dob')?.hasError('required') &&isFormControlInvalidAndTouched('dob')">
+                            Ngày sinh không được để trống.
+                        </small>
+                    </div>
+                    
+                    <div class="input">
+                        <label for="username">Tài khoản</label>
+                        <input class="username text" type="text" placeholder="Nhập Tài khoản" name="username"
+                            formControlName="login">
                         <small
                             *ngIf="registionForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">
                             Hãy nhập tài khoản
@@ -54,7 +103,9 @@
                         </small>
                     </div>
                     <div class="input">
-                        <input class="password text" type="password" placeholder="Mật khẩu" name="password" formControlName="passwordHash">
+                        <label for="password">Mật khẩu</label>
+                        <input class="password text" type="password" placeholder="Nhập Mật khẩu" name="password"
+                            formControlName="passwordHash">
                         <small
                             *ngIf="registionForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">
                             Hãy nhập mật khẩu
@@ -64,51 +115,17 @@
                             Mật khẩu cần có ít nhất 6 kí tự
                         </small>
                     </div>
-                    <div class="input">
-                        <input class="confirm text" type="password" placeholder="Nhập lại mật khẩu" name="confirmPassword" formControlName="confirmPassword">
-                        <small
-                            *ngIf="registionForm.get('confirmPassword')?.hasError('required') && isFormControlInvalidAndTouched('confirmPassword')">
-                            Hãy nhập lại mật khẩu
-                            </small>
-                        <small
-                            *ngIf="registionForm.get('confirmPassword')?.hasError('mustMatch') && isFormControlInvalidAndTouched('confirmPassword')">
-                            Không trùng với mật khẩu
-                        </small>
-                    </div>
-                    <div class="button">
-                        <button class="button-register">
-                            <div class="text-register" type="submit">Đăng ký</div>
-                            <span class="icon">
-                                <i class="pi pi-arrow-right"></i>
-                            </span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-6">
-                <div class="box">
-                    <div class="group">
-                        <p class="title-label">ShoesStore Nhận thưởng ngay hôm nay.</p>
-                        <p>Là thành viên của ShoesStore, bạn sẽ nhận được phần thưởng khi làm những gì bạn yêu thích.
-                             Đăng ký ngay hôm nay và nhận ngay quyền truy cập vào các lợi ích này:</p>
-                        <div>
-                            <ul>
-                                <li>Miễn phí vận chuyển</li>
-                                <li>Giảm giá 10% cho đơn hàng đầu tiên</li>
-                            </ul>
-                        </div>
-                        <p>Tham gia ngay để nhận những ưu đãi hấp dẫn.​</p>
-                        <button class="button-join">
-                            <div class="text-join">Join the store</div>
-                            <span class="icon-1">
-                                <i class="pi pi-arrow-right"></i>
-                            </span>
-                        </button>
-                    </div>
+                    
+                </div>
+                <div class="button">
+                    <button class="button-register">
+                        <div class="text-register" type="submit">Đăng ký</div>
+                        <span class="icon">
+                            <i class="pi pi-arrow-right"></i>
+                        </span>
+                    </button>
                 </div>
             </div>
-            
-        </div>
+        </form>
     </div>
 </body>
