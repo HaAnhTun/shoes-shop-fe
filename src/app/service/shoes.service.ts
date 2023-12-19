@@ -15,6 +15,11 @@ export class ShoesService {
   getShoes() {
     return this.http.get(this.apiUrl);
   }
+
+  getShoesRemoved() {
+    return this.http.get(this.apiUrl + '/removed');
+  }
+
   editShoes(Shoes: Shoes): Observable<Shoes> {
       const updateUrl = `${this.apiUrl}/${Shoes.id}`;
       return this.http.put<Shoes>(updateUrl, Shoes);

@@ -33,7 +33,7 @@ export class UserOrderComponent implements OnInit {
   orderSearchReqDTO: OrderSearchReq = {
     status: 0,
   };
-  orderDetailData: { [orderCode: string]: OrderDetailCustom[]} ={}
+  orderDetailData: { [orderCode: string]: OrderDetailCustom[] } = {};
   orderQuantity: Map<any, any>;
 
   provinces: any[] = []
@@ -55,7 +55,7 @@ export class UserOrderComponent implements OnInit {
       { code: 2, name: "Đang giao", quantity: 0 },
       { code: 3, name: "Hoàn thành", quantity: 0 },
       { code: -1, name: "Hủy", quantity: 0 },
-      { code: 4, name: "Chờ thanh toán", quantity: 0 },
+      { code: 4, name: "Đổi trả", quantity: 0 },
     ];
   }
 
@@ -93,6 +93,9 @@ export class UserOrderComponent implements OnInit {
 
   showOderDetails(id: number) {
     this.router.navigate(["/client/order-details/" + id]);
+  }
+  showOderReturnDetails(id: number) {
+    this.router.navigate(["/client/order-return-details/" + id]);
   }
   returnOrder(id: number) {
     this.router.navigate(["/client/return-order/" + id]);
@@ -192,8 +195,8 @@ export class UserOrderComponent implements OnInit {
       this.orderSearchReqDTO.status = -1;
       this.checkOne = true;
       this.check = false;
-    } else if (label.startsWith("Chờ thanh toán")) {
-      this.checkString = "Chờ thanh toán";
+    } else if (label.startsWith("Đổi trả")) {
+      this.checkString = "Đổi trả";
       this.orderSearchReqDTO.status = 4;
       this.check = true;
       this.checkOne = false;
@@ -201,12 +204,12 @@ export class UserOrderComponent implements OnInit {
     await this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
   }
 
-  getShoes(orderCode: string){
-      this.orderService.getOrderDetailByOrderCode(orderCode).subscribe(
-        (response) => {
-          this.orderDetailData[orderCode] = response
-          console.log(response)
-        }
-      )
+  getShoes(orderCode: string) {
+    this.orderService
+      .getOrderDetailByOrderCode(orderCode)
+      .subscribe((response) => {
+        this.orderDetailData[orderCode] = response;
+        console.log(response);
+      });
   }
 }

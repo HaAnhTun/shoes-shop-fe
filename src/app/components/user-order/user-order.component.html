@@ -1,30 +1,54 @@
 <div class="container">
-  <h2 style="text-align: center; margin: 20px 0;">Đơn hàng của bạn</h2>
+  <h2 style="text-align: center; margin: 20px 0">Đơn hàng của bạn</h2>
 
   <ul class="nav nav-tabs" role="tablist">
-    <li *ngFor="let item of listMenuItems" class="nav-item" role="presentation" style="width: 16.66%; cursor: pointer">
-      <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1" style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50px;
-          " (click)="clickListOder(item.name)" [class]="checkString == item.name ? 'text-primaryyy' : ''">
-          {{ item.name }}
-          <span style="margin-bottom: 15px">
-            <p-badge [value]="item.quantity"></p-badge>
-          </span>
-        </a>
+    <li
+      *ngFor="let item of listMenuItems"
+      class="nav-item"
+      role="presentation"
+      style="width: 16.66%; cursor: pointer"
+    >
+      <a
+        class="nav-link"
+        data-bs-toggle="tab"
+        aria-selected="false"
+        role="tab"
+        tabindex="-1"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 50px;
+        "
+        (click)="clickListOder(item.name)"
+        [class]="checkString == item.name ? 'text-primaryyy' : ''"
+      >
+        {{ item.name }}
+        <span style="margin-bottom: 15px">
+          <p-badge [value]="item.quantity"></p-badge>
+        </span>
+      </a>
     </li>
   </ul>
 
   <ng-container>
-    <p-table #dt [value]="order" [rows]="5" [paginator]="true" [globalFilterFields]="[
-          'name',
-          'country.name',
-          'representative.name',
-          'status'
-        ]" [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    <p-table
+      #dt
+      [value]="order"
+      [rows]="5"
+      [paginator]="true"
+      [globalFilterFields]="[
+        'name',
+        'country.name',
+        'representative.name',
+        'status'
+      ]"
+      [tableStyle]="{ 'min-width': '75rem' }"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+    >
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 4rem">
@@ -62,10 +86,15 @@
             {{ order.userAddress.provinceName }}, {{order.userAddress.districtName}}, {{order.userAddress.wardName}}
           </td>
           <td>
-            <button type="button" pButton pRipple [pRowToggler]="order"
+            <button
+              type="button"
+              pButton
+              pRipple
+              [pRowToggler]="order"
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-left'"
-              (click)="!expanded && getShoes(order.code)"></button>
+              (click)="!expanded && getShoes(order.code)"
+            ></button>
           </td>
           <td>
             <button
@@ -90,8 +119,13 @@
         <tr>
           <td colspan="7">
             <div class="p-3">
-              <p-table [value]="orderDetailData[order.code]" dataKey="code" [rows]="5" [paginator]="true"
-                [tableStyle]="{ 'min-width': '60rem' }">
+              <p-table
+                [value]="orderDetailData[order.code]"
+                dataKey="code"
+                [rows]="5"
+                [paginator]="true"
+                [tableStyle]="{ 'min-width': '60rem' }"
+              >
                 <ng-template pTemplate="header">
         <tr>
           <th pSortableColumn="image">

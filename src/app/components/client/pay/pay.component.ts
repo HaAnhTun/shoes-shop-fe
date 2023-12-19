@@ -118,7 +118,6 @@ export class PayComponent implements OnInit {
     this.addressService.getProvines().subscribe((res) => {
       this.provines = res.results;
     });
-    console.log(this.checkCartDetailCustom);
   }
 
   updateShippingCost(cost: number) {

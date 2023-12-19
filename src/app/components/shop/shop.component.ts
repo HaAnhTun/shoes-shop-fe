@@ -1,12 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { log } from "console";
-import { PrimeNGConfig, SelectItem } from "primeng/api";
-import { DataView } from "primeng/dataview";
-import { SelectButton } from "primeng/selectbutton";
-import { AppConstants } from "src/app/app-constants";
-import { Product } from "src/app/model/Product";
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { log } from 'console';
+import { PrimeNGConfig, SelectItem } from 'primeng/api';
+import { DataView } from 'primeng/dataview';
+import { SelectButton } from 'primeng/selectbutton';
+import { Slider } from 'primeng/slider';
+import { AppConstants } from 'src/app/app-constants';
+import { Product } from 'src/app/model/Product';
 
 @Component({
   selector: "app-shop",
@@ -16,9 +17,10 @@ import { Product } from "src/app/model/Product";
 export class ShopComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
   valuee: any;
-  layout: "list" | "grid" = "grid";
-  @ViewChild("dv") dataView: DataView;
-  @ViewChild("tablos") testSB: SelectButton;
+  layout: 'list' | 'grid' = 'grid';
+  @ViewChild('dv') dataView: DataView
+  @ViewChild('tablos') testSB: SelectButton
+  @ViewChild('sl') sl: Slider
   sortOptions: SelectItem[];
   brandOptions: any[] = [];
   selectedBrand: any;
@@ -108,7 +110,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
       sizeIds: this.selectedSizes != null ? this.selectedSizes : [], // Thay thế bằng dữ liệu thực tế hoặc để []
       brandId: this.selectedBrand ? this.selectedBrand : null, // Thay thế bằng dữ liệu thực tế hoặc để null
       startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế ví dụ 0
-      endPrice: this.rangeValues[10000], // Thay thế bằng dữ liệu thực tế ví dụ 10000000000
+      endPrice: this.rangeValues[1], // 
     };
     // Gửi yêu cầu POST
     this.http
@@ -127,6 +129,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
   clearFilter() {
     this.selectedSizes = [];
     this.selectedBrand = null;
+    this.rangeValues = [0, 10000000];
     this.fetchProducts();
   }
 
@@ -135,7 +138,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
     console.log(this.selectedSizes);
     console.log(this.selectedBrand);
     const searchData = {
-      sizeIds: this.selectedSizes, // Thay thế bằng dữ liệu thực tế
+      sizeIds: this.selectedSizes,
       brandId: this.selectedBrand, // Thay thế bằng dữ liệu thực tế
       startPrice: this.rangeValues[0], // Thay thế bằng dữ liệu thực tế
       endPrice: this.rangeValues[1], // Thay thế bằng dữ liệu thực tế

@@ -45,6 +45,7 @@ import { SizeRemovedComponent } from "./components/size-removed/size-removed.com
 import { BrandRemovedComponent } from "./components/brand-removed/brand-removed.component";
 import { ProfileComponent } from "./components/client/profile/profile.component";
 import { CodeForgotPasswordComponent } from "./components/client/code-forgot-password/code-forgot-password.component";
+import { ShoesDeleteComponent } from "./components/shoes-delete/shoes-delete.component";
 const routes: Routes = [
   {
     ///ADMIN LINKS
@@ -81,6 +82,7 @@ const routes: Routes = [
       { path: "removedColor", component: ColorRemovedComponent },
       { path: "removedSize", component: SizeRemovedComponent },
       { path: "removedBrand", component: BrandRemovedComponent },
+      { path: "removedShoes", component: ShoesDeleteComponent },
     ],
   },
   {
@@ -107,6 +109,10 @@ const routes: Routes = [
       { path: "pay-faile", component: PayFaileComponent },
       { path: "order-details/:id", component: OrderDetailsComponent },
       { path: "profile", component: ProfileComponent },
+      {
+        path: "order-return-details/:id",
+        component: OrderReturnDetailsComponent,
+      },
     ],
   },
   /////CLIENT-LINKs
