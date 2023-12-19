@@ -19,9 +19,23 @@ export class AddressService {
     return this.http.get<any>(this.baseAddress + "/p/" + code);
   }
   public getDistrict1(code: number) {
-    return this.http.get<any>(this.baseAddress + "/province/district/" + code);
+    let url;
+    let codeString = code.toString()
+    if(codeString.length == 1){
+      url = "/province/district/0"
+    }else {
+      url = "/province/district/"
+    }
+    return this.http.get<any>(this.baseAddress + url + code);
   }
   public getWard(code: number) {
-    return this.http.get<any>(this.baseAddress + "/province/ward/" + code);
+    let url;
+    let codeString = code.toString()
+    if(codeString.length == 1){
+      url = "/province/ward/0"
+    }else {
+      url = "/province/ward/"
+    }
+    return this.http.get<any>(this.baseAddress + url + code);
   }
 }

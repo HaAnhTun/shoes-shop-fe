@@ -54,12 +54,14 @@
           <th style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
-          <th pSortableColumn="price">Tổng tiền</th>
-          <th pSortableColumn="inventoryStatus" style="min-width: 10rem">
+          <th pSortableColumn="code" style="min-width: 15rem">Mã HĐ</th>
+          <th pSortableColumn="receivedBy">Người nhận</th>
+          <th pSortableColumn="totalPrice">Tổng tiền</th>
+          <th pSortableColumn="shipPrice">Phí ship</th>
+          <th pSortableColumn="createdDate" style="min-width: 10rem">
             Ngày mua
           </th>
-          <th pSortableColumn="status">Trạng thái</th>
+          <th pSortableColumn="userAddress">Địa chỉ</th>
           <th style="width: 5rem"></th>
           <th style="width: 5rem"></th>
         </tr>
@@ -70,12 +72,18 @@
             <p-tableCheckbox [value]="order"></p-tableCheckbox>
           </td>
           <td>{{ order.code }}</td>
-          <td>{{ order.totalPrice }}đ</td>
+          <td>{{ order.receivedBy }}</td>
+          <td>
+            {{ order.totalPrice }}đ
+          </td>
+          <td>
+            {{ order.shipPrice }}đ
+          </td>
           <td>
             {{ order.createdDate | date : "dd-MM-yyyy" }}
           </td>
           <td>
-            {{ checkString }}
+            {{ order.userAddress.provinceName }}, {{order.userAddress.districtName}}, {{order.userAddress.wardName}}
           </td>
           <td>
             <button
@@ -119,59 +127,56 @@
                 [tableStyle]="{ 'min-width': '60rem' }"
               >
                 <ng-template pTemplate="header">
-                  <tr>
-                    <th pSortableColumn="image">
-                      <div class="th">Ảnh</div>
-                    </th>
-                    <th pSortableColumn="nameShoes">
-                      <div class="th">Thông tin sản phẩm</div>
-                    </th>
-                    <th pSortableColumn="price">
-                      <div class="th">Giá</div>
-                    </th>
-                    <th pSortableColumn="quantity">
-                      <div class="th">Số lượng</div>
-                    </th>
-                    <th style="width: 4rem"></th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-orderDetailData>
-                  <tr>
-                    <td>
-                      <img
-                        [src]="orderDetailData.path"
-                        [alt]=""
-                        width="100"
-                        height="100"
-                        class="shadow-4"
-                      />
-                    </td>
-                    <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
-                    <td>
-                      <div>
-                        <span>Tên giày:</span> {{ orderDetailData.nameShoes }}
-                      </div>
-                      <div>
-                        <span>Hãng:</span> {{ orderDetailData.nameBrand }}
-                      </div>
-                      <div>
-                        <span>Size:</span> {{ orderDetailData.nameSize }}
-                      </div>
-                      <div>
-                        <span>Màu:</span> {{ orderDetailData.nameColor }}
-                      </div>
-                    </td>
-                    <td>
-                      <span>{{ orderDetailData.priceShoes }}</span>
-                    </td>
-                    <td>{{ orderDetailData.quantity }}</td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </div>
+        <tr>
+          <th pSortableColumn="image">
+            <div class="th">Ảnh</div>
+          </th>
+          <th pSortableColumn="nameShoes">
+            <div class="th">Thông tin sản phẩm</div>
+          </th>
+          <th pSortableColumn="price">
+            <div class="th">Giá</div>
+          </th>
+          <th pSortableColumn="quantity">
+            <div class="th">Số lượng</div>
+          </th>
+          <th style="width: 4rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-orderDetailData>
+        <tr>
+          <td>
+            <img
+              [src]="orderDetailData.path"
+              [alt]=""
+              width="100"
+              height="100"
+              class="shadow-4"
+            />
           </td>
+          <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
+          <td>
+            <div><span>Tên giày:</span> {{ orderDetailData.nameShoes }}</div>
+            <div><span>Hãng:</span> {{ orderDetailData.nameBrand }}</div>
+            <div><span>Size:</span> {{ orderDetailData.nameSize }}</div>
+            <div><span>Màu:</span> {{ orderDetailData.nameColor }}</div>
+          </td>
+          <td>
+            <span *ngIf="orderDetailData.discount == null">{{ orderDetailData.priceShoes }}đ</span>
+            <span *ngIf="orderDetailData.discount != null">
+              <small><del style="color: red;">{{ orderDetailData.priceShoes }}đ</del></small>
+              <div>{{ orderDetailData.discount }}đ</div>
+            </span>
+          </td>
+          <td>{{ orderDetailData.quantity }}</td>
+          
         </tr>
       </ng-template>
     </p-table>
-  </ng-container>
+</div>
+</td>
+</tr>
+</ng-template>
+</p-table>
+</ng-container>
 </div>

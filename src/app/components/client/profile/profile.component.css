@@ -1,7 +1,7 @@
 .content{
     padding-top: 40px;
 }
-.col-3{
+.cl-left{
     background-color: aliceblue;
 }
 .img, .chao{
@@ -38,8 +38,8 @@ a:hover{
 .title, .inf{
     padding-left: 20px;
 }
-.name, .email, .dob, .phone,
-.title-name, .title-email, .title-dob, .title-phone{
+.name, .email, .dob, .phone, .adrs,
+.title-name, .title-email, .title-dob, .title-phone, .title-address{
     font-size: 20px;
     margin-top: 15px;
 }
