@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { Observable, catchError, map, of, switchMap, timer } from "rxjs";
 import { User } from "src/app/model/User";
+import { AddressService } from "src/app/service/address.service";
 import { RegisterService } from "src/app/service/register.service";
 @Component({
   selector: "app-register",
@@ -14,12 +15,23 @@ import { RegisterService } from "src/app/service/register.service";
 export class RegisterComponent{
 
   registionForm: FormGroup
+  filteredProvinces: any[] = [];
+  filteredDistricts: any[] = [];
+  filteredWard: any[] = [];
 
+  provines: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+
+  province: any;
+  district: any;
+  ward: any;
   constructor(
     private router: Router,
     private http: HttpClient,
     private registerService: RegisterService,
     private messageService: MessageService,
+    private addressService: AddressService,
     private fb: FormBuilder // Sử dụng FormBuilder để tạo FormGroup
   ) {
     this.registionForm = this.fb.group({
@@ -150,4 +162,61 @@ export class RegisterComponent{
     return of(null);
   }
 
+  filterProvine(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.provines as any[]).length; i++) {
+        let provine = (this.provines as any[])[i];
+        if (provine.province_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(provine);
+        }
+    }
+
+    this.filteredProvinces = filtered;
+  }
+
+  filterDistrict(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < (this.districts as any[]).length; i++) {
+        let district = (this.districts as any[])[i];
+        if (district.district_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(district);
+        }
+    }
+    this.filteredDistricts = filtered;
+  }
+
+  filterWard(event: any) {
+    let filtered: any[] = [];
+    let query = event.query;
+    console.log(this.wards)
+    for (let i = 0; i < (this.wards as any[]).length; i++) {
+        let ward = (this.wards as any[])[i];
+        if (ward.ward_name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(ward);
+        }
+    }
+    this.filteredWard = filtered;
+  }
+
+  changeWard(event: any){
+    this.ward = event;
+  }
+
+  getDistrict(event: any) {
+    this.province = event;
+    this.addressService.getDistrict1(event.province_id).subscribe((res) => {
+      this.districts = res.results;
+      console.log(this.districts)
+    });
+  }
+  getWard(event: any) {
+    this.district = event;
+    this.addressService.getWard(event.district_id).subscribe((res) => {
+      this.wards = res.results;
+    });
+  }
 }
+

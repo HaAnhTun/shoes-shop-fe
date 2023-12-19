@@ -10,3 +10,11 @@
   background-color: #ffffff; /* Màu nền trắng */
   color: #000000; /* Màu chữ đen */
 }
+.comment-container {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+.p-input-number-input {
+  width: 30px; /* Set the width to 100px */
+}

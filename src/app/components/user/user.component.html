@@ -9,7 +9,144 @@
             <p-dialog header="Chi tiết người dùng" [(visible)]="userDialog" [modal]="true" styleClass="container-fuild"
                 [draggable]="false" [resizable]="true">
                 <form [formGroup]="userForm" (submit)="addUser()">
-                    <div class="group-input">
+                    <div class="body-add">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input">
+                                    <label for="firstName">Tên</label>
+                                    <input class="firstname text" type="text" placeholder="Nhập Tên" name="firstName"
+                                        formControlName="firstName">
+                                    <small
+                                        *ngIf="userForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">
+                                        Hãy nhập tên
+                                    </small>
+                                </div>
+                                <div class="input">
+                                    <label for="lastName">Họ</label>
+                                    <input class="lastname text" type="text" placeholder="Nhập Họ" name="lastName"
+                                        formControlName="lastName">
+                                    <small
+                                        *ngIf="userForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">
+                                        Hãy nhập họ
+                                    </small>
+                                </div>
+                                <div class="input">
+                                    <label for="email">Email</label>
+                                    <input class="email text" type="text" placeholder="Nhập Email" name="email"
+                                        formControlName="email">
+                                    <small
+                                        *ngIf="userForm.get('email')?.hasError('required') && isFormControlInvalidAndTouched('email')">
+                                        Hãy nhập email</small>
+                                    <small
+                                        *ngIf="userForm.get('email')?.hasError('duplicateEmail') && isFormControlInvalidAndTouched('email')">
+                                        Email đã tồn tại</small>
+                                    <small
+                                        *ngIf="userForm.get('email')?.hasError('email') && isFormControlInvalidAndTouched('email')">
+                                        Email không đúng định dạng</small>
+                                </div>
+                                <div class="input">
+                                    <label for="sdt">Số điện thoại</label>
+                                    <input class="email text" type="text" placeholder="Nhập số điện thoại" name="sdt"
+                                        formControlName="phone">
+                                    <small
+                                        *ngIf="userForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
+                                        SĐT không được để trống.
+                                    </small>
+                                    <small
+                                        *ngIf="userForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
+                                        SĐT chỉ được nhập số.
+                                    </small>
+                                    <small
+                                        *ngIf="userForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
+                                        SĐT phải bắt đầu bằng 0.
+                                    </small>
+                                </div>
+                                <div class="row address">
+                                    <div class="col-4">
+                                        <label for="province">Tỉnh - thành phố</label>
+                                        <p-autoComplete class="custom-autocomplete" name="province" showClear="true" showEmptyMessage="true" unique="true"
+                                            formControlName="selectedProvince" [dropdown]="true" [suggestions]="filteredProvinces"
+                                            (completeMethod)="filterProvine($event)" (onSelect)="getDistrict($event)"
+                                            field="province_name" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                                        </p-autoComplete>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="district">Quận - Huyện</label>
+                                        <p-autoComplete name="district" showClear="true" showEmptyMessage="true" unique="true"
+                                        formControlName="selectedDistrict" [dropdown]="true" [suggestions]="filteredDistricts"
+                                            (completeMethod)="filterDistrict($event)" (onSelect)="getWard($event)" field="district_name"
+                                            [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                                        </p-autoComplete>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="ward">Xã - Phường - Thị trấn</label>
+                                        <p-autoComplete name="ward" showClear="true" showEmptyMessage="true" unique="true"
+                                        formControlName="selectedWard" [dropdown]="true" [suggestions]="filteredWard"
+                                            (completeMethod)="filterWard($event)" (onSelect)="changeWard($event)" field="ward_name"
+                                            [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+                                        </p-autoComplete>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input">
+                                    <label for="dob">Ngày sinh</label>
+                                    <input type="date" class="dob text" aria-describedby="emailHelp"
+                                        formControlName="dob" required="" />
+                                    <small
+                                        *ngIf="userForm.get('dob')?.hasError('required') &&isFormControlInvalidAndTouched('dob')">
+                                        Ngày sinh không được để trống.
+                                    </small>
+                                </div>
+
+                                <div class="input">
+                                    <label for="username">Tài khoản</label>
+                                    <input class="username text" type="text" placeholder="Nhập Tài khoản"
+                                        name="username" formControlName="login">
+                                    <small
+                                        *ngIf="userForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">
+                                        Hãy nhập tài khoản
+                                    </small>
+                                    <small
+                                        *ngIf="userForm.get('login')?.hasError('duplicateLogin') && isFormControlInvalidAndTouched('login')">
+                                        Tài khoản đã có người dùng
+                                    </small>
+                                </div>
+
+                                <div class="input">
+                                    <label for="password">Mật khẩu</label>
+                                    <input class="password text" type="password" placeholder="Nhập Mật khẩu"
+                                        name="password" formControlName="passwordHash">
+                                    <small
+                                        *ngIf="userForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">
+                                        Hãy nhập mật khẩu
+                                    </small>
+                                    <small
+                                        *ngIf="userForm.get('passwordHash')?.hasError('minlength') && isFormControlInvalidAndTouched('passwordHash')">
+                                        Mật khẩu cần có ít nhất 6 kí tự
+                                    </small>
+                                </div>
+                                <div class="input">
+                                    <div class="chucvu">
+                                        <label for="role">Chức vụ</label>
+                                        <p-autoComplete showClear="true" showEmptyMessage="true" required="true"
+                                            [dropdown]="true" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                            (completeMethod)="filterList($event)" [suggestions]="list" field="label"
+                                            formControlName="authorities" name="role">
+                                        </p-autoComplete>
+                                        <small
+                                            *ngIf="userForm.get('authorities')?.hasError('required') && isFormControlInvalidAndTouched('authorities')">
+                                            Chức vụ không được để trống.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-add">
+                                <p-button label="Thêm" type="submit"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="group-input">
                         <div class="title">Tên</div>
                         <input class="input100" type="text" name="firstName" formControlName="firstName">
                         <small
@@ -86,7 +223,7 @@
                     </div>
                     <div class="button">
                         <button class="btnAdd" type="submit">Lưu</button>
-                    </div>
+                    </div> -->
                 </form>
             </p-dialog>
         </div>
@@ -94,9 +231,9 @@
 
         </div>
         <div class="card">
-            <p-table [value]="user" dataKey="login" [rows]="5" [paginator]="true"
-                [tableStyle]="{ 'min-width': '60rem' }" [rowsPerPageOptions]="[5, 10, 25, 50]"
-                 [globalFilterFields]="['firstName', 'email', 'login']" [filter]="true" #dt>
+            <p-table [value]="user" dataKey="login" [rows]="5" [scrollable]="true" [style]="{ 'width': '100%' }"
+                [paginator]="true" [tableStyle]="{ 'min-width': '60rem' }" [rowsPerPageOptions]="[5, 10, 25, 50]"
+                [globalFilterFields]="['firstName', 'email', 'login']" [filter]="true" #dt>
                 <ng-template pTemplate="caption">
                     <div class="flex align-items-center justify-content-between">
                         <h5 class="m-0">Manage Users</h5>
@@ -110,20 +247,28 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 5rem"></th>
-                        <th pSortableColumn="firstName">
+                        <th pSortableColumn="firstName" style="width: 15rem">
                             <div class="th">Tên<p-sortIcon field="firstName"></p-sortIcon></div>
                         </th>
-                        <th>Ảnh</th>
-                        <th pSortableColumn="email">
+                        <th pSortableColumn="email" style="width: 15rem">
                             <div class="th">Email<p-sortIcon field="email"></p-sortIcon></div>
                         </th>
-                        <th pSortableColumn="login">
+                        <th pSortableColumn="login" style="width: 15rem">
                             <div class="th">Tên đăng nhập<p-sortIcon field="login"></p-sortIcon></div>
                         </th>
-                        <th pSortableColumn="createdBy">
+                        <th pSortableColumn="authorities">
+                            <div class="th">Chức vụ<p-sortIcon field="authorities"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="dob" style="width: 15rem">
+                            <div class="th">Ngày sinh<p-sortIcon field="dob"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="address" style="width: 25rem">
+                            <div class="th">Địa chỉ<p-sortIcon field="address"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="createdBy" style="width: 15rem">
                             <div class="th">Người tạo <p-sortIcon field="createdBy"></p-sortIcon></div>
                         </th>
-                        <th pSortableColumn="createdDate">
+                        <th pSortableColumn="createdDate" style="width: 15rem">
                             <div class="th">Ngày tạo <p-sortIcon field="createdDate"></p-sortIcon></div>
                         </th>
                         <th></th>
@@ -138,9 +283,11 @@
                                 (click)="!expanded && getOrder(user)"></button>
                         </td>
                         <td>{{ user.firstName }}</td>
-                        <td><img width="50" class="shadow-4" src="../../../assets/images/users/avatar-1.jpg" /></td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.login }}</td>
+                        <td>{{ user.authorities[0] == 'ROLE_ADMIN' ? 'ADMIN' : 'USER' }}</td>
+                        <td>{{ user.dob | date : 'dd/MM/yyyy'}}</td>
+                        <td>{{ user.address }}</td>
                         <td>{{ user.createdBy }}</td>
                         <td>{{ user.createdDate | date : 'dd/MM/yyyy'}}</td>
                         <td>
@@ -161,53 +308,69 @@
                                 <p-table [value]="orderData[user.id]" dataKey="id" [rows]="5" [paginator]="true"
                                     [tableStyle]="{ 'min-width': '60rem' }">
                                     <ng-template pTemplate="header">
-                                        <tr>
-                                            <th pSortableColumn="code">
-                                                <div class="th">Mã <p-sortIcon field="code"></p-sortIcon></div>
-                                            </th>
-                                            <th pSortableColumn="receivedBy">
-                                                <div class="th">Người nhận<p-sortIcon field="receivedBy"></p-sortIcon></div>
-                                            </th>
-                                            <th pSortableColumn="receivedBy">
-                                                <div class="th">Số điện thoại<p-sortIcon field="receivedBy"></p-sortIcon></div>
-                                            </th>
-                                            <th pSortableColumn="createdDate">
-                                                <div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div>
-                                            </th>
-                                            <th pSortableColumn="receivedDate">
-                                                <div class="th">Ngày nhận<p-sortIcon field="date"></p-sortIcon></div>
-                                            </th>
-                                            <th pSortableColumn="totalPrice">
-                                                <div class="th">Tổng giá <p-sortIcon field="totalPrice"></p-sortIcon></div>
-                                            </th>
-                                            <th pSortableColumn="status">
-                                                <div class="th">Trạng thái <p-sortIcon field="status"></p-sortIcon></div>
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-order>
-                                        <tr>
-                                            <td>{{ order.code }}</td>
-                                            <td>{{ order.receivedBy }}</td>
-                                            <td>{{ order.phone }}</td>
-                                            <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
-                                            <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
-                                            <td>{{ order.totalPrice | currency:'VND' }}</td>
-                                            <td>{{ getStatusName(order.status) }}</td>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                            <td colspan="6">Không có hóa đơn nào.</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
-                            </div>
-                        </td>
+                    <tr>
+                        <th pSortableColumn="code">
+                            <div class="th">Mã <p-sortIcon field="code"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="receivedBy">
+                            <div class="th">Người nhận<p-sortIcon field="receivedBy"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="receivedBy">
+                            <div class="th">Số điện thoại<p-sortIcon field="receivedBy"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="province">
+                            <div class="th">Tỉnh<p-sortIcon field="province"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="district">
+                            <div class="th">Huyện<p-sortIcon field="district"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="ward">
+                            <div class="th">Xã<p-sortIcon field="ward"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="addressDetails">
+                            <div class="th">Địa chỉ<p-sortIcon field="addressDetails"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="createdDate">
+                            <div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="receivedDate">
+                            <div class="th">Ngày nhận<p-sortIcon field="date"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="totalPrice">
+                            <div class="th">Tổng giá <p-sortIcon field="totalPrice"></p-sortIcon></div>
+                        </th>
+                        <th pSortableColumn="status">
+                            <div class="th">Trạng thái <p-sortIcon field="status"></p-sortIcon></div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-order>
+                    <tr>
+                        <td>{{ order.code }}</td>
+                        <td>{{ order.receivedBy }}</td>
+                        <td>{{ order.phone }}</td>
+                        <td>{{ order.userAddress.provinceName }}</td>
+                        <td>{{ order.userAddress.districtName }}</td>
+                        <td>{{ order.userAddress.wardName }}</td>
+                        <td>{{ order.userAddress.addressDetails }}</td>
+                        <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
+                        <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
+                        <td>{{ order.totalPrice | currency:'VND' }}</td>
+                        <td>{{ getStatusName(order.status) }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">Không có hóa đơn nào.</td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
-        <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+        </td>
+        </tr>
+        </ng-template>
+        </p-table>
+    </div>
+    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
     </div>
 </body>

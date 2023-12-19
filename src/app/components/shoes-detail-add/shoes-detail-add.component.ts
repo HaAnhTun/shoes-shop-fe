@@ -507,15 +507,11 @@ export class ShoesDetailAddComponent implements OnInit {
   getStatus(status: number) {
     switch (status) {
       case 0:
-        return "Not showing";
+        return "Không khả dụng";
       case 1:
-        return "INSTOCK";
-      case 2:
-        return "LOWSTOCK";
-      case 3:
-        return "OUTOFSTOCK";
+        return "Khả dụng";
     }
-    return "not available";
+    return "Không khả dụng";
   }
 
   filterList(
