@@ -1,48 +1,27 @@
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-  crossorigin="anonymous"
-/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 <div class="layout-topbar">
-  <div
-    style="
+  <div style="
       font-weight: 800;
       font-size: x-large;
       width: 21vw;
       text-align: center;
       text-shadow: 2px 2px 10px #75a9b4;
       color: #049d16;
-    "
-  >
+    ">
     SPORTKICK
-    <img
-      src="../../assets/images/sp.png"
-      alt="logo"
-      style="width: 80px; height: 60px"
-    />
+    <img src="../../assets/images/sp.png" alt="logo" style="width: 80px; height: 60px" />
   </div>
   <!-- logo -->
-  <nav
-    style="margin-left: 6vw"
-    class="navbar navbar-expand-lg bg-body-tertiary"
-  >
+  <nav style="margin-left: 10vw" class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a
-              class="nav-link"
-              aria-current="page"
-              [routerLink]="'/client/home'"
-              >Trang chủ</a
-            >
+            <a class="nav-link" aria-current="page" [routerLink]="'/client/home'">Trang chủ</a>
           </li>
           <li class="nav-item">
             <a [routerLink]="'/client/shop'" class="nav-link">Cửa hàng</a>
-          </li>
-          <li class="nav-item">
-            <a [routerLink]="'/client/discount'" class="nav-link">Khyến mãi</a>
           </li>
           <li class="nav-item">
             <a [routerLink]="'/client/about'" class="nav-link">Giới thiệu</a>
@@ -55,21 +34,11 @@
     </div>
   </nav>
   <div #topbarmenu class="layout-topbar-menu">
-    <div
-      class="hinh-tron"
-      [routerLink]="'/client/cart'"
-      style="cursor: pointer"
-    >
-      <i
-        class="pi pi-shopping-cart"
-        style="font-size: 2rem; margin-top: 0.5vw; margin-left: 0.5vw"
-      ></i>
+    <div class="hinh-tron" [routerLink]="'/client/cart'" style="cursor: pointer">
+      <i class="pi pi-shopping-cart" style="font-size: 2rem; margin-top: 0.5vw; margin-left: 0.5vw"></i>
     </div>
     <p-badge [value]="quanity" severity="success"></p-badge>
-    <div
-      style="margin-left: 4vw; margin-right: 3vw; height: 3vw; cursor: pointer"
-      [routerLink]="'/client/profile'"
-    >
+    <div style="margin-left: 4vw; margin-right: 3vw; height: 2vw; cursor: pointer" [routerLink]="'/client/profile'">
       <i class="pi pi-user" style="font-size: 2rem; margin-top: 0.5vw"></i>
     </div>
   </div>

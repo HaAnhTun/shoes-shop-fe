@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Route, Router } from "@angular/router";
 import { CartDetailService } from "src/app/service/cart-detail.service";
 import { CartDetailSave } from "src/app/model/AddCartDetail";
@@ -43,8 +43,13 @@ export interface ShoesDetail {
   selector: "app-shoes-inspect",
   templateUrl: "./shoes-inspect.component.html",
   styleUrls: ["./shoes-inspect.component.css"],
+  encapsulation: ViewEncapsulation.None  // Use to disable CSS Encapsulation for this component
 })
 export class ShoesInspectComponent {
+  get imageSrc() {
+    const imageWith800x800 = this.shoesDetails.images.find((img: string) => img.includes('800x800'));
+    return imageWith800x800 || this.shoesDetails.images[0];
+  }
   CartDetailSave: CartDetailSave = {};
   cartDetails: CartDetail[];
   cartDetailCustoms: CartDetailCustom[] = [];
@@ -170,6 +175,7 @@ export class ShoesInspectComponent {
   }
 
   fetchProductDetails() {
+    this.quantity = 1
     const apiUrl = `http://localhost:8088/api/shoes-details/shop/detail`;
     // Make the HTTP request
     this.http.post<any>(apiUrl, this.productId).subscribe(
@@ -250,11 +256,11 @@ export class ShoesInspectComponent {
             .filter((c) => c.shoesDetails.id === this.shoesDetails.id)
             .forEach(
               (c) =>
-                (this.check = this.cartDetailService
-                  .updateQuanity(c.id, this.quantity)
-                  .subscribe(() => {
-                    this.router.navigate(["/client/cart"]);
-                  }))
+              (this.check = this.cartDetailService
+                .updateQuanity(c.id, this.quantity)
+                .subscribe(() => {
+                  this.router.navigate(["/client/cart"]);
+                }))
             );
           if (this.check === null) {
             this.CartDetailSave.status = 1;
@@ -363,8 +369,11 @@ export class ShoesInspectComponent {
       status: 0,
     });
     if (this.feedbackForm.valid) {
+      const params = new HttpParams()
+        .set('brandId', this.shoesDetails.brand_id)
+        .set('shoesId', this.shoesDetails.shoes_id);
       this.http
-        .post("http://localhost:8088/api/feed-backs", this.feedbackForm.value)
+        .post("http://localhost:8088/api/feed-backs", this.feedbackForm.value, { params })
         .subscribe({
           next: (response) => {
             console.log("Feedback submitted", response);

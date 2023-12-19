@@ -1,12 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { log } from "console";
-import { PrimeNGConfig, SelectItem } from "primeng/api";
-import { DataView } from "primeng/dataview";
-import { SelectButton } from "primeng/selectbutton";
-import { AppConstants } from "src/app/app-constants";
-import { Product } from "src/app/model/Product";
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { log } from 'console';
+import { PrimeNGConfig, SelectItem } from 'primeng/api';
+import { DataView } from 'primeng/dataview';
+import { SelectButton } from 'primeng/selectbutton';
+import { Slider } from 'primeng/slider';
+import { AppConstants } from 'src/app/app-constants';
+import { Product } from 'src/app/model/Product';
 
 @Component({
   selector: "app-shop",
@@ -16,9 +17,10 @@ import { Product } from "src/app/model/Product";
 export class ShopComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
   valuee: any;
-  layout: "list" | "grid" = "grid";
-  @ViewChild("dv") dataView: DataView;
-  @ViewChild("tablos") testSB: SelectButton;
+  layout: 'list' | 'grid' = 'grid';
+  @ViewChild('dv') dataView: DataView
+  @ViewChild('tablos') testSB: SelectButton
+  @ViewChild('sl') sl: Slider
   sortOptions: SelectItem[];
   brandOptions: any[] = [];
   selectedBrand: any;
@@ -127,6 +129,8 @@ export class ShopComponent implements OnInit, AfterViewInit {
   clearFilter() {
     this.selectedSizes = [];
     this.selectedBrand = null;
+    this.rangeValues = [0, 10000000];
+
     this.fetchProducts();
   }
 
