@@ -79,9 +79,6 @@ input{
 .address{
     height: 69px;
 }
-.col-4{
-    margin-top: 10px;
-}
 .button{
     margin-top: 20px;
     margin-bottom: 30px;
@@ -179,5 +176,6 @@ small{
     width: 33.33%;
     float: left;
   }
-  
-  
+  .chucvu{
+    padding: 10px;
+  }

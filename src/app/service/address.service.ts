@@ -20,7 +20,8 @@ export class AddressService {
   }
   public getDistrict1(code: number) {
     let url;
-    if(code < 10){
+    let codeString = code.toString()
+    if(codeString.length == 1){
       url = "/province/district/0"
     }else {
       url = "/province/district/"
@@ -29,11 +30,12 @@ export class AddressService {
   }
   public getWard(code: number) {
     let url;
-    if(code < 10){
+    let codeString = code.toString()
+    if(codeString.length == 1){
       url = "/province/ward/0"
     }else {
       url = "/province/ward/"
     }
-    return this.http.get<any>(this.baseAddress + "/province/ward/" + code);
+    return this.http.get<any>(this.baseAddress + url + code);
   }
 }

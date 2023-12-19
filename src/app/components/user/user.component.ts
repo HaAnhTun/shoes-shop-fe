@@ -103,6 +103,9 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUser();
+    this.addressService.getProvines().subscribe((res) => {
+      this.provines = res.results;
+    });
   }
 
   getAllUser() {
@@ -124,7 +127,15 @@ export class UserComponent implements OnInit {
   getRoleUser(): string[] {
     let listString: string[] = []
     const listAny = this.userForm.get('authorities')?.value
-    console.log(listAny)
+    if(listAny == null){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Thêm mới người dùng thất bại',
+        life: 3000
+      });
+      return [];
+    }
     // listAny.forEach((element: { label: string, value: string; }) => {
     listString.push(listAny.value)
     // });
@@ -133,6 +144,9 @@ export class UserComponent implements OnInit {
 
   addUser() {
     // const newUser = { ...this.userForm.value };
+    let province = this.userForm.get('selectedProvince')?.value;
+    let district = this.userForm.get('selectedDistrict')?.value;
+    let ward = this.userForm.get('selectedWard')?.value;
     const newUser = {
       "id": this.userForm.get('id')?.value,
       "login": this.userForm.get('login')?.value,
@@ -142,10 +156,12 @@ export class UserComponent implements OnInit {
       "email": this.userForm.get('email')?.value,
       "phone": this.userForm.get('phone')?.value,
       "imageUrl": this.userForm.get('imageUrl')?.value,
-      "authorities": this.getRoleUser()
+      "authorities": this.getRoleUser(),
+      "dob": this.userForm.get('dob')?.value,
+      "address": province.province_name + '-' + district.district_name + '-' + ward.ward_name,
     }
     // Kiểm tra các trường bắt buộc
-    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.phone || !newUser.authorities) {
+    if (!newUser.firstName || !newUser.lastName || !newUser.login || !newUser.passwordHash || !newUser.email || !newUser.phone || !newUser.authorities || !newUser.address) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -254,7 +270,8 @@ export class UserComponent implements OnInit {
       passwordHash: user.passwordHash,
       email: user.email,
       phone: user.phone,
-      authorities: user.authorities[0] == 'ROLE_USER' ? { label: 'User', value: 'ROLE_USER' } : { label: 'Admin', value: 'ROLE_ADMIN' }
+      authorities: user.authorities[0] == 'ROLE_USER' ? { label: 'User', value: 'ROLE_USER' } : { label: 'Admin', value: 'ROLE_ADMIN' },
+      dob: user.dob,
     });
 
   }
@@ -408,32 +425,6 @@ export class UserComponent implements OnInit {
       );
     };
   }
-  getProvince(event: any) {
-    let listProvinces = []
-    this.addressService.getProvines().subscribe((res) => {
-      listProvinces = res.results;
-      for(let i = 0; i < listProvinces.length; i++){ 
-        if(listProvinces[i].province_id == event){
-          console.log(listProvinces[i])
-          return listProvinces[i]
-        }
-      }
-    });
-  }
-  transform(value: number): string {
-    // Chuyển đổi giá trị thành chuỗi
-    let stringValue = value.toString();
-
-    // Thêm số 0 đằng trước nếu có một chữ số
-    if (stringValue.length === 1) {
-      return '0' + stringValue;
-    }
-
-    // Trả về giá trị nguyên vẹn nếu có nhiều hơn một chữ số
-    return stringValue;
-  }
-
-
 
   filterProvine(event: any) {
     let filtered: any[] = [];
@@ -445,7 +436,6 @@ export class UserComponent implements OnInit {
             filtered.push(provine);
         }
     }
-
     this.filteredProvinces = filtered;
   }
 
@@ -482,7 +472,7 @@ export class UserComponent implements OnInit {
     this.province = event;
     this.addressService.getDistrict1(event.province_id).subscribe((res) => {
       this.districts = res.results;
-      console.log(this.districts)
+      console.log(event)
     });
   }
   getWard(event: any) {

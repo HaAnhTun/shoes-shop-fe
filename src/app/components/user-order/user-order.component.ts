@@ -13,6 +13,7 @@ import { UserService } from "src/app/service/user.service";
 import { ShoesDetail } from "../shoes-detail-add/shoes-detail-add.component";
 import { OrderDetals } from "src/app/model/OrderDetails";
 import { OrderDetailCustom } from "src/app/model/OrderDetailCustom";
+import { AddressService } from "src/app/service/address.service";
 
 @Component({
   selector: "app-user-order",
@@ -34,12 +35,19 @@ export class UserOrderComponent implements OnInit {
   };
   orderDetailData: { [orderCode: string]: OrderDetailCustom[]} ={}
   orderQuantity: Map<any, any>;
+
+  provinces: any[] = []
+  
+  districts: any[] = [];
+  wards: any[] = [];
+  
   constructor(
     private userService: UserService,
     private orderService: OrderService,
     private loginService: LoginService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private addressService: AddressService
   ) {
     this.listMenuItems = [
       { code: 0, name: "Chờ xác nhận", quantity: 0 },
@@ -54,17 +62,35 @@ export class UserOrderComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       const token = sessionStorage.getItem("access_token");
+  
       if (token !== null) {
         this.signIn = this.loginService.decodeJwtToken(token);
       } else {
         console.error("Access token is null");
       }
-      this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
+  
+      // Đảm bảo rằng this.signIn đã được xác định trước khi gọi findByLogin
+      if (this.signIn) {
+        await this.findByLogin(this.orderSearchReqDTO.status, this.signIn.sub);
+      } else {
+        console.error("SignIn information is missing");
+      }
+  
+      this.fetchQuantityOrder();
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    this.fetchQuantityOrder();
+  
+    // Gọi getProvines và fetchAddress sau khi các thao tác trước đã hoàn tất
+    this.addressService.getProvines().subscribe((res) => {
+      this.provinces = res.results;
+      // Gọi fetchAddress chỉ khi this.provinces đã được thiết lập
+      if (this.order) {
+        this.fetchAddress(this.order);
+      }
+    });
   }
+
   showOderDetails(id: number) {
     this.router.navigate(["/client/order-details/" + id]);
   }
@@ -84,18 +110,60 @@ export class UserOrderComponent implements OnInit {
         }
       });
   }
-  findByLogin(status: number, login: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.userService.getOrderByStatusAndOwnerLogin(status, login).subscribe(
-        (res) => {
-          this.order = res;
-          resolve();
-        },
-        (error) => {
-          reject(error);
+  async findByLogin(status: number, login: string): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    this.userService.getOrderByStatusAndOwnerLogin(status, login).subscribe(
+      (res) => {
+        this.order = res;
+        console.log(this.order);
+        this.fetchAddress(this.order)
+        resolve();
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+}
+
+  fetchAddress(list: any[]){
+    for(let i = 0; i < list.length; i++){
+      this.provinces.forEach(province => {
+        if(list[i].userAddress.province == province.province_id){
+          list[i].userAddress.provinceName = province.province_name;
+          this.addressService.getDistrict1(list[i].userAddress.province).subscribe(
+            (res) => {
+              this.districts = res.results;
+              this.districts.forEach(
+                (district) => {
+                  if(district.district_id == list[i].userAddress.district){
+                    list[i].userAddress.districtName = district.district_name;
+                    this.addressService.getWard(list[i].userAddress.district).subscribe(
+                      (res) => {
+                        this.wards = res.results;
+                        this.wards.forEach(
+                          (ward) => {
+                            if(ward.ward_id == list[i].userAddress.ward){
+
+                              list[i].userAddress.wardName = ward.ward_name;
+
+                            }
+                          }
+                        )
+                      }
+                    )
+                  }
+                }
+              )
+            }
+          )
         }
-      );
-    });
+      });
+    }
+  }
+
+  fetchDistrict(province_id: number){
+    
   }
 
   async clickListOder(label: String) {

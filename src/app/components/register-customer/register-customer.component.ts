@@ -192,7 +192,6 @@ export class RegisterCustomerComponent implements OnInit{
             filtered.push(provine);
         }
     }
-
     this.filteredProvinces = filtered;
   }
 
