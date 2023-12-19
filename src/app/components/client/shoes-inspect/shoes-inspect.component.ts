@@ -331,6 +331,19 @@ export class ShoesInspectComponent {
       checkBox: false,
     };
     this.shoesOder.push(this.cartDetailCustom);
+    this.shoesOder.map(
+      (c) =>
+        (c.priceDiscount =
+          c.discountmethod === 1
+            ? c.price - c.discountamount_1_2
+            : c.discountmethod === 2
+            ? c.price - (c.price * c.discountamount_1_2) / 100
+            : c.discountmethod === 3
+            ? c.price - c.discountamount_3_4
+            : c.discountmethod === 4
+            ? c.price - (c.price * c.discountamount_3_4) / 100
+            : c.price)
+    );
     this.cartDetailCustomerService.setCartDetailCustomerService(this.shoesOder);
     sessionStorage.setItem("shoesDetailInOder", JSON.stringify(this.shoesOder));
     this.router.navigate(["/client/pay"]);
