@@ -15,6 +15,7 @@ import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.serv
 export class ClientHomeComponent implements OnInit {
   shoesDetailCustom: ShoesDetailCustom[];
   shoesDetailCustomNewDisCount: ShoesDetailCustom[];
+  shoesDetailBestSeller: ShoesDetailCustom[];
   images: any[] | undefined;
   constructor(
     public layoutService: LayoutService,
@@ -50,7 +51,6 @@ export class ClientHomeComponent implements OnInit {
       });
     }
     this.shoesdetailService.getNewShoesDetail().subscribe((response) => {
-      console.log(response);
       this.shoesDetailCustom = response;
     });
     this.shoesdetailService
@@ -58,6 +58,9 @@ export class ClientHomeComponent implements OnInit {
       .subscribe((response) => {
         this.shoesDetailCustomNewDisCount = response;
       });
+    this.shoesdetailService.getBestSellerShoesDetail().subscribe((response) => {
+      this.shoesDetailBestSeller = response;
+    });
   }
 
   shoesDetail(shoesDetail: ShoesDetailCustom) {

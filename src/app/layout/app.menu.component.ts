@@ -56,6 +56,11 @@ export class AppMenuComponent implements OnInit {
                 icon: "pi pi-fw pi-inbox",
                 routerLink: ["/admin/shoes-detail"],
               },
+              {
+                label: "Giày đã xóa",
+                icon: "pi pi-fw pi-table",
+                routerLink: ["/admin/removedShoes"],
+              },
             ],
           },
           {

@@ -8,6 +8,8 @@ export class ShoesdetailService {
   private apiUrl: string = "http://localhost:8088/api/shoes-details/new";
   private apiUrl1: string =
     "http://localhost:8088/api/shoes-details/newDiscount";
+  private apiUrl2: string =
+    "http://localhost:8088/api/shoes-details/bestseller";
   constructor(private http: HttpClient) {}
 
   getNewShoesDetail() {
@@ -18,6 +20,11 @@ export class ShoesdetailService {
 
   getNewDiscountShoesDetail() {
     return this.http.get<any>(this.apiUrl1, {
+      withCredentials: true,
+    });
+  }
+  getBestSellerShoesDetail() {
+    return this.http.get<any>(this.apiUrl2, {
       withCredentials: true,
     });
   }
