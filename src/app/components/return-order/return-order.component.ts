@@ -75,11 +75,11 @@ export class ReturnOrderComponent implements OnInit {
       this.isDisable[index] = true;
     }
   }
-  onQuantityChange(quantity: number, i: number, index: number) {
-    if (quantity >= i) {
-      this.showMessage();
-    }
-  }
+  // onQuantityChange(quantity: number, i: number, index: number) {
+  //   if (quantity >= i) {
+  //     this.showMessage();
+  //   }
+  // }
   enableQuantity(event: Event, index: number, i: number) {
     console.log(index);
     if (
