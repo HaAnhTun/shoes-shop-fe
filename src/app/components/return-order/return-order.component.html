@@ -36,6 +36,8 @@
                   orderDetails[index].shoesDetails.shoes.name +
                     "[" +
                     orderDetails[index].shoesDetails.color.name +
+                    +"  " +
+                    orderDetails[index].shoesDetails.size.name +
                     "]"
                 }}
               </td>
@@ -96,7 +98,16 @@
                             [class]="'flag flag-' + country.code.toLowerCase()"
                             style="width: 18px"
                           />
-                          <div>{{ country.name }}</div>
+                          <div>
+                            {{
+                              country.name +
+                                "[" +
+                                country.color_name +
+                                "-" +
+                                country.size_name +
+                                "]"
+                            }}
+                          </div>
                         </div>
                       </ng-template>
                     </p-autoComplete>
