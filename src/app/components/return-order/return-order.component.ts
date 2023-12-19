@@ -8,6 +8,7 @@ import {
   ConfirmEventType,
 } from "primeng/api";
 import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
+import { AppConstants } from "src/app/app-constants";
 
 @Component({
   selector: "app-return-order",
@@ -153,21 +154,10 @@ export class ReturnOrderComponent implements OnInit {
   }
   fetchProducts() {
     this.http
-      .post<any>("http://localhost:8088/api/shoes-details/shop", {
-        sizeIds: [],
-        brandId: null,
-        startPrice: 1,
-        endPrice: 10000000,
-      })
-      .subscribe(
-        (data) => {
-          this.shoesDetails = data;
-          console.log(data);
-        },
-        (error) => {
-          console.error("Error fetching products:", error);
-        }
-      );
+      .get<any>(AppConstants.BASE_URL_API + "/api/shoes-details-variants")
+      .subscribe((response) => {
+        this.shoesDetails = response;
+      });
   }
   addShoesDetails(index: number) {
     console.log(index);
@@ -267,10 +257,12 @@ export class ReturnOrderComponent implements OnInit {
                       });
                       isValid = false;
                     }
-                    let object = elemen1.get("shoesDetailsId")?.value;
-                    elemen1.get("shoesDetailsId")?.setValue(object.id);
-                    elemen1.get("price")?.setValue(object.price);
-                    elemen1.get("discount")?.setValue(object.discount_amount);
+                    if (isValid) {
+                      let object = elemen1.get("shoesDetailsId")?.value;
+                      elemen1.get("shoesDetailsId")?.setValue(object.id);
+                      elemen1.get("price")?.setValue(object.price);
+                      elemen1.get("discount")?.setValue(object.discount_amount);
+                    }
                   } else {
                     this.messageService.add({
                       severity: "warn",
