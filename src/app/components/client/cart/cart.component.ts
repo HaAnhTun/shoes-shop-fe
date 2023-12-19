@@ -9,6 +9,7 @@ import { CartDetail } from "src/app/model/CartDetail";
 import { CartDetailCustom } from "src/app/model/CartDetailCustom";
 import { CartDetailService } from "src/app/service/cart-detail.service";
 import { CartDetailCustomerService } from "src/app/service/cartdetailcustom.service";
+import { map } from "rxjs";
 
 @Component({
   selector: "app-cart",
@@ -33,6 +34,7 @@ export class CartComponent implements OnInit {
   ngOnInit() {
     if (sessionStorage.getItem("access_token") != null) {
       this.cartDetailService.getAllCartDetailPath().subscribe((Response) => {
+        console.log(Response);
         this.cartDetails = Response;
         this.cartDetails
           .filter((c) => c.quantity > c.quantityShoesDetail)
@@ -403,7 +405,6 @@ export class CartComponent implements OnInit {
   }
 
   loadTotalPrice() {
-    console.log(this.cartDetails);
     this.tongTien = 0;
     this.cartDetails
       .filter((c) => c.checkBox === true)
@@ -604,6 +605,19 @@ export class CartComponent implements OnInit {
       this.cartDetails
         .filter((c) => c.checkBox === true)
         .map((c) => this.cartDetailCustoms.push(c));
+      this.cartDetailCustoms.map(
+        (c) =>
+          (c.priceDiscount =
+            c.discountmethod === 1
+              ? c.price - c.discountamount_1_2
+              : c.discountmethod === 2
+              ? c.price - (c.price * c.discountamount_1_2) / 100
+              : c.discountmethod === 3
+              ? c.price - c.discountamount_3_4
+              : c.discountmethod === 4
+              ? c.price - (c.price * c.discountamount_3_4) / 100
+              : c.price)
+      );
       this.cartDetailCustomerService.setCartDetailCustomerService(
         this.cartDetailCustoms
       );

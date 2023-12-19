@@ -530,6 +530,7 @@ export class ShoesDetailAddComponent implements OnInit {
     switch (filteredList) {
       case "shoes": {
         this.filteredShoes = filtered;
+        console.log(this.filteredShoes)
         break;
       }
       case "brands": {

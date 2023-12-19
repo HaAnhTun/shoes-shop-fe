@@ -127,7 +127,7 @@
                 <div class="form-group">
                   <label for="categoryCode">Ngày hiệu lực</label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     class="form-control"
                     id="discountName"
                     aria-describedby="emailHelp"
@@ -149,7 +149,7 @@
                 <div class="form-group">
                   <label for="categoryCode">Ngày hết hiệu lực</label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     class="form-control"
                     id="discountName"
                     aria-describedby="emailHelp"
@@ -179,60 +179,6 @@
                     (click)="openShoesDetailsDialog()"
                   ></p-button>
                 </div>
-                <p-dialog
-                  header="Thêm mới giá trị"
-                  [(visible)]="shoesDetailsDialog"
-                  [modal]="true"
-                  styleClass="container-fuild"
-                  [draggable]="false"
-                  [resizable]="true"
-                >
-                  <div class="row">
-                    <div class="col-12">
-                      <p-table
-                        [value]="shoesDetails"
-                        [tableStyle]="{ 'min-width': '60rem' }"
-                        styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
-                        [paginator]="true"
-                        [rows]="10"
-                        [rowsPerPageOptions]="[10, 25, 50]"
-                        [(selection)]="selectedShoes"
-                      >
-                        <ng-template pTemplate="header">
-                          <tr>
-                            <th style="width: 4rem">
-                              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                            </th>
-                            <th>Mã giày</th>
-                            <th>Tên giày</th>
-                            <th>Hãng</th>
-                            <th>Giá</th>
-                          </tr>
-                        </ng-template>
-                        <ng-template
-                          pTemplate="body"
-                          let-shoes
-                          let-index="rowIndex"
-                        >
-                          <tr>
-                            <td>
-                              <p-tableCheckbox
-                                [value]="shoes"
-                              ></p-tableCheckbox>
-                            </td>
-                            <td>{{ shoes.shoesCode }}</td>
-                            <td>{{ shoes.name }}</td>
-                            <td>{{ shoes.brandName }}</td>
-                            <td>{{ shoes.price | currency : "VND" }}</td>
-                          </tr>
-                        </ng-template>
-                      </p-table>
-                    </div>
-                    <div class="col-12">
-                      <p-button label="Lưu" (click)="pushShoes()"></p-button>
-                    </div>
-                  </div>
-                </p-dialog>
               </div>
             </div>
             <div class="row">
@@ -249,7 +195,6 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th>STT</th>
-                      <th>Mã giày</th>
                       <th>Tên giày</th>
                       <th>Nhãn hiệu</th>
                       <th
@@ -259,7 +204,7 @@
                           formDiscount.controls['discountMethod'].value === '4'
                         "
                       >
-                        Số phần trăm giảm
+                        Khuyến mãi
                       </th>
                       <th></th>
                     </tr>
@@ -270,8 +215,7 @@
                       *ngIf="shoes.value.status === 1"
                     >
                       <td>{{ index + 1 }}</td>
-                      <td>{{ shoes.value.code }}</td>
-                      <td>{{ shoes.value.name }}</td>
+                      <td>{{ shoes.value.brand + " " + shoes.value.name }}</td>
                       <td>{{ shoes.value.brand }}</td>
                       <td
                         *ngIf="
@@ -300,7 +244,7 @@
                 </p-table>
                 <br />
                 <br />
-                <pre>{{ formDiscount.value | json }}</pre>
+                <!-- <pre>{{ formDiscount.value | json }}</pre> -->
               </div>
             </div>
             <div class="dialog">
@@ -313,3 +257,88 @@
     </div>
   </div>
 </div>
+<p-dialog
+  header="Thêm mới giá trị"
+  [(visible)]="shoesDetailsDialog"
+  [modal]="true"
+  styleClass="container-fuild"
+  [draggable]="false"
+  [resizable]="true"
+>
+  <div class="row">
+    <div class="col-12">
+      <div class="card flex justify-content-center">
+        <h5>Thương Hiệu</h5>
+        <p-selectButton
+          [options]="brandOptions"
+          [(ngModel)]="selectedBrand"
+          optionLabel="name"
+          (onOptionClick)="fetchProducts()"
+          optionValue="value"
+          #tablos
+        >
+        </p-selectButton>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <p-table
+        #dt1
+        dataKey="id"
+        [value]="shoesDetails"
+        [tableStyle]="{ 'min-width': '60rem' }"
+        styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [(selection)]="selectedShoes"
+        [globalFilterFields]="['shoesCode', 'name']"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex">
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="Nhập mã hoặc tên giày"
+              />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 4rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>Tên giày</th>
+            <th>Hãng</th>
+            <th>Giá</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-shoes let-index="rowIndex">
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="shoes"></p-tableCheckbox>
+            </td>
+            <td>
+              {{ shoes.name }}
+              <span *ngIf="shoes.discount_method" style="margin-bottom: 15px">
+                <p-badge value="salling"></p-badge>
+              </span>
+            </td>
+            <td>
+              {{ shoes.brandName }}
+            </td>
+            <td>{{ shoes.price | currency : "VND" }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="col-12">
+      <p-button label="Lưu" (click)="pushShoes()"></p-button>
+    </div>
+  </div>
+</p-dialog>

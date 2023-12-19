@@ -41,10 +41,15 @@
                                     <div class="phone">{{user?.phone}}</div>
                                 </div>
                                 <div class="col-4">
-                                    <p-button label="CẬP NHẬT THÔNG TIN"></p-button>
+                                    <p-button (click)="showDialog()" label="CẬP NHẬT THÔNG TIN"></p-button>
                                 </div>
                             </div>
                         </div>
+                        <p-dialog header="Header" [(visible)]="visible" [style]="{width: '50vw'}" [maximizable]="true">
+                            <ng-template pTemplate="content">
+                                
+                            </ng-template>
+                        </p-dialog>
                     </div>
                 </div>
                 <div class="col-1"></div>

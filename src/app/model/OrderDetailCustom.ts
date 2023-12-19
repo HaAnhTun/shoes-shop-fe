@@ -6,4 +6,5 @@ export class OrderDetailCustom{
     path: String;
     priceShoes: number;
     quantity: number;
+    discount: number;
 }

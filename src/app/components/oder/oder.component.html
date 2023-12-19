@@ -1,16 +1,28 @@
 <h2>QUẢN LÝ HÓA ĐƠN</h2>
 <p-tabView #dshd>
-
   <p-tabPanel header="Danh sách hóa đơn">
     <ul class="nav nav-tabs" role="tablist">
-      <li *ngFor="let item of this.listMenuItems" class="nav-item" role="presentation"
-        style="width: 16.66%; cursor: pointer">
-        <a class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1" style="
+      <li
+        *ngFor="let item of this.listMenuItems"
+        class="nav-item"
+        role="presentation"
+        style="width: 16.66%; cursor: pointer"
+      >
+        <a
+          class="nav-link"
+          data-bs-toggle="tab"
+          aria-selected="false"
+          role="tab"
+          tabindex="-1"
+          style="
             display: flex;
             align-items: center;
             justify-content: center;
             height: 50px;
-          " (click)="clickListOder(item.name)" [class]="checkString == item.name ? 'text-primaryyy' : ''">
+          "
+          (click)="clickListOder(item.name)"
+          [class]="checkString == item.name ? 'text-primaryyy' : ''"
+        >
           {{ item.name }}
           <span style="margin-bottom: 15px">
             <p-badge [value]="item.quantity"></p-badge>
@@ -19,13 +31,24 @@
       </li>
     </ul>
     <ng-container *ngIf="this.check === true">
-      <p-table #dt [value]="orders" [rows]="5" [paginator]="true" [globalFilterFields]="[
+      <p-table
+        #dt
+        [value]="orders"
+        [rows]="5"
+        [paginator]="true"
+        [globalFilterFields]="[
           'name',
           'country.name',
           'representative.name',
           'status'
-        ]" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedOrderss" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        ]"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedOrderss"
+        [rowHover]="true"
+        dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem">
@@ -62,18 +85,29 @@
               {{ order.createdDate | date : "dd-MM-yyyy" }}
             </td>
             <td>
-              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                (click)="updateStatus(order.id)"></button>
-              <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success mr-2"
-                (click)="showOderDetails(order.id)"></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="updateStatus(order.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"
+              ></button>
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="summary">
           <div style="text-align: right">
-            <p-button label="Hủy" styleClass="p-button-outlined" *ngIf="
-                checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
-              "
+            <p-button
+              label="Hủy"
+              styleClass="p-button-outlined"
+              *ngIf="checkString == 'Chờ giao' || checkString == 'Chờ xác nhận'"
               (click)="cancelOrder()"
             ></p-button>
             <span style="margin-left: 10px">
@@ -89,13 +123,24 @@
       </p-table>
     </ng-container>
     <ng-container *ngIf="this.checkOne === true">
-      <p-table #dt [value]="orders" [rows]="5" [paginator]="true" [globalFilterFields]="[
+      <p-table
+        #dt
+        [value]="orders"
+        [rows]="5"
+        [paginator]="true"
+        [globalFilterFields]="[
           'name',
           'country.name',
           'representative.name',
           'status'
-        ]" [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        ]"
+        [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedProducts"
+        [rowHover]="true"
+        dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th pSortableColumn="name" style="min-width: 15rem">Mã HĐ</th>
@@ -126,21 +171,38 @@
               {{ order.createdDate | date : "dd-MM-yyyy" }}
             </td>
             <td>
-              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                (click)="editProduct(order)"></button>
-              <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success mr-2"
-                (click)="showOderDetails(order.id)"></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="editProduct(order)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-eye"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="showOderDetails(order.id)"
+              ></button>
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="summary">
           <div style="text-align: right">
-            <p-button label="Hủy" styleClass="p-button-outlined" *ngIf="
+            <p-button
+              label="Hủy"
+              styleClass="p-button-outlined"
+              *ngIf="
                 checkString == 'Chờ thanh toán' || checkString == 'Chờ xác nhận'
-              "></p-button>
+              "
+            ></p-button>
             <span style="margin-left: 10px">
-              <p-button label="Xác nhận" styleClass="p-button-outlined"
-                *ngIf="checkString == 'Chờ xác nhận'"></p-button>
+              <p-button
+                label="Xác nhận"
+                styleClass="p-button-outlined"
+                *ngIf="checkString == 'Chờ xác nhận'"
+              ></p-button>
             </span>
           </div>
         </ng-template>
@@ -148,8 +210,14 @@
     </ng-container>
   </p-tabPanel>
 </p-tabView>
-<p-dialog header="Chọn giày" [(visible)]="orderDetailsDialog" [modal]="true" styleClass="container-fuild"
-  [draggable]="false" [resizable]="true">
+<p-dialog
+  header="Chọn giày"
+  [(visible)]="orderDetailsDialog"
+  [modal]="true"
+  styleClass="container-fuild"
+  [draggable]="false"
+  [resizable]="true"
+>
   <div class="row">
     <div class="col-12">
       <p-button label="Lưu" (click)="pushShoesDetails()"></p-button>
@@ -157,9 +225,15 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <p-table [value]="shoesDetails" [tableStyle]="{ 'min-width': '60rem' }"
+      <p-table
+        [value]="shoesDetails"
+        [tableStyle]="{ 'min-width': '60rem' }"
         styleClass="p-datatable-gridlines table table-centered w-100 dt-responsive nowrap dataTable no-footer dtr-inline"
-        [paginator]="true" dataKey="code" [rows]="5" [rowsPerPageOptions]="[10, 25, 50]">
+        [paginator]="true"
+        dataKey="code"
+        [rows]="5"
+        [rowsPerPageOptions]="[10, 25, 50]"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem"></th>
@@ -167,12 +241,22 @@
             <th>Tên giày</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-shoes let-index="rowIndex" let-expanded="expanded">
+        <ng-template
+          pTemplate="body"
+          let-shoes
+          let-index="rowIndex"
+          let-expanded="expanded"
+        >
           <tr>
             <td>
-              <button type="button" pButton pRipple [pRowToggler]="shoes"
+              <button
+                type="button"
+                pButton
+                pRipple
+                [pRowToggler]="shoes"
                 class="p-button-text p-button-rounded p-button-plain"
-                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+              ></button>
             </td>
             <td>{{ shoes.code }}</td>
             <td>{{ shoes.name }}</td>
@@ -182,54 +266,68 @@
           <tr>
             <td colspan="7">
               <div class="p-3">
-                <p-table [value]="shoes.shoesDetailsCustomeDTOS" dataKey="id" [(selection)]="selectedShoes">
+                <p-table
+                  [value]="shoes.shoesDetailsCustomeDTOS"
+                  dataKey="id"
+                  [(selection)]="selectedShoes"
+                >
                   <ng-template pTemplate="header">
-          <tr>
-            <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-            <th>Tên</th>
-            <th>Giá</th>
-            <th>Nhãn hiệu</th>
-            <th>Size</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-shoesDetail>
-          <tr>
-            <td>
-              <p-tableCheckbox [value]="shoesDetail" (onClick)="updateSize(shoesDetail)"></p-tableCheckbox>
-            </td>
-            <td>
-              {{ shoes.name + "[" + shoesDetail.color.name + "]" }}
-            </td>
-            <td>{{ shoesDetail.price }}</td>
-            <td>{{ shoesDetail.brand.name }}</td>
-            <td>
-              <p-multiSelect *ngIf="
+                    <tr>
+                      <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                      <th>Tên</th>
+                      <th>Giá</th>
+                      <th>Nhãn hiệu</th>
+                      <th>Size</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-shoesDetail>
+                    <tr>
+                      <td>
+                        <p-tableCheckbox
+                          [value]="shoesDetail"
+                          (onClick)="updateSize(shoesDetail)"
+                        ></p-tableCheckbox>
+                      </td>
+                      <td>
+                        {{ shoes.name + "[" + shoesDetail.color.name + "]" }}
+                      </td>
+                      <td>{{ shoesDetail.price }}</td>
+                      <td>{{ shoesDetail.brand.name }}</td>
+                      <td>
+                        <p-multiSelect
+                          *ngIf="
                             selectedShoes && selectedShoes.includes(shoesDetail)
-                          " [options]="shoesDetail.sizes" optionLabel="name" optionValue="id" [showClear]="true"
-                placeholder="Chọn size" (onChange)="
+                          "
+                          [options]="shoesDetail.sizes"
+                          optionLabel="name"
+                          optionValue="id"
+                          [showClear]="true"
+                          placeholder="Chọn size"
+                          (onChange)="
                             updateSelectedShoesSize(
                               shoes.id,
                               shoesDetail.color.id,
                               $event.value
                             )
-                          "></p-multiSelect>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="6">
-              There are no order for this product yet.
+                          "
+                        ></p-multiSelect>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="6">
+                        There are no order for this product yet.
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
             </td>
           </tr>
         </ng-template>
       </p-table>
     </div>
-    </td>
-    </tr>
-    </ng-template>
-    </p-table>
-  </div>
   </div>
 </p-dialog>
 <div class="dialog">

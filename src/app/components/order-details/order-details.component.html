@@ -65,8 +65,8 @@
 
     <div class="row">
       <div class="col-lg-8">
-        <div class="card">
-          <div class="card-body">
+        <div class="card height-auto">
+          <div class="card-body ">
             <h4 class="header-title mb-3">
               Danh sách sản phẩm - Mã hóa đơn {{ order.code }}
             </h4>
@@ -162,12 +162,23 @@
       <div class="col-lg-4">
         <div class="card">
           <div class="card-body">
-            <h4 class="header-title mb-3">Shipping Information</h4>
+            <h4 class="header-title mb-3">Thông tin vận chuyển </h4>
 
             <h5>
-              {{ order.receivedBy ? order.receivedBy : order.owner.login }}
+              Họ tên: {{ order.receivedBy ? order.receivedBy : order.owner.login }}
+            </h5>
+            
+            <h5>
+              Số điện thoại: {{ order.phone  }}
+            </h5>
+            
+            <h5>
+              Email: {{ order.mailAddress }}
             </h5>
 
+            <h5>
+              Địa chỉ: {{ order.address }}
+            </h5>
             <address class="mb-0 font-14 address-lg"></address>
           </div>
         </div>
