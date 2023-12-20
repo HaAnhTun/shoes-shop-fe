@@ -115,7 +115,7 @@
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-order>
         <tr>
-          <td colspan="7">
+          <td colspan="9">
             <div class="p-3">
               <p-table
                 [value]="orderDetailData[order.code]"
@@ -138,7 +138,6 @@
                     <th pSortableColumn="quantity">
                       <div class="th">Số lượng</div>
                     </th>
-                    <th style="width: 4rem"></th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-orderDetailData>
@@ -168,7 +167,17 @@
                       </div>
                     </td>
                     <td>
-                      <span>{{ orderDetailData.priceShoes }}</span>
+                      <span *ngIf="orderDetailData.discount == null"
+                        >{{ orderDetailData.priceShoes }}đ</span
+                      >
+                      <span *ngIf="orderDetailData.discount != null">
+                        <small
+                          ><del style="color: red"
+                            >{{ orderDetailData.priceShoes }}đ</del
+                          ></small
+                        >
+                        <div>{{ orderDetailData.discount }}đ</div>
+                      </span>
                     </td>
                     <td>{{ orderDetailData.quantity }}</td>
                   </tr>
@@ -176,27 +185,6 @@
               </p-table>
             </div>
           </td>
-          <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
-          <td>
-            <div><span>Tên giày:</span> {{ orderDetailData.nameShoes }}</div>
-            <div><span>Hãng:</span> {{ orderDetailData.nameBrand }}</div>
-            <div><span>Size:</span> {{ orderDetailData.nameSize }}</div>
-            <div><span>Màu:</span> {{ orderDetailData.nameColor }}</div>
-          </td>
-          <td>
-            <span *ngIf="orderDetailData.discount == null"
-              >{{ orderDetailData.priceShoes }}đ</span
-            >
-            <span *ngIf="orderDetailData.discount != null">
-              <small
-                ><del style="color: red"
-                  >{{ orderDetailData.priceShoes }}đ</del
-                ></small
-              >
-              <div>{{ orderDetailData.discount }}đ</div>
-            </span>
-          </td>
-          <td>{{ orderDetailData.quantity }}</td>
         </tr>
       </ng-template>
     </p-table>

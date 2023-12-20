@@ -33,6 +33,7 @@ export class PayComponent implements OnInit {
   homeAddress: string = "";
   user: any;
   arrSanPham: string;
+  arrPriceDiscount: string;
   arrQuantity: string;
   formOrder: any;
   paymentMethod: number = -1;
@@ -109,7 +110,11 @@ export class PayComponent implements OnInit {
           if (this.user != null) {
             console.log("hihi");
             console.log(this.user);
-            this.fullName = this.user.lastName + " " + this.user.firstName;
+            if(this.user.lastName == null){
+              this.fullName = this.user.firstName;
+            }else if(this.user.firstName == null){
+              this.fullName = this.user.lastName;
+            }
             this.emailAddress = this.user.email;
             this.phoneNumber = this.user.phone;
           }
@@ -118,6 +123,7 @@ export class PayComponent implements OnInit {
     this.addressService.getProvines().subscribe((res) => {
       this.provines = res.results;
     });
+    console.log(this.checkCartDetailCustom)
   }
 
   updateShippingCost(cost: number) {
@@ -157,6 +163,9 @@ export class PayComponent implements OnInit {
           this.shoesInCart = this.checkCartDetailCustom.map(
             (any) => any.shoesdetailid
           );
+          this.arrPriceDiscount = this.checkCartDetailCustom.map(
+            (item) => (item.priceDiscount !== null ? item.priceDiscount : 0)
+          ).join('d');
           sessionStorage.setItem(
             "shoesInCart",
             JSON.stringify(this.shoesInCart)
@@ -178,7 +187,8 @@ export class PayComponent implements OnInit {
               this.shippingCost,
               idUser,
               this.arrSanPham,
-              this.arrQuantity
+              this.arrQuantity,
+              this.arrPriceDiscount
             )
             .subscribe((response) => {
               window.location.href = response;

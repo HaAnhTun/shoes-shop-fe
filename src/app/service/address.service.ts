@@ -31,11 +31,12 @@ export class AddressService {
   public getWard(code: number) {
     let url;
     let codeString = code.toString()
-    if(codeString.length == 1){
+    if(codeString.length == 2){
       url = "/province/ward/0"
     }else {
       url = "/province/ward/"
     }
+    console.log(this.baseAddress + url + code)
     return this.http.get<any>(this.baseAddress + url + code);
   }
 }
