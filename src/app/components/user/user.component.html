@@ -146,84 +146,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="group-input">
-                        <div class="title">Tên</div>
-                        <input class="input100" type="text" name="firstName" formControlName="firstName">
-                        <small
-                            *ngIf="userForm.get('firstName')?.hasError('required') && isFormControlInvalidAndTouched('firstName')">
-                            Tên không được để trống.
-                        </small>
-                    </div>
-                    <div class="group-input">
-                        <div class="title">Họ</div>
-                        <input class="input100" type="text" name="lastName" formControlName="lastName">
-                        <small
-                            *ngIf="userForm.get('lastName')?.hasError('required') && isFormControlInvalidAndTouched('lastName')">
-                            Họ không được để trống.
-                        </small>
-                    </div>
-                    <div class="group-input">
-                        <div class="title">Gmail</div>
-                        <input class="input100" type="text" name="gmail" formControlName="email">
-                        <small
-                            *ngIf="userForm.get('email')?.hasError('required') && isFormControlInvalidAndTouched('email')">
-                            Gmail không được để trống.
-                        </small>
-                        <small
-                            *ngIf="userForm.get('email')?.hasError('email') && isFormControlInvalidAndTouched('email')">
-                            Gmail không đúng định dạng.
-                        </small>
-                        <small
-                        *ngIf="userForm.get('email')?.hasError('duplicateEmail') && isFormControlInvalidAndTouched('email')">
-                        Email đã tồn tại.</small>
-                    </div>
-                    <div class="group-input">
-                        <div class="title">SĐT</div>
-                        <input class="input100" type="text" name="phone" formControlName="phone">
-                        <small *ngIf="userForm.get('phone')?.hasError('required') && isFormControlInvalidAndTouched('phone')">
-                            SĐT không được để trống.
-                          </small>
-                          <small *ngIf="userForm.get('phone')?.hasError('pattern') && isFormControlInvalidAndTouched('phone')">
-                            SĐT chỉ được nhập số.
-                          </small>
-                          <small *ngIf="userForm.get('phone')?.hasError('invalidFirstDigit') && isFormControlInvalidAndTouched('phone')">
-                            SĐT phải bắt đầu bằng 0.
-                          </small>
-                    </div>
-                    <div class="group-input">
-                        <div class="title">Tài khoản</div>
-                        <input class="input100" type="text" name="username" formControlName="login">
-                        <small
-                            *ngIf="userForm.get('login')?.hasError('required') && isFormControlInvalidAndTouched('login')">
-                            Tài khoản không được để trống.
-                        </small>
-                        <small
-                        *ngIf="userForm.get('login')?.hasError('duplicateLogin') && isFormControlInvalidAndTouched('login')">Tài khoản đã tồn tại</small>
-                    </div>
-                    <div class="group-input" *ngIf="showPassword">
-                        <div class="title">Mật khẩu</div>
-                        <input class="input100" type="password" name="password" formControlName="passwordHash">
-                        <small
-                            *ngIf="userForm.get('passwordHash')?.hasError('required') && isFormControlInvalidAndTouched('passwordHash')">
-                            Mật khẩu không được để trống.
-                        </small>
-                    </div>
-                    <div class="group-input">
-                        <div class="title">Chức vụ</div>
-                        <span class="p-float-label">
-                            <p-autoComplete showClear="true" showEmptyMessage="true" required="true" class="p-fluid"
-                                id="float-input-color" [dropdown]="true" (completeMethod)="filterList($event)"
-                                [suggestions]="list" field="label" formControlName="authorities">
-                            </p-autoComplete>
-                        </span>
-                        <small
-                            *ngIf="userForm.get('authorities')?.hasError('required') && isFormControlInvalidAndTouched('authorities')">
-                            Chức vụ không được để trống.
-                        </small>
-                    </div>
-                    <div class="button">
-                        <button class="btnAdd" type="submit">Lưu</button>
-                    </div> -->
                 </form>
             </p-dialog>
         </div>
@@ -333,9 +255,6 @@
                         <th pSortableColumn="createdDate">
                             <div class="th">Ngày tạo <p-sortIcon field="customer"></p-sortIcon></div>
                         </th>
-                        <th pSortableColumn="receivedDate">
-                            <div class="th">Ngày nhận<p-sortIcon field="date"></p-sortIcon></div>
-                        </th>
                         <th pSortableColumn="totalPrice">
                             <div class="th">Tổng giá <p-sortIcon field="totalPrice"></p-sortIcon></div>
                         </th>
@@ -354,7 +273,6 @@
                         <td>{{ order.userAddress.wardName }}</td>
                         <td>{{ order.userAddress.addressDetails }}</td>
                         <td>{{ order.createdDate | date : 'dd/MM/yyyy'}}</td>
-                        <td>{{ order.receivedDate | date : 'dd/MM/yyyy'}}</td>
                         <td>{{ order.totalPrice | currency:'VND' }}</td>
                         <td>{{ getStatusName(order.status) }}</td>
                     </tr>

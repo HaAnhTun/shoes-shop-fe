@@ -144,6 +144,8 @@ export class UserOrderComponent implements OnInit {
                     this.addressService.getWard(list[i].userAddress.district).subscribe(
                       (res) => {
                         this.wards = res.results;
+                        console.log(list[i].userAddress.ward)
+                        console.log(this.wards)
                         this.wards.forEach(
                           (ward) => {
                             if(ward.ward_id == list[i].userAddress.ward){
