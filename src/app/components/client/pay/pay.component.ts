@@ -90,16 +90,15 @@ export class PayComponent implements OnInit {
     this.checkCartDetailCustom.map((c) => {
       this.totalPrice =
         c.discountmethod === 1
-          ? this.totalPrice + (c.price - c.discountamount_1_2) * c.quantity
+          ? this.totalPrice + c.priceDiscount * c.quantity
           : c.discountmethod === 2
-          ? this.totalPrice +
-            (c.price - (c.price * c.discountamount_1_2) / 100) * c.quantity
+          ? this.totalPrice + c.priceDiscount * c.quantity
           : c.discountmethod === 3
-          ? this.totalPrice + (c.price - c.discountamount_3_4) * c.quantity
+          ? this.totalPrice + c.priceDiscount * c.quantity
           : c.discount_amount === 4
-          ? this.totalPrice +
-            (c.price - (c.price * c.discountamount_3_4) / 100) * c.quantity
-          : this.totalPrice + c.price * c.quantity;
+          ? this.totalPrice + c.priceDiscount * c.quantity
+          : this.totalPrice + c.priceDiscount * c.quantity;
+      console.log(this.totalPrice);
     });
     this.totalPayment = this.totalPrice;
     if (sessionStorage.getItem("access_token") != null) {
@@ -110,9 +109,9 @@ export class PayComponent implements OnInit {
           if (this.user != null) {
             console.log("hihi");
             console.log(this.user);
-            if(this.user.lastName == null){
+            if (this.user.lastName == null) {
               this.fullName = this.user.firstName;
-            }else if(this.user.firstName == null){
+            } else if (this.user.firstName == null) {
               this.fullName = this.user.lastName;
             }
             this.emailAddress = this.user.email;
@@ -123,11 +122,11 @@ export class PayComponent implements OnInit {
     this.addressService.getProvines().subscribe((res) => {
       this.provines = res.results;
     });
-    console.log(this.checkCartDetailCustom)
+    console.log(this.checkCartDetailCustom);
   }
 
   updateShippingCost(cost: number) {
-    this.tax = (this.totalPrice + this.shippingCost);
+    this.tax = this.totalPrice + this.shippingCost;
     console.log(this.tax);
     this.totalPayment = this.totalPrice + this.shippingCost; // Cập nhật tổng giá
   }
@@ -163,9 +162,11 @@ export class PayComponent implements OnInit {
           this.shoesInCart = this.checkCartDetailCustom.map(
             (any) => any.shoesdetailid
           );
-          this.arrPriceDiscount = this.checkCartDetailCustom.map(
-            (item) => (item.priceDiscount !== null ? item.priceDiscount : 0)
-          ).join('d');
+          this.arrPriceDiscount = this.checkCartDetailCustom
+            .map((item) =>
+              item.priceDiscount !== item.price ? item.priceDiscount : 0
+            )
+            .join("d");
           sessionStorage.setItem(
             "shoesInCart",
             JSON.stringify(this.shoesInCart)

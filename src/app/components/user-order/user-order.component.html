@@ -167,10 +167,10 @@
                       </div>
                     </td>
                     <td>
-                      <span *ngIf="orderDetailData.discount == null"
+                      <span *ngIf="orderDetailData.discount == 0"
                         >{{ orderDetailData.priceShoes }}đ</span
                       >
-                      <span *ngIf="orderDetailData.discount != null">
+                      <span *ngIf="orderDetailData.discount != 0">
                         <small
                           ><del style="color: red"
                             >{{ orderDetailData.priceShoes }}đ</del
