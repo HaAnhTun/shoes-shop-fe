@@ -21,7 +21,8 @@ export class PayService {
     shipPrice: number,
     idOwner: number,
     arrSanPham: string,
-    arrQuantity: string
+    arrQuantity: string,
+    arrPriceDiscount: string
   ): Observable<string>{
     let params = new HttpParams()
     .set('price', price.toString())
@@ -35,7 +36,8 @@ export class PayService {
     .set('shipPrice', shipPrice.toString())
     .set('idOwner', idOwner)
     .set('arrSanPham', arrSanPham)
-    .set('arrQuantity', arrQuantity);
+    .set('arrQuantity', arrQuantity)
+    .set('arrPriceDiscount', arrPriceDiscount);
     return this.http.get("http://localhost:8088/api/create-payment", {
       params,
       responseType: 'text',

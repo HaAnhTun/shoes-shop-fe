@@ -73,17 +73,15 @@
           </td>
           <td>{{ order.code }}</td>
           <td>{{ order.receivedBy }}</td>
-          <td>
-            {{ order.totalPrice }}đ
-          </td>
-          <td>
-            {{ order.shipPrice }}đ
-          </td>
+          <td>{{ order.totalPrice }}đ</td>
+          <td>{{ order.shipPrice }}đ</td>
           <td>
             {{ order.createdDate | date : "dd-MM-yyyy" }}
           </td>
           <td>
-            {{ order.userAddress.provinceName }}, {{order.userAddress.districtName}}, {{order.userAddress.wardName}}
+            {{ order.userAddress.provinceName }},
+            {{ order.userAddress.districtName }},
+            {{ order.userAddress.wardName }}
           </td>
           <td>
             <button
@@ -117,7 +115,7 @@
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-order>
         <tr>
-          <td colspan="7">
+          <td colspan="9">
             <div class="p-3">
               <p-table
                 [value]="orderDetailData[order.code]"
@@ -127,56 +125,68 @@
                 [tableStyle]="{ 'min-width': '60rem' }"
               >
                 <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="image">
-            <div class="th">Ảnh</div>
-          </th>
-          <th pSortableColumn="nameShoes">
-            <div class="th">Thông tin sản phẩm</div>
-          </th>
-          <th pSortableColumn="price">
-            <div class="th">Giá</div>
-          </th>
-          <th pSortableColumn="quantity">
-            <div class="th">Số lượng</div>
-          </th>
-          <th style="width: 4rem"></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-orderDetailData>
-        <tr>
-          <td>
-            <img
-              [src]="orderDetailData.path"
-              [alt]=""
-              width="100"
-              height="100"
-              class="shadow-4"
-            />
+                  <tr>
+                    <th pSortableColumn="image">
+                      <div class="th">Ảnh</div>
+                    </th>
+                    <th pSortableColumn="nameShoes">
+                      <div class="th">Thông tin sản phẩm</div>
+                    </th>
+                    <th pSortableColumn="price">
+                      <div class="th">Giá</div>
+                    </th>
+                    <th pSortableColumn="quantity">
+                      <div class="th">Số lượng</div>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-orderDetailData>
+                  <tr>
+                    <td>
+                      <img
+                        [src]="orderDetailData.path"
+                        [alt]=""
+                        width="100"
+                        height="100"
+                        class="shadow-4"
+                      />
+                    </td>
+                    <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
+                    <td>
+                      <div>
+                        <span>Tên giày:</span> {{ orderDetailData.nameShoes }}
+                      </div>
+                      <div>
+                        <span>Hãng:</span> {{ orderDetailData.nameBrand }}
+                      </div>
+                      <div>
+                        <span>Size:</span> {{ orderDetailData.nameSize }}
+                      </div>
+                      <div>
+                        <span>Màu:</span> {{ orderDetailData.nameColor }}
+                      </div>
+                    </td>
+                    <td>
+                      <span *ngIf="orderDetailData.discount == 0"
+                        >{{ orderDetailData.priceShoes }}đ</span
+                      >
+                      <span *ngIf="orderDetailData.discount != 0">
+                        <small
+                          ><del style="color: red"
+                            >{{ orderDetailData.priceShoes }}đ</del
+                          ></small
+                        >
+                        <div>{{ orderDetailData.discount }}đ</div>
+                      </span>
+                    </td>
+                    <td>{{ orderDetailData.quantity }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
           </td>
-          <!-- <td>{{ orderDetailData.shoesDetails.size.name }}</td> -->
-          <td>
-            <div><span>Tên giày:</span> {{ orderDetailData.nameShoes }}</div>
-            <div><span>Hãng:</span> {{ orderDetailData.nameBrand }}</div>
-            <div><span>Size:</span> {{ orderDetailData.nameSize }}</div>
-            <div><span>Màu:</span> {{ orderDetailData.nameColor }}</div>
-          </td>
-          <td>
-            <span *ngIf="orderDetailData.discount == null">{{ orderDetailData.priceShoes }}đ</span>
-            <span *ngIf="orderDetailData.discount != null">
-              <small><del style="color: red;">{{ orderDetailData.priceShoes }}đ</del></small>
-              <div>{{ orderDetailData.discount }}đ</div>
-            </span>
-          </td>
-          <td>{{ orderDetailData.quantity }}</td>
-          
         </tr>
       </ng-template>
     </p-table>
-</div>
-</td>
-</tr>
-</ng-template>
-</p-table>
-</ng-container>
+  </ng-container>
 </div>
