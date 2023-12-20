@@ -47,6 +47,10 @@ export class DashboardComponent {
   revenueOnShop: any;
   revenueOnOnline: any;
   bestSellingProduct: any[];
+  unreadFeedback: any;
+  allFeedback: any;
+  allOrder: any;
+  allRevenue: any;
 
   constructor(private http: HttpClient, public layoutService: LayoutService) {
     this.subscription = this.layoutService.configUpdate$.subscribe(() => {
@@ -56,16 +60,17 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.http
-      .get<any>("http://localhost:8088/api/dashboard/revenue-year/on")
+      .get<any>("http://localhost:8088/api/orders/revenue/monthly")
       .subscribe((response) => {
         this.onlineData = response;
-        this.initChart();
+        console.log(response);
+
       });
     this.http
-      .get<any>("http://localhost:8088/api/dashboard/revenue-year/off")
+      .get<any>("http://localhost:8088/api/revenue/growth-percentage")
       .subscribe((response) => {
         this.offlineData = response;
-        this.initChart();
+        console.log(response);
       });
 
     this.http
@@ -73,11 +78,11 @@ export class DashboardComponent {
       .subscribe((response) => {
         this.orderNumbers = response;
       });
-    this.http
-      .get<any>("http://localhost:8088/api/dashboard/order-revenue")
-      .subscribe((response) => {
-        this.revenueOnWeek = response;
-      });
+    // this.http
+    //   .get<any>("http://localhost:8088/api/dashboard/order-revenue")
+    //   .subscribe((response) => {
+    //     this.revenueOnWeek = response;
+    //   });
     this.http
       .get<any>("http://localhost:8088/api/dashboard/customers")
       .subscribe((response) => {
@@ -99,6 +104,42 @@ export class DashboardComponent {
         this.bestSellingProduct = response;
         console.log(this.bestSellingProduct);
       });
+    this.http
+      .get<any>("http://localhost:8088/api/feed-backs/count-unread")
+      .subscribe((response) => {
+        this.unreadFeedback = response;
+        console.log(this.unreadFeedback);
+      });
+    this.http
+      .get<any>("http://localhost:8088/api/feed-backs/count")
+      .subscribe((response) => {
+        this.allFeedback = response;
+        console.log(this.allFeedback);
+      });
+    this.http
+      .get<any>("http://localhost:8088/api/orders/count")
+      .subscribe((response) => {
+        this.allOrder = response;
+        console.log(this.allOrder);
+      });
+
+    this.http
+      .get<any>("http://localhost:8088/api/orders/seven-day")
+      .subscribe((response) => {
+        this.revenueOnWeek = response;
+        console.log(this.revenueOnWeek);
+        this.initChart();
+      });
+
+    this.http
+      .get<any>("http://localhost:8088/api/orders/price")
+      .subscribe((response) => {
+        this.allRevenue = response;
+        console.log(this.allRevenue);
+        this.initChart();
+      });
+
+
 
     this.items = [
       { label: "Add New", icon: "pi pi-fw pi-plus" },
@@ -131,21 +172,14 @@ export class DashboardComponent {
       ],
       datasets: [
         {
-          label: "Doanh thu online",
+          label: "Doanh thu năm",
           data: this.onlineData,
           fill: false,
           backgroundColor: documentStyle.getPropertyValue("--bluegray-700"),
           borderColor: documentStyle.getPropertyValue("--bluegray-700"),
           tension: 0.1,
         },
-        {
-          label: "Doanh Thu offline",
-          data: this.offlineData,
-          fill: false,
-          backgroundColor: documentStyle.getPropertyValue("--green-600"),
-          borderColor: documentStyle.getPropertyValue("--green-600"),
-          tension: 0.1,
-        },
+
       ],
     };
 
